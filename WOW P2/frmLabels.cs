@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,7 @@ namespace WOW_P2
     {
         PopupNotifier pop = new PopupNotifier();
         API api;
+        WeighingController weighing;
 
         public static string pylOrganization = string.Empty;
         public static string organizationId = "300000002650049";
@@ -34,6 +36,7 @@ namespace WOW_P2
         {
             lblVersion.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             api = new API();
+            weighing = new WeighingController();
 
             btnGetWeight.Text = "TARA";
 
@@ -166,6 +169,30 @@ namespace WOW_P2
             if (string.IsNullOrEmpty(lblTareWeight.Text))
             {
                 //Solicitar peso de tara a bascula
+                string response = weighing.SocketWeighing("192.168.0.12", 80, btnGetWeight.Text);
+
+                string[] data = response.Split(' ');
+                if (data.Length >= 4)
+                {
+                    if (data[3] == "D")
+                    {
+                        //response = weighing.SocketWeighing(ipValue, portValue, "Peso Tara");
+                        response = weighing.SocketWeighing("192.168.0.12", 80, btnGetWeight.Text);
+                        txtResponse.Text = response;
+                    }
+                    else if (btnCon.Text == "Peso")
+                    {
+                        txtResponse.Text = response;
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("error vuelve a realizar el peso de la tara");
+                    }
+                }
+
+
+                btnCon.Text = btnCon.Text == "Tara" ? "Peso" : "Peso";
             }
             else
             {
