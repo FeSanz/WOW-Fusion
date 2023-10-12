@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.LinkLabel;
 
 namespace WOW_P2
 {
     internal class WeighingController
     {
-        public string SocketWeighing(string ip, int port, string status)
+        private string ip = "192.168.12.10";
+        private int port = 80;
+        public string SocketWeighing(string command)
         {
-            string response = "0";
+            string response = "";
             TcpClient client = new TcpClient();
             var result = client.BeginConnect(ip, port, null, null);
             result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(3));
@@ -26,18 +31,42 @@ namespace WOW_P2
 
                 try
                 {
-                    string Peticion = RequestWeighing(status);
-                    writer.Write(Peticion + "\r\n");
+                    writer.Write(command + "\r\n");
                     writer.Flush();
-                    response = reader.ReadLine();
-                    if (Peticion != "OT ")
+
+                    string readLine = reader.ReadLine();
+
+                    if (command.Equals("T ") || command.Equals("S "))
                     {
-                        response = response + "\r\n" + reader.ReadLine();
+                        switch (readLine.Substring(2, 1))
+                        {
+                            case "A":
+                                response = SecondLineResponse(reader.ReadLine());
+                                break;
+                            case "I":
+                                response = "Comando entendido, pero en el momento no está disponible";
+                                break;
+                            default:
+                                response = "(1) " + readLine;
+                                break;
+                        }
                     }
+                    else if(command.Equals("OT "))
+                    {
+                        response = readLine.Substring(4, 9).Trim();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Comando de báscula no encontrado", "Comando", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
+                    writer.Close();
+                    reader.Close();
+
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error. " + ex.Message, "Socket Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error. " + ex.Message, "Socket Báscula", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -54,25 +83,42 @@ namespace WOW_P2
             return response;
         }
 
-        private string RequestWeighing(string request)
+        /// <summary>
+        /// Aplica a comando T y S
+        /// </summary>
+        /// <param name="secondLineResponse"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        private string SecondLineResponse(string secondLineResponse)
         {
-            string response;
-            switch (request)
+            string response = "";
+
+            switch (secondLineResponse.Substring(2, 1))
             {
-                case "Tara":
-                    response = "T ";
+                case "D":
+                    response = "OK";
                     break;
-                case "Peso":
-                    response = "S ";
+                case "v":
+                    response = "Comando entendido, pero se ha superado el rango de tara";
                     break;
-                case "Peso Tara":
-                    response = "OT ";
+                case "E":
+                    response = "Límite de tiempo superado en espera del resultado estable";
+                    break;
+                case " ":
+                    //Peso bascula
+                    response = secondLineResponse.Substring(7,9).Trim();
                     break;
                 default:
-                    response = null;
+                    response = "(2) " + secondLineResponse;
                     break;
             }
             return response;
         }
+
+        public static string RemoveLines(string s, int linesToRemove)
+        {
+            return s.Split(Environment.NewLine.ToCharArray(), linesToRemove + 1).Skip(linesToRemove).FirstOrDefault();
+        }
+
     }
 }

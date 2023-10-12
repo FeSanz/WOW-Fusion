@@ -13,19 +13,29 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
 using WOW_P2.Properties;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace WOW_P2
 {
     public partial class MainP2 : Form
     {
         PopupNotifier pop = new PopupNotifier();
+        Random rnd = new Random();
+
         API api;
         WeighingController weighing;
 
+        //Fusion parametros
         public static string pylOrganization = string.Empty;
         public static string organizationId = "300000002650049";
 
-        
+        //Datagrid parametros
+        private int rollNumber = 0;
+
+        //Pesos params
+        private int tareWeight = 0;
+
+
 
         public MainP2()
         {
@@ -77,7 +87,8 @@ namespace WOW_P2
         {
             try
             {
-                Task<string> tskWorkOrdersList = api.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&fields=WorkOrderNumber&q=OrganizationId=" + organizationId);
+                Task<string> tskWorkOrdersList = api.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&fields=WorkOrderNumber&" +
+                                                                    "q=OrganizationId=" + organizationId);
                 string response = await tskWorkOrdersList;
                 if (!string.IsNullOrEmpty(response))
                 {
@@ -112,28 +123,33 @@ namespace WOW_P2
 
         private async void SelectedIndexChangedWorkOrders(object sender, EventArgs e)
         {
+            string selectedWO = cmbWorkOrders.SelectedItem.ToString();
             try
             {
-                Task<string> tskWorkOrdersData = api.GetRequestAsync("/workOrders?q=OrganizationCode=" + lblLocationCode.Text + ";WorkOrderStatusCode=RELEASED&limit=500&totalResults=true&onlyData=true");
+                Task<string> tskWorkOrdersData = api.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&expand=WorkOrderOperation&" +
+                                                                    "fields=WorkOrderId,WorkOrderNumber,WorkOrderStatusCode,ItemNumber,Description,UOMCode;" +
+                                                                    "WorkOrderOperation:OperationSequenceNumber,OperationName,PlannedStartDate," +
+                                                                    "PlannedCompletionDate,ReadyQuantity,CompletedQuantity&" +
+                                                                    "q=OrganizationId="+ organizationId + ";WorkOrderStatusCode=ORA_RELEASED;WorkOrderNumber=" + selectedWO);
                 string response = await tskWorkOrdersData;
                 if (!string.IsNullOrEmpty(response))
                 {
                     var doWorkOrderData = JsonConvert.DeserializeObject<dynamic>(response);
 
-                    lblPlannedQuantity.Text = (string)doWorkOrderData["items"][0]["PlannedStartQuantity"];
-                    lblCompletedQuantity.Text = (string)doWorkOrderData["items"][0]["CompletedQuantity"];
+                    lblPlannedQuantity.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["ReadyQuantity"];
+                    lblCompletedQuantity.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["CompletedQuantity"];
                     
-                    lblOperation.Text = (string)doWorkOrderData["items"][0]["PlannedStartDate"];
+                    lblOperation.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["OperationName"];
 
-                    lblPlannedStartDate.Text = (string)doWorkOrderData["items"][0]["PlannedStartDate"];
-                    lblPlannedCompletionDate.Text = (string)doWorkOrderData["items"][0]["PlannedCompletionDate"];
+                    lblPlannedStartDate.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["PlannedStartDate"];
+                    lblPlannedCompletionDate.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["PlannedCompletionDate"];
 
-                    lblMachineCode.Text = (string)doWorkOrderData["items"][0]["PlannedStartDate"];
-                    lblMachineName.Text = (string)doWorkOrderData["items"][0]["PlannedStartDate"];
+                    //lblMachineCode.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["PlannedStartDate"];
+                    //lblMachineName.Text = (string)doWorkOrderData["items"][0]["PlannedStartDate"];
 
                     lblItemNumber.Text = (string)doWorkOrderData["items"][0]["ItemNumber"];
                     lblItemDescription.Text = (string)doWorkOrderData["items"][0]["Description"];
-                    lblUoM.Text = (string)doWorkOrderData["items"][0]["UnitOfMeasure"];
+                    lblUoM.Text = (string)doWorkOrderData["items"][0]["UOMCode"];
                 }
                 else
                 {
@@ -163,46 +179,90 @@ namespace WOW_P2
             pop.Popup();
         }
 
-        private void btnGetWeight_Click(object sender, EventArgs e)
+        private async void btnGetWeight_Click(object sender, EventArgs e)
         {
-            btnGetWeight.Text = "OBTENER";
             if (string.IsNullOrEmpty(lblTareWeight.Text))
             {
                 //Solicitar peso de tara a bascula
-                string response = weighing.SocketWeighing("192.168.0.12", 80, btnGetWeight.Text);
-
-                string[] data = response.Split(' ');
-                if (data.Length >= 4)
+                string responseTare = weighing.SocketWeighing("T ");
+                if (responseTare.Equals("OK"))
                 {
-                    if (data[3] == "D")
-                    {
-                        //response = weighing.SocketWeighing(ipValue, portValue, "Peso Tara");
-                        response = weighing.SocketWeighing("192.168.0.12", 80, btnGetWeight.Text);
-                        txtResponse.Text = response;
-                    }
-                    else if (btnCon.Text == "Peso")
-                    {
-                        txtResponse.Text = response;
-
-                    }
-                    else
-                    {
-                        MessageBox.Show("error vuelve a realizar el peso de la tara");
-                    }
+                    string requestTareWeight = weighing.SocketWeighing("OT ");
+                    lblTareWeight.Text = requestTareWeight;
+                    btnGetWeight.Text = "OBTENER";
+                    rollNumber = 0;
                 }
-
-
-                btnCon.Text = btnCon.Text == "Tara" ? "Peso" : "Peso";
+                else
+                {
+                    MessageBox.Show(responseTare, "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             else
             {
                 //Solictar peso de rollos
+                rollNumber++;
+                //int rollWeight = rnd.Next(300,400);
+
+                //Obtener peso neto (Solo peso rollo sin peso tara)
+                string net = weighing.SocketWeighing("S ");
+                //Agregar a datagrid (Rollo, Neto, Bruto)
+                string[] row = new string[] {rollNumber.ToString(), net.ToString(), net.ToString() };
+                dgWeights.Rows.Add(row);
+
+                if (dgWeights.RowCount == 1)
+                {
+                    DataGridViewButtonColumn dgViewButtonPrint = new DataGridViewButtonColumn();
+                    {
+                        dgViewButtonPrint.HeaderText = "Acción";
+                        dgViewButtonPrint.Name = "btnPrintLabel";
+                        dgViewButtonPrint.FlatStyle = FlatStyle.Flat;
+                        //dgViewButtonPrint.CellTemplate.Style.BackColor = Color.Transparent;
+                        //dgViewButtonPrint.DefaultCellStyle.BackColor = Color.Transparent;
+                        dgViewButtonPrint.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                        dgViewButtonPrint.UseColumnTextForButtonValue = true;
+                    }
+
+                    dgWeights.Columns.Add(dgViewButtonPrint);
+                }
+                /*int palletWeight = dgWeights.Rows.Cast<DataGridViewRow>().Sum(t => Convert.ToInt32(t.Cells[1].Value)) + 
+                                   int.Parse(lblTareWeight.Text.Remove(lblTareWeight.Text.Length - 3, 3));
+                lblPalletWeight.Text = palletWeight.ToString() + " KG";*/
+            }
+        }
+        private void dgWeight_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            //Columna a colocar icono
+            if (e.ColumnIndex == 3)
+            {
+                e.Paint(e.CellBounds, DataGridViewPaintParts.All);
+
+                var w = Resources.printer_01.Width / 20;
+                var h = Resources.printer_01.Height / 20;
+                var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
+                var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
+
+                e.Graphics.DrawImage(Resources.printer_01, new Rectangle(x, y, w, h));
+                e.Handled = true;
             }
         }
 
-        private void GetWeight()
+        private void btnReloadWO_Click(object sender, EventArgs e)
         {
+            RequestWorkOrdersList();
+        }
 
+        private void dgWeights_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 3)
+            {
+                DataGridViewRow row = dgWeights.Rows[e.RowIndex];
+                string data = row.Cells[0].Value.ToString();
+                MessageBox.Show(data);
+                //MessageBox.Show(e.RowIndex.ToString() + "," + e.ColumnIndex.ToString());
+            }
         }
     }
 }
