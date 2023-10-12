@@ -14,8 +14,8 @@ namespace WOW_P2
 {
     internal class WeighingController
     {
-        private string ip = "192.168.12.10";
-        private int port = 80;
+        private string ip = "172.16.100.207";
+        private int port = 4001;
         public string SocketWeighing(string command)
         {
             string response = "";
@@ -27,7 +27,7 @@ namespace WOW_P2
             {
                 StreamWriter writer = new StreamWriter(client.GetStream());
                 StreamReader reader = new StreamReader(client.GetStream());
-                reader.BaseStream.ReadTimeout = 3000;
+                reader.BaseStream.ReadTimeout = 10000;
 
                 try
                 {
@@ -36,22 +36,19 @@ namespace WOW_P2
 
                     string readLine = reader.ReadLine();
 
-                    if (command.Equals("T ") || command.Equals("S "))
+                    if (command.Equals("T") || command.Equals("S"))
                     {
                         switch (readLine.Substring(2, 1))
                         {
                             case "A":
                                 response = SecondLineResponse(reader.ReadLine());
                                 break;
-                            case "I":
-                                response = "Comando entendido, pero en el momento no está disponible";
-                                break;
                             default:
                                 response = "(1) " + readLine;
                                 break;
                         }
                     }
-                    else if(command.Equals("OT "))
+                    else if(command.Equals("OT"))
                     {
                         response = readLine.Substring(4, 9).Trim();
                     }
@@ -66,6 +63,7 @@ namespace WOW_P2
                 }
                 catch (Exception ex)
                 {
+                    response = "EX";
                     MessageBox.Show("Error. " + ex.Message, "Socket Báscula", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
@@ -92,7 +90,7 @@ namespace WOW_P2
         private string SecondLineResponse(string secondLineResponse)
         {
             string response = "";
-
+            MessageBox.Show(secondLineResponse);
             switch (secondLineResponse.Substring(2, 1))
             {
                 case "D":
@@ -103,6 +101,9 @@ namespace WOW_P2
                     break;
                 case "E":
                     response = "Límite de tiempo superado en espera del resultado estable";
+                    break;
+                case "I":
+                    response = "Comando entendido, pero en el momento no está disponible";
                     break;
                 case " ":
                     //Peso bascula

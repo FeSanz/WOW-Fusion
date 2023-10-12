@@ -184,10 +184,10 @@ namespace WOW_P2
             if (string.IsNullOrEmpty(lblTareWeight.Text))
             {
                 //Solicitar peso de tara a bascula
-                string responseTare = weighing.SocketWeighing("T ");
+                string responseTare = weighing.SocketWeighing("T");
                 if (responseTare.Equals("OK"))
                 {
-                    string requestTareWeight = weighing.SocketWeighing("OT ");
+                    string requestTareWeight = weighing.SocketWeighing("OT");
                     lblTareWeight.Text = requestTareWeight;
                     btnGetWeight.Text = "OBTENER";
                     rollNumber = 0;
@@ -200,30 +200,41 @@ namespace WOW_P2
             else
             {
                 //Solictar peso de rollos
-                rollNumber++;
+               
                 //int rollWeight = rnd.Next(300,400);
 
                 //Obtener peso neto (Solo peso rollo sin peso tara)
-                string net = weighing.SocketWeighing("S ");
-                //Agregar a datagrid (Rollo, Neto, Bruto)
-                string[] row = new string[] {rollNumber.ToString(), net.ToString(), net.ToString() };
-                dgWeights.Rows.Add(row);
-
-                if (dgWeights.RowCount == 1)
+                string net = weighing.SocketWeighing("S");
+                
+                if (net == "EX")
                 {
-                    DataGridViewButtonColumn dgViewButtonPrint = new DataGridViewButtonColumn();
-                    {
-                        dgViewButtonPrint.HeaderText = "Acción";
-                        dgViewButtonPrint.Name = "btnPrintLabel";
-                        dgViewButtonPrint.FlatStyle = FlatStyle.Flat;
-                        //dgViewButtonPrint.CellTemplate.Style.BackColor = Color.Transparent;
-                        //dgViewButtonPrint.DefaultCellStyle.BackColor = Color.Transparent;
-                        dgViewButtonPrint.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                        dgViewButtonPrint.UseColumnTextForButtonValue = true;
-                    }
-
-                    dgWeights.Columns.Add(dgViewButtonPrint);
+                    PopupNotification("Tiempo de espera agotado, vuelva a  intentar", null);
                 }
+                else
+                {
+                    rollNumber++;
+                    //Agregar a datagrid (Rollo, Neto, Bruto)
+                    string[] row = new string[] { rollNumber.ToString(), net.ToString(), net.ToString() };
+                    dgWeights.Rows.Add(row);
+
+                    if (dgWeights.RowCount == 1)
+                    {
+                        DataGridViewButtonColumn dgViewButtonPrint = new DataGridViewButtonColumn();
+                        {
+                            dgViewButtonPrint.HeaderText = "Acción";
+                            dgViewButtonPrint.Name = "btnPrintLabel";
+                            dgViewButtonPrint.FlatStyle = FlatStyle.Flat;
+                            //dgViewButtonPrint.CellTemplate.Style.BackColor = Color.Transparent;
+                            //dgViewButtonPrint.DefaultCellStyle.BackColor = Color.Transparent;
+                            dgViewButtonPrint.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                            dgViewButtonPrint.UseColumnTextForButtonValue = true;
+                        }
+
+                        dgWeights.Columns.Add(dgViewButtonPrint);
+                    }
+                }
+                    
+                
                 /*int palletWeight = dgWeights.Rows.Cast<DataGridViewRow>().Sum(t => Convert.ToInt32(t.Cells[1].Value)) + 
                                    int.Parse(lblTareWeight.Text.Remove(lblTareWeight.Text.Length - 3, 3));
                 lblPalletWeight.Text = palletWeight.ToString() + " KG";*/
