@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // La información general de un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
-[assembly: AssemblyTitle("WOW P2")]
+[assembly: AssemblyTitle("WOW-Fusion")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WOW P2")]
+[assembly: AssemblyProduct("WOW-Fusion")]
 [assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // El siguiente GUID sirve como id. de typelib si este proyecto se expone a COM.
-[assembly: Guid("7d67c01b-aa27-4f25-b89d-3fdc55ba8a44")]
+[assembly: Guid("68b5fa7f-6410-4dbe-92e9-d9c64b01ce02")]
 
 // La información de versión de un ensamblado consta de los cuatro valores siguientes:
 //

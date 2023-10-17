@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
-using System.Reflection;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.LinkLabel;
 
-namespace WOW_P2
+namespace WOW_Fusion
 {
-    internal class WeighingController
+    internal class RadwagController
     {
-        private string ip = "172.16.100.207";
+        //private string ip = "172.16.100.207";
+        private string ip = "192.168.12.1";
         private int port = 4001;
+
         public string SocketWeighing(string command)
         {
             string response = "";
@@ -48,7 +47,7 @@ namespace WOW_P2
                                 break;
                         }
                     }
-                    else if(command.Equals("OT"))
+                    else if (command.Equals("OT"))
                     {
                         response = readLine.Substring(4, 9).Trim();
                     }
@@ -64,7 +63,7 @@ namespace WOW_P2
                 catch (Exception ex)
                 {
                     response = "EX";
-                    MessageBox.Show("Error. " + ex.Message, "Socket Báscula", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show("Error. " + ex.Message, "Socket Báscula", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -75,7 +74,7 @@ namespace WOW_P2
             }
             else
             {
-                MessageBox.Show("Báscula no encontrada", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                response = "Báscula no encontrada";
             }
 
             return response;
@@ -90,7 +89,6 @@ namespace WOW_P2
         private string SecondLineResponse(string secondLineResponse)
         {
             string response = "";
-            MessageBox.Show(secondLineResponse);
             switch (secondLineResponse.Substring(2, 1))
             {
                 case "D":
@@ -107,7 +105,7 @@ namespace WOW_P2
                     break;
                 case " ":
                     //Peso bascula
-                    response = secondLineResponse.Substring(7,9).Trim();
+                    response = secondLineResponse.Substring(7, 9).Trim();
                     break;
                 default:
                     response = "(2) " + secondLineResponse;
@@ -120,6 +118,5 @@ namespace WOW_P2
         {
             return s.Split(Environment.NewLine.ToCharArray(), linesToRemove + 1).Skip(linesToRemove).FirstOrDefault();
         }
-
     }
 }

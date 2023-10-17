@@ -1,29 +1,26 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
-using WOW_P2.Properties;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using WOW_Fusion.Properties;
 
-namespace WOW_P2
+namespace WOW_Fusion
 {
-    public partial class MainP2 : Form
+    public partial class frmLabelP2 : Form
     {
         PopupNotifier pop = new PopupNotifier();
         Random rnd = new Random();
 
-        API api;
-        WeighingController weighing;
+        APIController api;
+        RadwagController weighing;
 
         //Fusion parametros
         public static string pylOrganization = string.Empty;
@@ -37,16 +34,16 @@ namespace WOW_P2
 
 
 
-        public MainP2()
+        public frmLabelP2()
         {
             InitializeComponent();
         }
 
-        private void MainP2_Load(object sender, EventArgs e)
+        private void frmLabelP2_Load(object sender, EventArgs e)
         {
             lblVersion.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            api = new API();
-            weighing = new WeighingController();
+            api = new APIController();
+            weighing = new RadwagController();
 
             btnGetWeight.Text = "TARA";
 
@@ -54,10 +51,6 @@ namespace WOW_P2
             RequestWorkOrdersList();
         }
 
-        private void LoadResourcesInit()
-        {
-            
-        }
 
         private async void RequestOrganizationData()
         {
@@ -130,7 +123,7 @@ namespace WOW_P2
                                                                     "fields=WorkOrderId,WorkOrderNumber,WorkOrderStatusCode,ItemNumber,Description,UOMCode;" +
                                                                     "WorkOrderOperation:OperationSequenceNumber,OperationName,PlannedStartDate," +
                                                                     "PlannedCompletionDate,ReadyQuantity,CompletedQuantity&" +
-                                                                    "q=OrganizationId="+ organizationId + ";WorkOrderStatusCode=ORA_RELEASED;WorkOrderNumber=" + selectedWO);
+                                                                    "q=OrganizationId=" + organizationId + ";WorkOrderStatusCode=ORA_RELEASED;WorkOrderNumber=" + selectedWO);
                 string response = await tskWorkOrdersData;
                 if (!string.IsNullOrEmpty(response))
                 {
@@ -138,7 +131,7 @@ namespace WOW_P2
 
                     lblPlannedQuantity.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["ReadyQuantity"];
                     lblCompletedQuantity.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["CompletedQuantity"];
-                    
+
                     lblOperation.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["OperationName"];
 
                     lblPlannedStartDate.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["PlannedStartDate"];
@@ -161,7 +154,7 @@ namespace WOW_P2
                 MessageBox.Show("Error. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
         private void PopupNotification(string content, Image icon)
         {
             pop.ContentText = content;
@@ -183,14 +176,22 @@ namespace WOW_P2
         {
             if (string.IsNullOrEmpty(lblTareWeight.Text))
             {
-                //Solicitar peso de tara a bascula
+                //Solicitar peso tara
                 string responseTare = weighing.SocketWeighing("T");
                 if (responseTare.Equals("OK"))
                 {
                     string requestTareWeight = weighing.SocketWeighing("OT");
-                    lblTareWeight.Text = requestTareWeight;
-                    btnGetWeight.Text = "OBTENER";
-                    rollNumber = 0;
+                    if (!requestTareWeight.Equals("EX"))
+                    {
+
+                        lblTareWeight.Text = requestTareWeight;
+                        btnGetWeight.Text = "OBTENER";
+                        rollNumber = 0;
+                    }
+                    else
+                    {
+                        PopupNotification("Tiempo de espera agotado, vuelva a  intentar", null);
+                    }
                 }
                 else
                 {
@@ -199,13 +200,9 @@ namespace WOW_P2
             }
             else
             {
-                //Solictar peso de rollos
-               
-                //int rollWeight = rnd.Next(300,400);
-
-                //Obtener peso neto (Solo peso rollo sin peso tara)
+                //Obtener peso neto acomulado (Solo peso rollo sin peso tara)
                 string net = weighing.SocketWeighing("S");
-                
+
                 if (net == "EX")
                 {
                     PopupNotification("Tiempo de espera agotado, vuelva a  intentar", null);
@@ -224,8 +221,6 @@ namespace WOW_P2
                             dgViewButtonPrint.HeaderText = "Acción";
                             dgViewButtonPrint.Name = "btnPrintLabel";
                             dgViewButtonPrint.FlatStyle = FlatStyle.Flat;
-                            //dgViewButtonPrint.CellTemplate.Style.BackColor = Color.Transparent;
-                            //dgViewButtonPrint.DefaultCellStyle.BackColor = Color.Transparent;
                             dgViewButtonPrint.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             dgViewButtonPrint.UseColumnTextForButtonValue = true;
                         }
@@ -233,8 +228,8 @@ namespace WOW_P2
                         dgWeights.Columns.Add(dgViewButtonPrint);
                     }
                 }
-                    
-                
+
+
                 /*int palletWeight = dgWeights.Rows.Cast<DataGridViewRow>().Sum(t => Convert.ToInt32(t.Cells[1].Value)) + 
                                    int.Parse(lblTareWeight.Text.Remove(lblTareWeight.Text.Length - 3, 3));
                 lblPalletWeight.Text = palletWeight.ToString() + " KG";*/
@@ -274,6 +269,11 @@ namespace WOW_P2
                 MessageBox.Show(data);
                 //MessageBox.Show(e.RowIndex.ToString() + "," + e.ColumnIndex.ToString());
             }
+        }
+
+        private void btnPrintPallet_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

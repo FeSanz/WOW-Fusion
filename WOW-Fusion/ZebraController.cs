@@ -6,11 +6,10 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace WOW_P2
+namespace WOW_Fusion
 {
-    internal class PrinterController
+    internal class ZebraController
     {
         static readonly string pathZPL = @"D:\WoW\Etiquetas\Zebra Designer\P2_Standard.txt";
         private string ip = "192.168.12.10";
@@ -19,7 +18,7 @@ namespace WOW_P2
         private void ZPLFormatt()
         {
             string strZPLReader = File.ReadAllText(pathZPL);
-            strZPLReader = strZPLReader.Replace("ITEM","");
+            strZPLReader = strZPLReader.Replace("ITEM", "");
             strZPLReader = strZPLReader.Replace("DESCRIPTION", "");
             strZPLReader = strZPLReader.Replace("ENGLISH ", "");
             strZPLReader = strZPLReader.Replace("WO", "");
@@ -34,7 +33,7 @@ namespace WOW_P2
         private void ZPrinterTCP(string strPrinterLabel)
         {
             try
-            { 
+            {
                 TcpClient client = new TcpClient();
                 client.Connect(ip, port);
                 StreamWriter writer = new StreamWriter(client.GetStream());

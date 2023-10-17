@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WOW_P2.Properties
+namespace WOW_Fusion.Properties
 {
 
 

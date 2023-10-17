@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Security.Policy;
 using System.Text;
-using System.Threading.Tasks;
-using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WOW_P2
+namespace WOW_Fusion
 {
-    internal class API
+    internal class APIController
     {
         private WebRequest request;
         private WebResponse response;
