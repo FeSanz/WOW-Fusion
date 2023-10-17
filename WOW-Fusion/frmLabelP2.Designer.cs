@@ -28,14 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLabelP2));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.button2 = new System.Windows.Forms.Button();
-            this.btnReloadWO = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLabelP2));
             this.lblMachineName = new System.Windows.Forms.Label();
             this.lblMachineCode = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
@@ -56,8 +54,6 @@
             this.lblStatusBascule = new System.Windows.Forms.Label();
             this.lblLocationCode = new System.Windows.Forms.Label();
             this.lblVersion = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureLabel = new System.Windows.Forms.PictureBox();
             this.label20 = new System.Windows.Forms.Label();
             this.dgWeights = new System.Windows.Forms.DataGridView();
             this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -81,40 +77,17 @@
             this.lblPalletNumber = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.btnPrintPallet = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.btnReloadWO = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureLabel = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureLabel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgWeights)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureLabel)).BeginInit();
             this.SuspendLayout();
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.Transparent;
-            this.button2.BackgroundImage = global::WOW_Fusion.Properties.Resources.bascule_01;
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(564, 6);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(36, 35);
-            this.button2.TabIndex = 79;
-            this.button2.UseVisualStyleBackColor = false;
-            // 
-            // btnReloadWO
-            // 
-            this.btnReloadWO.BackColor = System.Drawing.Color.Transparent;
-            this.btnReloadWO.BackgroundImage = global::WOW_Fusion.Properties.Resources.upload_01;
-            this.btnReloadWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnReloadWO.FlatAppearance.BorderSize = 0;
-            this.btnReloadWO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReloadWO.Location = new System.Drawing.Point(249, 31);
-            this.btnReloadWO.Name = "btnReloadWO";
-            this.btnReloadWO.Size = new System.Drawing.Size(36, 34);
-            this.btnReloadWO.TabIndex = 26;
-            this.btnReloadWO.UseVisualStyleBackColor = false;
-            this.btnReloadWO.Click += new System.EventHandler(this.btnReloadWO_Click);
             // 
             // lblMachineName
             // 
@@ -342,26 +315,6 @@
             this.lblVersion.TabIndex = 78;
             this.lblVersion.Text = "label2";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(929, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(60, 47);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 64;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureLabel
-            // 
-            this.pictureLabel.Image = global::WOW_Fusion.Properties.Resources.upload_01;
-            this.pictureLabel.Location = new System.Drawing.Point(11, 22);
-            this.pictureLabel.Name = "pictureLabel";
-            this.pictureLabel.Size = new System.Drawing.Size(435, 194);
-            this.pictureLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureLabel.TabIndex = 31;
-            this.pictureLabel.TabStop = false;
-            // 
             // label20
             // 
             this.label20.AutoSize = true;
@@ -412,7 +365,7 @@
             this.No.HeaderText = "No. Rollo";
             this.No.Name = "No";
             this.No.ReadOnly = true;
-            this.No.Width = 74;
+            this.No.Width = 80;
             // 
             // NoRollo
             // 
@@ -632,6 +585,53 @@
             this.btnPrintPallet.UseVisualStyleBackColor = false;
             this.btnPrintPallet.Click += new System.EventHandler(this.btnPrintPallet_Click);
             // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.Transparent;
+            this.button2.BackgroundImage = global::WOW_Fusion.Properties.Resources.bascule_01;
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Location = new System.Drawing.Point(564, 6);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(36, 35);
+            this.button2.TabIndex = 79;
+            this.button2.UseVisualStyleBackColor = false;
+            // 
+            // btnReloadWO
+            // 
+            this.btnReloadWO.BackColor = System.Drawing.Color.Transparent;
+            this.btnReloadWO.BackgroundImage = global::WOW_Fusion.Properties.Resources.upload_01;
+            this.btnReloadWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnReloadWO.FlatAppearance.BorderSize = 0;
+            this.btnReloadWO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReloadWO.Location = new System.Drawing.Point(249, 31);
+            this.btnReloadWO.Name = "btnReloadWO";
+            this.btnReloadWO.Size = new System.Drawing.Size(36, 34);
+            this.btnReloadWO.TabIndex = 26;
+            this.btnReloadWO.UseVisualStyleBackColor = false;
+            this.btnReloadWO.Click += new System.EventHandler(this.btnReloadWO_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(929, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(60, 47);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 64;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pictureLabel
+            // 
+            this.pictureLabel.Image = global::WOW_Fusion.Properties.Resources.upload_01;
+            this.pictureLabel.Location = new System.Drawing.Point(11, 22);
+            this.pictureLabel.Name = "pictureLabel";
+            this.pictureLabel.Size = new System.Drawing.Size(435, 194);
+            this.pictureLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureLabel.TabIndex = 31;
+            this.pictureLabel.TabStop = false;
+            // 
             // frmLabelP2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -662,12 +662,12 @@
             this.Load += new System.EventHandler(this.frmLabelP2_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureLabel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgWeights)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureLabel)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

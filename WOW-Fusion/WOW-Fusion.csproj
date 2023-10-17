@@ -65,6 +65,18 @@
     <Compile Include="frmLabelP2.Designer.cs">
       <DependentUpon>frmLabelP2.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPetP3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPetP3.Designer.cs">
+      <DependentUpon>frmPetP3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSackP3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSackP3.Designer.cs">
+      <DependentUpon>frmSackP3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RadwagController.cs" />
@@ -74,6 +86,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmLabelP2.resx">
       <DependentUpon>frmLabelP2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPetP3.resx">
+      <DependentUpon>frmPetP3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSackP3.resx">
+      <DependentUpon>frmSackP3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
