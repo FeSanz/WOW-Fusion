@@ -6,7 +6,9 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
@@ -21,6 +23,7 @@ namespace WOW_Fusion
 
         APIController api;
         RadwagController weighing;
+        LoadingController loading;
 
         //Fusion parametros
         public static string pylOrganization = string.Empty;
@@ -44,13 +47,13 @@ namespace WOW_Fusion
             lblVersion.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             api = new APIController();
             weighing = new RadwagController();
+            loading = new LoadingController();
 
             btnGetWeight.Text = "TARA";
 
             RequestOrganizationData();
             RequestWorkOrdersList();
         }
-
 
         private async void RequestOrganizationData()
         {
@@ -80,9 +83,11 @@ namespace WOW_Fusion
         {
             try
             {
+                loading.Show(this);
                 Task<string> tskWorkOrdersList = api.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&fields=WorkOrderNumber&" +
-                                                                    "q=OrganizationId=" + organizationId);
+                                                                    "q=OrganizationId=" + organizationId + " and WorkOrderStatusCode='ORA_RELEASED'");
                 string response = await tskWorkOrdersList;
+                loading.Close();
                 if (!string.IsNullOrEmpty(response))
                 {
                     var doWorkOrderList = JsonConvert.DeserializeObject<dynamic>(response);
@@ -235,6 +240,7 @@ namespace WOW_Fusion
                 lblPalletWeight.Text = palletWeight.ToString() + " KG";*/
             }
         }
+       
         private void dgWeight_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex < 0)

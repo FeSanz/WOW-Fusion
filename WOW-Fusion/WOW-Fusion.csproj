@@ -65,6 +65,12 @@
     <Compile Include="frmLabelP2.Designer.cs">
       <DependentUpon>frmLabelP2.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmLoading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLoading.Designer.cs">
+      <DependentUpon>frmLoading.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPetP3.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +83,7 @@
     <Compile Include="frmSackP3.Designer.cs">
       <DependentUpon>frmSackP3.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoadingController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RadwagController.cs" />
@@ -86,6 +93,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmLabelP2.resx">
       <DependentUpon>frmLabelP2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLoading.resx">
+      <DependentUpon>frmLoading.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPetP3.resx">
       <DependentUpon>frmPetP3.cs</DependentUpon>
@@ -125,6 +135,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\upload_01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\preloader_01.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

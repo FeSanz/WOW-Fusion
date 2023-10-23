@@ -73,6 +73,16 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap preloader_01 {
+            get {
+                object obj = ResourceManager.GetObject("preloader_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap printer_01 {
             get {
                 object obj = ResourceManager.GetObject("printer_01", resourceCulture);

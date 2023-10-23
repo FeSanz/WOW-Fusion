@@ -28,6 +28,8 @@ namespace WOW_Fusion
             {
                 request = WebRequest.Create(url + path);
                 request.Headers.Add("Authorization", "Basic " + credential);
+                request.ContentType = "application/json";
+                request.Headers.Add("REST-framework-version", "4");
                 response = await request.GetResponseAsync();
                 stream = response.GetResponseStream();
                 reader = new StreamReader(stream);
@@ -65,6 +67,32 @@ namespace WOW_Fusion
             }
         }
 
+        public async Task<string> PostBatchRequestAsync(string path, string json)
+        {
+            string credential = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(_user + ":" + _password));
+            try
+            {
+                request = WebRequest.Create(url + path);
+                request.Headers.Add("Authorization", "Basic " + credential);
+                request.ContentType = "application/vnd.oracle.adf.batch+json";
+                request.Method = "POST";
+
+                writer = new StreamWriter(request.GetRequestStream());
+                writer.Write(json);
+                writer.Flush();
+                writer.Close();
+
+                response = await request.GetResponseAsync();
+                reader = new StreamReader(response.GetResponseStream());
+                return await reader.ReadToEndAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error POST. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
         public string GetRequest(string path)
         {
             string credential = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(_user + ":" + _password));
@@ -72,6 +100,8 @@ namespace WOW_Fusion
             {
                 request = WebRequest.Create(url + path);
                 request.Headers.Add("Authorization", "Basic " + credential);
+                request.ContentType = "application/json";
+                request.Headers.Add("REST-framework-version", "4");
                 response = request.GetResponse();
                 stream = response.GetResponseStream();
                 reader = new StreamReader(stream);

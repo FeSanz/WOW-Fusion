@@ -43,6 +43,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnReloadWO = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.lblCompletedQuantity = new System.Windows.Forms.Label();
             this.lblPlannedCompletionDate = new System.Windows.Forms.Label();
@@ -67,6 +68,7 @@
             this.lblItemDescription = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.pictureLabel = new System.Windows.Forms.PictureBox();
             this.lblPalletWeight = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.lblTareWeight = new System.Windows.Forms.Label();
@@ -78,15 +80,13 @@
             this.label18 = new System.Windows.Forms.Label();
             this.btnPrintPallet = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.btnReloadWO = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureLabel = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgWeights)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLabel)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblMachineName
@@ -199,6 +199,20 @@
             this.groupBox1.TabIndex = 61;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Orden de trabajo";
+            // 
+            // btnReloadWO
+            // 
+            this.btnReloadWO.BackColor = System.Drawing.Color.Transparent;
+            this.btnReloadWO.BackgroundImage = global::WOW_Fusion.Properties.Resources.upload_01;
+            this.btnReloadWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnReloadWO.FlatAppearance.BorderSize = 0;
+            this.btnReloadWO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReloadWO.Location = new System.Drawing.Point(249, 31);
+            this.btnReloadWO.Name = "btnReloadWO";
+            this.btnReloadWO.Size = new System.Drawing.Size(36, 34);
+            this.btnReloadWO.TabIndex = 26;
+            this.btnReloadWO.UseVisualStyleBackColor = false;
+            this.btnReloadWO.Click += new System.EventHandler(this.btnReloadWO_Click);
             // 
             // label9
             // 
@@ -365,7 +379,7 @@
             this.No.HeaderText = "No. Rollo";
             this.No.Name = "No";
             this.No.ReadOnly = true;
-            this.No.Width = 80;
+            this.No.Width = 74;
             // 
             // NoRollo
             // 
@@ -472,6 +486,16 @@
             this.groupBox3.TabIndex = 68;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Etiqueta";
+            // 
+            // pictureLabel
+            // 
+            this.pictureLabel.Image = global::WOW_Fusion.Properties.Resources.upload_01;
+            this.pictureLabel.Location = new System.Drawing.Point(11, 22);
+            this.pictureLabel.Name = "pictureLabel";
+            this.pictureLabel.Size = new System.Drawing.Size(435, 194);
+            this.pictureLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureLabel.TabIndex = 31;
+            this.pictureLabel.TabStop = false;
             // 
             // lblPalletWeight
             // 
@@ -598,20 +622,6 @@
             this.button2.TabIndex = 79;
             this.button2.UseVisualStyleBackColor = false;
             // 
-            // btnReloadWO
-            // 
-            this.btnReloadWO.BackColor = System.Drawing.Color.Transparent;
-            this.btnReloadWO.BackgroundImage = global::WOW_Fusion.Properties.Resources.upload_01;
-            this.btnReloadWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnReloadWO.FlatAppearance.BorderSize = 0;
-            this.btnReloadWO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReloadWO.Location = new System.Drawing.Point(249, 31);
-            this.btnReloadWO.Name = "btnReloadWO";
-            this.btnReloadWO.Size = new System.Drawing.Size(36, 34);
-            this.btnReloadWO.TabIndex = 26;
-            this.btnReloadWO.UseVisualStyleBackColor = false;
-            this.btnReloadWO.Click += new System.EventHandler(this.btnReloadWO_Click);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
@@ -621,16 +631,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 64;
             this.pictureBox1.TabStop = false;
-            // 
-            // pictureLabel
-            // 
-            this.pictureLabel.Image = global::WOW_Fusion.Properties.Resources.upload_01;
-            this.pictureLabel.Location = new System.Drawing.Point(11, 22);
-            this.pictureLabel.Name = "pictureLabel";
-            this.pictureLabel.Size = new System.Drawing.Size(435, 194);
-            this.pictureLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureLabel.TabIndex = 31;
-            this.pictureLabel.TabStop = false;
             // 
             // frmLabelP2
             // 
@@ -666,8 +666,8 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLabel)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
