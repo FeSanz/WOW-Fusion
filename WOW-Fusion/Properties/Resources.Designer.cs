@@ -73,6 +73,26 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap error_icon {
+            get {
+                object obj = ResourceManager.GetObject("error_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap label_icon {
+            get {
+                object obj = ResourceManager.GetObject("label_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap preloader_01 {
             get {
                 object obj = ResourceManager.GetObject("preloader_01", resourceCulture);
@@ -86,6 +106,16 @@ namespace WOW_Fusion.Properties {
         internal static System.Drawing.Bitmap printer_01 {
             get {
                 object obj = ResourceManager.GetObject("printer_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap success_icon {
+            get {
+                object obj = ResourceManager.GetObject("success_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

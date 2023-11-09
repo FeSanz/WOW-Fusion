@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace WOW_Fusion
 {
-    internal class APIController
+    internal class APIService
     {
         private WebRequest request;
         private WebResponse response;

@@ -12,7 +12,7 @@ namespace WOW_Fusion
     internal class RadwagController
     {
         //private string ip = "172.16.100.207";
-        private string ip = "192.168.12.1";
+        private string ip = "192.168.12.4";
         private int port = 4001;
 
         public string SocketWeighing(string command)
@@ -26,7 +26,7 @@ namespace WOW_Fusion
             {
                 StreamWriter writer = new StreamWriter(client.GetStream());
                 StreamReader reader = new StreamReader(client.GetStream());
-                reader.BaseStream.ReadTimeout = 10000;
+                reader.BaseStream.ReadTimeout = 5000;
 
                 try
                 {

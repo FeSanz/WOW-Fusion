@@ -4,15 +4,20 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
 using WOW_Fusion.Properties;
+using WOW_Fusion.Services;
 
 namespace WOW_Fusion
 {
@@ -21,7 +26,9 @@ namespace WOW_Fusion
         PopupNotifier pop = new PopupNotifier();
         Random rnd = new Random();
 
-        APIController api;
+        APIService api;
+        LabelService label;
+
         RadwagController weighing;
         LoadingController loading;
 
@@ -30,11 +37,11 @@ namespace WOW_Fusion
         public static string organizationId = "300000002650049";
 
         //Datagrid parametros
-        private int rollNumber = 0;
+        private int _rollNumber = 0;
 
         //Pesos params
-        private int tareWeight = 0;
-
+        private float _tareWeight = 0;
+        private float _palletWeight = 0;
 
 
         public frmLabelP2()
@@ -44,8 +51,8 @@ namespace WOW_Fusion
 
         private void frmLabelP2_Load(object sender, EventArgs e)
         {
-            lblVersion.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            api = new APIController();
+            //lblVersion.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            api = new APIService();
             weighing = new RadwagController();
             loading = new LoadingController();
 
@@ -53,6 +60,8 @@ namespace WOW_Fusion
 
             RequestOrganizationData();
             RequestWorkOrdersList();
+
+            GenerateLabel("");
         }
 
         private async void RequestOrganizationData()
@@ -160,6 +169,30 @@ namespace WOW_Fusion
             }
         }
 
+        public void GenerateLabel(string strZpl)
+        {
+            var linesRead = File.ReadLines(@"D:\\WoW\Etiquetas\Zebra Designer\FTP00DL.prn");
+            string line = "";
+            foreach (var lineRead in linesRead)
+            {
+                line += lineRead;
+            }
+
+            string pathLabelary = $"http://api.labelary.com/v1/printers/12dpmm/labels/4x2/0/ --data-urlencode {line}";
+            try
+            {
+                var request = (HttpWebRequest)WebRequest.Create(pathLabelary);
+                var response = (HttpWebResponse)request.GetResponse();
+                var responseStream = response.GetResponseStream();
+                Bitmap bitmap = new Bitmap(responseStream);
+                pictureLabel.Image = bitmap;
+            }
+            catch (WebException ex)
+            {
+                MessageBox.Show("Error. " + ex.Message, "Labelary", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void PopupNotification(string content, Image icon)
         {
             pop.ContentText = content;
@@ -179,7 +212,9 @@ namespace WOW_Fusion
 
         private async void btnGetWeight_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(lblTareWeight.Text))
+            txtBoxWeight.Text = "";
+            loading.Show(this);
+            if (string.IsNullOrEmpty(lblPalletTare.Text))
             {
                 //Solicitar peso tara
                 string responseTare = weighing.SocketWeighing("T");
@@ -188,36 +223,54 @@ namespace WOW_Fusion
                     string requestTareWeight = weighing.SocketWeighing("OT");
                     if (!requestTareWeight.Equals("EX"))
                     {
-
-                        lblTareWeight.Text = requestTareWeight;
+                        loading.Close();
+                        _tareWeight = float.Parse(requestTareWeight);
+                        lblPalletTare.Text = requestTareWeight;
+                        txtBoxWeight.Text = requestTareWeight;
                         btnGetWeight.Text = "OBTENER";
-                        rollNumber = 0;
+                        _rollNumber = 0;
                     }
                     else
                     {
+                        loading.Close();
                         PopupNotification("Tiempo de espera agotado, vuelva a  intentar", null);
                     }
                 }
                 else
                 {
+                    loading.Close();
                     MessageBox.Show(responseTare, "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                //Obtener peso neto acomulado (Solo peso rollo sin peso tara)
-                string net = weighing.SocketWeighing("S");
+                //Obtiene peso neto acomulado del pallet (sin tara)
+                string palletNetWeight = weighing.SocketWeighing("S");
 
-                if (net == "EX")
+                if (palletNetWeight == "EX")
                 {
+                    loading.Close();
                     PopupNotification("Tiempo de espera agotado, vuelva a  intentar", null);
                 }
                 else
                 {
-                    rollNumber++;
+                    loading.Close();
+                    _rollNumber++;
+
+                    //Calcular pero neto de cada rollo (sin tara)
+                    float rollNetKg = float.Parse(palletNetWeight) - _palletWeight;
+                    txtBoxWeight.Text = rollNetKg.ToString();
+
+                    //Calcular pero bruto de cada rollo (con tara)
+                    float rollGrossKg = rollNetKg + _tareWeight;
+
                     //Agregar a datagrid (Rollo, Neto, Bruto)
-                    string[] row = new string[] { rollNumber.ToString(), net.ToString(), net.ToString() };
+                    string[] row = new string[] { _rollNumber.ToString(), rollNetKg.ToString(), rollGrossKg.ToString() };
                     dgWeights.Rows.Add(row);
+
+                    _palletWeight = float.Parse(palletNetWeight);
+                    lblPalletNet.Text = palletNetWeight;
+                    lblPalletGross.Text = (_palletWeight + _tareWeight).ToString();
 
                     if (dgWeights.RowCount == 1)
                     {

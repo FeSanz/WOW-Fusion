@@ -54,7 +54,7 @@
             this.pcbIcon.Location = new System.Drawing.Point(0, 0);
             this.pcbIcon.Name = "pcbIcon";
             this.pcbIcon.Padding = new System.Windows.Forms.Padding(10);
-            this.pcbIcon.Size = new System.Drawing.Size(100, 106);
+            this.pcbIcon.Size = new System.Drawing.Size(110, 106);
             this.pcbIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pcbIcon.TabIndex = 3;
             this.pcbIcon.TabStop = false;

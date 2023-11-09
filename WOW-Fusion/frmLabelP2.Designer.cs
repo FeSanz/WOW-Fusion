@@ -52,10 +52,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbWorkOrders = new System.Windows.Forms.ComboBox();
-            this.lblStatusBascule = new System.Windows.Forms.Label();
             this.lblLocationCode = new System.Windows.Forms.Label();
-            this.lblVersion = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
             this.dgWeights = new System.Windows.Forms.DataGridView();
             this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NoRollo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,24 +66,28 @@
             this.label25 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.pictureLabel = new System.Windows.Forms.PictureBox();
-            this.lblPalletWeight = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.lblTareWeight = new System.Windows.Forms.Label();
             this.btnGetWeight = new System.Windows.Forms.Button();
             this.cmbLabels = new System.Windows.Forms.ComboBox();
             this.label19 = new System.Windows.Forms.Label();
             this.txtBoxWeight = new System.Windows.Forms.TextBox();
-            this.lblPalletNumber = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
             this.btnPrintPallet = new System.Windows.Forms.Button();
+            this.picBoxLogo = new System.Windows.Forms.PictureBox();
+            this.lblStatusBascule = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblPalletTare = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblPalletNet = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.lblPalletGross = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lblPalletNumber = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgWeights)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLabel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // lblMachineName
@@ -129,7 +130,6 @@
             this.lblPlannedQuantity.Name = "lblPlannedQuantity";
             this.lblPlannedQuantity.Size = new System.Drawing.Size(83, 34);
             this.lblPlannedQuantity.TabIndex = 22;
-            this.lblPlannedQuantity.Text = "0";
             this.lblPlannedQuantity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblUoM
@@ -233,7 +233,6 @@
             this.lblCompletedQuantity.Name = "lblCompletedQuantity";
             this.lblCompletedQuantity.Size = new System.Drawing.Size(83, 34);
             this.lblCompletedQuantity.TabIndex = 9;
-            this.lblCompletedQuantity.Text = "0";
             this.lblCompletedQuantity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblPlannedCompletionDate
@@ -298,17 +297,6 @@
             this.cmbWorkOrders.Text = "Seleccione orden";
             this.cmbWorkOrders.SelectedValueChanged += new System.EventHandler(this.SelectedIndexChangedWorkOrders);
             // 
-            // lblStatusBascule
-            // 
-            this.lblStatusBascule.AutoSize = true;
-            this.lblStatusBascule.Font = new System.Drawing.Font("Microsoft New Tai Lue", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatusBascule.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblStatusBascule.Location = new System.Drawing.Point(563, 44);
-            this.lblStatusBascule.Name = "lblStatusBascule";
-            this.lblStatusBascule.Size = new System.Drawing.Size(39, 15);
-            this.lblStatusBascule.TabIndex = 60;
-            this.lblStatusBascule.Text = "Status";
-            // 
             // lblLocationCode
             // 
             this.lblLocationCode.AutoSize = true;
@@ -319,26 +307,6 @@
             this.lblLocationCode.TabIndex = 62;
             this.lblLocationCode.Text = "LOC.CODE";
             this.lblLocationCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblVersion
-            // 
-            this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(1, 522);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(35, 13);
-            this.lblVersion.TabIndex = 78;
-            this.lblVersion.Text = "label2";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(12, 475);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(36, 13);
-            this.label20.TabIndex = 76;
-            this.label20.Text = "TARA";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // dgWeights
             // 
@@ -489,46 +457,13 @@
             // 
             // pictureLabel
             // 
-            this.pictureLabel.Image = global::WOW_Fusion.Properties.Resources.upload_01;
+            this.pictureLabel.Image = global::WOW_Fusion.Properties.Resources.label_icon;
             this.pictureLabel.Location = new System.Drawing.Point(11, 22);
             this.pictureLabel.Name = "pictureLabel";
             this.pictureLabel.Size = new System.Drawing.Size(435, 194);
             this.pictureLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureLabel.TabIndex = 31;
             this.pictureLabel.TabStop = false;
-            // 
-            // lblPalletWeight
-            // 
-            this.lblPalletWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPalletWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPalletWeight.ForeColor = System.Drawing.Color.Red;
-            this.lblPalletWeight.Location = new System.Drawing.Point(428, 472);
-            this.lblPalletWeight.Name = "lblPalletWeight";
-            this.lblPalletWeight.Size = new System.Drawing.Size(98, 15);
-            this.lblPalletWeight.TabIndex = 67;
-            this.lblPalletWeight.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(389, 474);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(36, 13);
-            this.label13.TabIndex = 63;
-            this.label13.Text = "PESO";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblTareWeight
-            // 
-            this.lblTareWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblTareWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTareWeight.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.lblTareWeight.Location = new System.Drawing.Point(53, 475);
-            this.lblTareWeight.Name = "lblTareWeight";
-            this.lblTareWeight.Size = new System.Drawing.Size(63, 15);
-            this.lblTareWeight.TabIndex = 77;
-            this.lblTareWeight.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnGetWeight
             // 
@@ -575,28 +510,6 @@
             this.txtBoxWeight.Text = "0";
             this.txtBoxWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // lblPalletNumber
-            // 
-            this.lblPalletNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPalletNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPalletNumber.ForeColor = System.Drawing.Color.ForestGreen;
-            this.lblPalletNumber.Location = new System.Drawing.Point(336, 473);
-            this.lblPalletNumber.Name = "lblPalletNumber";
-            this.lblPalletNumber.Size = new System.Drawing.Size(44, 15);
-            this.lblPalletNumber.TabIndex = 71;
-            this.lblPalletNumber.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(283, 474);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(47, 13);
-            this.label18.TabIndex = 70;
-            this.label18.Text = "PALLET";
-            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // btnPrintPallet
             // 
             this.btnPrintPallet.BackColor = System.Drawing.SystemColors.ActiveCaption;
@@ -608,6 +521,27 @@
             this.btnPrintPallet.Text = "IMPRIMIR";
             this.btnPrintPallet.UseVisualStyleBackColor = false;
             this.btnPrintPallet.Click += new System.EventHandler(this.btnPrintPallet_Click);
+            // 
+            // picBoxLogo
+            // 
+            this.picBoxLogo.Image = ((System.Drawing.Image)(resources.GetObject("picBoxLogo.Image")));
+            this.picBoxLogo.Location = new System.Drawing.Point(929, 3);
+            this.picBoxLogo.Name = "picBoxLogo";
+            this.picBoxLogo.Size = new System.Drawing.Size(60, 47);
+            this.picBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBoxLogo.TabIndex = 64;
+            this.picBoxLogo.TabStop = false;
+            // 
+            // lblStatusBascule
+            // 
+            this.lblStatusBascule.AutoSize = true;
+            this.lblStatusBascule.Font = new System.Drawing.Font("Microsoft New Tai Lue", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatusBascule.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblStatusBascule.Location = new System.Drawing.Point(563, 44);
+            this.lblStatusBascule.Name = "lblStatusBascule";
+            this.lblStatusBascule.Size = new System.Drawing.Size(39, 15);
+            this.lblStatusBascule.TabIndex = 60;
+            this.lblStatusBascule.Text = "Status";
             // 
             // button2
             // 
@@ -622,40 +556,115 @@
             this.button2.TabIndex = 79;
             this.button2.UseVisualStyleBackColor = false;
             // 
-            // pictureBox1
+            // lblPalletTare
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(929, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(60, 47);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 64;
-            this.pictureBox1.TabStop = false;
+            this.lblPalletTare.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblPalletTare.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPalletTare.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.lblPalletTare.Location = new System.Drawing.Point(12, 471);
+            this.lblPalletTare.Name = "lblPalletTare";
+            this.lblPalletTare.Size = new System.Drawing.Size(83, 34);
+            this.lblPalletTare.TabIndex = 112;
+            this.lblPalletTare.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(36, 508);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(36, 13);
+            this.label5.TabIndex = 111;
+            this.label5.Text = "TARA";
+            // 
+            // lblPalletNet
+            // 
+            this.lblPalletNet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblPalletNet.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPalletNet.ForeColor = System.Drawing.Color.Green;
+            this.lblPalletNet.Location = new System.Drawing.Point(147, 471);
+            this.lblPalletNet.Name = "lblPalletNet";
+            this.lblPalletNet.Size = new System.Drawing.Size(83, 34);
+            this.lblPalletNet.TabIndex = 110;
+            this.lblPalletNet.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(311, 508);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(45, 13);
+            this.label11.TabIndex = 108;
+            this.label11.Text = "BRUTO";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(172, 508);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(37, 13);
+            this.label13.TabIndex = 107;
+            this.label13.Text = "NETO";
+            // 
+            // lblPalletGross
+            // 
+            this.lblPalletGross.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblPalletGross.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPalletGross.ForeColor = System.Drawing.Color.Firebrick;
+            this.lblPalletGross.Location = new System.Drawing.Point(291, 471);
+            this.lblPalletGross.Name = "lblPalletGross";
+            this.lblPalletGross.Size = new System.Drawing.Size(83, 34);
+            this.lblPalletGross.TabIndex = 106;
+            this.lblPalletGross.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(463, 508);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(47, 13);
+            this.label8.TabIndex = 114;
+            this.label8.Text = "PALLET";
+            // 
+            // lblPalletNumber
+            // 
+            this.lblPalletNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblPalletNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPalletNumber.ForeColor = System.Drawing.Color.Black;
+            this.lblPalletNumber.Location = new System.Drawing.Point(443, 471);
+            this.lblPalletNumber.Name = "lblPalletNumber";
+            this.lblPalletNumber.Size = new System.Drawing.Size(83, 34);
+            this.lblPalletNumber.TabIndex = 113;
+            this.lblPalletNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frmLabelP2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1005, 538);
+            this.ClientSize = new System.Drawing.Size(1005, 539);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.lblPalletNumber);
+            this.Controls.Add(this.lblPalletTare);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.lblPalletNet);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.lblPalletGross);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblStatusBascule);
             this.Controls.Add(this.lblLocationCode);
-            this.Controls.Add(this.lblVersion);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.label20);
+            this.Controls.Add(this.picBoxLogo);
             this.Controls.Add(this.dgWeights);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.lblPalletWeight);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.lblTareWeight);
             this.Controls.Add(this.btnGetWeight);
             this.Controls.Add(this.cmbLabels);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.txtBoxWeight);
-            this.Controls.Add(this.lblPalletNumber);
-            this.Controls.Add(this.label18);
             this.Controls.Add(this.btnPrintPallet);
             this.Name = "frmLabelP2";
             this.Text = "frmLabelP2";
@@ -667,15 +676,13 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureLabel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnReloadWO;
         private System.Windows.Forms.Label lblMachineName;
         private System.Windows.Forms.Label lblMachineCode;
@@ -694,12 +701,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbWorkOrders;
-        private System.Windows.Forms.Label lblStatusBascule;
         private System.Windows.Forms.Label lblLocationCode;
-        private System.Windows.Forms.Label lblVersion;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox picBoxLogo;
         private System.Windows.Forms.PictureBox pictureLabel;
-        private System.Windows.Forms.Label label20;
         private System.Windows.Forms.DataGridView dgWeights;
         private System.Windows.Forms.DataGridViewTextBoxColumn No;
         private System.Windows.Forms.DataGridViewTextBoxColumn NoRollo;
@@ -712,15 +716,20 @@
         private System.Windows.Forms.Label lblItemDescription;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label lblPalletWeight;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label lblTareWeight;
         private System.Windows.Forms.Button btnGetWeight;
         private System.Windows.Forms.ComboBox cmbLabels;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txtBoxWeight;
-        private System.Windows.Forms.Label lblPalletNumber;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button btnPrintPallet;
+        private System.Windows.Forms.Label lblStatusBascule;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label lblPalletTare;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblPalletNet;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label lblPalletGross;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblPalletNumber;
     }
 }

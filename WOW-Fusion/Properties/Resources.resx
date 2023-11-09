@@ -130,4 +130,13 @@
   <data name="preloader_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\preloader_01.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="label_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\label_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="error_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\error_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="success_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\success_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

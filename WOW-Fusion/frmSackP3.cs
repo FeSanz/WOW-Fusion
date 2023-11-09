@@ -16,5 +16,10 @@ namespace WOW_Fusion
         {
             InitializeComponent();
         }
+
+        private void dgWeights_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
