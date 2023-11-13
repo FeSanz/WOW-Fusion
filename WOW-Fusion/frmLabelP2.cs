@@ -23,14 +23,13 @@ namespace WOW_Fusion
 {
     public partial class frmLabelP2 : Form
     {
-        PopupNotifier pop = new PopupNotifier();
         Random rnd = new Random();
 
         APIService api;
         LabelService label;
 
         RadwagController weighing;
-        LoadingController loading;
+        PopController pop;
 
         //Fusion parametros
         public static string pylOrganization = string.Empty;
@@ -54,14 +53,14 @@ namespace WOW_Fusion
             //lblVersion.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             api = new APIService();
             weighing = new RadwagController();
-            loading = new LoadingController();
+            pop = new PopController();
 
             btnGetWeight.Text = "TARA";
 
             RequestOrganizationData();
             RequestWorkOrdersList();
 
-            GenerateLabel("");
+            pictureLabel.Image = Image.FromStream(label.Create());
         }
 
         private async void RequestOrganizationData()
@@ -79,7 +78,7 @@ namespace WOW_Fusion
                 }
                 else
                 {
-                    PopupNotification("Sin respuesta", null);
+                    pop.Notifier("Sin respuesta", null);
                 }
             }
             catch (Exception ex)
@@ -92,11 +91,11 @@ namespace WOW_Fusion
         {
             try
             {
-                loading.Show(this);
+                pop.Show(this);
                 Task<string> tskWorkOrdersList = api.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&fields=WorkOrderNumber&" +
                                                                     "q=OrganizationId=" + organizationId + " and WorkOrderStatusCode='ORA_RELEASED'");
                 string response = await tskWorkOrdersList;
-                loading.Close();
+                pop.Close();
                 if (!string.IsNullOrEmpty(response))
                 {
                     var doWorkOrderList = JsonConvert.DeserializeObject<dynamic>(response);
@@ -114,12 +113,12 @@ namespace WOW_Fusion
                     }
                     else
                     {
-                        PopupNotification("Sin ordenes de trabajo", null);
+                        pop.Notifier("Sin ordenes de trabajo", null);
                     }
                 }
                 else
                 {
-                    PopupNotification("Sin respuesta", null);
+                    pop.Notifier("Sin respuesta", null);
                 }
             }
             catch (Exception ex)
@@ -160,7 +159,7 @@ namespace WOW_Fusion
                 }
                 else
                 {
-                    PopupNotification("No se encontraron datos", null);
+                    pop.Notifier("No se encontraron datos", null);
                 }
             }
             catch (Exception ex)
@@ -169,51 +168,10 @@ namespace WOW_Fusion
             }
         }
 
-        public void GenerateLabel(string strZpl)
-        {
-            var linesRead = File.ReadLines(@"D:\\WoW\Etiquetas\Zebra Designer\FTP00DL.prn");
-            string line = "";
-            foreach (var lineRead in linesRead)
-            {
-                line += lineRead;
-            }
-
-            string pathLabelary = $"http://api.labelary.com/v1/printers/12dpmm/labels/4x2/0/ --data-urlencode {line}";
-            try
-            {
-                var request = (HttpWebRequest)WebRequest.Create(pathLabelary);
-                var response = (HttpWebResponse)request.GetResponse();
-                var responseStream = response.GetResponseStream();
-                Bitmap bitmap = new Bitmap(responseStream);
-                pictureLabel.Image = bitmap;
-            }
-            catch (WebException ex)
-            {
-                MessageBox.Show("Error. " + ex.Message, "Labelary", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void PopupNotification(string content, Image icon)
-        {
-            pop.ContentText = content;
-            pop.ContentColor = Color.Black;
-            pop.ContentFont = new Font("Arial", 14);
-            pop.ContentPadding = new Padding(10, 15, 10, 5);
-            pop.ShowGrip = false;
-            pop.HeaderHeight = 1;
-            pop.BorderColor = Color.DarkGray; //Color.FromArgb(35, 35, 35);
-            pop.Image = icon;
-            pop.ImageSize = new Size(70, 70);
-            pop.ImagePadding = new Padding(10);
-            pop.Size = new Size(350, 90);
-            pop.IsRightToLeft = false;
-            pop.Popup();
-        }
-
         private async void btnGetWeight_Click(object sender, EventArgs e)
         {
             txtBoxWeight.Text = "";
-            loading.Show(this);
+            pop.Show(this);
             if (string.IsNullOrEmpty(lblPalletTare.Text))
             {
                 //Solicitar peso tara
@@ -223,7 +181,7 @@ namespace WOW_Fusion
                     string requestTareWeight = weighing.SocketWeighing("OT");
                     if (!requestTareWeight.Equals("EX"))
                     {
-                        loading.Close();
+                        pop.Close();
                         _tareWeight = float.Parse(requestTareWeight);
                         lblPalletTare.Text = requestTareWeight;
                         txtBoxWeight.Text = requestTareWeight;
@@ -232,13 +190,13 @@ namespace WOW_Fusion
                     }
                     else
                     {
-                        loading.Close();
-                        PopupNotification("Tiempo de espera agotado, vuelva a  intentar", null);
+                        pop.Close();
+                        pop.Notifier("Tiempo de espera agotado, vuelva a  intentar", null);
                     }
                 }
                 else
                 {
-                    loading.Close();
+                    pop.Close();
                     MessageBox.Show(responseTare, "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
@@ -249,12 +207,12 @@ namespace WOW_Fusion
 
                 if (palletNetWeight == "EX")
                 {
-                    loading.Close();
-                    PopupNotification("Tiempo de espera agotado, vuelva a  intentar", null);
+                    pop.Close();
+                    pop.Notifier("Tiempo de espera agotado, vuelva a  intentar", null);
                 }
                 else
                 {
-                    loading.Close();
+                    pop.Close();
                     _rollNumber++;
 
                     //Calcular pero neto de cada rollo (sin tara)

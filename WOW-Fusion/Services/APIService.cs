@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WOW_Fusion
 {
@@ -21,6 +23,8 @@ namespace WOW_Fusion
         private string _user = "felipe.antonio@i-condor.com";
         private string _password = "CondorXR112";
 
+        private string strResponse = "";
+
         public async Task<string> GetRequestAsync(string path)
         {
             string credential = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(_user + ":" + _password));
@@ -33,11 +37,11 @@ namespace WOW_Fusion
                 response = await request.GetResponseAsync();
                 stream = response.GetResponseStream();
                 reader = new StreamReader(stream);
-                return await reader.ReadToEndAsync();
+                return await reader.ReadToEndAsync(); ;
             }
-            catch (Exception ex)
+            catch (WebException ex)
             {
-                MessageBox.Show("Error GET. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, $"Error GET [" + path.Split('/', '?')[1].ToLower() + "]", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }

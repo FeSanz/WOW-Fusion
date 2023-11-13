@@ -12,7 +12,7 @@ namespace WOW_Fusion.Services
 {
     internal class LabelService
     {
-        public static Bitmap GenerateLabel(string strZpl)
+        public Stream Create()
         {
             var linesRead = File.ReadLines(@"D:\\WoW\Etiquetas\Zebra Designer\FTP00DL.prn");
             string line = "";
@@ -21,21 +21,19 @@ namespace WOW_Fusion.Services
                 line += lineRead;
             }
 
+            Stream responseStream = null;
             string pathLabelary = $"http://api.labelary.com/v1/printers/12dpmm/labels/4x2/0/ --data-urlencode {line}";
             try
             {
                 var request = (HttpWebRequest)WebRequest.Create(pathLabelary);
                 var response = (HttpWebResponse)request.GetResponse();
-                var responseStream = response.GetResponseStream();
-                Bitmap bitmap = new Bitmap(responseStream);
-                return bitmap;
-                //pictureLabel.Image = bitmap2;
+                responseStream = response.GetResponseStream();
             }
             catch (WebException ex)
             {
                 MessageBox.Show("Error. " + ex.Message, "Labelary", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
             }
+            return responseStream;
         }
     }
 }

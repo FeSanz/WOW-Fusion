@@ -83,7 +83,7 @@
     <Compile Include="frmSackP3.Designer.cs">
       <DependentUpon>frmSackP3.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\LoadingController.cs" />
+    <Compile Include="Controllers\PopController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\RadwagController.cs" />
@@ -150,6 +150,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\success_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\warning_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
