@@ -30,6 +30,9 @@
         {
             this.lblItemDescription = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblEquipmentInstanceName = new System.Windows.Forms.Label();
+            this.lblEquipmentInstanceCode = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.lblItemNumber = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -49,11 +52,12 @@
             this.cmbWorkCenters = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.picBoxWaitWC = new System.Windows.Forms.PictureBox();
-            this.btnReloadWO = new System.Windows.Forms.Button();
             this.btnPrintPallet = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.pictureLabel = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblLocationCode = new System.Windows.Forms.Label();
             this.lblBusinessUnit = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.lblOrganizationName = new System.Windows.Forms.Label();
@@ -62,11 +66,6 @@
             this.label19 = new System.Windows.Forms.Label();
             this.lblOrganizationCode = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
-            this.lblEquipmentInstanceName = new System.Windows.Forms.Label();
-            this.lblEquipmentInstanceCode = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.lblLocationCode = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
@@ -91,7 +90,6 @@
             this.groupBox1.Controls.Add(this.lblEquipmentInstanceCode);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.lblItemDescription);
-            this.groupBox1.Controls.Add(this.btnReloadWO);
             this.groupBox1.Controls.Add(this.lblItemNumber);
             this.groupBox1.Controls.Add(this.label25);
             this.groupBox1.Controls.Add(this.label17);
@@ -115,6 +113,37 @@
             this.groupBox1.TabIndex = 113;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Orden de trabajo";
+            // 
+            // lblEquipmentInstanceName
+            // 
+            this.lblEquipmentInstanceName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEquipmentInstanceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEquipmentInstanceName.Location = new System.Drawing.Point(269, 159);
+            this.lblEquipmentInstanceName.Name = "lblEquipmentInstanceName";
+            this.lblEquipmentInstanceName.Size = new System.Drawing.Size(187, 15);
+            this.lblEquipmentInstanceName.TabIndex = 123;
+            this.lblEquipmentInstanceName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblEquipmentInstanceCode
+            // 
+            this.lblEquipmentInstanceCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEquipmentInstanceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEquipmentInstanceCode.Location = new System.Drawing.Point(83, 160);
+            this.lblEquipmentInstanceCode.Name = "lblEquipmentInstanceCode";
+            this.lblEquipmentInstanceCode.Size = new System.Drawing.Size(160, 15);
+            this.lblEquipmentInstanceCode.TabIndex = 122;
+            this.lblEquipmentInstanceCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(19, 160);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(51, 13);
+            this.label10.TabIndex = 120;
+            this.label10.Text = "Máquina:";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblItemNumber
             // 
@@ -184,9 +213,9 @@
             this.lblPlannedQuantity.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblPlannedQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPlannedQuantity.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblPlannedQuantity.Location = new System.Drawing.Point(296, 34);
+            this.lblPlannedQuantity.Location = new System.Drawing.Point(296, 36);
             this.lblPlannedQuantity.Name = "lblPlannedQuantity";
-            this.lblPlannedQuantity.Size = new System.Drawing.Size(83, 26);
+            this.lblPlannedQuantity.Size = new System.Drawing.Size(126, 26);
             this.lblPlannedQuantity.TabIndex = 22;
             this.lblPlannedQuantity.Text = "0";
             this.lblPlannedQuantity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -194,7 +223,7 @@
             // lblUoM
             // 
             this.lblUoM.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUoM.Location = new System.Drawing.Point(378, 42);
+            this.lblUoM.Location = new System.Drawing.Point(422, 43);
             this.lblUoM.Name = "lblUoM";
             this.lblUoM.Size = new System.Drawing.Size(34, 13);
             this.lblUoM.TabIndex = 21;
@@ -205,7 +234,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(305, 16);
+            this.label9.Location = new System.Drawing.Point(329, 19);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(62, 13);
             this.label9.TabIndex = 10;
@@ -324,20 +353,6 @@
             this.picBoxWaitWC.TabStop = false;
             this.picBoxWaitWC.Visible = false;
             // 
-            // btnReloadWO
-            // 
-            this.btnReloadWO.BackColor = System.Drawing.Color.Transparent;
-            this.btnReloadWO.BackgroundImage = global::WOW_Fusion.Properties.Resources.upload_01;
-            this.btnReloadWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnReloadWO.FlatAppearance.BorderSize = 0;
-            this.btnReloadWO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReloadWO.Location = new System.Drawing.Point(420, 34);
-            this.btnReloadWO.Name = "btnReloadWO";
-            this.btnReloadWO.Size = new System.Drawing.Size(36, 34);
-            this.btnReloadWO.TabIndex = 26;
-            this.btnReloadWO.UseVisualStyleBackColor = false;
-            this.btnReloadWO.Click += new System.EventHandler(this.btnReloadWO_Click);
-            // 
             // btnPrintPallet
             // 
             this.btnPrintPallet.BackColor = System.Drawing.SystemColors.ActiveCaption;
@@ -393,6 +408,27 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ubicación";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(79, 89);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(55, 13);
+            this.label7.TabIndex = 123;
+            this.label7.Text = "Ubicación";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblLocationCode
+            // 
+            this.lblLocationCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblLocationCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLocationCode.Location = new System.Drawing.Point(13, 103);
+            this.lblLocationCode.Name = "lblLocationCode";
+            this.lblLocationCode.Size = new System.Drawing.Size(205, 15);
+            this.lblLocationCode.TabIndex = 122;
+            this.lblLocationCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // lblBusinessUnit
             // 
             this.lblBusinessUnit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -443,7 +479,7 @@
             this.lblWorkAreaName.Name = "lblWorkAreaName";
             this.lblWorkAreaName.Size = new System.Drawing.Size(187, 21);
             this.lblWorkAreaName.TabIndex = 16;
-            this.lblWorkAreaName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblWorkAreaName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label19
             // 
@@ -477,58 +513,6 @@
             this.label26.Text = "Código Organización";
             this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblEquipmentInstanceName
-            // 
-            this.lblEquipmentInstanceName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEquipmentInstanceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEquipmentInstanceName.Location = new System.Drawing.Point(269, 159);
-            this.lblEquipmentInstanceName.Name = "lblEquipmentInstanceName";
-            this.lblEquipmentInstanceName.Size = new System.Drawing.Size(187, 15);
-            this.lblEquipmentInstanceName.TabIndex = 123;
-            this.lblEquipmentInstanceName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblEquipmentInstanceCode
-            // 
-            this.lblEquipmentInstanceCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEquipmentInstanceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEquipmentInstanceCode.Location = new System.Drawing.Point(83, 160);
-            this.lblEquipmentInstanceCode.Name = "lblEquipmentInstanceCode";
-            this.lblEquipmentInstanceCode.Size = new System.Drawing.Size(160, 15);
-            this.lblEquipmentInstanceCode.TabIndex = 122;
-            this.lblEquipmentInstanceCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(19, 160);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(51, 13);
-            this.label10.TabIndex = 120;
-            this.label10.Text = "Máquina:";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblLocationCode
-            // 
-            this.lblLocationCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblLocationCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLocationCode.Location = new System.Drawing.Point(13, 103);
-            this.lblLocationCode.Name = "lblLocationCode";
-            this.lblLocationCode.Size = new System.Drawing.Size(205, 15);
-            this.lblLocationCode.TabIndex = 122;
-            this.lblLocationCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(79, 89);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(55, 13);
-            this.label7.TabIndex = 123;
-            this.label7.Text = "Ubicación";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // frmLabelP1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -559,7 +543,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label lblItemNumber;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Button btnReloadWO;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label lblResourceDescription;
         private System.Windows.Forms.Label lblResourceCode;
