@@ -52,6 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Services\APIService.cs" />
     <Compile Include="frmLabelP1.cs">
       <SubType>Form</SubType>
@@ -89,6 +90,7 @@
     <Compile Include="Controllers\RadwagController.cs" />
     <Compile Include="Controllers\ZebraController.cs" />
     <Compile Include="Services\LabelService.cs" />
+    <Compile Include="Services\StaticApiService.cs" />
     <EmbeddedResource Include="frmLabelP1.resx">
       <DependentUpon>frmLabelP1.cs</DependentUpon>
     </EmbeddedResource>
