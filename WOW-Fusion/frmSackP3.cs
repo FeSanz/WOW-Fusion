@@ -19,7 +19,8 @@ namespace WOW_Fusion
 
         private void dgWeights_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            string json = null; 
+            StaticApiService.PostRequest(Constants.FusionUrl+Constants.ObtenerTodasLasOrdenes+"&size=5;proveedor=", json);
         }
     }
 }

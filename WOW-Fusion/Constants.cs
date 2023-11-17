@@ -18,5 +18,7 @@ namespace WOW_Fusion
         public static readonly string FusionUrl = "https://iapxqy-test.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05";
         public static readonly string AuthenticationUser = "felipe.antonio@i-condor.com";
         public static readonly string AuthenticationPassword = "CondorXR112";
+
+        public static readonly string ObtenerTodasLasOrdenes = "/PurchaseOrdersForReceiving";
     }
 }
