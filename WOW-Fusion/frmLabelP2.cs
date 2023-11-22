@@ -42,6 +42,9 @@ namespace WOW_Fusion
         private float _tareWeight = 0;
         private float _palletWeight = 0;
 
+        private dynamic productionResoucesMachines = null;
+
+        private int machinesCount = 0;
 
         public frmLabelP2()
         {
@@ -54,11 +57,13 @@ namespace WOW_Fusion
             api = new APIService();
             weighing = new RadwagController();
             pop = new PopController();
+            label  = new LabelService();
 
             btnGetWeight.Text = "TARA";
 
             RequestOrganizationData();
             RequestWorkOrdersList();
+            RequestProductionResourcesMachines();
 
             pictureLabel.Image = Image.FromStream(label.Create());
         }
@@ -87,13 +92,46 @@ namespace WOW_Fusion
             }
         }
 
+        private async void RequestProductionResourcesMachines()
+        {
+            try
+            {
+                Task<string> tskresourcesMachines = api.GetRequestAsync("/productionResources?limit=500&totalResults=true&onlyData=true&fields=ResourceId&" +
+                                                                        "q=OrganizationId=" + organizationId + " and ResourceType='EQUIPMENT' and ResourceCode like 'MF-LAM%'");
+                string response = await tskresourcesMachines;
+
+                if (string.IsNullOrEmpty(response))
+                {
+                    Exit("Sin recursos de producción, la aplicacion se cerrará");
+                }
+
+                productionResoucesMachines = JsonConvert.DeserializeObject<dynamic>(response);
+                machinesCount = (int)productionResoucesMachines["count"];
+
+                if (machinesCount == 0)
+                {
+                    Exit("Sin recursos de producción, la aplicacion se cerrará");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void Exit(string message)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            Application.Exit();
+        }
+
         private async void RequestWorkOrdersList()
         {
             try
             {
                 pop.Show(this);
-                Task<string> tskWorkOrdersList = api.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&fields=WorkOrderNumber&" +
+                Task<string> tskWorkOrdersList = api.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&fields=WorkOrderNumber,ItemNumber&" +
                                                                     "q=OrganizationId=" + organizationId + " and WorkOrderStatusCode='ORA_RELEASED'");
+                                                                    //"and WorkOrderOperation.WorkCenterId=300000003523428");
                 string response = await tskWorkOrdersList;
                 pop.Close();
                 if (!string.IsNullOrEmpty(response))
@@ -132,34 +170,58 @@ namespace WOW_Fusion
             string selectedWO = cmbWorkOrders.SelectedItem.ToString();
             try
             {
-                Task<string> tskWorkOrdersData = api.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&expand=WorkOrderOperation&" +
-                                                                    "fields=WorkOrderId,WorkOrderNumber,WorkOrderStatusCode,ItemNumber,Description,UOMCode;" +
-                                                                    "WorkOrderOperation:OperationSequenceNumber,OperationName,PlannedStartDate," +
-                                                                    "PlannedCompletionDate,ReadyQuantity,CompletedQuantity&" +
-                                                                    "q=OrganizationId=" + organizationId + ";WorkOrderStatusCode=ORA_RELEASED;WorkOrderNumber=" + selectedWO);
+                Task<string> tskWorkOrdersData = api.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&" +
+                                                                    "expand=WorkOrderResource.WorkOrderOperationResourceInstance&" +
+                                                                    "fields=WorkOrderId,ItemNumber,Description,UOMCode,PlannedStartQuantity,PlannedStartDate,PlannedCompletionDate;" +
+                                                                    "WorkOrderResource:ResourceId,ResourceCode,ResourceDescription;" +
+                                                                    "WorkOrderResource.WorkOrderOperationResourceInstance:" +
+                                                                    "EquipmentInstanceId,EquipmentInstanceCode,EquipmentInstanceName&" +
+                                                                    "q=WorkOrderNumber='" + cmbWorkOrders.SelectedItem.ToString() + "'");
                 string response = await tskWorkOrdersData;
-                if (!string.IsNullOrEmpty(response))
+                if (string.IsNullOrEmpty(response)) { return; }
+
+                dynamic doWorkOrder = JsonConvert.DeserializeObject<dynamic>(response);
+
+                lblPlannedQuantity.Text = doWorkOrder["items"][0]["PlannedStartQuantity"].ToString();
+                lblUoM.Text = doWorkOrder["items"][0]["UOMCode"].ToString();
+
+                lblItemNumber.Text = doWorkOrder["items"][0]["ItemNumber"].ToString();
+                lblItemDescription.Text = doWorkOrder["items"][0]["Description"].ToString();
+                lblPlannedStartDate.Text = doWorkOrder["items"][0]["PlannedStartDate"].ToString();
+                lblPlannedCompletionDate.Text = doWorkOrder["items"][0]["PlannedCompletionDate"].ToString();
+
+                int countResources = (int)doWorkOrder["items"][0]["WorkOrderResource"]["count"];
+                if (countResources >= 1)
                 {
-                    var doWorkOrderData = JsonConvert.DeserializeObject<dynamic>(response);
+                    int indexMachine = -1;
 
-                    lblPlannedQuantity.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["ReadyQuantity"];
-                    lblCompletedQuantity.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["CompletedQuantity"];
-
-                    lblOperation.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["OperationName"];
-
-                    lblPlannedStartDate.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["PlannedStartDate"];
-                    lblPlannedCompletionDate.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["PlannedCompletionDate"];
-
-                    //lblMachineCode.Text = (string)doWorkOrderData["items"][0]["WorkOrderOperation"][1]["PlannedStartDate"];
-                    //lblMachineName.Text = (string)doWorkOrderData["items"][0]["PlannedStartDate"];
-
-                    lblItemNumber.Text = (string)doWorkOrderData["items"][0]["ItemNumber"];
-                    lblItemDescription.Text = (string)doWorkOrderData["items"][0]["Description"];
-                    lblUoM.Text = (string)doWorkOrderData["items"][0]["UOMCode"];
+                    for (int i = 0; i < countResources; i++)
+                    {
+                        for (int j = 0; j < machinesCount; j++)
+                        {
+                            string resourceIdWO = doWorkOrder["items"][0]["WorkOrderResource"]["items"][i]["ResourceId"].ToString();
+                            string resourceIdPR = productionResoucesMachines["items"][j]["ResourceId"].ToString();
+                            if (resourceIdWO.Equals(resourceIdPR))
+                            {
+                                indexMachine = i;
+                            }
+                        }
+                    }
+                    if (indexMachine >= 0)
+                    {
+                        lblResourceCode.Text = doWorkOrder["items"][0]["WorkOrderResource"]["items"][indexMachine]["ResourceCode"].ToString();
+                        lblResourceDescription.Text = doWorkOrder["items"][0]["WorkOrderResource"]["items"][indexMachine]["ResourceDescription"].ToString();
+                        lblEquipmentInstanceCode.Text = doWorkOrder["items"][0]["WorkOrderResource"]["items"][indexMachine]["WorkOrderOperationResourceInstance"]["items"][0]["EquipmentInstanceCode"].ToString();
+                        lblEquipmentInstanceName.Text = doWorkOrder["items"][0]["WorkOrderResource"]["items"][indexMachine]["WorkOrderOperationResourceInstance"]["items"][0]["EquipmentInstanceName"].ToString();
+                    }
+                    else
+                    {
+                        pop.Notifier("Datos de máquina no encontrados", Resources.warning_icon);
+                    }
                 }
                 else
                 {
-                    pop.Notifier("No se encontraron datos", null);
+                    pop.Notifier("Orden sin recursos", Resources.warning_icon);
                 }
             }
             catch (Exception ex)

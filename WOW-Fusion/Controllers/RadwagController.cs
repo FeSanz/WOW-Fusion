@@ -12,7 +12,7 @@ namespace WOW_Fusion
     internal class RadwagController
     {
         //private string ip = "172.16.100.207";
-        private string ip = "192.168.12.4";
+        private string ip = "192.168.12.5";
         private int port = 4001;
 
         public string SocketWeighing(string command)

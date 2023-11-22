@@ -14,7 +14,7 @@ namespace WOW_Fusion.Services
     {
         public Stream Create()
         {
-            var linesRead = File.ReadLines(@"D:\\WoW\Etiquetas\Zebra Designer\FTP00DL.prn");
+            var linesRead = File.ReadLines(@"D:\WoW\Etiquetas\ETQP2\FTP00DL.prn");
             string line = "";
             foreach (var lineRead in linesRead)
             {

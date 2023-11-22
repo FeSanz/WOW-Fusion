@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLabelP2));
-            this.lblMachineName = new System.Windows.Forms.Label();
-            this.lblMachineCode = new System.Windows.Forms.Label();
+            this.lblResourceDescription = new System.Windows.Forms.Label();
+            this.lblResourceCode = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.lblPlannedQuantity = new System.Windows.Forms.Label();
             this.lblUoM = new System.Windows.Forms.Label();
@@ -82,6 +82,11 @@
             this.lblPalletGross = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lblPalletNumber = new System.Windows.Forms.Label();
+            this.lblWorkCenter = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lblEquipmentInstanceName = new System.Windows.Forms.Label();
+            this.lblEquipmentInstanceCode = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgWeights)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -90,25 +95,25 @@
             ((System.ComponentModel.ISupportInitialize)(this.picBoxLogo)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblMachineName
+            // lblResourceDescription
             // 
-            this.lblMachineName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblMachineName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMachineName.Location = new System.Drawing.Point(287, 125);
-            this.lblMachineName.Name = "lblMachineName";
-            this.lblMachineName.Size = new System.Drawing.Size(187, 15);
-            this.lblMachineName.TabIndex = 25;
-            this.lblMachineName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblResourceDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblResourceDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblResourceDescription.Location = new System.Drawing.Point(287, 125);
+            this.lblResourceDescription.Name = "lblResourceDescription";
+            this.lblResourceDescription.Size = new System.Drawing.Size(187, 15);
+            this.lblResourceDescription.TabIndex = 25;
+            this.lblResourceDescription.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // lblMachineCode
+            // lblResourceCode
             // 
-            this.lblMachineCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblMachineCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMachineCode.Location = new System.Drawing.Point(101, 127);
-            this.lblMachineCode.Name = "lblMachineCode";
-            this.lblMachineCode.Size = new System.Drawing.Size(160, 15);
-            this.lblMachineCode.TabIndex = 24;
-            this.lblMachineCode.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblResourceCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblResourceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblResourceCode.Location = new System.Drawing.Point(101, 127);
+            this.lblResourceCode.Name = "lblResourceCode";
+            this.lblResourceCode.Size = new System.Drawing.Size(160, 15);
+            this.lblResourceCode.TabIndex = 24;
+            this.lblResourceCode.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label22
             // 
@@ -116,9 +121,9 @@
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label22.Location = new System.Drawing.Point(39, 127);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(51, 13);
+            this.label22.Size = new System.Drawing.Size(50, 13);
             this.label22.TabIndex = 23;
-            this.label22.Text = "Máquina:";
+            this.label22.Text = "Recurso:";
             this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblPlannedQuantity
@@ -175,9 +180,12 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lblEquipmentInstanceName);
+            this.groupBox1.Controls.Add(this.lblEquipmentInstanceCode);
+            this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.btnReloadWO);
-            this.groupBox1.Controls.Add(this.lblMachineName);
-            this.groupBox1.Controls.Add(this.lblMachineCode);
+            this.groupBox1.Controls.Add(this.lblResourceDescription);
+            this.groupBox1.Controls.Add(this.lblResourceCode);
             this.groupBox1.Controls.Add(this.label22);
             this.groupBox1.Controls.Add(this.lblPlannedQuantity);
             this.groupBox1.Controls.Add(this.lblUoM);
@@ -195,7 +203,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(12, 67);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(514, 160);
+            this.groupBox1.Size = new System.Drawing.Size(514, 184);
             this.groupBox1.TabIndex = 61;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Orden de trabajo";
@@ -311,26 +319,26 @@
             // dgWeights
             // 
             this.dgWeights.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgWeights.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgWeights.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dgWeights.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgWeights.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dgWeights.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Tai Le", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgWeights.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Tai Le", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgWeights.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgWeights.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgWeights.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.No,
             this.NoRollo,
             this.Peso});
-            this.dgWeights.Location = new System.Drawing.Point(12, 240);
+            this.dgWeights.Location = new System.Drawing.Point(12, 262);
             this.dgWeights.Name = "dgWeights";
             this.dgWeights.ReadOnly = true;
             this.dgWeights.RowTemplate.Height = 45;
@@ -342,8 +350,8 @@
             // No
             // 
             this.No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.No.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.No.DefaultCellStyle = dataGridViewCellStyle8;
             this.No.HeaderText = "No. Rollo";
             this.No.Name = "No";
             this.No.ReadOnly = true;
@@ -351,16 +359,16 @@
             // 
             // NoRollo
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.NoRollo.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.NoRollo.DefaultCellStyle = dataGridViewCellStyle9;
             this.NoRollo.HeaderText = "Peso Neto (Kg)";
             this.NoRollo.Name = "NoRollo";
             this.NoRollo.ReadOnly = true;
             // 
             // Peso
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Peso.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Peso.DefaultCellStyle = dataGridViewCellStyle10;
             this.Peso.HeaderText = "Peso Bruto (Kg)";
             this.Peso.Name = "Peso";
             this.Peso.ReadOnly = true;
@@ -376,7 +384,7 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(532, 67);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(459, 160);
+            this.groupBox2.Size = new System.Drawing.Size(459, 184);
             this.groupBox2.TabIndex = 65;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos del producto";
@@ -448,7 +456,7 @@
             // 
             this.groupBox3.Controls.Add(this.pictureLabel);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(532, 240);
+            this.groupBox3.Location = new System.Drawing.Point(532, 262);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(459, 223);
             this.groupBox3.TabIndex = 68;
@@ -514,7 +522,7 @@
             // 
             this.btnPrintPallet.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.btnPrintPallet.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrintPallet.Location = new System.Drawing.Point(871, 471);
+            this.btnPrintPallet.Location = new System.Drawing.Point(871, 493);
             this.btnPrintPallet.Name = "btnPrintPallet";
             this.btnPrintPallet.Size = new System.Drawing.Size(120, 54);
             this.btnPrintPallet.TabIndex = 69;
@@ -561,7 +569,7 @@
             this.lblPalletTare.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblPalletTare.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPalletTare.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.lblPalletTare.Location = new System.Drawing.Point(12, 471);
+            this.lblPalletTare.Location = new System.Drawing.Point(12, 493);
             this.lblPalletTare.Name = "lblPalletTare";
             this.lblPalletTare.Size = new System.Drawing.Size(83, 34);
             this.lblPalletTare.TabIndex = 112;
@@ -571,7 +579,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(36, 508);
+            this.label5.Location = new System.Drawing.Point(36, 530);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(36, 13);
             this.label5.TabIndex = 111;
@@ -582,7 +590,7 @@
             this.lblPalletNet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblPalletNet.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPalletNet.ForeColor = System.Drawing.Color.Green;
-            this.lblPalletNet.Location = new System.Drawing.Point(147, 471);
+            this.lblPalletNet.Location = new System.Drawing.Point(147, 493);
             this.lblPalletNet.Name = "lblPalletNet";
             this.lblPalletNet.Size = new System.Drawing.Size(83, 34);
             this.lblPalletNet.TabIndex = 110;
@@ -592,7 +600,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(311, 508);
+            this.label11.Location = new System.Drawing.Point(311, 530);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(45, 13);
             this.label11.TabIndex = 108;
@@ -602,7 +610,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(172, 508);
+            this.label13.Location = new System.Drawing.Point(172, 530);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(37, 13);
             this.label13.TabIndex = 107;
@@ -613,7 +621,7 @@
             this.lblPalletGross.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblPalletGross.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPalletGross.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblPalletGross.Location = new System.Drawing.Point(291, 471);
+            this.lblPalletGross.Location = new System.Drawing.Point(291, 493);
             this.lblPalletGross.Name = "lblPalletGross";
             this.lblPalletGross.Size = new System.Drawing.Size(83, 34);
             this.lblPalletGross.TabIndex = 106;
@@ -623,7 +631,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(463, 508);
+            this.label8.Location = new System.Drawing.Point(463, 530);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(47, 13);
             this.label8.TabIndex = 114;
@@ -634,17 +642,71 @@
             this.lblPalletNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblPalletNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPalletNumber.ForeColor = System.Drawing.Color.Black;
-            this.lblPalletNumber.Location = new System.Drawing.Point(443, 471);
+            this.lblPalletNumber.Location = new System.Drawing.Point(443, 493);
             this.lblPalletNumber.Name = "lblPalletNumber";
             this.lblPalletNumber.Size = new System.Drawing.Size(83, 34);
             this.lblPalletNumber.TabIndex = 113;
             this.lblPalletNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // lblWorkCenter
+            // 
+            this.lblWorkCenter.AutoSize = true;
+            this.lblWorkCenter.Font = new System.Drawing.Font("Microsoft New Tai Lue", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWorkCenter.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblWorkCenter.Location = new System.Drawing.Point(726, 48);
+            this.lblWorkCenter.Name = "lblWorkCenter";
+            this.lblWorkCenter.Size = new System.Drawing.Size(15, 15);
+            this.lblWorkCenter.TabIndex = 115;
+            this.lblWorkCenter.Text = "--";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(634, 48);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(91, 13);
+            this.label6.TabIndex = 116;
+            this.label6.Text = "Centro de trabajo:";
+            // 
+            // lblEquipmentInstanceName
+            // 
+            this.lblEquipmentInstanceName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEquipmentInstanceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEquipmentInstanceName.Location = new System.Drawing.Point(288, 151);
+            this.lblEquipmentInstanceName.Name = "lblEquipmentInstanceName";
+            this.lblEquipmentInstanceName.Size = new System.Drawing.Size(187, 15);
+            this.lblEquipmentInstanceName.TabIndex = 29;
+            this.lblEquipmentInstanceName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lblEquipmentInstanceCode
+            // 
+            this.lblEquipmentInstanceCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEquipmentInstanceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEquipmentInstanceCode.Location = new System.Drawing.Point(102, 153);
+            this.lblEquipmentInstanceCode.Name = "lblEquipmentInstanceCode";
+            this.lblEquipmentInstanceCode.Size = new System.Drawing.Size(160, 15);
+            this.lblEquipmentInstanceCode.TabIndex = 28;
+            this.lblEquipmentInstanceCode.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(40, 153);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(51, 13);
+            this.label15.TabIndex = 27;
+            this.label15.Text = "Máquina:";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // frmLabelP2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1005, 539);
+            this.ClientSize = new System.Drawing.Size(1005, 556);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.lblWorkCenter);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.lblPalletNumber);
             this.Controls.Add(this.lblPalletTare);
@@ -684,8 +746,8 @@
 
         #endregion
         private System.Windows.Forms.Button btnReloadWO;
-        private System.Windows.Forms.Label lblMachineName;
-        private System.Windows.Forms.Label lblMachineCode;
+        private System.Windows.Forms.Label lblResourceDescription;
+        private System.Windows.Forms.Label lblResourceCode;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label lblPlannedQuantity;
         private System.Windows.Forms.Label lblUoM;
@@ -731,5 +793,10 @@
         private System.Windows.Forms.Label lblPalletGross;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblPalletNumber;
+        private System.Windows.Forms.Label lblWorkCenter;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblEquipmentInstanceName;
+        private System.Windows.Forms.Label lblEquipmentInstanceCode;
+        private System.Windows.Forms.Label label15;
     }
 }
