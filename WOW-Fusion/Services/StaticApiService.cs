@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tulpep.NotificationWindow;
 
 namespace WOW_Fusion
 {
@@ -142,6 +146,43 @@ namespace WOW_Fusion
             catch (WebException ex)
             {
                 MessageBox.Show("Error POST. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        public static async Task<List<string>> RequestWorkOrdersList(string organizationId)
+        {
+            try
+            {
+                string response = await GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&fields=WorkOrderNumber&" +
+                                                        "q=OrganizationId=" + organizationId + " and WorkOrderStatusCode='ORA_RELEASED'");
+                if (!string.IsNullOrEmpty(response))
+                {
+                    var jObject = JObject.Parse(response);
+
+                    // Extract the "items" array
+                    var items = jObject["items"];
+
+                    // Initialize the list to hold the WorkOrderNumbers
+                    List<string> workOrderNumbers = new List<string>();
+
+                    foreach (var item in items)
+                    {
+                        // Add the WorkOrderNumber to the list
+                        workOrderNumbers.Add(item["WorkOrderNumber"].ToString());
+                    }
+
+                    return workOrderNumbers;
+
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }

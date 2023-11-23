@@ -30,10 +30,10 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSackP3));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSackP3));
             this.lblItemNumber = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.lblItemDescription = new System.Windows.Forms.Label();
@@ -61,6 +61,9 @@
             this.cmbWorkOrders = new System.Windows.Forms.ComboBox();
             this.lblLocationCode = new System.Windows.Forms.Label();
             this.dgWeights = new System.Windows.Forms.DataGridView();
+            this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NoRollo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Peso = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -69,9 +72,6 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NoRollo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Peso = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgWeights)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -363,6 +363,8 @@
             this.cmbWorkOrders.Size = new System.Drawing.Size(142, 21);
             this.cmbWorkOrders.TabIndex = 0;
             this.cmbWorkOrders.Text = "Seleccione orden";
+            this.cmbWorkOrders.DropDown += new System.EventHandler(this.cmbWorkOrders_DropDown);
+            this.cmbWorkOrders.SelectedIndexChanged += new System.EventHandler(this.cmbWorkOrders_SelectedIndexChanged);
             // 
             // lblLocationCode
             // 
@@ -404,6 +406,32 @@
             this.dgWeights.Size = new System.Drawing.Size(514, 171);
             this.dgWeights.TabIndex = 86;
             this.dgWeights.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgWeights_CellContentClick);
+            // 
+            // No
+            // 
+            this.No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.No.DefaultCellStyle = dataGridViewCellStyle3;
+            this.No.HeaderText = "No.";
+            this.No.Name = "No";
+            this.No.ReadOnly = true;
+            this.No.Width = 50;
+            // 
+            // NoRollo
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.NoRollo.DefaultCellStyle = dataGridViewCellStyle4;
+            this.NoRollo.HeaderText = "Peso Neto (Kg)";
+            this.NoRollo.Name = "NoRollo";
+            this.NoRollo.ReadOnly = true;
+            // 
+            // Peso
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Peso.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Peso.HeaderText = "Peso Bruto (Kg)";
+            this.Peso.Name = "Peso";
+            this.Peso.ReadOnly = true;
             // 
             // pictureBox1
             // 
@@ -490,32 +518,6 @@
             this.label13.TabIndex = 106;
             this.label13.Text = "0";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // No
-            // 
-            this.No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.No.DefaultCellStyle = dataGridViewCellStyle3;
-            this.No.HeaderText = "No.";
-            this.No.Name = "No";
-            this.No.ReadOnly = true;
-            this.No.Width = 50;
-            // 
-            // NoRollo
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.NoRollo.DefaultCellStyle = dataGridViewCellStyle4;
-            this.NoRollo.HeaderText = "Peso Neto (Kg)";
-            this.NoRollo.Name = "NoRollo";
-            this.NoRollo.ReadOnly = true;
-            // 
-            // Peso
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Peso.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Peso.HeaderText = "Peso Bruto (Kg)";
-            this.Peso.Name = "Peso";
-            this.Peso.ReadOnly = true;
             // 
             // frmSackP3
             // 

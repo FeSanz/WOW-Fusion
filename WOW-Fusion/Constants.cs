@@ -11,6 +11,7 @@ namespace WOW_Fusion
         public const int DefaultTimeoutSeconds = 30;
         public const string ApplicationId = "YOUR_APPLICATION_ID";
         public const string ApiKey = "YOUR_API_KEY";
+        public const string organizationId = "300000002650049";
         public const bool EnableLogging = true;
         public static readonly DateTime ApplicationLaunchDate = new DateTime(2023, 1, 1);
 

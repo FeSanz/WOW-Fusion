@@ -60,7 +60,7 @@ namespace WOW_Fusion
             RequestWorkOrdersList();
             RequestProductionResourcesMachines();
 
-            //pictureLabel.Image = Image.FromStream(LabelService.CreateFromFile());
+            //pictureLabel.Image = Image.FromStream(label.Create());
         }
 
         private async void RequestOrganizationData()
@@ -308,7 +308,9 @@ namespace WOW_Fusion
                 lblPalletWeight.Text = palletWeight.ToString() + " KG";*/
             }
         }
+
        
+
         private void dgWeight_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex < 0)

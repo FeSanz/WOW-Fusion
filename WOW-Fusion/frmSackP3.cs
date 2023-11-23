@@ -22,5 +22,24 @@ namespace WOW_Fusion
             string json = null; 
             StaticApiService.PostRequest(Constants.FusionUrl+Constants.ObtenerTodasLasOrdenes+"&size=5;proveedor=", json);
         }
+
+        private async void cmbWorkOrders_DropDown(object sender, EventArgs e)
+        {
+            if (cmbWorkOrders != null)
+            {
+                cmbWorkOrders.Items.Clear();
+                List<string> workOrdersList = new List<string> { "Seleccione orden" };
+                workOrdersList.AddRange(await StaticApiService.RequestWorkOrdersList(Constants.organizationId));
+                foreach (var item in workOrdersList)
+                {
+                    cmbWorkOrders.Items.Add(item);
+                }
+            }
+        }
+
+        private void cmbWorkOrders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

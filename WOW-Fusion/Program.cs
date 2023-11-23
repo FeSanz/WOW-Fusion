@@ -16,7 +16,7 @@ namespace WOW_Fusion
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmPetP3());
+            Application.Run(new frmLabelP2());
         }
     }
 }
