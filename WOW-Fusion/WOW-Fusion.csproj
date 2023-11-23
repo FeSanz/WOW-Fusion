@@ -89,6 +89,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\RadwagController.cs" />
     <Compile Include="Controllers\ZebraController.cs" />
+    <Compile Include="Services\DateService.cs" />
     <Compile Include="Services\LabelService.cs" />
     <Compile Include="Services\StaticApiService.cs" />
     <EmbeddedResource Include="frmLabelP1.resx">
@@ -155,6 +156,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\warning_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LabelP1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

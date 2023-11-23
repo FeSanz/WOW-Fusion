@@ -25,9 +25,6 @@ namespace WOW_Fusion
     {
         Random rnd = new Random();
 
-        APIService api;
-        LabelService label;
-
         RadwagController weighing;
         PopController pop;
 
@@ -54,10 +51,8 @@ namespace WOW_Fusion
         private void frmLabelP2_Load(object sender, EventArgs e)
         {
             //lblVersion.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            api = new APIService();
             weighing = new RadwagController();
-            pop = new PopController();
-            label  = new LabelService();
+            pop = new PopController();;
 
             btnGetWeight.Text = "TARA";
 
@@ -65,14 +60,14 @@ namespace WOW_Fusion
             RequestWorkOrdersList();
             RequestProductionResourcesMachines();
 
-            pictureLabel.Image = Image.FromStream(label.Create());
+            //pictureLabel.Image = Image.FromStream(LabelService.CreateFromFile());
         }
 
         private async void RequestOrganizationData()
         {
             try
             {
-                Task<string> tskOrganizationData = api.GetRequestAsync("/inventoryOrganizations?fields=OrganizationId,OrganizationCode,OrganizationName,LocationCode&onlyData=true" +
+                Task<string> tskOrganizationData = APIService.GetRequestAsync("/inventoryOrganizations?fields=OrganizationId,OrganizationCode,OrganizationName,LocationCode&onlyData=true" +
                                                                      "&limit=500&totalResults=true&q=OrganizationId=" + organizationId);
                 string response = await tskOrganizationData;
                 if (!string.IsNullOrEmpty(response))
@@ -96,7 +91,7 @@ namespace WOW_Fusion
         {
             try
             {
-                Task<string> tskresourcesMachines = api.GetRequestAsync("/productionResources?limit=500&totalResults=true&onlyData=true&fields=ResourceId&" +
+                Task<string> tskresourcesMachines = APIService.GetRequestAsync("/productionResources?limit=500&totalResults=true&onlyData=true&fields=ResourceId&" +
                                                                         "q=OrganizationId=" + organizationId + " and ResourceType='EQUIPMENT' and ResourceCode like 'MF-LAM%'");
                 string response = await tskresourcesMachines;
 
@@ -129,7 +124,7 @@ namespace WOW_Fusion
             try
             {
                 pop.Show(this);
-                Task<string> tskWorkOrdersList = api.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&fields=WorkOrderNumber,ItemNumber&" +
+                Task<string> tskWorkOrdersList = APIService.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&fields=WorkOrderNumber,ItemNumber&" +
                                                                     "q=OrganizationId=" + organizationId + " and WorkOrderStatusCode='ORA_RELEASED'");
                                                                     //"and WorkOrderOperation.WorkCenterId=300000003523428");
                 string response = await tskWorkOrdersList;
@@ -170,7 +165,7 @@ namespace WOW_Fusion
             string selectedWO = cmbWorkOrders.SelectedItem.ToString();
             try
             {
-                Task<string> tskWorkOrdersData = api.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&" +
+                Task<string> tskWorkOrdersData = APIService.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&" +
                                                                     "expand=WorkOrderResource.WorkOrderOperationResourceInstance&" +
                                                                     "fields=WorkOrderId,ItemNumber,Description,UOMCode,PlannedStartQuantity,PlannedStartDate,PlannedCompletionDate;" +
                                                                     "WorkOrderResource:ResourceId,ResourceCode,ResourceDescription;" +

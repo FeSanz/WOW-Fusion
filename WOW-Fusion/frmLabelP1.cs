@@ -13,15 +13,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
 using WOW_Fusion.Services;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace WOW_Fusion
 {
     public partial class frmLabelP1 : Form
     {
-        APIService api;
-        LabelService label;
-
         PopController pop;
 
         //Fusion parametros
@@ -45,14 +41,12 @@ namespace WOW_Fusion
 
         private void frmLabelP1_Load(object sender, EventArgs e)
         {
-            api = new APIService();
-            label = new LabelService();
             pop = new PopController();
-
-            picBoxWaitWO.Visible = false;
+            lblAdditional.Text = trackBarPercentageAdd.Value.ToString() + "%";
 
             RequestOrganization();
         }
+
         private void Exit(string message)
         {
             MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -63,7 +57,7 @@ namespace WOW_Fusion
         {
             try
             {
-                Task<string> tskOrganizationData = api.GetRequestAsync("/inventoryOrganizations?limit=500&totalResults=true&onlyData=true&" +
+                Task<string> tskOrganizationData = APIService.GetRequestAsync("/inventoryOrganizations?limit=500&totalResults=true&onlyData=true&" +
                                                                         "fields=OrganizationId,OrganizationCode,OrganizationName,LocationCode,ManagementBusinessUnitName&" +
                                                                         "q=OrganizationId=" + organizationId);
                 string response = await tskOrganizationData;
@@ -81,7 +75,7 @@ namespace WOW_Fusion
                     lblOrganizationCode.Text = organization["items"][0]["OrganizationCode"].ToString();
                     lblOrganizationName.Text = organization["items"][0]["OrganizationName"].ToString();
                     lblLocationCode.Text = organization["items"][0]["LocationCode"].ToString();
-                    lblBusinessUnit.Text = organization["items"][0]["ManagementBusinessUnitName"].ToString();
+                    //lblBusinessUnit.Text = organization["items"][0]["ManagementBusinessUnitName"].ToString();
 
                     RequestProductionResourcesMachines();
                 }
@@ -101,7 +95,7 @@ namespace WOW_Fusion
         {
             try
             {
-                Task<string> tskresourcesMachines = api.GetRequestAsync("/productionResources?limit=500&totalResults=true&onlyData=true&fields=ResourceId&" +
+                Task<string> tskresourcesMachines = APIService.GetRequestAsync("/productionResources?limit=500&totalResults=true&onlyData=true&fields=ResourceId&" +
                                                                         "q=OrganizationId="+ organizationId +" and ResourceType='EQUIPMENT' and ResourceClassCode='EQU'");
                 string response = await tskresourcesMachines;
 
@@ -130,7 +124,7 @@ namespace WOW_Fusion
             picBoxWaitWC.Visible = true;
             try
             {
-                Task<string> tskWorkCenters = api.GetRequestAsync("/workCenters?limit=500&totalResults=true&onlyData=true&" +
+                Task<string> tskWorkCenters = APIService.GetRequestAsync("/workCenters?limit=500&totalResults=true&onlyData=true&" +
                                                                     "fields=WorkCenterId,WorkCenterName,WorkAreaId,WorkAreaName&" +
                                                                     "q=OrganizationId=" +organizationId);
                 string response = await tskWorkCenters;
@@ -167,7 +161,7 @@ namespace WOW_Fusion
             try
             {
                 picBoxWaitWO.Visible = true;
-                Task<string> tskWorkOrdersList = api.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&fields=WorkOrderNumber,ItemNumber&" +
+                Task<string> tskWorkOrdersList = APIService.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&fields=WorkOrderNumber,ItemNumber&" +
                                                                     "q=OrganizationId=" + organizationId + " and WorkOrderStatusCode='ORA_RELEASED' " +
                                                                     "and WorkOrderActiveOperation.WorkCenterId=" + workCenterId);
                 string response = await tskWorkOrdersList;
@@ -239,7 +233,7 @@ namespace WOW_Fusion
                 CleanUIWorkOrders();
                 try
                 {
-                    Task<string> tskWorkOrdersData = api.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&" +
+                    Task<string> tskWorkOrdersData = APIService.GetRequestAsync("/workOrders?limit=500&totalResults=true&onlyData=true&" +
                                                                         "expand=WorkOrderResource.WorkOrderOperationResourceInstance&" +
                                                                         "fields=WorkOrderId,ItemNumber,Description,UOMCode,PlannedStartQuantity,PlannedStartDate,PlannedCompletionDate;" +
                                                                         "WorkOrderResource:ResourceId,ResourceCode,ResourceDescription;" +
@@ -258,6 +252,10 @@ namespace WOW_Fusion
                     lblItemDescription.Text = doWorkOrder["items"][0]["Description"].ToString();
                     lblPlannedStartDate.Text = doWorkOrder["items"][0]["PlannedStartDate"].ToString();
                     lblPlannedCompletionDate.Text = doWorkOrder["items"][0]["PlannedCompletionDate"].ToString();
+
+                    trackBarPercentageAdd.Enabled = string.IsNullOrEmpty(lblPlannedQuantity.Text) ? false : true;
+                    lblStartPage.Text = string.IsNullOrEmpty(lblPlannedQuantity.Text) ? "" : "1";
+                    lblEndPage.Text = lblPlannedQuantity.Text;
 
                     int countResources = (int)doWorkOrder["items"][0]["WorkOrderResource"]["count"];
                     if (countResources >= 1)
@@ -282,6 +280,8 @@ namespace WOW_Fusion
                             lblResourceDescription.Text = doWorkOrder["items"][0]["WorkOrderResource"]["items"][indexMachine]["ResourceDescription"].ToString();
                             lblEquipmentInstanceCode.Text = doWorkOrder["items"][0]["WorkOrderResource"]["items"][indexMachine]["WorkOrderOperationResourceInstance"]["items"][0]["EquipmentInstanceCode"].ToString();
                             lblEquipmentInstanceName.Text = doWorkOrder["items"][0]["WorkOrderResource"]["items"][indexMachine]["WorkOrderOperationResourceInstance"]["items"][0]["EquipmentInstanceName"].ToString();
+
+                            cmbDesignLabels.Enabled = true;
                         }
                         else
                         {
@@ -314,6 +314,51 @@ namespace WOW_Fusion
             lblResourceDescription.Text = string.Empty;
             lblEquipmentInstanceCode.Text = string.Empty;
             lblEquipmentInstanceName.Text= string.Empty;
+        }
+
+        private void trackBarPercentageAdd_Scroll(object sender, EventArgs e)
+        {
+            lblAdditional.Text = trackBarPercentageAdd.Value.ToString() + "%";
+            if (!string.IsNullOrEmpty(lblPlannedQuantity.Text))
+            {
+                float additionalQuantity = int.Parse(lblPlannedQuantity.Text) + ((trackBarPercentageAdd.Value * int.Parse(lblPlannedQuantity.Text)) / 100);
+                lblEndPage.Text = Convert.ToInt32(Math.Round(additionalQuantity)).ToString();
+            }
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            LabelService.Print("");
+        }
+
+        private void cmbDesignLabels_DropDown(object sender, EventArgs e)
+        {
+            picBoxWaitLD.Visible = true;
+            cmbDesignLabels.Items.Clear();
+            cmbDesignLabels.Items.AddRange(LabelService.FilesDesign());
+            picBoxWaitLD.Visible = false;
+        }
+
+        private void cmbDesignLabels_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (cmbDesignLabels.SelectedItem != null)
+            {
+                LabelDictionaryFill();
+                picLabel.Image = Image.FromStream(LabelService.CreateFromFile(cmbDesignLabels.SelectedItem.ToString()));
+            }
+        }
+
+        private void LabelDictionaryFill()
+        {
+            string box = "1";
+            LabelService.labelDictionary.Clear();
+            LabelService.labelDictionary.Add("WORKORDER", cmbWorkOrders.Text);
+            LabelService.labelDictionary.Add("ITEMNUMBER", lblItemNumber.Text);
+            LabelService.labelDictionary.Add("ITEMDESCRIPTION", lblItemDescription.Text);
+            LabelService.labelDictionary.Add("DESCRIPTIONENGLISH", "");
+            LabelService.labelDictionary.Add("EQU", lblEquipmentInstanceCode.Text);
+            LabelService.labelDictionary.Add("DATE", DateService.Now());
+            LabelService.labelDictionary.Add("BOXNUMBER", box.PadLeft(5, '0'));
         }
 
     }
