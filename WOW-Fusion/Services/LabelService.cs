@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,6 +21,9 @@ namespace WOW_Fusion.Services
 
         public static Dictionary<string, string> labelDictionary = new Dictionary<string, string>();
 
+        private static TcpClient _client;
+        private static NetworkStream _stream;
+
         public static string[] lV = { 
                                             "WORKORDER",
                                             "ITEMNUMBER",
@@ -30,15 +35,9 @@ namespace WOW_Fusion.Services
                                     };
         public static Stream CreateFromFile(string designSelected)
         {
-            string strLabel = File.ReadAllText($"{pathLabelFiles}\\{designSelected}.prn");
-
-            foreach ( string item in lV )
-            {
-                strLabel = strLabel.Replace(item, labelDictionary[item]);
-            }
-
             Stream responseStream = null;
-            string pathLabelary = $"http://api.labelary.com/v1/printers/12dpmm/labels/4x2/0/ --data-urlencode {strLabel}";
+            string zpl = ReadZplFile(designSelected);
+            string pathLabelary = $"http://api.labelary.com/v1/printers/12dpmm/labels/4x2/0/ --data-urlencode { zpl }";
             try
             {
                 var request = (HttpWebRequest)WebRequest.Create(pathLabelary);
@@ -64,22 +63,74 @@ namespace WOW_Fusion.Services
             return items.ToArray();
         }
 
-        public static void Print(string zpl)
+        public static async Task<bool> Connected()
         {
             try
             {
-                TcpClient client = new TcpClient();
-                client.Connect(ipPrinter, portPrinter);
-                StreamWriter writer = new StreamWriter(client.GetStream());
-                writer.Write(zpl);
-                writer.Flush();
-                writer.Close();
-                client.Close();
+                _client = new TcpClient();
+                await _client.ConnectAsync(ipPrinter, portPrinter);
+                _stream = _client.GetStream();
+                if (_client.Connected)
+                {
+                    _client.Close();
+                    await _stream.FlushAsync();
+                    _stream.Close();
+                    _client.Close();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static async Task Print(string designSelected)
+        {
+            try
+            {
+                _client = new TcpClient();
+                await _client.ConnectAsync(ipPrinter, portPrinter); 
+                //_client.Connect(ipPrinter, portPrinter);
+                _stream = _client.GetStream();
+
+                if (_client.Connected)
+                {
+                    string zpl = ReadZplFile(designSelected);
+                    Thread.Sleep(500);
+                    byte[] data = Encoding.ASCII.GetBytes(zpl);
+
+                    // Enviar datos al servidor de forma asíncrona
+                    await _stream.WriteAsync(data, 0, data.Length);
+                    //_stream.Write(data, 0, data.Length);
+                    await _stream.FlushAsync();
+                    _stream.Close();
+                    _client.Close();
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error al imprimir", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _stream.Close();
+                _client.Close();
+                Debug.Print(ex.Message);
             }
+        }
+
+       
+        private static string ReadZplFile(string designSelected)
+        {
+            string strLabel = File.ReadAllText($"{pathLabelFiles}\\{designSelected}.prn");
+
+            foreach (string item in lV)
+            {
+                strLabel = strLabel.Replace(item, labelDictionary[item]);
+            }
+
+            return strLabel;
         }
     }
 }
