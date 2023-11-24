@@ -66,5 +66,23 @@ namespace WOW_Fusion
             pop.IsRightToLeft = false;
             pop.Popup();
         }
+
+        public static void Notify(string content, Image icon)
+        {
+            PopupNotifier pop2 = new PopupNotifier();
+            pop2.ContentText = content;
+            pop2.ContentColor = Color.Black;
+            pop2.ContentFont = new Font("Arial", 14);
+            pop2.ContentPadding = new Padding(10, 15, 10, 5);
+            pop2.ShowGrip = false;
+            pop2.HeaderHeight = 1;
+            pop2.BorderColor = Color.DarkGray; //Color.FromArgb(35, 35, 35);
+            pop2.Image = icon;
+            pop2.ImageSize = new Size(70, 70);
+            pop2.ImagePadding = new Padding(10);
+            pop2.Size = new Size(350, 90);
+            pop2.IsRightToLeft = false;
+            pop2.Popup();
+        }
     }
 }

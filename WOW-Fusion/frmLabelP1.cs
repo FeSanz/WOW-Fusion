@@ -326,9 +326,20 @@ namespace WOW_Fusion
             }
         }
 
-        private void btnPrint_Click(object sender, EventArgs e)
+        private async void btnPrint_Click(object sender, EventArgs e)
         {
-            LabelService.Print("");
+            //if (await LabelService.Connected())
+            //{
+                for (int i = 1; i <= 10; i++)
+                {
+                    LabelDictionaryFill(i.ToString());
+                    await LabelService.Print(cmbDesignLabels.Text);
+                }
+            //}
+            //else
+            //{
+            //    pop.Notifier("Sin conexión a impresora", Properties.Resources.error_icon);
+            //}
         }
 
         private void cmbDesignLabels_DropDown(object sender, EventArgs e)
@@ -343,19 +354,18 @@ namespace WOW_Fusion
         {
             if (cmbDesignLabels.SelectedItem != null)
             {
-                LabelDictionaryFill();
+                LabelDictionaryFill("1");
                 picLabel.Image = Image.FromStream(LabelService.CreateFromFile(cmbDesignLabels.SelectedItem.ToString()));
             }
         }
 
-        private void LabelDictionaryFill()
+        private void LabelDictionaryFill(string box)
         {
-            string box = "1";
             LabelService.labelDictionary.Clear();
             LabelService.labelDictionary.Add("WORKORDER", cmbWorkOrders.Text);
             LabelService.labelDictionary.Add("ITEMNUMBER", lblItemNumber.Text);
             LabelService.labelDictionary.Add("ITEMDESCRIPTION", lblItemDescription.Text);
-            LabelService.labelDictionary.Add("DESCRIPTIONENGLISH", "");
+            LabelService.labelDictionary.Add("DESCRIPTIONENGLISH", TranslateService.Translate(lblItemDescription.Text));
             LabelService.labelDictionary.Add("EQU", lblEquipmentInstanceCode.Text);
             LabelService.labelDictionary.Add("DATE", DateService.Now());
             LabelService.labelDictionary.Add("BOXNUMBER", box.PadLeft(5, '0'));
