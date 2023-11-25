@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
+using WOW_Fusion.Controllers;
 using WOW_Fusion.Properties;
 using WOW_Fusion.Services;
 
@@ -78,7 +79,7 @@ namespace WOW_Fusion
                 }
                 else
                 {
-                    pop.Notifier("Sin respuesta", null);
+                    NotifierController.Warning("Sin respuesta de organización");
                 }
             }
             catch (Exception ex)
@@ -146,12 +147,12 @@ namespace WOW_Fusion
                     }
                     else
                     {
-                        pop.Notifier("Sin ordenes de trabajo", null);
+                        NotifierController.Warning("Sin ordenes de trabajo");
                     }
                 }
                 else
                 {
-                    pop.Notifier("Sin respuesta", null);
+                    NotifierController.Warning("Sin respuesta");
                 }
             }
             catch (Exception ex)
@@ -211,12 +212,12 @@ namespace WOW_Fusion
                     }
                     else
                     {
-                        pop.Notifier("Datos de máquina no encontrados", Resources.warning_icon);
+                        NotifierController.Warning("Datos de máquina no encontrados");
                     }
                 }
                 else
                 {
-                    pop.Notifier("Orden sin recursos", Resources.warning_icon);
+                    NotifierController.Warning("Orden sin recursos");
                 }
             }
             catch (Exception ex)
@@ -248,7 +249,7 @@ namespace WOW_Fusion
                     else
                     {
                         pop.Close();
-                        pop.Notifier("Tiempo de espera agotado, vuelva a  intentar", null);
+                        NotifierController.Warning("Tiempo de espera agotado, vuelva a  intentar");
                     }
                 }
                 else
@@ -265,7 +266,7 @@ namespace WOW_Fusion
                 if (palletNetWeight == "EX")
                 {
                     pop.Close();
-                    pop.Notifier("Tiempo de espera agotado, vuelva a  intentar", null);
+                    NotifierController.Warning("Tiempo de espera agotado, vuelva a  intentar");
                 }
                 else
                 {

@@ -14,7 +14,6 @@ namespace WOW_Fusion
     {
         frmLoading FormLoading;
         Thread threadLoading;
-        PopupNotifier pop = new PopupNotifier();
 
         public void Show()
         {
@@ -48,41 +47,6 @@ namespace WOW_Fusion
             Form parent1 = parent as Form;
             FormLoading = new frmLoading(parent1);
             FormLoading.ShowDialog();
-        }
-
-        public void Notifier(string content, Image icon)
-        {
-            pop.ContentText = content;
-            pop.ContentColor = Color.Black;
-            pop.ContentFont = new Font("Arial", 14);
-            pop.ContentPadding = new Padding(10, 15, 10, 5);
-            pop.ShowGrip = false;
-            pop.HeaderHeight = 1;
-            pop.BorderColor = Color.DarkGray; //Color.FromArgb(35, 35, 35);
-            pop.Image = icon;
-            pop.ImageSize = new Size(70, 70);
-            pop.ImagePadding = new Padding(10);
-            pop.Size = new Size(350, 90);
-            pop.IsRightToLeft = false;
-            pop.Popup();
-        }
-
-        public static void Notify(string content, Image icon)
-        {
-            PopupNotifier pop2 = new PopupNotifier();
-            pop2.ContentText = content;
-            pop2.ContentColor = Color.Black;
-            pop2.ContentFont = new Font("Arial", 14);
-            pop2.ContentPadding = new Padding(10, 15, 10, 5);
-            pop2.ShowGrip = false;
-            pop2.HeaderHeight = 1;
-            pop2.BorderColor = Color.DarkGray; //Color.FromArgb(35, 35, 35);
-            pop2.Image = icon;
-            pop2.ImageSize = new Size(70, 70);
-            pop2.ImagePadding = new Padding(10);
-            pop2.Size = new Size(350, 90);
-            pop2.IsRightToLeft = false;
-            pop2.Popup();
         }
     }
 }

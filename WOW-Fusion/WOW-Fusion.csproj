@@ -95,6 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Controllers\AppController.cs" />
+    <Compile Include="Controllers\NotifierController.cs" />
     <Compile Include="Services\APIService.cs" />
     <Compile Include="frmLabelP1.cs">
       <SubType>Form</SubType>

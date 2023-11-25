@@ -64,6 +64,7 @@
             this.label17 = new System.Windows.Forms.Label();
             this.btnPrint = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lblAdditional = new System.Windows.Forms.Label();
             this.cmbDesignLabels = new System.Windows.Forms.ComboBox();
             this.picBoxWaitLD = new System.Windows.Forms.PictureBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -74,7 +75,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.trackBarPercentageAdd = new System.Windows.Forms.TrackBar();
             this.picLabel = new System.Windows.Forms.PictureBox();
-            this.lblAdditional = new System.Windows.Forms.Label();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
@@ -500,6 +500,7 @@
             // btnPrint
             // 
             this.btnPrint.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnPrint.Enabled = false;
             this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPrint.Location = new System.Drawing.Point(856, 373);
             this.btnPrint.Name = "btnPrint";
@@ -529,6 +530,16 @@
             this.groupBox3.TabIndex = 118;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Etiqueta";
+            // 
+            // lblAdditional
+            // 
+            this.lblAdditional.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAdditional.Location = new System.Drawing.Point(435, 36);
+            this.lblAdditional.Name = "lblAdditional";
+            this.lblAdditional.Size = new System.Drawing.Size(37, 13);
+            this.lblAdditional.TabIndex = 120;
+            this.lblAdditional.Text = "--";
+            this.lblAdditional.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // cmbDesignLabels
             // 
@@ -643,16 +654,6 @@
             this.picLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picLabel.TabIndex = 31;
             this.picLabel.TabStop = false;
-            // 
-            // lblAdditional
-            // 
-            this.lblAdditional.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAdditional.Location = new System.Drawing.Point(435, 36);
-            this.lblAdditional.Name = "lblAdditional";
-            this.lblAdditional.Size = new System.Drawing.Size(37, 13);
-            this.lblAdditional.TabIndex = 120;
-            this.lblAdditional.Text = "--";
-            this.lblAdditional.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // rtbLog
             // 

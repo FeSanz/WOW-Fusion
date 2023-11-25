@@ -18,8 +18,6 @@ namespace WOW_Fusion
         private static string _user = "felipe.antonio@i-condor.com";
         private static string _password = "CondorXR112";
 
-        private string strResponse = "";
-
         public static async Task<string> GetRequestAsync(string path)
         {
             string credential = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(_user + ":" + _password));

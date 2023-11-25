@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
+using WOW_Fusion.Controllers;
 using WOW_Fusion.Services;
 
 namespace WOW_Fusion
@@ -42,15 +44,10 @@ namespace WOW_Fusion
         private void frmLabelP1_Load(object sender, EventArgs e)
         {
             pop = new PopController();
-            lblAdditional.Text = trackBarPercentageAdd.Value.ToString() + "%";
+            
+            lblAdditional.Text = trackBarPercentageAdd.Value.ToString();
 
             RequestOrganization();
-        }
-
-        private void Exit(string message)
-        {
-            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            Application.Exit();
         }
 
         private async void RequestOrganization()
@@ -64,10 +61,14 @@ namespace WOW_Fusion
 
                 if (string.IsNullOrEmpty(response)) 
                 {
-                    Exit("Sin organización, la aplicación se cerrará");
+                    AppController.Exit("Sin organización, la aplicación se cerrará");
                 }
 
                 organization = JsonConvert.DeserializeObject<dynamic>(response);
+                var jObject = JObject.Parse(response);
+
+                // Extract the "items" array
+                var items = jObject["items"];
                 int itemCount = (int)organization["count"];
 
                 if (itemCount >= 0)
@@ -81,7 +82,7 @@ namespace WOW_Fusion
                 }
                 else
                 {
-                    Exit("Sin organización, la aplicación se cerrará");
+                    AppController.Exit("Sin organización, la aplicación se cerrará");
                 }
                     
             }
@@ -101,7 +102,7 @@ namespace WOW_Fusion
 
                 if (string.IsNullOrEmpty(response))
                 {
-                    Exit("Sin recursos de producción, la aplicacion se cerrará");
+                    AppController.Exit("Sin recursos de producción, la aplicacion se cerrará");
                 }
 
                 productionResoucesMachines = JsonConvert.DeserializeObject<dynamic>(response);
@@ -109,7 +110,7 @@ namespace WOW_Fusion
 
                 if (machinesCount == 0)
                 {
-                    Exit("Sin recursos de producción, la aplicacion se cerrará");
+                    AppController.Exit("Sin recursos de producción, la aplicacion se cerrará");
                 }
             }
             catch (Exception ex)
@@ -120,7 +121,7 @@ namespace WOW_Fusion
 
         private async void RequestWorkCenters()
         {
-
+            cmbWorkCenters.Items.Clear();
             picBoxWaitWC.Visible = true;
             try
             {
@@ -145,7 +146,7 @@ namespace WOW_Fusion
                 }
                 else
                 {
-                    pop.Notifier("Sin centros de trabajo", Properties.Resources.warning_icon);
+                    NotifierController.Warning("Sin centros de trabajo");
                 }
 
                 picBoxWaitWC.Visible = false;
@@ -158,6 +159,7 @@ namespace WOW_Fusion
 
         private async void RequestWorkOrdersList()
         {
+            cmbWorkOrders.Items.Clear();
             try
             {
                 picBoxWaitWO.Visible = true;
@@ -183,7 +185,7 @@ namespace WOW_Fusion
                 }
                 else
                 {
-                    pop.Notifier("Sin ordenes de trabajo", Properties.Resources.warning_icon);
+                    NotifierController.Warning("Sin ordenes de trabajo");
                 }
                 
                 picBoxWaitWO.Visible = false;
@@ -282,15 +284,16 @@ namespace WOW_Fusion
                             lblEquipmentInstanceName.Text = doWorkOrder["items"][0]["WorkOrderResource"]["items"][indexMachine]["WorkOrderOperationResourceInstance"]["items"][0]["EquipmentInstanceName"].ToString();
 
                             cmbDesignLabels.Enabled = true;
+                            btnPrint.Enabled = true;
                         }
                         else
                         {
-                            pop.Notifier("Datos de máquina no encontrados", Properties.Resources.warning_icon);
+                            NotifierController.Warning("Datos de máquina no encontrados");
                         }
                     }
                     else
                     {
-                        pop.Notifier("Orden sin recursos", Properties.Resources.warning_icon);
+                        NotifierController.Warning("Orden sin recursos");
                     }
                 }
                 catch (Exception ex)
@@ -300,7 +303,7 @@ namespace WOW_Fusion
             }
             else
             {
-                pop.Notifier("No se ha seleccionado ningún elemento", Properties.Resources.warning_icon);
+                NotifierController.Warning("No se ha seleccionado ningún elemento");
             }
         }
 
@@ -328,18 +331,18 @@ namespace WOW_Fusion
 
         private async void btnPrint_Click(object sender, EventArgs e)
         {
-            //if (await LabelService.Connected())
-            //{
-                for (int i = 1; i <= 10; i++)
-                {
-                    LabelDictionaryFill(i.ToString());
-                    await LabelService.Print(cmbDesignLabels.Text);
-                }
-            //}
-            //else
-            //{
-            //    pop.Notifier("Sin conexión a impresora", Properties.Resources.error_icon);
-            //}
+            if (string.IsNullOrEmpty(cmbWorkOrders.Text))
+            {
+                NotifierController.Warning("Seleccione orden de trabajo");
+            }
+            else if(string.IsNullOrEmpty(cmbDesignLabels.Text))
+            {
+                NotifierController.Warning("Seleccione diseño de etiqueta");
+            }
+            else
+            {
+                await LabelService.Print(int.Parse(lblEndPage.Text));
+            }
         }
 
         private void cmbDesignLabels_DropDown(object sender, EventArgs e)
@@ -354,21 +357,17 @@ namespace WOW_Fusion
         {
             if (cmbDesignLabels.SelectedItem != null)
             {
-                LabelDictionaryFill("1");
+                LabelService.labelDictionary.Clear();
+                LabelService.labelDictionary.Add("WORKORDER", cmbWorkOrders.Text);
+                LabelService.labelDictionary.Add("ITEMNUMBER", lblItemNumber.Text);
+                LabelService.labelDictionary.Add("ITEMDESCRIPTION", lblItemDescription.Text);
+                LabelService.labelDictionary.Add("DESCRIPTIONENGLISH", TranslateService.Translate(lblItemDescription.Text));
+                LabelService.labelDictionary.Add("EQU", lblEquipmentInstanceCode.Text);
+                LabelService.labelDictionary.Add("DATE", DateService.Now());
+                LabelService.labelDictionary.Add("BOXNUMBER", "1".PadLeft(5, '0'));
+
                 picLabel.Image = Image.FromStream(LabelService.CreateFromFile(cmbDesignLabels.SelectedItem.ToString()));
             }
-        }
-
-        private void LabelDictionaryFill(string box)
-        {
-            LabelService.labelDictionary.Clear();
-            LabelService.labelDictionary.Add("WORKORDER", cmbWorkOrders.Text);
-            LabelService.labelDictionary.Add("ITEMNUMBER", lblItemNumber.Text);
-            LabelService.labelDictionary.Add("ITEMDESCRIPTION", lblItemDescription.Text);
-            LabelService.labelDictionary.Add("DESCRIPTIONENGLISH", TranslateService.Translate(lblItemDescription.Text));
-            LabelService.labelDictionary.Add("EQU", lblEquipmentInstanceCode.Text);
-            LabelService.labelDictionary.Add("DATE", DateService.Now());
-            LabelService.labelDictionary.Add("BOXNUMBER", box.PadLeft(5, '0'));
         }
 
     }
