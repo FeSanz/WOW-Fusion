@@ -25,11 +25,10 @@ namespace WOW_Fusion
         //Fusion parametros
         public static string organizationId = "300000002650034";
 
-        //Payload response
-        private dynamic productionResoucesMachines = null;
-        private dynamic worCenters = null;
-        private dynamic organization = null;
-        private string pylproductionResoucesMachines = string.Empty;
+        //JObjets response
+        private JObject productionResoucesMachines = null;
+        private JObject worCenters = null;
+        private JObject organization = null;
 
         private string workCenterId = string.Empty;
         private string WorkOrderId = string.Empty;
@@ -64,18 +63,15 @@ namespace WOW_Fusion
                     AppController.Exit("Sin organización, la aplicación se cerrará");
                 }
 
-                organization = JsonConvert.DeserializeObject<dynamic>(response);
-                var jObject = JObject.Parse(response);
+                organization = JObject.Parse(response);
 
-                // Extract the "items" array
-                var items = jObject["items"];
-                int itemCount = (int)organization["count"];
-
-                if (itemCount >= 0)
+                if ((int)organization["count"] >= 0)
                 {
-                    lblOrganizationCode.Text = organization["items"][0]["OrganizationCode"].ToString();
-                    lblOrganizationName.Text = organization["items"][0]["OrganizationName"].ToString();
-                    lblLocationCode.Text = organization["items"][0]["LocationCode"].ToString();
+                    dynamic items = organization["items"][0];
+
+                    lblOrganizationCode.Text = items["OrganizationCode"].ToString();
+                    lblOrganizationName.Text = items["OrganizationName"].ToString();
+                    lblLocationCode.Text = items["LocationCode"].ToString();
                     //lblBusinessUnit.Text = organization["items"][0]["ManagementBusinessUnitName"].ToString();
 
                     RequestProductionResourcesMachines();
@@ -88,7 +84,7 @@ namespace WOW_Fusion
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error. " + ex.Message, "Error [Organization]", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }   
 
@@ -105,7 +101,7 @@ namespace WOW_Fusion
                     AppController.Exit("Sin recursos de producción, la aplicacion se cerrará");
                 }
 
-                productionResoucesMachines = JsonConvert.DeserializeObject<dynamic>(response);
+                productionResoucesMachines = JObject.Parse(response);
                 machinesCount = (int)productionResoucesMachines["count"];
 
                 if (machinesCount == 0)
@@ -115,7 +111,7 @@ namespace WOW_Fusion
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error. " + ex.Message, "Error [ProductionResources]", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -131,17 +127,17 @@ namespace WOW_Fusion
                 string response = await tskWorkCenters;
                 if (string.IsNullOrEmpty(response)){ return; }
 
-                worCenters = JsonConvert.DeserializeObject<dynamic>(response);
 
-                int itemCount = (int)worCenters["count"];
+                worCenters = JObject.Parse(response);
 
-                if (itemCount >= 1)
+                if ((int)worCenters["count"] >= 1)
                 {
                     cmbWorkCenters.Items.Clear();
+                    dynamic items = worCenters["items"];
 
-                    for (int i = 0; i < itemCount; i++)
+                    foreach (var item in items)
                     {
-                        cmbWorkCenters.Items.Add(worCenters["items"][i]["WorkCenterName"].ToString());
+                        cmbWorkCenters.Items.Add(item["WorkCenterName"].ToString());
                     }
                 }
                 else
@@ -153,7 +149,7 @@ namespace WOW_Fusion
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error. " + ex.Message, "Error [WorkCenters]", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -169,17 +165,20 @@ namespace WOW_Fusion
                 string response = await tskWorkOrdersList;
                 if (string.IsNullOrEmpty(response)) { return; }
 
-                var doWorkOrderList = JsonConvert.DeserializeObject<dynamic>(response);
-                int itemCount = (int)doWorkOrderList["count"];
+                JObject objWorOrders = JObject.Parse(response);
 
-                if (itemCount >= 1)
+                if ((int)objWorOrders["count"] >= 1)
                 {
                     cmbWorkOrders.Items.Clear();
-                    for (int i = 0; i < itemCount; i++)
+                    dynamic items = objWorOrders["items"];
+
+                    foreach (var item in items)
                     {
-                        string itemNumber = doWorkOrderList["items"][i]["ItemNumber"].ToString();
-                        if (itemNumber.Substring(itemNumber.Length - 2).Equals("01"))
-                            cmbWorkOrders.Items.Add(doWorkOrderList["items"][i]["WorkOrderNumber"].ToString());
+                        string itemNumber = item["ItemNumber"].ToString();
+                        if (itemNumber.Substring(itemNumber.Length - 2).Equals("01"))//Terminacion 01 producto empaquetado (CAJAS)
+                        {
+                            cmbWorkOrders.Items.Add(item["WorkOrderNumber"].ToString());
+                        }
 
                     }
                 }
@@ -192,7 +191,7 @@ namespace WOW_Fusion
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error. " + ex.Message, "Error [WorkOrdersList]", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -207,13 +206,15 @@ namespace WOW_Fusion
 
             if(worCenters == null) { return; }
 
-            lblWorkAreaName.Text = worCenters["items"][index]["WorkAreaName"].ToString();
-            workCenterId = worCenters["items"][index]["WorkCenterId"].ToString();
+            dynamic ct = worCenters["items"][index]; //Objeto CENTROS DE TRABAJO
+
+            lblWorkAreaName.Text = ct["WorkAreaName"].ToString();
+            workCenterId = ct["WorkCenterId"].ToString();
             
             cmbWorkOrders.Items.Clear();
             lblItemNumber.Text = string.Empty;
             lblItemDescription.Text = string.Empty;
-            lblPlannedQuantity.Text = "0";
+            lblPlannedQuantity.Text = string.Empty;
             lblUoM.Text = string.Empty;
             lblResourceDescription.Text= string.Empty;
             lblResourceCode.Text= string.Empty;
@@ -242,24 +243,27 @@ namespace WOW_Fusion
                                                                         "WorkOrderResource.WorkOrderOperationResourceInstance:" +
                                                                         "EquipmentInstanceId,EquipmentInstanceCode,EquipmentInstanceName&" +
                                                                         "q=WorkOrderNumber='" + cmbWorkOrders.SelectedItem.ToString() + "'");
+
                     string response = await tskWorkOrdersData;
                     if (string.IsNullOrEmpty(response)) { return; }
 
-                    dynamic doWorkOrder = JsonConvert.DeserializeObject<dynamic>(response);
+                    JObject objWorkOrder = JObject.Parse(response);
+                    dynamic wo = objWorkOrder["items"][0]; //Objeto WORKORDER
 
-                    lblPlannedQuantity.Text = doWorkOrder["items"][0]["PlannedStartQuantity"].ToString();
-                    lblUoM.Text = doWorkOrder["items"][0]["UOMCode"].ToString();
 
-                    lblItemNumber.Text = doWorkOrder["items"][0]["ItemNumber"].ToString();
-                    lblItemDescription.Text = doWorkOrder["items"][0]["Description"].ToString();
-                    lblPlannedStartDate.Text = doWorkOrder["items"][0]["PlannedStartDate"].ToString();
-                    lblPlannedCompletionDate.Text = doWorkOrder["items"][0]["PlannedCompletionDate"].ToString();
+                    lblPlannedQuantity.Text = wo["PlannedStartQuantity"].ToString();
+                    lblUoM.Text = wo["UOMCode"].ToString();
+
+                    lblItemNumber.Text = wo["ItemNumber"].ToString();
+                    lblItemDescription.Text = wo["Description"].ToString();
+                    lblPlannedStartDate.Text = wo["PlannedStartDate"].ToString();
+                    lblPlannedCompletionDate.Text = wo["PlannedCompletionDate"].ToString();
 
                     trackBarPercentageAdd.Enabled = string.IsNullOrEmpty(lblPlannedQuantity.Text) ? false : true;
                     lblStartPage.Text = string.IsNullOrEmpty(lblPlannedQuantity.Text) ? "" : "1";
                     lblEndPage.Text = lblPlannedQuantity.Text;
 
-                    int countResources = (int)doWorkOrder["items"][0]["WorkOrderResource"]["count"];
+                    int countResources = (int)wo["WorkOrderResource"]["count"];
                     if (countResources >= 1)
                     {
                         int indexMachine = -1;
@@ -268,7 +272,7 @@ namespace WOW_Fusion
                         {
                             for (int j = 0; j < machinesCount; j++)
                             {
-                                string resourceIdWO = doWorkOrder["items"][0]["WorkOrderResource"]["items"][i]["ResourceId"].ToString();
+                                string resourceIdWO = wo["WorkOrderResource"]["items"][i]["ResourceId"].ToString();
                                 string resourceIdPR = productionResoucesMachines["items"][j]["ResourceId"].ToString();
                                 if (resourceIdWO.Equals(resourceIdPR))
                                 {
@@ -278,17 +282,27 @@ namespace WOW_Fusion
                         }
                         if (indexMachine >= 0)
                         {
-                            lblResourceCode.Text = doWorkOrder["items"][0]["WorkOrderResource"]["items"][indexMachine]["ResourceCode"].ToString();
-                            lblResourceDescription.Text = doWorkOrder["items"][0]["WorkOrderResource"]["items"][indexMachine]["ResourceDescription"].ToString();
-                            lblEquipmentInstanceCode.Text = doWorkOrder["items"][0]["WorkOrderResource"]["items"][indexMachine]["WorkOrderOperationResourceInstance"]["items"][0]["EquipmentInstanceCode"].ToString();
-                            lblEquipmentInstanceName.Text = doWorkOrder["items"][0]["WorkOrderResource"]["items"][indexMachine]["WorkOrderOperationResourceInstance"]["items"][0]["EquipmentInstanceName"].ToString();
+                            dynamic resource = wo["WorkOrderResource"]["items"][indexMachine]; //Objeto RESURSO
+                            lblResourceCode.Text = resource["ResourceCode"].ToString();
+                            lblResourceDescription.Text = resource["ResourceDescription"].ToString();
+
+                            if ((int)resource["WorkOrderOperationResourceInstance"]["count"] >= 1)
+                            {
+                                dynamic instance = resource["WorkOrderOperationResourceInstance"]["items"][0]; // Objeto INSTANCIA
+                                lblEquipmentInstanceCode.Text = instance["EquipmentInstanceCode"].ToString();
+                                lblEquipmentInstanceName.Text = instance["EquipmentInstanceName"].ToString();
+                            }
+                            else
+                            {
+                                NotifierController.Warning("Datos de instancia de máquina no encontrados");
+                            }
 
                             cmbDesignLabels.Enabled = true;
                             btnPrint.Enabled = true;
                         }
                         else
                         {
-                            NotifierController.Warning("Datos de máquina no encontrados");
+                            NotifierController.Warning("Datos de recurso máquina no encontrados");
                         }
                     }
                     else
@@ -298,7 +312,7 @@ namespace WOW_Fusion
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error. " + ex.Message, "Error [WorkOrderSelected]", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -321,11 +335,13 @@ namespace WOW_Fusion
 
         private void trackBarPercentageAdd_Scroll(object sender, EventArgs e)
         {
-            lblAdditional.Text = trackBarPercentageAdd.Value.ToString() + "%";
+            lblAdditional.Text = trackBarPercentageAdd.Value.ToString() + "";
             if (!string.IsNullOrEmpty(lblPlannedQuantity.Text))
             {
-                float additionalQuantity = int.Parse(lblPlannedQuantity.Text) + ((trackBarPercentageAdd.Value * int.Parse(lblPlannedQuantity.Text)) / 100);
-                lblEndPage.Text = Convert.ToInt32(Math.Round(additionalQuantity)).ToString();
+                //float additionalQuantity = int.Parse(lblPlannedQuantity.Text) + ((trackBarPercentageAdd.Value * int.Parse(lblPlannedQuantity.Text)) / 100);
+                //lblEndPage.Text = Convert.ToInt32(Math.Round(additionalQuantity)).ToString();
+                int totalPrint = int.Parse(lblPlannedQuantity.Text) + trackBarPercentageAdd.Value;
+                lblEndPage.Text = totalPrint.ToString();
             }
         }
 

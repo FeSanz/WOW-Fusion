@@ -512,7 +512,6 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.lblAdditional);
             this.groupBox3.Controls.Add(this.cmbDesignLabels);
             this.groupBox3.Controls.Add(this.picBoxWaitLD);
             this.groupBox3.Controls.Add(this.label15);
@@ -523,6 +522,7 @@
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.trackBarPercentageAdd);
             this.groupBox3.Controls.Add(this.picLabel);
+            this.groupBox3.Controls.Add(this.lblAdditional);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(504, 12);
             this.groupBox3.Name = "groupBox3";
@@ -627,7 +627,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label8.Location = new System.Drawing.Point(281, 36);
+            this.label8.Location = new System.Drawing.Point(273, 36);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(67, 13);
             this.label8.TabIndex = 119;
@@ -637,7 +637,7 @@
             // trackBarPercentageAdd
             // 
             this.trackBarPercentageAdd.Enabled = false;
-            this.trackBarPercentageAdd.Location = new System.Drawing.Point(351, 33);
+            this.trackBarPercentageAdd.Location = new System.Drawing.Point(335, 33);
             this.trackBarPercentageAdd.Maximum = 5;
             this.trackBarPercentageAdd.Name = "trackBarPercentageAdd";
             this.trackBarPercentageAdd.Size = new System.Drawing.Size(104, 45);
@@ -675,7 +675,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnPrint);
             this.Name = "frmLabelP1";
-            this.Text = "Form1";
+            this.Text = "WOW Label";
             this.Load += new System.EventHandler(this.frmLabelP1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
