@@ -14,17 +14,12 @@ namespace WOW_Fusion
 {
     internal class APIService
     {
-        private static string url = "https://iapxqy-test.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05";
-        private static string _user = "felipe.antonio@i-condor.com";
-        private static string _password = "CondorXR112";
-
         public static async Task<string> GetRequestAsync(string path)
         {
-            string credential = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(_user + ":" + _password));
             try
             {
-                WebRequest request = WebRequest.Create(url + path);
-                request.Headers.Add("Authorization", "Basic " + credential);
+                WebRequest request = WebRequest.Create(path);
+                request.Headers.Add("Authorization", "Basic " + Constants.Credentials);
                 request.ContentType = "application/json";
                 request.Headers.Add("REST-framework-version", "4");
                 using (WebResponse response = await request.GetResponseAsync())
@@ -42,11 +37,10 @@ namespace WOW_Fusion
         }
         public async Task<string> PostRequestAsync(string path, string json)
         {
-            string credential = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(_user + ":" + _password));
             try
             {
-                WebRequest request = WebRequest.Create(url + path);
-                request.Headers.Add("Authorization", "Basic " + credential);
+                WebRequest request = WebRequest.Create(path);
+                request.Headers.Add("Authorization", "Basic " + Constants.Credentials);
                 request.ContentType = "application/json";
                 request.Method = "POST";
 
@@ -71,11 +65,10 @@ namespace WOW_Fusion
 
         public async Task<string> PostBatchRequestAsync(string path, string json)
         {
-            string credential = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(_user + ":" + _password));
             try
             {
-                WebRequest request = WebRequest.Create(url + path);
-                request.Headers.Add("Authorization", "Basic " + credential);
+                WebRequest request = WebRequest.Create(path);
+                request.Headers.Add("Authorization", "Basic " + Constants.Credentials);
                 request.ContentType = "application/vnd.oracle.adf.batch+json";
                 request.Method = "POST";
 
@@ -100,11 +93,10 @@ namespace WOW_Fusion
 
         public string GetRequest(string path)
         {
-            string credential = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(_user + ":" + _password));
             try
             {
-                WebRequest request = WebRequest.Create(url + path);
-                request.Headers.Add("Authorization", "Basic " + credential);
+                WebRequest request = WebRequest.Create(path);
+                request.Headers.Add("Authorization", "Basic " + Constants.Credentials);
                 request.ContentType = "application/json";
                 request.Headers.Add("REST-framework-version", "4");
                 using (WebResponse response = request.GetResponse())
@@ -123,11 +115,10 @@ namespace WOW_Fusion
 
         public string PostRequest(string path, string json)
         {
-            string credential = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(_user + ":" + _password));
             try
             {
-                WebRequest request = WebRequest.Create(url + path);
-                request.Headers.Add("Authorization", "Basic " + credential);
+                WebRequest request = WebRequest.Create(path);
+                request.Headers.Add("Authorization", "Basic " + Constants.Credentials);
                 request.ContentType = "application/json";
                 request.Method = "POST";
 

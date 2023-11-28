@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +27,6 @@ namespace WOW_Fusion
     {
         Random rnd = new Random();
 
-        RadwagController weighing;
         PopController pop;
 
         //Fusion parametros
@@ -40,84 +40,36 @@ namespace WOW_Fusion
         private float _tareWeight = 0;
         private float _palletWeight = 0;
 
-        private dynamic productionResoucesMachines = null;
+        //JObjets response
+        private JObject productionResoucesMachines = null;
+        private JObject worCenters = null;
+        private JObject organization = null;
 
         private int machinesCount = 0;
+
+        private JObject machines = null;
 
         public frmLabelP2()
         {
             InitializeComponent();
+            InitializeFusionData();
         }
 
         private void frmLabelP2_Load(object sender, EventArgs e)
         {
-            //lblVersion.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            weighing = new RadwagController();
             pop = new PopController();;
 
             btnGetWeight.Text = "TARA";
-
-            RequestOrganizationData();
-            RequestWorkOrdersList();
-            RequestProductionResourcesMachines();
-
-            //pictureLabel.Image = Image.FromStream(label.Create());
         }
 
-        private async void RequestOrganizationData()
+        private async void InitializeFusionData()
         {
-            try
-            {
-                Task<string> tskOrganizationData = APIService.GetRequestAsync("/inventoryOrganizations?fields=OrganizationId,OrganizationCode,OrganizationName,LocationCode&onlyData=true" +
-                                                                     "&limit=500&totalResults=true&q=OrganizationId=" + organizationId);
-                string response = await tskOrganizationData;
-                if (!string.IsNullOrEmpty(response))
-                {
-                    pylOrganization = response;
-                    var doOrganizationData = JsonConvert.DeserializeObject<dynamic>(response);
-                    lblLocationCode.Text = (string)doOrganizationData["items"][0]["LocationCode"];
-                }
-                else
-                {
-                    NotifierController.Warning("Sin respuesta de organización");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+            List<string> orgInfo = await CommonService.Organization(Constants.Plant2Id); //Obtener datos de Organizacion
 
-        private async void RequestProductionResourcesMachines()
-        {
-            try
-            {
-                Task<string> tskresourcesMachines = APIService.GetRequestAsync("/productionResources?limit=500&totalResults=true&onlyData=true&fields=ResourceId&" +
-                                                                        "q=OrganizationId=" + organizationId + " and ResourceType='EQUIPMENT' and ResourceCode like 'MF-LAM%'");
-                string response = await tskresourcesMachines;
+            if (orgInfo == null) return;
 
-                if (string.IsNullOrEmpty(response))
-                {
-                    Exit("Sin recursos de producción, la aplicacion se cerrará");
-                }
-
-                productionResoucesMachines = JsonConvert.DeserializeObject<dynamic>(response);
-                machinesCount = (int)productionResoucesMachines["count"];
-
-                if (machinesCount == 0)
-                {
-                    Exit("Sin recursos de producción, la aplicacion se cerrará");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void Exit(string message)
-        {
-            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            Application.Exit();
+            lblLocationCode.Text = orgInfo[2];
+            machines = await CommonService.ProductionResourcesMachines(Constants.Plant2Id); //Obtener Objeto RECURSOS MAQUINAS
         }
 
         private async void RequestWorkOrdersList()
@@ -158,6 +110,22 @@ namespace WOW_Fusion
             catch (Exception ex)
             {
                 MessageBox.Show("Error. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void DropDownOpenWorkOrders(object sender, EventArgs e)
+        {
+            cmbWorkOrders.Items.Clear();
+            picBoxWaitWO.Visible = true;
+
+            List<string> workOrderNumbers = await Plant1Service.WorkOrdersListItemEval(Constants.Plant1Id, workCenterId); //Obtener datos de Organizacion
+            picBoxWaitWO.Visible = false;
+
+            if (workOrderNumbers == null) return;
+
+            foreach (var item in workOrderNumbers)
+            {
+                cmbWorkOrders.Items.Add(item.ToString());
             }
         }
 
@@ -233,10 +201,10 @@ namespace WOW_Fusion
             if (string.IsNullOrEmpty(lblPalletTare.Text))
             {
                 //Solicitar peso tara
-                string responseTare = weighing.SocketWeighing("T");
+                string responseTare = RadwagController.SocketWeighing("T");
                 if (responseTare.Equals("OK"))
                 {
-                    string requestTareWeight = weighing.SocketWeighing("OT");
+                    string requestTareWeight = RadwagController.SocketWeighing("OT");
                     if (!requestTareWeight.Equals("EX"))
                     {
                         pop.Close();
@@ -261,7 +229,7 @@ namespace WOW_Fusion
             else
             {
                 //Obtiene peso neto acomulado del pallet (sin tara)
-                string palletNetWeight = weighing.SocketWeighing("S");
+                string palletNetWeight = RadwagController.SocketWeighing("S");
 
                 if (palletNetWeight == "EX")
                 {

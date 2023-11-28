@@ -12,10 +12,10 @@ namespace WOW_Fusion
     internal class RadwagController
     {
         //private string ip = "172.16.100.207";
-        private string ip = "192.168.12.5";
-        private int port = 4001;
+        private static string ip = "192.168.12.5";
+        private static int port = 4001;
 
-        public string SocketWeighing(string command)
+        public static string SocketWeighing(string command)
         {
             string response = "";
             TcpClient client = new TcpClient();
@@ -86,7 +86,7 @@ namespace WOW_Fusion
         /// <param name="secondLineResponse"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        private string SecondLineResponse(string secondLineResponse)
+        private static string SecondLineResponse(string secondLineResponse)
         {
             string response = "";
             switch (secondLineResponse.Substring(2, 1))

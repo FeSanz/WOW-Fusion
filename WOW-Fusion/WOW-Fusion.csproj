@@ -94,9 +94,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
+    <Compile Include="Models\Constants.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\NotifierController.cs" />
+    <Compile Include="Models\EndPoints.cs" />
+    <Compile Include="Services\CommonService.cs" />
     <Compile Include="Services\APIService.cs" />
     <Compile Include="frmLabelP1.cs">
       <SubType>Form</SubType>
@@ -135,6 +137,7 @@
     <Compile Include="Controllers\ZebraController.cs" />
     <Compile Include="Services\DateService.cs" />
     <Compile Include="Services\LabelService.cs" />
+    <Compile Include="Services\Plant1Service.cs" />
     <Compile Include="Services\StaticApiService.cs" />
     <Compile Include="Services\TranslateService.cs" />
     <EmbeddedResource Include="frmLabelP1.resx">

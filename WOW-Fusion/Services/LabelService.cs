@@ -17,10 +17,6 @@ namespace WOW_Fusion.Services
 {
     internal class LabelService
     {
-        public static string ipPrinter = "127.0.0.1";
-        public static int portPrinter = 9100;
-        public static string pathLabelFiles = @"D:\Visual Studio Projects\WOW-Fusion\WOW-Fusion\Resources\Labels\LP1";
-
         public static Dictionary<string, string> labelDictionary = new Dictionary<string, string>();
         private static string zplTemplate = string.Empty;
         private static TcpClient _client;
@@ -38,14 +34,14 @@ namespace WOW_Fusion.Services
         public static Stream CreateFromFile(string designSelected)
         {            
             Stream responseStream;
-            zplTemplate = File.ReadAllText($"{pathLabelFiles}\\{designSelected}.prn");
+            zplTemplate = File.ReadAllText($"{Constants.PathLabelsP1}\\{designSelected}.prn");
 
             string zpl = ReplaceZPL(1);
 
-            string pathLabelary = $"http://api.labelary.com/v1/printers/12dpmm/labels/4x2/0/ --data-urlencode {zpl}";
+            //string pathLabelary = $"http://api.labelary.com/v1/printers/12dpmm/labels/4x2/0/ --data-urlencode {zpl}";
             try
             {
-                var request = (HttpWebRequest)WebRequest.Create(pathLabelary);
+                var request = (HttpWebRequest)WebRequest.Create(String.Format(Constants.LaberalyUrl, zpl));
                 var response = (HttpWebResponse)request.GetResponse();
                 responseStream = response.GetResponseStream();
             }
@@ -62,7 +58,7 @@ namespace WOW_Fusion.Services
         {
             List<string> items = new List<string>();
 
-            string[] files = Directory.GetFiles(pathLabelFiles, "*.prn");
+            string[] files = Directory.GetFiles(Constants.PathLabelsP1, "*.prn");
             foreach (string file in files)
             {
                 items.Add(Path.GetFileNameWithoutExtension(file));
@@ -77,7 +73,7 @@ namespace WOW_Fusion.Services
                 try
                 {
                     _client = new TcpClient();
-                    await _client.ConnectAsync(ipPrinter, portPrinter);
+                    await _client.ConnectAsync(Constants.PrinterIp, Constants.PrinterPort);
                     //_client.Connect(ipPrinter, portPrinter);
                     _stream = _client.GetStream();
 

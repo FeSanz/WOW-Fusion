@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLabelP2));
             this.lblResourceDescription = new System.Windows.Forms.Label();
             this.lblResourceCode = new System.Windows.Forms.Label();
@@ -43,7 +43,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnReloadWO = new System.Windows.Forms.Button();
+            this.lblEquipmentInstanceName = new System.Windows.Forms.Label();
+            this.lblEquipmentInstanceCode = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.lblCompletedQuantity = new System.Windows.Forms.Label();
             this.lblPlannedCompletionDate = new System.Windows.Forms.Label();
@@ -52,6 +54,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbWorkOrders = new System.Windows.Forms.ComboBox();
+            this.btnReloadWO = new System.Windows.Forms.Button();
             this.lblLocationCode = new System.Windows.Forms.Label();
             this.dgWeights = new System.Windows.Forms.DataGridView();
             this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -65,15 +68,13 @@
             this.lblItemDescription = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.pictureLabel = new System.Windows.Forms.PictureBox();
+            this.picLabel = new System.Windows.Forms.PictureBox();
             this.btnGetWeight = new System.Windows.Forms.Button();
             this.cmbLabels = new System.Windows.Forms.ComboBox();
             this.label19 = new System.Windows.Forms.Label();
             this.txtBoxWeight = new System.Windows.Forms.TextBox();
             this.btnPrintPallet = new System.Windows.Forms.Button();
             this.picBoxLogo = new System.Windows.Forms.PictureBox();
-            this.lblStatusBascule = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.lblPalletTare = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lblPalletNet = new System.Windows.Forms.Label();
@@ -84,15 +85,14 @@
             this.lblPalletNumber = new System.Windows.Forms.Label();
             this.lblWorkCenter = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.lblEquipmentInstanceName = new System.Windows.Forms.Label();
-            this.lblEquipmentInstanceCode = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
+            this.picBoxWaitWO = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgWeights)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureLabel)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.SuspendLayout();
             // 
             // lblResourceDescription
@@ -183,7 +183,6 @@
             this.groupBox1.Controls.Add(this.lblEquipmentInstanceName);
             this.groupBox1.Controls.Add(this.lblEquipmentInstanceCode);
             this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.btnReloadWO);
             this.groupBox1.Controls.Add(this.lblResourceDescription);
             this.groupBox1.Controls.Add(this.lblResourceCode);
             this.groupBox1.Controls.Add(this.label22);
@@ -200,6 +199,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.cmbWorkOrders);
+            this.groupBox1.Controls.Add(this.picBoxWaitWO);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(12, 67);
             this.groupBox1.Name = "groupBox1";
@@ -208,19 +208,36 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Orden de trabajo";
             // 
-            // btnReloadWO
+            // lblEquipmentInstanceName
             // 
-            this.btnReloadWO.BackColor = System.Drawing.Color.Transparent;
-            this.btnReloadWO.BackgroundImage = global::WOW_Fusion.Properties.Resources.upload_01;
-            this.btnReloadWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnReloadWO.FlatAppearance.BorderSize = 0;
-            this.btnReloadWO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReloadWO.Location = new System.Drawing.Point(249, 31);
-            this.btnReloadWO.Name = "btnReloadWO";
-            this.btnReloadWO.Size = new System.Drawing.Size(36, 34);
-            this.btnReloadWO.TabIndex = 26;
-            this.btnReloadWO.UseVisualStyleBackColor = false;
-            this.btnReloadWO.Click += new System.EventHandler(this.btnReloadWO_Click);
+            this.lblEquipmentInstanceName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEquipmentInstanceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEquipmentInstanceName.Location = new System.Drawing.Point(288, 151);
+            this.lblEquipmentInstanceName.Name = "lblEquipmentInstanceName";
+            this.lblEquipmentInstanceName.Size = new System.Drawing.Size(187, 15);
+            this.lblEquipmentInstanceName.TabIndex = 29;
+            this.lblEquipmentInstanceName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lblEquipmentInstanceCode
+            // 
+            this.lblEquipmentInstanceCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEquipmentInstanceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEquipmentInstanceCode.Location = new System.Drawing.Point(102, 153);
+            this.lblEquipmentInstanceCode.Name = "lblEquipmentInstanceCode";
+            this.lblEquipmentInstanceCode.Size = new System.Drawing.Size(160, 15);
+            this.lblEquipmentInstanceCode.TabIndex = 28;
+            this.lblEquipmentInstanceCode.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(40, 153);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(51, 13);
+            this.label15.TabIndex = 27;
+            this.label15.Text = "Máquina:";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label9
             // 
@@ -305,6 +322,20 @@
             this.cmbWorkOrders.Text = "Seleccione orden";
             this.cmbWorkOrders.SelectedValueChanged += new System.EventHandler(this.SelectedIndexChangedWorkOrders);
             // 
+            // btnReloadWO
+            // 
+            this.btnReloadWO.BackColor = System.Drawing.Color.Transparent;
+            this.btnReloadWO.BackgroundImage = global::WOW_Fusion.Properties.Resources.upload_01;
+            this.btnReloadWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnReloadWO.FlatAppearance.BorderSize = 0;
+            this.btnReloadWO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReloadWO.Location = new System.Drawing.Point(543, 493);
+            this.btnReloadWO.Name = "btnReloadWO";
+            this.btnReloadWO.Size = new System.Drawing.Size(36, 34);
+            this.btnReloadWO.TabIndex = 26;
+            this.btnReloadWO.UseVisualStyleBackColor = false;
+            this.btnReloadWO.Click += new System.EventHandler(this.btnReloadWO_Click);
+            // 
             // lblLocationCode
             // 
             this.lblLocationCode.AutoSize = true;
@@ -319,20 +350,20 @@
             // dgWeights
             // 
             this.dgWeights.AllowUserToAddRows = false;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgWeights.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgWeights.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
             this.dgWeights.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgWeights.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dgWeights.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Tai Le", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgWeights.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Tai Le", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgWeights.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.dgWeights.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgWeights.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.No,
@@ -350,8 +381,8 @@
             // No
             // 
             this.No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.No.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.No.DefaultCellStyle = dataGridViewCellStyle13;
             this.No.HeaderText = "No. Rollo";
             this.No.Name = "No";
             this.No.ReadOnly = true;
@@ -359,16 +390,16 @@
             // 
             // NoRollo
             // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.NoRollo.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.NoRollo.DefaultCellStyle = dataGridViewCellStyle14;
             this.NoRollo.HeaderText = "Peso Neto (Kg)";
             this.NoRollo.Name = "NoRollo";
             this.NoRollo.ReadOnly = true;
             // 
             // Peso
             // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Peso.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Peso.DefaultCellStyle = dataGridViewCellStyle15;
             this.Peso.HeaderText = "Peso Bruto (Kg)";
             this.Peso.Name = "Peso";
             this.Peso.ReadOnly = true;
@@ -454,7 +485,7 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.pictureLabel);
+            this.groupBox3.Controls.Add(this.picLabel);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(532, 262);
             this.groupBox3.Name = "groupBox3";
@@ -463,21 +494,22 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Etiqueta";
             // 
-            // pictureLabel
+            // picLabel
             // 
-            this.pictureLabel.Image = global::WOW_Fusion.Properties.Resources.label_icon;
-            this.pictureLabel.Location = new System.Drawing.Point(11, 22);
-            this.pictureLabel.Name = "pictureLabel";
-            this.pictureLabel.Size = new System.Drawing.Size(435, 194);
-            this.pictureLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureLabel.TabIndex = 31;
-            this.pictureLabel.TabStop = false;
+            this.picLabel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.picLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picLabel.Location = new System.Drawing.Point(11, 16);
+            this.picLabel.Name = "picLabel";
+            this.picLabel.Size = new System.Drawing.Size(436, 201);
+            this.picLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picLabel.TabIndex = 32;
+            this.picLabel.TabStop = false;
             // 
             // btnGetWeight
             // 
             this.btnGetWeight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnGetWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGetWeight.Location = new System.Drawing.Point(413, 6);
+            this.btnGetWeight.Location = new System.Drawing.Point(423, 6);
             this.btnGetWeight.Name = "btnGetWeight";
             this.btnGetWeight.Size = new System.Drawing.Size(103, 47);
             this.btnGetWeight.TabIndex = 75;
@@ -539,30 +571,6 @@
             this.picBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picBoxLogo.TabIndex = 64;
             this.picBoxLogo.TabStop = false;
-            // 
-            // lblStatusBascule
-            // 
-            this.lblStatusBascule.AutoSize = true;
-            this.lblStatusBascule.Font = new System.Drawing.Font("Microsoft New Tai Lue", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatusBascule.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblStatusBascule.Location = new System.Drawing.Point(563, 44);
-            this.lblStatusBascule.Name = "lblStatusBascule";
-            this.lblStatusBascule.Size = new System.Drawing.Size(39, 15);
-            this.lblStatusBascule.TabIndex = 60;
-            this.lblStatusBascule.Text = "Status";
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.Transparent;
-            this.button2.BackgroundImage = global::WOW_Fusion.Properties.Resources.bascule_01;
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(564, 6);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(36, 35);
-            this.button2.TabIndex = 79;
-            this.button2.UseVisualStyleBackColor = false;
             // 
             // lblPalletTare
             // 
@@ -669,36 +677,18 @@
             this.label6.TabIndex = 116;
             this.label6.Text = "Centro de trabajo:";
             // 
-            // lblEquipmentInstanceName
+            // picBoxWaitWO
             // 
-            this.lblEquipmentInstanceName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEquipmentInstanceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEquipmentInstanceName.Location = new System.Drawing.Point(288, 151);
-            this.lblEquipmentInstanceName.Name = "lblEquipmentInstanceName";
-            this.lblEquipmentInstanceName.Size = new System.Drawing.Size(187, 15);
-            this.lblEquipmentInstanceName.TabIndex = 29;
-            this.lblEquipmentInstanceName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lblEquipmentInstanceCode
-            // 
-            this.lblEquipmentInstanceCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEquipmentInstanceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEquipmentInstanceCode.Location = new System.Drawing.Point(102, 153);
-            this.lblEquipmentInstanceCode.Name = "lblEquipmentInstanceCode";
-            this.lblEquipmentInstanceCode.Size = new System.Drawing.Size(160, 15);
-            this.lblEquipmentInstanceCode.TabIndex = 28;
-            this.lblEquipmentInstanceCode.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(40, 153);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(51, 13);
-            this.label15.TabIndex = 27;
-            this.label15.Text = "Máquina:";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.picBoxWaitWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picBoxWaitWO.Image = global::WOW_Fusion.Properties.Resources.preloader_01;
+            this.picBoxWaitWO.Location = new System.Drawing.Point(238, 28);
+            this.picBoxWaitWO.Name = "picBoxWaitWO";
+            this.picBoxWaitWO.Padding = new System.Windows.Forms.Padding(10);
+            this.picBoxWaitWO.Size = new System.Drawing.Size(45, 45);
+            this.picBoxWaitWO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBoxWaitWO.TabIndex = 120;
+            this.picBoxWaitWO.TabStop = false;
+            this.picBoxWaitWO.Visible = false;
             // 
             // frmLabelP2
             // 
@@ -708,6 +698,7 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.lblWorkCenter);
             this.Controls.Add(this.label8);
+            this.Controls.Add(this.btnReloadWO);
             this.Controls.Add(this.lblPalletNumber);
             this.Controls.Add(this.lblPalletTare);
             this.Controls.Add(this.label5);
@@ -715,9 +706,7 @@
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.lblPalletGross);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.lblStatusBascule);
             this.Controls.Add(this.lblLocationCode);
             this.Controls.Add(this.picBoxLogo);
             this.Controls.Add(this.dgWeights);
@@ -729,7 +718,7 @@
             this.Controls.Add(this.txtBoxWeight);
             this.Controls.Add(this.btnPrintPallet);
             this.Name = "frmLabelP2";
-            this.Text = "frmLabelP2";
+            this.Text = "WOW Label";
             this.Load += new System.EventHandler(this.frmLabelP2_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -737,8 +726,9 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureLabel)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -765,7 +755,6 @@
         private System.Windows.Forms.ComboBox cmbWorkOrders;
         private System.Windows.Forms.Label lblLocationCode;
         private System.Windows.Forms.PictureBox picBoxLogo;
-        private System.Windows.Forms.PictureBox pictureLabel;
         private System.Windows.Forms.DataGridView dgWeights;
         private System.Windows.Forms.DataGridViewTextBoxColumn No;
         private System.Windows.Forms.DataGridViewTextBoxColumn NoRollo;
@@ -783,8 +772,6 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txtBoxWeight;
         private System.Windows.Forms.Button btnPrintPallet;
-        private System.Windows.Forms.Label lblStatusBascule;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label lblPalletTare;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblPalletNet;
@@ -798,5 +785,7 @@
         private System.Windows.Forms.Label lblEquipmentInstanceName;
         private System.Windows.Forms.Label lblEquipmentInstanceCode;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.PictureBox picLabel;
+        private System.Windows.Forms.PictureBox picBoxWaitWO;
     }
 }
