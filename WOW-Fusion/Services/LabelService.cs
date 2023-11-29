@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -6,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,28 +19,29 @@ namespace WOW_Fusion.Services
 {
     internal class LabelService
     {
-        public static Dictionary<string, string> labelDictionary = new Dictionary<string, string>();
         private static string zplTemplate = string.Empty;
         private static TcpClient _client;
         private static NetworkStream _stream;
-
-        public static string[] lV = { 
-                                            "WORKORDER",
-                                            "ITEMNUMBER",
-                                            "ITEMDESCRIPTION",
-                                            "DESCRIPTIONENGLISH",
-                                            "EQU",
-                                            "DATE",
-                                            "BOXNUMBER"
-                                    };
-        public static Stream CreateFromFile(string designSelected)
+        public static Stream CreateFromFile(string designSelected, int plant)
         {            
             Stream responseStream;
-            zplTemplate = File.ReadAllText($"{Constants.PathLabelsP1}\\{designSelected}.prn");
+            string zpl;
 
-            string zpl = ReplaceZPL(1);
+            if (plant == 1)
+            {
+                zplTemplate = File.ReadAllText($"{Constants.PathLabelsP1}\\{designSelected}.prn");
+                zpl = ReplaceZPLP1(1);
+            }
+            else if(plant == 2)
+            {
+                zplTemplate = File.ReadAllText($"{Constants.PathLabelsP2}\\{designSelected}.prn");
+                zpl = ReplaceZPLP2(1);
+            }
+            else
+            {
+                zpl = "Vacio";
+            }
 
-            //string pathLabelary = $"http://api.labelary.com/v1/printers/12dpmm/labels/4x2/0/ --data-urlencode {zpl}";
             try
             {
                 var request = (HttpWebRequest)WebRequest.Create(String.Format(Constants.LaberalyUrl, zpl));
@@ -54,11 +57,11 @@ namespace WOW_Fusion.Services
             return responseStream;
         }
 
-        public static string[] FilesDesign() 
+        public static string[] FilesDesign(string path) 
         {
             List<string> items = new List<string>();
 
-            string[] files = Directory.GetFiles(Constants.PathLabelsP1, "*.prn");
+            string[] files = Directory.GetFiles(path, "*.prn");
             foreach (string file in files)
             {
                 items.Add(Path.GetFileNameWithoutExtension(file));
@@ -66,7 +69,7 @@ namespace WOW_Fusion.Services
             return items.ToArray();
         }
 
-        public static async Task Print(int quantity)
+        public static async Task PrintP1(int quantity)
         {
             for (int i = 1; i <= quantity; i++)
             {
@@ -79,7 +82,7 @@ namespace WOW_Fusion.Services
 
                     if (_client.Connected)
                     {
-                        string zpl = ReplaceZPL(i);
+                        string zpl = ReplaceZPLP1(i);
                         Thread.Sleep(500);
                         byte[] data = Encoding.ASCII.GetBytes(zpl);
 
@@ -104,12 +107,30 @@ namespace WOW_Fusion.Services
             }
         }
        
-        private static string ReplaceZPL(int box)
+        private static string ReplaceZPLP1(int box)
         {
-            string strLabel = zplTemplate;
-            foreach (string item in lV)
+            string strLabel = zplTemplate; //Template sin reemplazos
+
+            JObject label = new JObject(JObject.Parse(Constants.LabelJson));
+            foreach (var item in label)
             {
-                strLabel = item.Equals("BOXNUMBER") ? strLabel.Replace(item, box.ToString().PadLeft(5, '0')) : strLabel.Replace(item, labelDictionary[item]);
+                if(!string.IsNullOrEmpty(item.Value.ToString()))
+                    strLabel = item.Key.Equals("BOXNUMBER") ? strLabel.Replace(item.Key, box.ToString().PadLeft(5, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
+            }
+            return strLabel;
+        }
+
+        private static string ReplaceZPLP2(int roll)
+        {
+            string strLabel = zplTemplate; //Template sin reemplazos
+
+            JObject label = new JObject(JObject.Parse(Constants.LabelJson));
+            foreach (var item in label)
+            {
+                if (!string.IsNullOrEmpty(item.Value.ToString()))
+                {
+                    strLabel = item.Key.Equals("ROLLNUMBER") ? strLabel.Replace(item.Key, roll.ToString().PadLeft(5, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
+                }
             }
             return strLabel;
         }

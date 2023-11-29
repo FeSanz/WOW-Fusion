@@ -11,15 +11,11 @@ namespace WOW_Fusion
 {
     internal class RadwagController
     {
-        //private string ip = "172.16.100.207";
-        private static string ip = "192.168.12.5";
-        private static int port = 4001;
-
         public static string SocketWeighing(string command)
         {
             string response = "";
             TcpClient client = new TcpClient();
-            var result = client.BeginConnect(ip, port, null, null);
+            var result = client.BeginConnect(Constants.RadwagIp, Constants.RadwagPort, null, null);
             result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(3));
 
             if (client.Connected)

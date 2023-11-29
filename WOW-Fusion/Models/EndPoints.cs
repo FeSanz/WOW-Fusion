@@ -15,13 +15,18 @@ namespace WOW_Fusion.Models
         public static string WorkCenters = Constants.FusionUrl + "/workCenters?" + Constants.ParamsGet +
                                                     "&fields=WorkCenterId,WorkCenterName,WorkAreaId,WorkAreaName" +
                                                     "&q=OrganizationId={0}";
+
+        public static string WorkCentersById = Constants.FusionUrl + "/workCenters?" + Constants.ParamsGet +
+                                                    "&fields=WorkCenterName,WorkCenterDescription,WorkAreaId,WorkAreaName" +
+                                                    "&q=OrganizationId={0} and WorkCenterId={1}";
+
         public static string WorkOrdersList = Constants.FusionUrl + "/workOrders?" + Constants.ParamsGet +
                                                     "&fields=WorkOrderNumber" +
                                                     "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and WorkOrderActiveOperation.WorkCenterId={1}";
 
         public static string WorkOrderDetail = Constants.FusionUrl + "/workOrders?" + Constants.ParamsGet +
                                                     "&expand=WorkOrderResource.WorkOrderOperationResourceInstance" +
-                                                    "&fields=WorkOrderId,ItemNumber,Description,UOMCode,PlannedStartQuantity,PlannedStartDate,PlannedCompletionDate;" +
+                                                    "&fields=WorkOrderId,ItemNumber,Description,UOMCode,PlannedStartQuantity,CompletedQuantity,PlannedStartDate,PlannedCompletionDate;" +
                                                     "WorkOrderResource:ResourceId,ResourceCode,ResourceDescription;" +
                                                     "WorkOrderResource.WorkOrderOperationResourceInstance:" +
                                                     "EquipmentInstanceId,EquipmentInstanceCode,EquipmentInstanceName" +

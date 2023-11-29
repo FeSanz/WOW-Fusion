@@ -16,6 +16,7 @@ using Tulpep.NotificationWindow;
 using WOW_Fusion.Controllers;
 using WOW_Fusion.Models;
 using WOW_Fusion.Services;
+using static Google.Apis.Requests.BatchRequest;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace WOW_Fusion
@@ -45,14 +46,21 @@ namespace WOW_Fusion
 
         private async void InitializeFusionData()
         {
-            List<string> orgInfo = await CommonService.Organization(Constants.Plant1Id); //Obtener datos de Organizacion
+            //Obtener datos de Organizacion
+            dynamic org = await CommonService.OneItem(String.Format(EndPoints.InventoryOrganizations, Constants.Plant1Id));
 
-            if (orgInfo == null) return;
-
-            lblOrganizationCode.Text = orgInfo[0];
-            lblOrganizationName.Text = orgInfo[1];
-            lblLocationCode.Text = orgInfo[2];
-            machines = await CommonService.ProductionResourcesMachines(Constants.Plant1Id); //Obtener Objeto RECURSOS MAQUINAS
+            if (org == null)
+            {
+                AppController.Exit("Sin organización, la aplicación se cerrará");
+                return;
+            }
+            else
+            {
+                lblOrganizationCode.Text = org["OrganizationCode"].ToString();
+                lblOrganizationName.Text = org["OrganizationName"].ToString();
+                lblLocationCode.Text = org["LocationCode"].ToString();
+                machines = await CommonService.ProductionResourcesMachines(String.Format(EndPoints.ProductionResourcesP1, Constants.Plant1Id)); //Obtener Objeto RECURSOS MAQUINAS
+            }
         }
 
         private async void DropDownOpenWorkCenters(object sender, EventArgs e)
@@ -234,7 +242,7 @@ namespace WOW_Fusion
             }
             else
             {
-                await LabelService.Print(int.Parse(lblEndPage.Text));
+                await LabelService.PrintP1(int.Parse(lblEndPage.Text));
             }
         }
 
@@ -242,24 +250,27 @@ namespace WOW_Fusion
         {
             picBoxWaitLD.Visible = true;
             cmbDesignLabels.Items.Clear();
-            cmbDesignLabels.Items.AddRange(LabelService.FilesDesign());
+            cmbDesignLabels.Items.AddRange(LabelService.FilesDesign(Constants.PathLabelsP1));
             picBoxWaitLD.Visible = false;
         }
 
         private void cmbDesignLabels_SelectedValueChanged(object sender, EventArgs e)
         {
             if (cmbDesignLabels.SelectedItem != null)
-            {
-                LabelService.labelDictionary.Clear();
-                LabelService.labelDictionary.Add("WORKORDER", cmbWorkOrders.Text);
-                LabelService.labelDictionary.Add("ITEMNUMBER", lblItemNumber.Text);
-                LabelService.labelDictionary.Add("ITEMDESCRIPTION", lblItemDescription.Text);
-                LabelService.labelDictionary.Add("DESCRIPTIONENGLISH", TranslateService.Translate(lblItemDescription.Text));
-                LabelService.labelDictionary.Add("EQU", lblEquipmentInstanceCode.Text);
-                LabelService.labelDictionary.Add("DATE", DateService.Now());
-                LabelService.labelDictionary.Add("BOXNUMBER", "1".PadLeft(5, '0'));
+            {                
+                dynamic label = JObject.Parse(Constants.LabelJson);
 
-                picLabel.Image = Image.FromStream(LabelService.CreateFromFile(cmbDesignLabels.SelectedItem.ToString()));
+                label.WORKORDER = cmbWorkOrders.Text;
+                label.ITEMNUMBER = lblItemNumber.Text;
+                label.ITEMDESCRIPTION = lblItemDescription.Text;
+                label.DESCRIPTIONENGLISH = TranslateService.Translate(lblItemDescription.Text);
+                label.EQU = lblEquipmentInstanceCode.Text;
+                label.DATE = DateService.Now();
+                label.BOXNUMBER = "1".PadLeft(5, '0');
+
+                Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
+
+                picLabel.Image = Image.FromStream(LabelService.CreateFromFile(cmbDesignLabels.SelectedItem.ToString(), 1));
             }
         }
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,51 +14,42 @@ namespace WOW_Fusion.Services
 {
     internal class CommonService
     {
-        public static async Task<List<string>> Organization(string organizationId)
+        public static async Task<dynamic> OneItem(string endpoint)
         {
             try
             {
-                Task<string> tskOrganizationData = APIService.GetRequestAsync(String.Format(EndPoints.InventoryOrganizations, organizationId));
-                string response = await tskOrganizationData;
-
+                Task<string> tskItem = APIService.GetRequestAsync(endpoint);
+                string response = await tskItem;
                 if (string.IsNullOrEmpty(response))
                 {
-                    AppController.Exit("Sin organización, la aplicación se cerrará");
                     return null;
-                }
-
-                JObject organization = JObject.Parse(response);
-                List<string> organizationData = new List<string>();
-                
-                if ((int)organization["count"] > 0)
-                {
-                    dynamic items = organization["items"][0];
-
-                    organizationData.Add(items["OrganizationCode"].ToString());
-                    organizationData.Add(items["OrganizationName"].ToString());
-                    organizationData.Add(items["LocationCode"].ToString());
-                    organizationData.Add(items["ManagementBusinessUnitName"].ToString());
-                    return organizationData;
                 }
                 else
                 {
-                    AppController.Exit("Sin organización, la aplicación se cerrará");
-                    return null;
+                    JObject objResponse = JObject.Parse(response);
+
+                    if ((int)objResponse["count"] == 0)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return objResponse["items"][0];
+                    }
                 }
-                
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error [Organization]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error. " + ex.Message, "Error [OneItem]", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
 
-        public static async Task<JObject> ProductionResourcesMachines(string organizationId)
+        public static async Task<JObject> ProductionResourcesMachines(string endpoint)
         {
             try
             {
-                Task<string> tskresourcesMachines = APIService.GetRequestAsync(String.Format(EndPoints.ProductionResourcesP1, organizationId));
+                Task<string> tskresourcesMachines = APIService.GetRequestAsync(endpoint);
                 string response = await tskresourcesMachines;
 
                 if (string.IsNullOrEmpty(response))
@@ -122,7 +114,7 @@ namespace WOW_Fusion.Services
         {
             try
             {
-                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WorkCenters, organizationId));
+                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WorkOrdersList, organizationId, workCenterId));
                 string response = await tskWorkOrders;
                 if (string.IsNullOrEmpty(response))
                 {

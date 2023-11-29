@@ -11,7 +11,7 @@ namespace WOW_Fusion
         public const string Plant3Id = "300000002650061";
 
         //Direccion báscula TCP/IP
-        public static string RadwagIp = "192.168.12.5";
+        public static string RadwagIp = "192.168.12.4";
         public static int RadwagPort = 4001;
 
         //Dirección impresora TCP/IP
@@ -35,7 +35,30 @@ namespace WOW_Fusion
 
         public const string organizationId = "300000002650049";
 
-        //ID Centro de trabajo P2
-        public static string WorkCenterId = "300000003523428";  //1. 300000003523428    2. 300000003523430      3. 300000002654222
+        //ID Centro de trabajo
+        public static string WorkCenterIdP2 = "300000002654222";  //1. 300000003523428    2. 300000003523430      3. 300000002654222
+
+        //Etiquetas KEYS
+        public static string LabelJson = @"{
+                                                ""WORKORDER"": """",
+                                                ""ITEMNUMBER"": """",
+                                                ""ITEMDESCRIPTION"": """",
+                                                ""DESCRIPTIONENGLISH"": """",
+                                                ""EQU"": """",
+                                                ""BOXNUMBER"": """",
+                                                ""PARTNUMBER"": """",
+                                                ""LOTNUMBER"": """",
+                                                ""WNETKG"": """",
+                                                ""WNETLBS"":"""",
+                                                ""WGROSSKG"": """",
+                                                ""WGROSSLBS"": """",
+                                                ""WEIGHTS"": """",
+                                                ""ROLLNUMBER"": """",
+                                                ""PALLETNUMBER"": """",
+                                                ""WIDTHTHICKNESS"": """",
+                                                ""BUSINESSUNIT"": """",
+                                                ""PURCHASEORDER"": """",
+                                                ""ADDRESS"": """"
+                                          }";
     }
 }

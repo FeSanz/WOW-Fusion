@@ -1,7 +1,30 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WOW_Fusion.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WorkOrdersPrinted" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="PrinterIP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="PrinterPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">9100</Value>
+    </Setting>
+    <Setting Name="RadwagIP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="RadwagPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4001</Value>
+    </Setting>
+    <Setting Name="PathLabelsP1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\Visual Studio Projects\WOW-Fusion\WOW-Fusion\Resources\Labels\LP1</Value>
+    </Setting>
+    <Setting Name="PathLabelsP2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\Visual Studio Projects\WOW-Fusion\WOW-Fusion\Resources\Labels\LP2</Value>
+    </Setting>
+    <Setting Name="WorkCenterIdP2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">300000003523428</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
