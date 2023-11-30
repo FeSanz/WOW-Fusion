@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLabelP2));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblResourceDescription = new System.Windows.Forms.Label();
             this.lblResourceCode = new System.Windows.Forms.Label();
             this.lblPlannedQuantity = new System.Windows.Forms.Label();
@@ -58,9 +58,6 @@
             this.picBoxWaitWO = new System.Windows.Forms.PictureBox();
             this.lblLocationCode = new System.Windows.Forms.Label();
             this.dgWeights = new System.Windows.Forms.DataGridView();
-            this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NoRollo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Peso = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblItemDescriptionEnglish = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -92,6 +89,11 @@
             this.MenuP2 = new System.Windows.Forms.MenuStrip();
             this.homeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configiraciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.W = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NetKG = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NetLBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GrossKG = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GrossLBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgWeights)).BeginInit();
@@ -369,28 +371,30 @@
             // dgWeights
             // 
             this.dgWeights.AllowUserToAddRows = false;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgWeights.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgWeights.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgWeights.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgWeights.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dgWeights.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgWeights.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dgWeights.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.Menu;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgWeights.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Menu;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgWeights.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgWeights.ColumnHeadersHeight = 25;
             this.dgWeights.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgWeights.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.No,
-            this.NoRollo,
-            this.Peso});
+            this.W,
+            this.NetKG,
+            this.NetLBS,
+            this.GrossKG,
+            this.GrossLBS});
             this.dgWeights.EnableHeadersVisualStyles = false;
             this.dgWeights.GridColor = System.Drawing.SystemColors.ControlLight;
             this.dgWeights.Location = new System.Drawing.Point(22, 294);
@@ -398,42 +402,18 @@
             this.dgWeights.ReadOnly = true;
             this.dgWeights.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgWeights.RowHeadersVisible = false;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.Black;
-            this.dgWeights.RowsDefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgWeights.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            this.dgWeights.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             this.dgWeights.RowTemplate.Height = 45;
             this.dgWeights.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgWeights.Size = new System.Drawing.Size(462, 223);
             this.dgWeights.TabIndex = 66;
             this.dgWeights.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgWeights_CellClick);
             this.dgWeights.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgWeight_CellPainting);
-            // 
-            // No
-            // 
-            this.No.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.No.DefaultCellStyle = dataGridViewCellStyle15;
-            this.No.HeaderText = "No.";
-            this.No.Name = "No";
-            this.No.ReadOnly = true;
-            this.No.Width = 50;
-            // 
-            // NoRollo
-            // 
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.NoRollo.DefaultCellStyle = dataGridViewCellStyle16;
-            this.NoRollo.HeaderText = "Peso Neto (Kg)";
-            this.NoRollo.Name = "NoRollo";
-            this.NoRollo.ReadOnly = true;
-            // 
-            // Peso
-            // 
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Peso.DefaultCellStyle = dataGridViewCellStyle17;
-            this.Peso.HeaderText = "Peso Bruto (Kg)";
-            this.Peso.Name = "Peso";
-            this.Peso.ReadOnly = true;
             // 
             // groupBox2
             // 
@@ -777,8 +757,46 @@
             // configiraciónToolStripMenuItem
             // 
             this.configiraciónToolStripMenuItem.Name = "configiraciónToolStripMenuItem";
-            this.configiraciónToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.configiraciónToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.configiraciónToolStripMenuItem.Text = "Preferencias";
+            // 
+            // W
+            // 
+            this.W.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.W.DefaultCellStyle = dataGridViewCellStyle3;
+            this.W.HeaderText = "Peso";
+            this.W.Name = "W";
+            this.W.ReadOnly = true;
+            this.W.Width = 57;
+            // 
+            // NetKG
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.NetKG.DefaultCellStyle = dataGridViewCellStyle4;
+            this.NetKG.HeaderText = "Neto KG";
+            this.NetKG.Name = "NetKG";
+            this.NetKG.ReadOnly = true;
+            // 
+            // NetLBS
+            // 
+            this.NetLBS.HeaderText = "Neto LBS";
+            this.NetLBS.Name = "NetLBS";
+            this.NetLBS.ReadOnly = true;
+            // 
+            // GrossKG
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.GrossKG.DefaultCellStyle = dataGridViewCellStyle5;
+            this.GrossKG.HeaderText = "Bruto Kg";
+            this.GrossKG.Name = "GrossKG";
+            this.GrossKG.ReadOnly = true;
+            // 
+            // GrossLBS
+            // 
+            this.GrossLBS.HeaderText = "Bruto LBS";
+            this.GrossLBS.Name = "GrossLBS";
+            this.GrossLBS.ReadOnly = true;
             // 
             // frmLabelP2
             // 
@@ -868,9 +886,6 @@
         private System.Windows.Forms.ComboBox cmbDesignLabels;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.PictureBox picBoxWaitLD;
-        private System.Windows.Forms.DataGridViewTextBoxColumn No;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NoRollo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Peso;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label3;
@@ -887,5 +902,10 @@
         private System.Windows.Forms.MenuStrip MenuP2;
         private System.Windows.Forms.ToolStripMenuItem homeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configiraciónToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn W;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NetKG;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NetLBS;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GrossKG;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GrossLBS;
     }
 }

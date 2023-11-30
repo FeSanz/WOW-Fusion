@@ -11,7 +11,7 @@ namespace WOW_Fusion
         public const string Plant3Id = "300000002650061";
 
         //Direccion báscula TCP/IP
-        public static string RadwagIp = "192.168.12.4";
+        public static string RadwagIp = "192.168.12.3";
         public static int RadwagPort = 4001;
 
         //Dirección impresora TCP/IP
@@ -30,7 +30,8 @@ namespace WOW_Fusion
 
         //Rutas Etiquetas
         public static string PathLabelsP1 = @"D:\Visual Studio Projects\WOW-Fusion\WOW-Fusion\Resources\Labels\LP1";
-        public static string PathLabelsP2 = @"D:\Visual Studio Projects\WOW-Fusion\WOW-Fusion\Resources\Labels\LP2";
+        public static string PathLabelsPalletP2 = @"D:\Visual Studio Projects\WOW-Fusion\WOW-Fusion\Resources\Labels\LP2\Pallet";
+        public static string PathLabelsRollP2 = @"D:\Visual Studio Projects\WOW-Fusion\WOW-Fusion\Resources\Labels\LP2\Roll";
         public static string LaberalyUrl = "http://api.labelary.com/v1/printers/12dpmm/labels/4x2/0/ --data-urlencode {0}";
 
         public const string organizationId = "300000002650049";

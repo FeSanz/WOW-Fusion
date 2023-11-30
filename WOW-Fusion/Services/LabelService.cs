@@ -34,7 +34,7 @@ namespace WOW_Fusion.Services
             }
             else if(plant == 2)
             {
-                zplTemplate = File.ReadAllText($"{Constants.PathLabelsP2}\\{designSelected}.prn");
+                zplTemplate = File.ReadAllText($"{Constants.PathLabelsRollP2}\\{designSelected}.prn");
                 zpl = ReplaceZPLP2(1);
             }
             else

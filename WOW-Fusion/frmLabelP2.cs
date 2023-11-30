@@ -178,8 +178,8 @@ namespace WOW_Fusion
                     {
                         pop.Close();
                         _tareWeight = float.Parse(requestTareWeight);
-                        lblPalletTare.Text = requestTareWeight;
-                        txtBoxWeight.Text = requestTareWeight;
+                        lblPalletTare.Text = float.Parse(requestTareWeight).ToString("F2");
+                        txtBoxWeight.Text = float.Parse(requestTareWeight).ToString("F2");
                         btnGetWeight.Text = "OBTENER";
                         _rollNumber = 0;
                     }
@@ -212,18 +212,22 @@ namespace WOW_Fusion
 
                     //Calcular pero neto de cada rollo (sin tara)
                     float rollNetKg = float.Parse(palletNetWeight) - _palletWeight;
-                    txtBoxWeight.Text = rollNetKg.ToString();
+                    float rollNetLbs = rollNetKg * 2.205f;
+
+                    txtBoxWeight.Text = rollNetKg.ToString("F2");
 
                     //Calcular pero bruto de cada rollo (con tara)
                     float rollGrossKg = rollNetKg + _tareWeight;
+                    float rollGrossLbs = rollGrossKg * 2.205f;
 
                     //Agregar a datagrid (Rollo, Neto, Bruto)
-                    string[] row = new string[] { _rollNumber.ToString(), rollNetKg.ToString(), rollGrossKg.ToString() };
+                    string[] row = new string[] { _rollNumber.ToString(), rollNetKg.ToString("F2"), rollNetLbs.ToString("F2"), 
+                                                                          rollGrossKg.ToString("F2"), rollGrossLbs.ToString("F2") };
                     dgWeights.Rows.Add(row);
 
                     _palletWeight = float.Parse(palletNetWeight);
-                    lblPalletNet.Text = palletNetWeight;
-                    lblPalletGross.Text = (_palletWeight + _tareWeight).ToString();
+                    lblPalletNet.Text = float.Parse(palletNetWeight).ToString("F2");
+                    lblPalletGross.Text = (_palletWeight + _tareWeight).ToString("F2");
 
                     if (dgWeights.RowCount == 1)
                     {
@@ -251,7 +255,7 @@ namespace WOW_Fusion
         {
             picBoxWaitLD.Visible = true;
             cmbDesignLabels.Items.Clear();
-            cmbDesignLabels.Items.AddRange(LabelService.FilesDesign(Constants.PathLabelsP2));
+            cmbDesignLabels.Items.AddRange(LabelService.FilesDesign(Constants.PathLabelsRollP2));
             picBoxWaitLD.Visible = false;
         }
 
@@ -286,7 +290,7 @@ namespace WOW_Fusion
                 return;
 
             //Columna a colocar icono
-            if (e.ColumnIndex == 3)
+            if (e.ColumnIndex == 5)
             {
                 e.Paint(e.CellBounds, DataGridViewPaintParts.All);
 
@@ -302,12 +306,12 @@ namespace WOW_Fusion
 
         private void dgWeights_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 3)
+            if (e.ColumnIndex == 5)
             {
                 DataGridViewRow row = dgWeights.Rows[e.RowIndex];
-                string data = row.Cells[0].Value.ToString();
-                MessageBox.Show(data);
-                //MessageBox.Show(e.RowIndex.ToString() + "," + e.ColumnIndex.ToString());
+                //string data = row.Cells[0].Value.ToString();
+                //MessageBox.Show(data);
+                MessageBox.Show(dgWeights.SelectedCells[0].Value.ToString());
             }
         }
 
