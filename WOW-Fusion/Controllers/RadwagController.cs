@@ -6,17 +6,39 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Google.Apis.Requests.BatchRequest;
+using WOW_Fusion.Properties;
+using System.Net;
 
 namespace WOW_Fusion
 {
     internal class RadwagController
     {
+        public async static Task<bool> CheckConnection(string ip, int port)
+        {
+            try
+            {
+                TcpClient client = new TcpClient();
+                client = new TcpClient();
+                await client.ConnectAsync(ip, port);
+
+                return client.Connected ? true : false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public static string SocketWeighing(string command)
         {
             string response = "";
+
             TcpClient client = new TcpClient();
-            var result = client.BeginConnect(Constants.RadwagIp, Constants.RadwagPort, null, null);
+            //var result = client.BeginConnect(Settings.Default.RadwagIP, Settings.Default.RadwagPort, null, null);
+            var result = client.BeginConnect(Settings.Default.WeighingIP, Settings.Default.WeighingPort, null, null);
             result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(3));
+
 
             if (client.Connected)
             {
@@ -56,7 +78,7 @@ namespace WOW_Fusion
                     reader.Close();
 
                 }
-                catch (Exception ex)
+                catch
                 {
                     response = "EX";
                     //MessageBox.Show("Error. " + ex.Message, "Socket Báscula", MessageBoxButtons.OK, MessageBoxIcon.Error);

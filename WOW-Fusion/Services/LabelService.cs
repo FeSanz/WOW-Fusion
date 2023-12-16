@@ -14,28 +14,39 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WOW_Fusion.Controllers;
 using static System.Net.Mime.MediaTypeNames;
+using WOW_Fusion.Properties;
 
 namespace WOW_Fusion.Services
 {
     internal class LabelService
     {
         private static string zplTemplate = string.Empty;
+        private static string zplPalletTemplate = string.Empty;
         private static TcpClient _client;
         private static NetworkStream _stream;
-        public static Stream CreateFromFile(string designSelected, int plant)
-        {            
+
+        public static async Task<Stream> CreateFromApexAsync(string labelName, int mode)
+        {
             Stream responseStream;
             string zpl;
 
-            if (plant == 1)
+            JObject labels = await CommonService.LabelTamplate(labelName);
+            if (labels == null) { return null; }
+
+            if (mode == 1) //Box
             {
-                zplTemplate = File.ReadAllText($"{Constants.PathLabelsP1}\\{designSelected}.prn");
-                zpl = ReplaceZPLP1(1);
+                zplTemplate = labels["LabelZpl"].ToString().Replace("\r\n", String.Empty);
+                zpl = ReplaceZplBox(1);
             }
-            else if(plant == 2)
+            else if (mode == 2) //Roll
             {
-                zplTemplate = File.ReadAllText($"{Constants.PathLabelsRollP2}\\{designSelected}.prn");
-                zpl = ReplaceZPLP2(1);
+                zplTemplate = labels["LabelZpl"].ToString().Replace("\r\n", String.Empty);
+                zpl = ReplaceZplRoll(1);
+            }
+            else if (mode == 3) //Pallet
+            {
+                zplPalletTemplate = labels["LabelPalletZpl"].ToString().Replace("\r\n", String.Empty);
+                zpl = ReplaceZplPallet(1);
             }
             else
             {
@@ -53,7 +64,7 @@ namespace WOW_Fusion.Services
                 responseStream = null;
                 NotifierController.DetailError("Error labelary", ex.Message);
             }
-            
+
             return responseStream;
         }
 
@@ -76,13 +87,13 @@ namespace WOW_Fusion.Services
                 try
                 {
                     _client = new TcpClient();
-                    await _client.ConnectAsync(Constants.PrinterIp, Constants.PrinterPort);
+                    await _client.ConnectAsync(Settings.Default.WeighingIP, Settings.Default.WeighingPort);
                     //_client.Connect(ipPrinter, portPrinter);
                     _stream = _client.GetStream();
 
                     if (_client.Connected)
                     {
-                        string zpl = ReplaceZPLP1(i);
+                        string zpl = ReplaceZplBox(i);
                         Thread.Sleep(500);
                         byte[] data = Encoding.ASCII.GetBytes(zpl);
 
@@ -107,7 +118,7 @@ namespace WOW_Fusion.Services
             }
         }
        
-        private static string ReplaceZPLP1(int box)
+        private static string ReplaceZplBox(int box)
         {
             string strLabel = zplTemplate; //Template sin reemplazos
 
@@ -115,12 +126,12 @@ namespace WOW_Fusion.Services
             foreach (var item in label)
             {
                 if(!string.IsNullOrEmpty(item.Value.ToString()))
-                    strLabel = item.Key.Equals("BOXNUMBER") ? strLabel.Replace(item.Key, box.ToString().PadLeft(5, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
+                    strLabel = item.Key.Equals("BOXNUMBER") ? strLabel.Replace(item.Key, box.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
             }
             return strLabel;
         }
 
-        private static string ReplaceZPLP2(int roll)
+        private static string ReplaceZplRoll(int roll)
         {
             string strLabel = zplTemplate; //Template sin reemplazos
 
@@ -129,10 +140,15 @@ namespace WOW_Fusion.Services
             {
                 if (!string.IsNullOrEmpty(item.Value.ToString()))
                 {
-                    strLabel = item.Key.Equals("ROLLNUMBER") ? strLabel.Replace(item.Key, roll.ToString().PadLeft(5, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
+                    strLabel = item.Key.Equals("ROLLNUMBER") ? strLabel.Replace(item.Key, roll.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
                 }
             }
             return strLabel;
+        }
+
+        private static string ReplaceZplPallet(int pallet)
+        {
+            return "";
         }
     }
 }

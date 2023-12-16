@@ -94,6 +94,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmSettingsP1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSettingsP1.Designer.cs">
+      <DependentUpon>frmSettingsP1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\NotifierController.cs" />
@@ -138,7 +144,6 @@
     <Compile Include="Services\DateService.cs" />
     <Compile Include="Services\LabelService.cs" />
     <Compile Include="Services\Plant1Service.cs" />
-    <Compile Include="Services\StaticApiService.cs" />
     <Compile Include="Services\TranslateService.cs" />
     <EmbeddedResource Include="frmLabelP1.resx">
       <DependentUpon>frmLabelP1.cs</DependentUpon>
@@ -154,6 +159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSackP3.resx">
       <DependentUpon>frmSackP3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSettingsP1.resx">
+      <DependentUpon>frmSettingsP1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -207,6 +215,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\LabelP1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings_01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ajuste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ajuste %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ajustes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_02.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLabelP1));
             this.lblItemDescription = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -64,24 +65,24 @@
             this.label17 = new System.Windows.Forms.Label();
             this.btnPrint = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cmbDesignLabels = new System.Windows.Forms.ComboBox();
+            this.lblLabelDesign = new System.Windows.Forms.Label();
+            this.lblAditional = new System.Windows.Forms.Label();
             this.picBoxWaitLD = new System.Windows.Forms.PictureBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.lblStartPage = new System.Windows.Forms.Label();
-            this.lblEndPage = new System.Windows.Forms.Label();
+            this.lbLabelQuantity = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.trackBarPercentageAdd = new System.Windows.Forms.TrackBar();
             this.picLabel = new System.Windows.Forms.PictureBox();
-            this.lblAdditional = new System.Windows.Forms.Label();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
+            this.btnSettings = new System.Windows.Forms.Button();
+            this.lblTotalPrint = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitLD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarPercentageAdd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picLabel)).BeginInit();
             this.SuspendLayout();
             // 
@@ -131,9 +132,9 @@
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label17);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 26);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(471, 346);
+            this.groupBox1.Size = new System.Drawing.Size(471, 343);
             this.groupBox1.TabIndex = 113;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos de producción";
@@ -189,9 +190,9 @@
             this.lblPlannedQuantity.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblPlannedQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPlannedQuantity.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblPlannedQuantity.Location = new System.Drawing.Point(246, 156);
+            this.lblPlannedQuantity.Location = new System.Drawing.Point(246, 160);
             this.lblPlannedQuantity.Name = "lblPlannedQuantity";
-            this.lblPlannedQuantity.Size = new System.Drawing.Size(187, 26);
+            this.lblPlannedQuantity.Size = new System.Drawing.Size(187, 22);
             this.lblPlannedQuantity.TabIndex = 22;
             this.lblPlannedQuantity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -502,7 +503,7 @@
             this.btnPrint.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.btnPrint.Enabled = false;
             this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new System.Drawing.Point(856, 373);
+            this.btnPrint.Location = new System.Drawing.Point(856, 386);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(120, 54);
             this.btnPrint.TabIndex = 117;
@@ -512,36 +513,46 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.cmbDesignLabels);
+            this.groupBox3.Controls.Add(this.lblTotalPrint);
+            this.groupBox3.Controls.Add(this.lblLabelDesign);
+            this.groupBox3.Controls.Add(this.lblAditional);
             this.groupBox3.Controls.Add(this.picBoxWaitLD);
-            this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Controls.Add(this.label16);
             this.groupBox3.Controls.Add(this.lblStartPage);
-            this.groupBox3.Controls.Add(this.lblEndPage);
+            this.groupBox3.Controls.Add(this.lbLabelQuantity);
             this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Controls.Add(this.trackBarPercentageAdd);
             this.groupBox3.Controls.Add(this.picLabel);
-            this.groupBox3.Controls.Add(this.lblAdditional);
+            this.groupBox3.Controls.Add(this.label15);
+            this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(504, 12);
+            this.groupBox3.Location = new System.Drawing.Point(504, 26);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(472, 346);
+            this.groupBox3.Size = new System.Drawing.Size(472, 343);
             this.groupBox3.TabIndex = 118;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Etiqueta";
             // 
-            // cmbDesignLabels
+            // lblLabelDesign
             // 
-            this.cmbDesignLabels.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbDesignLabels.Enabled = false;
-            this.cmbDesignLabels.FormattingEnabled = true;
-            this.cmbDesignLabels.Location = new System.Drawing.Point(21, 38);
-            this.cmbDesignLabels.Name = "cmbDesignLabels";
-            this.cmbDesignLabels.Size = new System.Drawing.Size(187, 21);
-            this.cmbDesignLabels.TabIndex = 126;
-            this.cmbDesignLabels.DropDown += new System.EventHandler(this.cmbDesignLabels_DropDown);
-            this.cmbDesignLabels.SelectedValueChanged += new System.EventHandler(this.cmbDesignLabels_SelectedValueChanged);
+            this.lblLabelDesign.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblLabelDesign.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLabelDesign.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblLabelDesign.Location = new System.Drawing.Point(13, 37);
+            this.lblLabelDesign.Name = "lblLabelDesign";
+            this.lblLabelDesign.Size = new System.Drawing.Size(187, 22);
+            this.lblLabelDesign.TabIndex = 130;
+            this.lblLabelDesign.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblAditional
+            // 
+            this.lblAditional.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAditional.ForeColor = System.Drawing.Color.IndianRed;
+            this.lblAditional.Location = new System.Drawing.Point(427, 37);
+            this.lblAditional.Name = "lblAditional";
+            this.lblAditional.Size = new System.Drawing.Size(41, 13);
+            this.lblAditional.TabIndex = 129;
+            this.lblAditional.Text = "(+0)";
+            this.lblAditional.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // picBoxWaitLD
             // 
@@ -561,11 +572,11 @@
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label15.Location = new System.Drawing.Point(228, 88);
+            this.label15.Location = new System.Drawing.Point(307, 321);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(52, 13);
+            this.label15.Size = new System.Drawing.Size(29, 13);
             this.label15.TabIndex = 122;
-            this.label15.Text = "Impresión";
+            this.label15.Text = "Pág.";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label16
@@ -573,7 +584,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label16.Location = new System.Drawing.Point(73, 19);
+            this.label16.Location = new System.Drawing.Point(63, 19);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(82, 13);
             this.label16.TabIndex = 127;
@@ -583,81 +594,50 @@
             // lblStartPage
             // 
             this.lblStartPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblStartPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStartPage.Location = new System.Drawing.Point(286, 87);
+            this.lblStartPage.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStartPage.Location = new System.Drawing.Point(335, 318);
             this.lblStartPage.Name = "lblStartPage";
-            this.lblStartPage.Size = new System.Drawing.Size(73, 15);
+            this.lblStartPage.Size = new System.Drawing.Size(51, 19);
             this.lblStartPage.TabIndex = 121;
             this.lblStartPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblEndPage
+            // lbLabelQuantity
             // 
-            this.lblEndPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblEndPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEndPage.Location = new System.Drawing.Point(389, 87);
-            this.lblEndPage.Name = "lblEndPage";
-            this.lblEndPage.Size = new System.Drawing.Size(73, 15);
-            this.lblEndPage.TabIndex = 120;
-            this.lblEndPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbLabelQuantity.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbLabelQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbLabelQuantity.Location = new System.Drawing.Point(375, 37);
+            this.lbLabelQuantity.Name = "lbLabelQuantity";
+            this.lbLabelQuantity.Size = new System.Drawing.Size(54, 15);
+            this.lbLabelQuantity.TabIndex = 120;
+            this.lbLabelQuantity.Text = "0000";
+            this.lbLabelQuantity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label12.Location = new System.Drawing.Point(367, 88);
+            this.label12.Location = new System.Drawing.Point(391, 321);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(13, 13);
             this.label12.TabIndex = 119;
             this.label12.Text = "a";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label8.Location = new System.Drawing.Point(273, 36);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(67, 13);
-            this.label8.TabIndex = 119;
-            this.label8.Text = "Adicional (%)";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // trackBarPercentageAdd
-            // 
-            this.trackBarPercentageAdd.Enabled = false;
-            this.trackBarPercentageAdd.Location = new System.Drawing.Point(335, 33);
-            this.trackBarPercentageAdd.Maximum = 5;
-            this.trackBarPercentageAdd.Name = "trackBarPercentageAdd";
-            this.trackBarPercentageAdd.Size = new System.Drawing.Size(104, 45);
-            this.trackBarPercentageAdd.TabIndex = 32;
-            this.trackBarPercentageAdd.Scroll += new System.EventHandler(this.trackBarPercentageAdd_Scroll);
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // picLabel
             // 
             this.picLabel.BackColor = System.Drawing.Color.WhiteSmoke;
             this.picLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picLabel.Location = new System.Drawing.Point(13, 110);
+            this.picLabel.Location = new System.Drawing.Point(13, 67);
             this.picLabel.Name = "picLabel";
-            this.picLabel.Size = new System.Drawing.Size(449, 217);
+            this.picLabel.Size = new System.Drawing.Size(449, 249);
             this.picLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picLabel.TabIndex = 31;
             this.picLabel.TabStop = false;
             // 
-            // lblAdditional
-            // 
-            this.lblAdditional.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAdditional.Location = new System.Drawing.Point(435, 36);
-            this.lblAdditional.Name = "lblAdditional";
-            this.lblAdditional.Size = new System.Drawing.Size(37, 13);
-            this.lblAdditional.TabIndex = 120;
-            this.lblAdditional.Text = "--";
-            this.lblAdditional.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // rtbLog
             // 
-            this.rtbLog.Location = new System.Drawing.Point(12, 373);
+            this.rtbLog.Location = new System.Drawing.Point(12, 386);
             this.rtbLog.Name = "rtbLog";
             this.rtbLog.ReadOnly = true;
             this.rtbLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -665,15 +645,52 @@
             this.rtbLog.TabIndex = 119;
             this.rtbLog.Text = "";
             // 
+            // btnSettings
+            // 
+            this.btnSettings.BackColor = System.Drawing.Color.Transparent;
+            this.btnSettings.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSettings.BackgroundImage")));
+            this.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSettings.FlatAppearance.BorderSize = 0;
+            this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSettings.Location = new System.Drawing.Point(960, 11);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(15, 15);
+            this.btnSettings.TabIndex = 120;
+            this.btnSettings.UseVisualStyleBackColor = false;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
+            // lblTotalPrint
+            // 
+            this.lblTotalPrint.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblTotalPrint.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalPrint.Location = new System.Drawing.Point(408, 318);
+            this.lblTotalPrint.Name = "lblTotalPrint";
+            this.lblTotalPrint.Size = new System.Drawing.Size(51, 19);
+            this.lblTotalPrint.TabIndex = 132;
+            this.lblTotalPrint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label11.Location = new System.Drawing.Point(343, 38);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(34, 13);
+            this.label11.TabIndex = 131;
+            this.label11.Text = "Total:";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // frmLabelP1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(987, 439);
+            this.ClientSize = new System.Drawing.Size(987, 462);
             this.Controls.Add(this.rtbLog);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnPrint);
+            this.Controls.Add(this.btnSettings);
             this.Name = "frmLabelP1";
             this.Text = "WOW Label";
             this.Load += new System.EventHandler(this.frmLabelP1_Load);
@@ -684,7 +701,6 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitLD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarPercentageAdd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picLabel)).EndInit();
             this.ResumeLayout(false);
 
@@ -729,17 +745,18 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TrackBar trackBarPercentageAdd;
-        private System.Windows.Forms.Label lblAdditional;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox cmbDesignLabels;
         private System.Windows.Forms.PictureBox picBoxWaitLD;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label lblStartPage;
-        private System.Windows.Forms.Label lblEndPage;
+        private System.Windows.Forms.Label lbLabelQuantity;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.RichTextBox rtbLog;
+        private System.Windows.Forms.Button btnSettings;
+        private System.Windows.Forms.Label lblAditional;
+        private System.Windows.Forms.Label lblLabelDesign;
+        private System.Windows.Forms.Label lblTotalPrint;
+        private System.Windows.Forms.Label label11;
     }
 }
 

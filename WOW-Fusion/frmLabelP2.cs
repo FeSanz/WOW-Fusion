@@ -29,12 +29,17 @@ namespace WOW_Fusion
         Random rnd = new Random();
 
         PopController pop;
-        //Datagrid parametros
-        private int _rollNumber = 0;
 
         //Pesos params
-        private float _tareWeight = 0;
-        private float _palletWeight = 0;
+        private float _tareWeight = 0.0f;
+        private float _weightFromWeighing = 0.0f;
+        private float _previousWeight = 0.0f;
+
+        private int _rowSelected = 0;
+
+        //Rollos pallet control
+        private int _rollCount = 0;
+        private int _palletCount = 0;
 
         //JObjets response
         private JObject machines = null;
@@ -48,11 +53,6 @@ namespace WOW_Fusion
         private void frmLabelP2_Load(object sender, EventArgs e)
         {
             pop = new PopController();
-
-            //MessageBox.Show(Settings.Default.RadwagIP);
-
-            /*Settings.Default.RadwagIP = "127.0.0.5";
-            Settings.Default.Save();*/
 
             btnGetWeight.Text = "TARA";
         }
@@ -144,8 +144,16 @@ namespace WOW_Fusion
                             dynamic instance = resource["WorkOrderOperationResourceInstance"]["items"][0]; // Objeto INSTANCIA
                             lblEquipmentInstanceCode.Text = instance["EquipmentInstanceCode"].ToString();
                             lblEquipmentInstanceName.Text = instance["EquipmentInstanceName"].ToString();
-                        }
-                        cmbDesignLabels.Enabled = true; 
+
+                            //Fill label
+                            btnGetWeight.Enabled = true;
+                            cmbWorkOrders.Enabled = false;
+
+                            lblLabelDesignRoll.Text = "XILAM";
+                            lblLabelDesignPallet.Text = "PALLET";
+
+                            FillLabelRoll();
+                        } 
                     }
                     else
                     {
@@ -176,16 +184,17 @@ namespace WOW_Fusion
                     string requestTareWeight = RadwagController.SocketWeighing("OT");
                     if (!requestTareWeight.Equals("EX"))
                     {
-                        pop.Close();
                         _tareWeight = float.Parse(requestTareWeight);
                         lblPalletTare.Text = float.Parse(requestTareWeight).ToString("F2");
                         txtBoxWeight.Text = float.Parse(requestTareWeight).ToString("F2");
                         btnGetWeight.Text = "OBTENER";
-                        _rollNumber = 0;
+                        _rollCount = 0;
+                        _palletCount += 1;
+
+                        lblPalletNumber.Text = _palletCount.ToString();
                     }
                     else
                     {
-                        pop.Close();
                         NotifierController.Warning("Tiempo de espera agotado, vuelva a  intentar");
                     }
                 }
@@ -197,10 +206,10 @@ namespace WOW_Fusion
             }
             else
             {
-                //Obtiene peso neto acomulado del pallet (sin tara)
-                string palletNetWeight = RadwagController.SocketWeighing("S");
+                //Obtiene peso acomulado (sin tara)
+                string responseWeighing = RadwagController.SocketWeighing("S");
 
-                if (palletNetWeight == "EX")
+                if (responseWeighing == "EX")
                 {
                     pop.Close();
                     NotifierController.Warning("Tiempo de espera agotado, vuelva a  intentar");
@@ -208,80 +217,84 @@ namespace WOW_Fusion
                 else
                 {
                     pop.Close();
-                    _rollNumber++;
 
-                    //Calcular pero neto de cada rollo (sin tara)
-                    float rollNetKg = float.Parse(palletNetWeight) - _palletWeight;
-                    float rollNetLbs = rollNetKg * 2.205f;
+                    //La bascula solo acomula el peso neto (SIN TARA)
+                    _weightFromWeighing = float.Parse(responseWeighing);
 
+                    //Llenar campos de pallet (NET siempre sera el peso acomuladod de la bascula)
+                    lblPalletNet.Text = _weightFromWeighing.ToString("F2");
+                    lblPalletGross.Text = (_weightFromWeighing + _tareWeight).ToString("F2");
+
+                    //Calcular pero neto de cada rollo (SIN TARA)
+                    float rollNetKg = _weightFromWeighing - _previousWeight;
                     txtBoxWeight.Text = rollNetKg.ToString("F2");
 
-                    //Calcular pero bruto de cada rollo (con tara)
-                    float rollGrossKg = rollNetKg + _tareWeight;
-                    float rollGrossLbs = rollGrossKg * 2.205f;
-
-                    //Agregar a datagrid (Rollo, Neto, Bruto)
-                    string[] row = new string[] { _rollNumber.ToString(), rollNetKg.ToString("F2"), rollNetLbs.ToString("F2"), 
-                                                                          rollGrossKg.ToString("F2"), rollGrossLbs.ToString("F2") };
-                    dgWeights.Rows.Add(row);
-
-                    _palletWeight = float.Parse(palletNetWeight);
-                    lblPalletNet.Text = float.Parse(palletNetWeight).ToString("F2");
-                    lblPalletGross.Text = (_palletWeight + _tareWeight).ToString("F2");
-
-                    if (dgWeights.RowCount == 1)
-                    {
-                        DataGridViewButtonColumn dgViewButtonPrint = new DataGridViewButtonColumn();
+                    if (rollNetKg > Settings.Default.RollMax) {
+                        DialogResult dialogResult = MessageBox.Show($"Peso fuera del rango ({txtBoxWeight.Text} kg) ¿Desea continuar?", "Fuera del rango", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
                         {
-                            dgViewButtonPrint.HeaderText = "Acción";
-                            dgViewButtonPrint.Name = "btnPrintLabel";
-                            dgViewButtonPrint.FlatStyle = FlatStyle.Flat;
-                            dgViewButtonPrint.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                            dgViewButtonPrint.UseColumnTextForButtonValue = true;
+                            AddRoll(rollNetKg);
                         }
-
-                        dgWeights.Columns.Add(dgViewButtonPrint);
+                        else if (dialogResult == DialogResult.No)
+                        {
+                            txtBoxWeight.Text = string.Empty;
+                        }
+                    }
+                    else if(rollNetKg < Settings.Default.RollMin)
+                    {
+                        DialogResult dialogResult = MessageBox.Show($"Peso debajo del rango ({txtBoxWeight.Text} kg) ¿Desea continuar?", "Debajo del rango", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            AddRoll(rollNetKg);
+                        }
+                        else if (dialogResult == DialogResult.No)
+                        {
+                            txtBoxWeight.Text = string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        AddRoll(rollNetKg);
                     }
                 }
-
-
-                /*int palletWeight = dgWeights.Rows.Cast<DataGridViewRow>().Sum(t => Convert.ToInt32(t.Cells[1].Value)) + 
-                                   int.Parse(lblTareWeight.Text.Remove(lblTareWeight.Text.Length - 3, 3));
-                lblPalletWeight.Text = palletWeight.ToString() + " KG";*/
             }
+            pop.Close();
         }
 
-        private void cmbDesignLabels_DropDown(object sender, EventArgs e)
+        private void AddRoll(float rollNetKg)
         {
-            picBoxWaitLD.Visible = true;
-            cmbDesignLabels.Items.Clear();
-            cmbDesignLabels.Items.AddRange(LabelService.FilesDesign(Constants.PathLabelsRollP2));
-            picBoxWaitLD.Visible = false;
-        }
+            _rollCount++;
+            float rollNetLbs = rollNetKg * 2.205f;
 
-        private void cmbDesignLabels_SelectedValueChanged(object sender, EventArgs e)
-        {
-            if (cmbDesignLabels.SelectedItem != null)
+            //Calcular pero bruto de cada rollo (con tara)
+            float rollGrossKg = rollNetKg + _tareWeight;
+            float rollGrossLbs = rollGrossKg * 2.205f;
+
+            //Agregar pesos a datagrid
+            string[] row = new string[] { _rollCount.ToString(), rollNetKg.ToString("F2"),rollGrossKg.ToString("F2"),
+                                                                        rollNetLbs.ToString("F2"), rollGrossLbs.ToString("F2") };
+            dgWeights.Rows.Add(row);
+
+
+            //Reserver peso neto acomulado para sacar peso de rollo
+            _previousWeight = _weightFromWeighing;
+
+            //Llenar campos de pallet (SUMA)
+            float palletNetSum = dgWeights.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells[1].Value.ToString()));
+
+            if (dgWeights.RowCount == 1)
             {
-                dynamic label = JObject.Parse(Constants.LabelJson);
-
-                label.WORKORDER = cmbWorkOrders.Text;
-                label.ITEMNUMBER = lblItemNumber.Text;
-                label.ITEMDESCRIPTION = lblItemDescription.Text;
-                label.DESCRIPTIONENGLISH = lblItemDescriptionEnglish.Text;
-                label.EQU = lblEquipmentInstanceCode.Text;
-                label.DATE = DateService.Now();
-                label.ROLLNUMBER = "1".PadLeft(5, '0');
-                label.PALLETNUMBER = "1".PadLeft(5, '0');
-                label.WNETKG = lblPalletNet.Text;
-                label.WNETLBS = lblPalletNet.Text;
-                label.WGROSSKG = lblPalletGross.Text;
-                label.WGROSSLBS = lblPalletGross.Text;
-
-                Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
-
-                picLabel.Image = Image.FromStream(LabelService.CreateFromFile(cmbDesignLabels.SelectedItem.ToString(), 2));
+                DataGridViewButtonColumn btnColumnPrint = new DataGridViewButtonColumn();
+                {
+                    btnColumnPrint.HeaderText = "Imprimir";
+                    btnColumnPrint.Name = "btnPrintLabel";
+                    btnColumnPrint.FlatStyle = FlatStyle.Flat;
+                    btnColumnPrint.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    btnColumnPrint.UseColumnTextForButtonValue = true;
+                }
+                dgWeights.Columns.Add(btnColumnPrint);
             }
+
         }
 
         private void dgWeight_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -290,7 +303,7 @@ namespace WOW_Fusion
                 return;
 
             //Columna a colocar icono
-            if (e.ColumnIndex == 5)
+            if(e.ColumnIndex == 5)
             {
                 e.Paint(e.CellBounds, DataGridViewPaintParts.All);
 
@@ -309,9 +322,78 @@ namespace WOW_Fusion
             if (e.ColumnIndex == 5)
             {
                 DataGridViewRow row = dgWeights.Rows[e.RowIndex];
-                //string data = row.Cells[0].Value.ToString();
-                //MessageBox.Show(data);
                 MessageBox.Show(dgWeights.SelectedCells[0].Value.ToString());
+            }
+        }
+
+        private void dgWeights_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            foreach (DataGridViewRow row in dgWeights.Rows)
+            {
+                float rollNetKg = float.Parse(row.Cells[2].Value.ToString());
+                if (rollNetKg > Settings.Default.RollMax)
+                {
+                    row.DefaultCellStyle.BackColor = Color.Red;
+                    //row.DefaultCellStyle.ForeColor = Color.White;
+                }
+                else if(rollNetKg < Settings.Default.RollMin)
+                {
+                    row.DefaultCellStyle.BackColor = Color.Yellow;
+                    //row.DefaultCellStyle.ForeColor = Color.Black;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+
+        private void dgWeights_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex == dgWeights.Rows.Count - 1)
+            {
+                dgWeights.Rows[e.RowIndex].Selected = true;
+                _rowSelected = e.RowIndex;
+                dgWeights.CurrentCell = dgWeights.Rows[e.RowIndex].Cells[1];
+                MenuShipDeleteWeight.Show(dgWeights, e.Location);
+                MenuShipDeleteWeight.Show(Cursor.Position);
+            }
+        }
+       private void eliminarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!dgWeights.Rows[_rowSelected].IsNewRow)
+            {
+                dgWeights.Rows.RemoveAt(_rowSelected);
+                //Restar peso eliminado en PESO PREVIO peara evitar inconsistencias
+                _previousWeight -= float.Parse(dgWeights.SelectedCells[1].Value.ToString());
+                lblPalletNet.Text = _previousWeight.ToString("F2");
+                //Restar 1 a la cantidad de rollos
+                _rollCount -= 1;
+            }
+        }
+
+        private async void FillLabelRoll()
+        {
+            if (!string.IsNullOrEmpty(lblEquipmentInstanceName.Text))
+            {
+                dynamic label = JObject.Parse(Constants.LabelJson);
+
+                label.WORKORDER = cmbWorkOrders.Text;
+                label.ITEMNUMBER = lblItemNumber.Text;
+                label.ITEMDESCRIPTION = lblItemDescription.Text;
+                label.ENGLISHDESCRIPTION = lblItemDescriptionEnglish.Text;
+                label.EQU = lblEquipmentInstanceCode.Text;
+                label.DATE = DateService.Now();
+                label.ROLLNUMBER = "1".PadLeft(4, '0');
+                label.PALLETNUMBER = "1".PadLeft(4, '0');
+                label.WNETKG = lblPalletNet.Text;
+                label.WNETLBS = lblPalletNet.Text;
+                label.WGROSSKG = lblPalletGross.Text;
+                label.WGROSSLBS = lblPalletGross.Text;
+
+                Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
+
+                picLabel.Image = Image.FromStream(await LabelService.CreateFromApexAsync(lblLabelDesignRoll.Text, 2));
             }
         }
 

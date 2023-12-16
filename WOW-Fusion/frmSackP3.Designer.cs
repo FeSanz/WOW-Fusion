@@ -363,8 +363,6 @@
             this.cmbWorkOrders.Size = new System.Drawing.Size(142, 21);
             this.cmbWorkOrders.TabIndex = 0;
             this.cmbWorkOrders.Text = "Seleccione orden";
-            this.cmbWorkOrders.DropDown += new System.EventHandler(this.cmbWorkOrders_DropDown);
-            this.cmbWorkOrders.SelectedIndexChanged += new System.EventHandler(this.cmbWorkOrders_SelectedIndexChanged);
             // 
             // lblLocationCode
             // 
@@ -405,7 +403,6 @@
             this.dgWeights.RowTemplate.Height = 45;
             this.dgWeights.Size = new System.Drawing.Size(514, 171);
             this.dgWeights.TabIndex = 86;
-            this.dgWeights.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgWeights_CellContentClick);
             // 
             // No
             // 

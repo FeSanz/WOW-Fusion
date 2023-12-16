@@ -11,20 +11,32 @@
     <Setting Name="PrinterPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">9100</Value>
     </Setting>
-    <Setting Name="RadwagIP" Type="System.String" Scope="User">
-      <Value Profile="(Default)">127.0.0.1</Value>
-    </Setting>
-    <Setting Name="RadwagPort" Type="System.Int32" Scope="User">
+    <Setting Name="WeighingPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">4001</Value>
-    </Setting>
-    <Setting Name="PathLabelsP1" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\Visual Studio Projects\WOW-Fusion\WOW-Fusion\Resources\Labels\LP1</Value>
-    </Setting>
-    <Setting Name="PathLabelsP2" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\Visual Studio Projects\WOW-Fusion\WOW-Fusion\Resources\Labels\LP2</Value>
     </Setting>
     <Setting Name="WorkCenterIdP2" Type="System.String" Scope="User">
       <Value Profile="(Default)">300000003523428</Value>
+    </Setting>
+    <Setting Name="Aditional" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="FusionUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://iapxqy-test.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05</Value>
+    </Setting>
+    <Setting Name="ApexUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://apex.oracle.com/pls/apex/mcaj/wo</Value>
+    </Setting>
+    <Setting Name="Credentials" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ZmVsaXBlLmFudG9uaW9AaS1jb25kb3IuY29tOkNvbmRvclhSMTEy</Value>
+    </Setting>
+    <Setting Name="WeighingIP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.12.1</Value>
+    </Setting>
+    <Setting Name="RollMax" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">40</Value>
+    </Setting>
+    <Setting Name="RollMin" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20</Value>
     </Setting>
   </Settings>
 </SettingsFile>

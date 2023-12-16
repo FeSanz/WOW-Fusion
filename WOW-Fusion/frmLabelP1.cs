@@ -16,8 +16,6 @@ using Tulpep.NotificationWindow;
 using WOW_Fusion.Controllers;
 using WOW_Fusion.Models;
 using WOW_Fusion.Services;
-using static Google.Apis.Requests.BatchRequest;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace WOW_Fusion
 {
@@ -40,9 +38,9 @@ namespace WOW_Fusion
         private void frmLabelP1_Load(object sender, EventArgs e)
         {
             pop = new PopController();
-            
-            lblAdditional.Text = trackBarPercentageAdd.Value.ToString();
+            AppController.ToolTip(btnSettings, "Configuración");
         }
+
 
         private async void InitializeFusionData()
         {
@@ -128,6 +126,7 @@ namespace WOW_Fusion
                 CleanUIWorkOrders();
                 try
                 {
+                    pop.Show(this);
                     Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WorkOrderDetail, cmbWorkOrders.SelectedItem.ToString()));
                     string response = await tskWorkOrdersData;
                     if (string.IsNullOrEmpty(response)) { return; }
@@ -144,9 +143,11 @@ namespace WOW_Fusion
                     lblPlannedStartDate.Text = wo["PlannedStartDate"].ToString();
                     lblPlannedCompletionDate.Text = wo["PlannedCompletionDate"].ToString();
 
-                    trackBarPercentageAdd.Enabled = string.IsNullOrEmpty(lblPlannedQuantity.Text) ? false : true;
                     lblStartPage.Text = string.IsNullOrEmpty(lblPlannedQuantity.Text) ? "" : "1";
-                    lblEndPage.Text = lblPlannedQuantity.Text;
+                    float additionalLabels = (Properties.Settings.Default.Aditional * int.Parse(lblPlannedQuantity.Text)) / 100;
+                    lblAditional.Text = $"(+{Convert.ToInt32(Math.Round(additionalLabels))})";
+                    lblTotalPrint.Text = (float.Parse(lblPlannedQuantity.Text) + additionalLabels).ToString();
+                    lbLabelQuantity.Text = lblPlannedQuantity.Text;
 
                     int countResources = (int)wo["WorkOrderResource"]["count"];
                     if (countResources >= 1)
@@ -176,14 +177,14 @@ namespace WOW_Fusion
                                 dynamic instance = resource["WorkOrderOperationResourceInstance"]["items"][0]; // Objeto INSTANCIA
                                 lblEquipmentInstanceCode.Text = instance["EquipmentInstanceCode"].ToString();
                                 lblEquipmentInstanceName.Text = instance["EquipmentInstanceName"].ToString();
+
+                                lblLabelDesign.Text = "XIPRD";
+                                FillLabel();
                             }
                             else
                             {
                                 NotifierController.Warning("Datos de instancia de máquina no encontrados");
                             }
-
-                            cmbDesignLabels.Enabled = true;
-                            btnPrint.Enabled = true;
                         }
                         else
                         {
@@ -194,9 +195,11 @@ namespace WOW_Fusion
                     {
                         NotifierController.Warning("Orden sin recursos");
                     }
+                    pop.Close();
                 }
                 catch (Exception ex)
                 {
+                    pop.Close();
                     MessageBox.Show("Error. " + ex.Message, "Error [WorkOrderSelected]", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -218,44 +221,30 @@ namespace WOW_Fusion
             lblEquipmentInstanceName.Text= string.Empty;
         }
 
-        private void trackBarPercentageAdd_Scroll(object sender, EventArgs e)
-        {
-            lblAdditional.Text = trackBarPercentageAdd.Value.ToString() + "";
-            if (!string.IsNullOrEmpty(lblPlannedQuantity.Text))
-            {
-                //float additionalQuantity = int.Parse(lblPlannedQuantity.Text) + ((trackBarPercentageAdd.Value * int.Parse(lblPlannedQuantity.Text)) / 100);
-                //lblEndPage.Text = Convert.ToInt32(Math.Round(additionalQuantity)).ToString();
-                int totalPrint = int.Parse(lblPlannedQuantity.Text) + trackBarPercentageAdd.Value;
-                lblEndPage.Text = totalPrint.ToString();
-            }
-        }
-
         private async void btnPrint_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(cmbWorkOrders.Text))
             {
                 NotifierController.Warning("Seleccione orden de trabajo");
             }
-            else if(string.IsNullOrEmpty(cmbDesignLabels.Text))
-            {
-                NotifierController.Warning("Seleccione diseño de etiqueta");
-            }
             else
             {
-                await LabelService.PrintP1(int.Parse(lblEndPage.Text));
+                await LabelService.PrintP1(int.Parse(lblTotalPrint.Text));
             }
         }
 
-        private void cmbDesignLabels_DropDown(object sender, EventArgs e)
+        /*private void cmbDesignLabels_DropDown(object sender, EventArgs e)
         {
             picBoxWaitLD.Visible = true;
             cmbDesignLabels.Items.Clear();
             cmbDesignLabels.Items.AddRange(LabelService.FilesDesign(Constants.PathLabelsP1));
             picBoxWaitLD.Visible = false;
-        }
+        }*/
 
-        private void cmbDesignLabels_SelectedValueChanged(object sender, EventArgs e)
+        /*private void cmbDesignLabels_SelectedValueChanged(object sender, EventArgs e)
         {
+            
+
             if (cmbDesignLabels.SelectedItem != null)
             {                
                 dynamic label = JObject.Parse(Constants.LabelJson);
@@ -272,7 +261,34 @@ namespace WOW_Fusion
 
                 picLabel.Image = Image.FromStream(LabelService.CreateFromFile(cmbDesignLabels.SelectedItem.ToString(), 1));
             }
+        }*/
+
+        private async void FillLabel()
+        {
+            if (!string.IsNullOrEmpty(lblItemNumber.Text))
+            {
+                dynamic label = JObject.Parse(Constants.LabelJson);
+
+                label.WORKORDER = cmbWorkOrders.Text;
+                label.ITEMNUMBER = lblItemNumber.Text;
+                label.ITEMDESCRIPTION = lblItemDescription.Text;
+                label.DESCRIPTIONENGLISH = TranslateService.Translate(lblItemDescription.Text);
+                label.EQU = lblEquipmentInstanceCode.Text;
+                label.DATE = DateService.Now();
+                label.BOXNUMBER = "1".PadLeft(5, '0');
+
+                Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
+
+                picLabel.Image = Image.FromStream(await LabelService.CreateFromApexAsync(lblLabelDesign.Text, 1));
+                btnPrint.Enabled = true;
+            }
         }
 
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            frmSettingsP1 frmSettingsP1 = new frmSettingsP1();
+            frmSettingsP1.StartPosition = FormStartPosition.CenterParent;
+            frmSettingsP1.ShowDialog();
+        }
     }
 }

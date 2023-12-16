@@ -60,49 +60,13 @@ namespace WOW_Fusion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
-        public string RadwagIP {
-            get {
-                return ((string)(this["RadwagIP"]));
-            }
-            set {
-                this["RadwagIP"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("4001")]
-        public int RadwagPort {
+        public int WeighingPort {
             get {
-                return ((int)(this["RadwagPort"]));
+                return ((int)(this["WeighingPort"]));
             }
             set {
-                this["RadwagPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Visual Studio Projects\\WOW-Fusion\\WOW-Fusion\\Resources\\Labels\\LP1")]
-        public string PathLabelsP1 {
-            get {
-                return ((string)(this["PathLabelsP1"]));
-            }
-            set {
-                this["PathLabelsP1"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Visual Studio Projects\\WOW-Fusion\\WOW-Fusion\\Resources\\Labels\\LP2")]
-        public string PathLabelsP2 {
-            get {
-                return ((string)(this["PathLabelsP2"]));
-            }
-            set {
-                this["PathLabelsP2"] = value;
+                this["WeighingPort"] = value;
             }
         }
         
@@ -115,6 +79,90 @@ namespace WOW_Fusion.Properties {
             }
             set {
                 this["WorkCenterIdP2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int Aditional {
+            get {
+                return ((int)(this["Aditional"]));
+            }
+            set {
+                this["Aditional"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://iapxqy-test.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05")]
+        public string FusionUrl {
+            get {
+                return ((string)(this["FusionUrl"]));
+            }
+            set {
+                this["FusionUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://apex.oracle.com/pls/apex/mcaj/wo")]
+        public string ApexUrl {
+            get {
+                return ((string)(this["ApexUrl"]));
+            }
+            set {
+                this["ApexUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ZmVsaXBlLmFudG9uaW9AaS1jb25kb3IuY29tOkNvbmRvclhSMTEy")]
+        public string Credentials {
+            get {
+                return ((string)(this["Credentials"]));
+            }
+            set {
+                this["Credentials"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.12.1")]
+        public string WeighingIP {
+            get {
+                return ((string)(this["WeighingIP"]));
+            }
+            set {
+                this["WeighingIP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        public int RollMax {
+            get {
+                return ((int)(this["RollMax"]));
+            }
+            set {
+                this["RollMax"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public int RollMin {
+            get {
+                return ((int)(this["RollMin"]));
+            }
+            set {
+                this["RollMin"] = value;
             }
         }
     }

@@ -14,5 +14,12 @@ namespace WOW_Fusion.Controllers
             MessageBox.Show(message, "Sin datos suficientes", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             Application.Exit();
         }
+
+        public static void ToolTip(Control control, string message)
+        {
+            ToolTip toolTip = new ToolTip();
+            toolTip.ShowAlways = true;
+            toolTip.SetToolTip(control, message);
+        }
     }
 }

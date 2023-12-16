@@ -145,7 +145,24 @@ namespace WOW_Fusion.Services
             catch (Exception ex)
             {
                 MessageBox.Show("Error. " + ex.Message, "Error [WorkOrdersList]", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null; ;
+                return null;
+            }
+        }
+
+        public static async Task<JObject> LabelTamplate(string label)
+        {
+            try
+            {
+                Task<string> tskLabels = APIService.GetApexAsync(String.Format(EndPoints.LabelTamplate, label));
+                string response = await tskLabels;
+
+                return JObject.Parse(response);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error. " + ex.Message, "Error [Label]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
             }
         }
     }

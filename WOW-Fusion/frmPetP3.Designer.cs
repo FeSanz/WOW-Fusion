@@ -230,7 +230,6 @@
             this.cmbWorkOrders.Size = new System.Drawing.Size(160, 21);
             this.cmbWorkOrders.TabIndex = 0;
             this.cmbWorkOrders.Text = "Seleccione orden";
-            this.cmbWorkOrders.Click += new System.EventHandler(this.Pa);
             // 
             // pictureBox1
             // 
