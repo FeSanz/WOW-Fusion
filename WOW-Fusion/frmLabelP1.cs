@@ -127,7 +127,7 @@ namespace WOW_Fusion
                 try
                 {
                     pop.Show(this);
-                    Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WorkOrderDetail, cmbWorkOrders.SelectedItem.ToString()));
+                    Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WODiscreteDetail, cmbWorkOrders.SelectedItem.ToString()));
                     string response = await tskWorkOrdersData;
                     if (string.IsNullOrEmpty(response)) { return; }
 

@@ -110,11 +110,50 @@ namespace WOW_Fusion.Services
             }
         }
 
-        public static async Task<List<string>> WorkOrdersByWorkCenter(string organizationId, string workCenterId)
+        public static async Task<List<string>> WODiscreteByWorkCenter(string organizationId, string workCenterId)
         {
             try
             {
-                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WorkOrdersList, organizationId, workCenterId));
+                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WODiscreteList, organizationId, workCenterId));
+                string response = await tskWorkOrders;
+                if (string.IsNullOrEmpty(response))
+                {
+                    return null;
+                }
+                else
+                {
+                    JObject workOrders = JObject.Parse(response);
+
+                    if ((int)workOrders["count"] >= 0)
+                    {
+                        List<string> workOrderNumbers = new List<string>();
+                        dynamic items = workOrders["items"];
+
+                        foreach (var item in items)
+                        {
+                            workOrderNumbers.Add(item["WorkOrderNumber"].ToString());
+                        }
+                        return workOrderNumbers;
+                    }
+                    else
+                    {
+                        NotifierController.Warning("Sin ordenes de trabajo");
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error. " + ex.Message, "Error [WorkOrdersList]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        public static async Task<List<string>> WOProcessByWorkCenter(string organizationId, string workCenterId)
+        {
+            try
+            {
+                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessList, organizationId, workCenterId));
                 string response = await tskWorkOrders;
                 if (string.IsNullOrEmpty(response))
                 {

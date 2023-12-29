@@ -1,19 +1,13 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using WOW_Fusion.Controllers;
-using static System.Net.Mime.MediaTypeNames;
 using WOW_Fusion.Properties;
 
 namespace WOW_Fusion.Services
@@ -41,11 +35,11 @@ namespace WOW_Fusion.Services
             else if (mode == 2) //Roll
             {
                 zplTemplate = labels["LabelZpl"].ToString().Replace("\r\n", String.Empty);
+                zplPalletTemplate = labels["LabelPalletZpl"].ToString().Replace("\r\n", String.Empty);
                 zpl = ReplaceZplRoll(1);
             }
             else if (mode == 3) //Pallet
             {
-                zplPalletTemplate = labels["LabelPalletZpl"].ToString().Replace("\r\n", String.Empty);
                 zpl = ReplaceZplPallet(1);
             }
             else
@@ -68,7 +62,34 @@ namespace WOW_Fusion.Services
             return responseStream;
         }
 
-        public static string[] FilesDesign(string path) 
+        public static Stream UpdateLabelLabelary(int item)
+        {
+            Stream responseStream;
+            if (string.IsNullOrEmpty(zplTemplate) && string.IsNullOrEmpty(zplPalletTemplate))
+            {
+                responseStream = null;
+            }
+            else
+            {
+                try
+                {
+                    string zpl = ReplaceZplRoll(item);
+                    var request = (HttpWebRequest)WebRequest.Create(String.Format(Constants.LaberalyUrl, zpl));
+                    var response = (HttpWebResponse)request.GetResponse();
+                    //using (HttpWebResponse response = await request.GetResponseAsync())
+                    responseStream = response.GetResponseStream();
+                }
+                catch (WebException ex)
+                {
+                    responseStream = null;
+                    NotifierController.DetailError("Error labelary Update ", ex.Message);
+                }
+            }
+
+            return responseStream;
+        }
+
+        public static string[] FilesDesign(string path)
         {
             List<string> items = new List<string>();
 
@@ -87,7 +108,7 @@ namespace WOW_Fusion.Services
                 try
                 {
                     _client = new TcpClient();
-                    await _client.ConnectAsync(Settings.Default.WeighingIP, Settings.Default.WeighingPort);
+                    await _client.ConnectAsync(Settings.Default.PrinterIP, Settings.Default.PrinterPort);
                     //_client.Connect(ipPrinter, portPrinter);
                     _stream = _client.GetStream();
 
@@ -117,15 +138,44 @@ namespace WOW_Fusion.Services
                 }
             }
         }
-       
+
+        public static async Task PrintP2(int number, string typee)
+        {
+            try
+            {
+                _client = new TcpClient();
+                await _client.ConnectAsync(Settings.Default.PrinterIP, Settings.Default.PrinterPort);
+                //_client.Connect(ipPrinter, portPrinter);
+                _stream = _client.GetStream();
+
+                if (_client.Connected)
+                {
+                    string zpl = typee.Equals("ROLL") ? ReplaceZplRoll(number) : ReplaceZplPallet(number);
+                    byte[] data = Encoding.ASCII.GetBytes(zpl);
+
+                    // Enviar datos al servidor de forma asíncrona
+                    await _stream.WriteAsync(data, 0, data.Length);
+                    //_stream.Write(data, 0, data.Length);
+                    await _stream.FlushAsync();
+                    _stream.Close();
+                    _client.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                _client.Close();
+                NotifierController.DetailError("Error al imprimir", ex.Message);
+            }
+        }
+
         private static string ReplaceZplBox(int box)
         {
-            string strLabel = zplTemplate; //Template sin reemplazos
+            string strLabel = zplPalletTemplate; //Template sin reemplazos
 
             JObject label = new JObject(JObject.Parse(Constants.LabelJson));
             foreach (var item in label)
             {
-                if(!string.IsNullOrEmpty(item.Value.ToString()))
+                if (!string.IsNullOrEmpty(item.Value.ToString()))
                     strLabel = item.Key.Equals("BOXNUMBER") ? strLabel.Replace(item.Key, box.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
             }
             return strLabel;
@@ -140,7 +190,7 @@ namespace WOW_Fusion.Services
             {
                 if (!string.IsNullOrEmpty(item.Value.ToString()))
                 {
-                    strLabel = item.Key.Equals("ROLLNUMBER") ? strLabel.Replace(item.Key, roll.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
+                    strLabel = item.Key.Equals("ROLLNUMBER") ? strLabel.Replace(item.Key, "R" + roll.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
                 }
             }
             return strLabel;
@@ -148,7 +198,17 @@ namespace WOW_Fusion.Services
 
         private static string ReplaceZplPallet(int pallet)
         {
-            return "";
+            string strLabel = zplPalletTemplate; //Template sin reemplazos
+
+            JObject label = new JObject(JObject.Parse(Constants.LabelJson));
+            foreach (var item in label)
+            {
+                if (!string.IsNullOrEmpty(item.Value.ToString()))
+                {
+                    strLabel = item.Key.Equals("PALLETNUMBER") ? strLabel.Replace(item.Key, "P" + pallet.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
+                }
+            }
+            return strLabel;
         }
     }
 }

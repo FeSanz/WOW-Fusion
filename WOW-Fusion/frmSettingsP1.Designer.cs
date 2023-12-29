@@ -30,9 +30,9 @@
         {
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.txtBoxIpWeight = new System.Windows.Forms.TextBox();
+            this.txtBoxIpPrinter = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtBoxPortWeight = new System.Windows.Forms.TextBox();
+            this.txtBoxPortPrinter = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
@@ -65,17 +65,17 @@
             this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // txtBoxIpWeight
+            // txtBoxIpPrinter
             // 
-            this.txtBoxIpWeight.Location = new System.Drawing.Point(61, 25);
-            this.txtBoxIpWeight.Name = "txtBoxIpWeight";
-            this.txtBoxIpWeight.Size = new System.Drawing.Size(235, 21);
-            this.txtBoxIpWeight.TabIndex = 120;
+            this.txtBoxIpPrinter.Location = new System.Drawing.Point(61, 25);
+            this.txtBoxIpPrinter.Name = "txtBoxIpPrinter";
+            this.txtBoxIpPrinter.Size = new System.Drawing.Size(235, 21);
+            this.txtBoxIpPrinter.TabIndex = 120;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.txtBoxPortWeight);
-            this.groupBox1.Controls.Add(this.txtBoxIpWeight);
+            this.groupBox1.Controls.Add(this.txtBoxPortPrinter);
+            this.groupBox1.Controls.Add(this.txtBoxIpPrinter);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -87,12 +87,12 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Impresora";
             // 
-            // txtBoxPortWeight
+            // txtBoxPortPrinter
             // 
-            this.txtBoxPortWeight.Location = new System.Drawing.Point(61, 60);
-            this.txtBoxPortWeight.Name = "txtBoxPortWeight";
-            this.txtBoxPortWeight.Size = new System.Drawing.Size(235, 21);
-            this.txtBoxPortWeight.TabIndex = 121;
+            this.txtBoxPortPrinter.Location = new System.Drawing.Point(61, 60);
+            this.txtBoxPortPrinter.Name = "txtBoxPortPrinter";
+            this.txtBoxPortPrinter.Size = new System.Drawing.Size(235, 21);
+            this.txtBoxPortPrinter.TabIndex = 121;
             // 
             // label2
             // 
@@ -147,9 +147,9 @@
 
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.TextBox txtBoxIpWeight;
+        private System.Windows.Forms.TextBox txtBoxIpPrinter;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox txtBoxPortWeight;
+        private System.Windows.Forms.TextBox txtBoxPortPrinter;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblStatus;

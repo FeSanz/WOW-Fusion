@@ -72,18 +72,6 @@ namespace WOW_Fusion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("300000003523428")]
-        public string WorkCenterIdP2 {
-            get {
-                return ((string)(this["WorkCenterIdP2"]));
-            }
-            set {
-                this["WorkCenterIdP2"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public int Aditional {
             get {
@@ -132,7 +120,7 @@ namespace WOW_Fusion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.12.1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.12.9")]
         public string WeighingIP {
             get {
                 return ((string)(this["WeighingIP"]));
@@ -163,6 +151,18 @@ namespace WOW_Fusion.Properties {
             }
             set {
                 this["RollMin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300000003523428")]
+        public string WorkCenterP2 {
+            get {
+                return ((string)(this["WorkCenterP2"]));
+            }
+            set {
+                this["WorkCenterP2"] = value;
             }
         }
     }

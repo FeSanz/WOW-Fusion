@@ -14,9 +14,6 @@
     <Setting Name="WeighingPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">4001</Value>
     </Setting>
-    <Setting Name="WorkCenterIdP2" Type="System.String" Scope="User">
-      <Value Profile="(Default)">300000003523428</Value>
-    </Setting>
     <Setting Name="Aditional" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5</Value>
     </Setting>
@@ -30,13 +27,16 @@
       <Value Profile="(Default)">ZmVsaXBlLmFudG9uaW9AaS1jb25kb3IuY29tOkNvbmRvclhSMTEy</Value>
     </Setting>
     <Setting Name="WeighingIP" Type="System.String" Scope="User">
-      <Value Profile="(Default)">192.168.12.1</Value>
+      <Value Profile="(Default)">192.168.12.9</Value>
     </Setting>
     <Setting Name="RollMax" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">40</Value>
     </Setting>
     <Setting Name="RollMin" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="WorkCenterP2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">300000003523428</Value>
     </Setting>
   </Settings>
 </SettingsFile>

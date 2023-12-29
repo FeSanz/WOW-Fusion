@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using static Google.Apis.Requests.BatchRequest;
 using WOW_Fusion.Properties;
 using System.Net;
+using WOW_Fusion.Services;
 
 namespace WOW_Fusion
 {
@@ -19,7 +20,6 @@ namespace WOW_Fusion
             try
             {
                 TcpClient client = new TcpClient();
-                client = new TcpClient();
                 await client.ConnectAsync(ip, port);
 
                 return client.Connected ? true : false;
@@ -78,9 +78,10 @@ namespace WOW_Fusion
                     reader.Close();
 
                 }
-                catch
+                catch(Exception ex) 
                 {
                     response = "EX";
+                    Console.WriteLine($"{DateService.Today()} -> Error Socket Bascula: {ex.Message}");
                     //MessageBox.Show("Error. " + ex.Message, "Socket Báscula", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
@@ -92,6 +93,7 @@ namespace WOW_Fusion
             }
             else
             {
+                Console.WriteLine($"{DateService.Today()} -> Báscula no encontrada");
                 response = "Báscula no encontrada";
             }
 

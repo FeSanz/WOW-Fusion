@@ -19,9 +19,6 @@ namespace WOW_Fusion
 
         public const string organizationId = "300000002650049";
 
-        //ID Centro de trabajo
-        public static string WorkCenterIdP2 = "300000002654222";  //1. 300000003523428    2. 300000003523430      3. 300000002654222
-
         //Etiquetas KEYS
         public static string LabelJson = @"{
                                                 ""WORKORDER"": """",

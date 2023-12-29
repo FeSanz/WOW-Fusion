@@ -21,15 +21,29 @@ namespace WOW_Fusion.Models
                                                     "&fields=WorkCenterName,WorkCenterDescription,WorkAreaId,WorkAreaName" +
                                                     "&q=OrganizationId={0} and WorkCenterId={1}";
 
-        public static string WorkOrdersList = Settings.Default.FusionUrl + "/workOrders?" + Constants.ParamsGet +
+        //Endpoints Manufactura Discreta
+        public static string WODiscreteList = Settings.Default.FusionUrl + "/workOrders?" + Constants.ParamsGet +
                                                     "&fields=WorkOrderNumber" +
                                                     "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and WorkOrderActiveOperation.WorkCenterId={1}";
 
-        public static string WorkOrderDetail = Settings.Default.FusionUrl + "/workOrders?" + Constants.ParamsGet +
+        public static string WODiscreteDetail = Settings.Default.FusionUrl + "/workOrders?" + Constants.ParamsGet +
                                                     "&expand=WorkOrderResource.WorkOrderOperationResourceInstance" +
                                                     "&fields=WorkOrderId,ItemNumber,Description,UOMCode,PlannedStartQuantity,CompletedQuantity,PlannedStartDate,PlannedCompletionDate;" +
                                                     "WorkOrderResource:ResourceId,ResourceCode,ResourceDescription;" +
                                                     "WorkOrderResource.WorkOrderOperationResourceInstance:" +
+                                                    "EquipmentInstanceId,EquipmentInstanceCode,EquipmentInstanceName" +
+                                                    "&q=WorkOrderNumber='{0}'";
+
+        //Endpoints Manufactura x Procesos
+        public static string WOProcessList = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
+                                                    "&fields=WorkOrderNumber" +
+                                                    "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and WorkOrderActiveOperation.WorkCenterId={1}";
+
+        public static string WOProcessDetail = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
+                                                    "&expand=ProcessWorkOrderResource.WorkOrderOperationResourceInstance" +
+                                                    "&fields=WorkOrderId,ItemNumber,Description,UOMCode,PrimaryProductQuantity,BatchQuantity,PlannedStartDate,PlannedCompletionDate;" +
+                                                    "ProcessWorkOrderResource:ResourceId,ResourceCode,ResourceDescription;" +
+                                                    "ProcessWorkOrderResource.ResourceInstance:" +
                                                     "EquipmentInstanceId,EquipmentInstanceCode,EquipmentInstanceName" +
                                                     "&q=WorkOrderNumber='{0}'";
 

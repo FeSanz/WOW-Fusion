@@ -21,17 +21,17 @@ namespace WOW_Fusion
 
         private void frmSettingsP1_Load(object sender, EventArgs e)
         {
-            txtBoxIpWeight.Text = Settings.Default.PrinterIP;
-            txtBoxPortWeight.Text = Settings.Default.PrinterPort.ToString();
+            txtBoxIpPrinter.Text = Settings.Default.PrinterIP;
+            txtBoxPortPrinter.Text = Settings.Default.PrinterPort.ToString();
         }
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
             lblStatus.Text = "Verificando conexión...";
-            if (await RadwagController.CheckConnection(txtBoxIpWeight.Text, int.Parse(txtBoxPortWeight.Text)))
+            if (await RadwagController.CheckConnection(txtBoxIpPrinter.Text, int.Parse(txtBoxPortPrinter.Text)))
             {
-                Settings.Default.PrinterIP = txtBoxIpWeight.Text;
-                Settings.Default.PrinterPort = int.Parse(txtBoxPortWeight.Text);
+                Settings.Default.PrinterIP = txtBoxIpPrinter.Text;
+                Settings.Default.PrinterPort = int.Parse(txtBoxPortPrinter.Text);
                 Settings.Default.Save();
 
                 NotifierController.Success("Conexión exitosa, datos modificados");

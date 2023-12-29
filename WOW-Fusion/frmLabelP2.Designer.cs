@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLabelP2));
             this.lblResourceDescription = new System.Windows.Forms.Label();
             this.lblResourceCode = new System.Windows.Forms.Label();
@@ -71,24 +72,21 @@
             this.NetLBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GrossLBS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lblLabelDesignRoll = new System.Windows.Forms.Label();
-            this.picLabel = new System.Windows.Forms.PictureBox();
-            this.picBoxWaitLD = new System.Windows.Forms.PictureBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lblLabelDesignPallet = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.lblLabelDesignRoll = new System.Windows.Forms.Label();
+            this.picLabelPallet = new System.Windows.Forms.PictureBox();
+            this.picLabelRoll = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btnPrintPallet = new System.Windows.Forms.Button();
+            this.label19 = new System.Windows.Forms.Label();
             this.btnGetWeight = new System.Windows.Forms.Button();
             this.txtBoxWeight = new System.Windows.Forms.TextBox();
-            this.lblPalletTare = new System.Windows.Forms.Label();
+            this.lblTare = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.lblPalletNet = new System.Windows.Forms.Label();
+            this.lblPalletNetKg = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.lblPalletGross = new System.Windows.Forms.Label();
+            this.lblPalletGrossKg = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lblPalletNumber = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -96,21 +94,37 @@
             this.lblWorkAreaName = new System.Windows.Forms.Label();
             this.lblWorkCenterName = new System.Windows.Forms.Label();
             this.checkBoxPallet = new System.Windows.Forms.CheckBox();
-            this.btnSettings = new System.Windows.Forms.Button();
-            this.picBoxLogo = new System.Windows.Forms.PictureBox();
             this.MenuShipDeleteWeight = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.eliminarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtBoxConsole = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lblAkaItem = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.lblAkaDescription = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.lblLegalEntitie = new System.Windows.Forms.Label();
+            this.lblAkaPO = new System.Windows.Forms.Label();
+            this.btnSettings = new System.Windows.Forms.Button();
+            this.picBoxLogo = new System.Windows.Forms.PictureBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.tabLayoutPallet = new System.Windows.Forms.TableLayoutPanel();
+            this.lblPalletGrossLbs = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.lblPalletNetLbs = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgWeights)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitLD)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLabelPallet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLabelRoll)).BeginInit();
             this.MenuShipDeleteWeight.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxLogo)).BeginInit();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblResourceDescription
@@ -183,9 +197,9 @@
             this.groupBox1.Controls.Add(this.cmbWorkOrders);
             this.groupBox1.Controls.Add(this.picBoxWaitWO);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(22, 74);
+            this.groupBox1.Location = new System.Drawing.Point(22, 66);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(462, 320);
+            this.groupBox1.Size = new System.Drawing.Size(462, 333);
             this.groupBox1.TabIndex = 61;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos de producción";
@@ -194,9 +208,9 @@
             // 
             this.lblItemDescriptionEnglish.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblItemDescriptionEnglish.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemDescriptionEnglish.Location = new System.Drawing.Point(20, 262);
+            this.lblItemDescriptionEnglish.Location = new System.Drawing.Point(20, 258);
             this.lblItemDescriptionEnglish.Name = "lblItemDescriptionEnglish";
-            this.lblItemDescriptionEnglish.Size = new System.Drawing.Size(414, 29);
+            this.lblItemDescriptionEnglish.Size = new System.Drawing.Size(414, 22);
             this.lblItemDescriptionEnglish.TabIndex = 18;
             this.lblItemDescriptionEnglish.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -217,7 +231,7 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label12.Location = new System.Drawing.Point(180, 246);
+            this.label12.Location = new System.Drawing.Point(180, 242);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(94, 13);
             this.label12.TabIndex = 17;
@@ -288,7 +302,7 @@
             this.lblItemDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblItemDescription.Location = new System.Drawing.Point(20, 216);
             this.lblItemDescription.Name = "lblItemDescription";
-            this.lblItemDescription.Size = new System.Drawing.Size(414, 29);
+            this.lblItemDescription.Size = new System.Drawing.Size(414, 22);
             this.lblItemDescription.TabIndex = 6;
             this.lblItemDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -451,22 +465,23 @@
             // dgWeights
             // 
             this.dgWeights.AllowUserToAddRows = false;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgWeights.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
+            this.dgWeights.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle36.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgWeights.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle36;
             this.dgWeights.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgWeights.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dgWeights.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgWeights.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dgWeights.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.Menu;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgWeights.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle37.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle37.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle37.ForeColor = System.Drawing.SystemColors.Menu;
+            dataGridViewCellStyle37.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle37.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle37.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgWeights.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle37;
             this.dgWeights.ColumnHeadersHeight = 25;
             this.dgWeights.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgWeights.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -477,21 +492,29 @@
             this.GrossLBS});
             this.dgWeights.EnableHeadersVisualStyles = false;
             this.dgWeights.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.dgWeights.Location = new System.Drawing.Point(22, 407);
+            this.dgWeights.Location = new System.Drawing.Point(22, 563);
             this.dgWeights.Name = "dgWeights";
             this.dgWeights.ReadOnly = true;
             this.dgWeights.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle41.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle41.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle41.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle41.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle41.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle41.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle41.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgWeights.RowHeadersDefaultCellStyle = dataGridViewCellStyle41;
             this.dgWeights.RowHeadersVisible = false;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.Black;
-            this.dgWeights.RowsDefaultCellStyle = dataGridViewCellStyle18;
-            this.dgWeights.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle42.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle42.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle42.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle42.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgWeights.RowsDefaultCellStyle = dataGridViewCellStyle42;
+            this.dgWeights.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgWeights.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgWeights.RowTemplate.Height = 45;
-            this.dgWeights.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgWeights.Size = new System.Drawing.Size(462, 265);
+            this.dgWeights.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Control;
+            this.dgWeights.RowTemplate.Height = 40;
+            this.dgWeights.Size = new System.Drawing.Size(462, 233);
             this.dgWeights.TabIndex = 66;
             this.dgWeights.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgWeights_CellClick);
             this.dgWeights.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgWeights_CellFormatting);
@@ -501,8 +524,8 @@
             // W
             // 
             this.W.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.W.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.W.DefaultCellStyle = dataGridViewCellStyle38;
             this.W.HeaderText = "#";
             this.W.Name = "W";
             this.W.ReadOnly = true;
@@ -510,16 +533,16 @@
             // 
             // NetKG
             // 
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.NetKG.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.NetKG.DefaultCellStyle = dataGridViewCellStyle39;
             this.NetKG.HeaderText = "Neto KG";
             this.NetKG.Name = "NetKG";
             this.NetKG.ReadOnly = true;
             // 
             // GrossKG
             // 
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.GrossKG.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle40.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.GrossKG.DefaultCellStyle = dataGridViewCellStyle40;
             this.GrossKG.HeaderText = "Bruto KG";
             this.GrossKG.Name = "GrossKG";
             this.GrossKG.ReadOnly = true;
@@ -538,140 +561,104 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.lblLabelDesignPallet);
             this.groupBox2.Controls.Add(this.lblLabelDesignRoll);
-            this.groupBox2.Controls.Add(this.picLabel);
-            this.groupBox2.Controls.Add(this.picBoxWaitLD);
+            this.groupBox2.Controls.Add(this.picLabelPallet);
+            this.groupBox2.Controls.Add(this.picLabelRoll);
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.btnPrintPallet);
             this.groupBox2.Controls.Add(this.label19);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(503, 74);
+            this.groupBox2.Location = new System.Drawing.Point(503, 66);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(451, 320);
+            this.groupBox2.Size = new System.Drawing.Size(451, 479);
             this.groupBox2.TabIndex = 65;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Etiqueta rollo";
-            // 
-            // lblLabelDesignRoll
-            // 
-            this.lblLabelDesignRoll.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblLabelDesignRoll.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLabelDesignRoll.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblLabelDesignRoll.Location = new System.Drawing.Point(231, 15);
-            this.lblLabelDesignRoll.Name = "lblLabelDesignRoll";
-            this.lblLabelDesignRoll.Size = new System.Drawing.Size(187, 22);
-            this.lblLabelDesignRoll.TabIndex = 134;
-            this.lblLabelDesignRoll.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // picLabel
-            // 
-            this.picLabel.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.picLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picLabel.Location = new System.Drawing.Point(31, 55);
-            this.picLabel.Name = "picLabel";
-            this.picLabel.Size = new System.Drawing.Size(390, 166);
-            this.picLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picLabel.TabIndex = 32;
-            this.picLabel.TabStop = false;
-            // 
-            // picBoxWaitLD
-            // 
-            this.picBoxWaitLD.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picBoxWaitLD.Image = global::WOW_Fusion.Properties.Resources.preloader_01;
-            this.picBoxWaitLD.Location = new System.Drawing.Point(412, 4);
-            this.picBoxWaitLD.Name = "picBoxWaitLD";
-            this.picBoxWaitLD.Padding = new System.Windows.Forms.Padding(10);
-            this.picBoxWaitLD.Size = new System.Drawing.Size(45, 45);
-            this.picBoxWaitLD.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBoxWaitLD.TabIndex = 129;
-            this.picBoxWaitLD.TabStop = false;
-            this.picBoxWaitLD.Visible = false;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label19.Location = new System.Drawing.Point(144, 18);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(84, 13);
-            this.label19.TabIndex = 73;
-            this.label19.Text = "Diseño etiqueta:";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.lblLabelDesignPallet);
-            this.groupBox3.Controls.Add(this.pictureBox1);
-            this.groupBox3.Controls.Add(this.pictureBox2);
-            this.groupBox3.Controls.Add(this.label6);
-            this.groupBox3.Controls.Add(this.btnPrintPallet);
-            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(503, 402);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(451, 270);
-            this.groupBox3.TabIndex = 68;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Etiqueta palet";
+            this.groupBox2.Text = "Etiquetas";
             // 
             // lblLabelDesignPallet
             // 
             this.lblLabelDesignPallet.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblLabelDesignPallet.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLabelDesignPallet.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblLabelDesignPallet.Location = new System.Drawing.Point(231, 13);
+            this.lblLabelDesignPallet.Location = new System.Drawing.Point(286, 225);
             this.lblLabelDesignPallet.Name = "lblLabelDesignPallet";
-            this.lblLabelDesignPallet.Size = new System.Drawing.Size(187, 22);
+            this.lblLabelDesignPallet.Size = new System.Drawing.Size(142, 16);
             this.lblLabelDesignPallet.TabIndex = 135;
             this.lblLabelDesignPallet.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pictureBox1
+            // lblLabelDesignRoll
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox1.Location = new System.Drawing.Point(28, 47);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(390, 166);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 130;
-            this.pictureBox1.TabStop = false;
+            this.lblLabelDesignRoll.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblLabelDesignRoll.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLabelDesignRoll.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblLabelDesignRoll.Location = new System.Drawing.Point(291, 11);
+            this.lblLabelDesignRoll.Name = "lblLabelDesignRoll";
+            this.lblLabelDesignRoll.Size = new System.Drawing.Size(142, 16);
+            this.lblLabelDesignRoll.TabIndex = 134;
+            this.lblLabelDesignRoll.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pictureBox2
+            // picLabelPallet
             // 
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Image = global::WOW_Fusion.Properties.Resources.preloader_01;
-            this.pictureBox2.Location = new System.Drawing.Point(409, 1);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Padding = new System.Windows.Forms.Padding(10);
-            this.pictureBox2.Size = new System.Drawing.Size(45, 45);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 133;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Visible = false;
+            this.picLabelPallet.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.picLabelPallet.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picLabelPallet.Location = new System.Drawing.Point(17, 245);
+            this.picLabelPallet.Name = "picLabelPallet";
+            this.picLabelPallet.Size = new System.Drawing.Size(416, 190);
+            this.picLabelPallet.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picLabelPallet.TabIndex = 130;
+            this.picLabelPallet.TabStop = false;
+            // 
+            // picLabelRoll
+            // 
+            this.picLabelRoll.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.picLabelRoll.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picLabelRoll.Location = new System.Drawing.Point(17, 31);
+            this.picLabelRoll.Name = "picLabelRoll";
+            this.picLabelRoll.Size = new System.Drawing.Size(416, 190);
+            this.picLabelRoll.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picLabelRoll.TabIndex = 32;
+            this.picLabelRoll.TabStop = false;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label6.Location = new System.Drawing.Point(141, 18);
+            this.label6.Location = new System.Drawing.Point(244, 227);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(84, 13);
+            this.label6.Size = new System.Drawing.Size(36, 13);
             this.label6.TabIndex = 131;
-            this.label6.Text = "Diseño etiqueta:";
+            this.label6.Text = "Pallet:";
             // 
             // btnPrintPallet
             // 
             this.btnPrintPallet.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnPrintPallet.Enabled = false;
             this.btnPrintPallet.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrintPallet.Location = new System.Drawing.Point(318, 219);
+            this.btnPrintPallet.Location = new System.Drawing.Point(330, 441);
             this.btnPrintPallet.Name = "btnPrintPallet";
-            this.btnPrintPallet.Size = new System.Drawing.Size(103, 39);
+            this.btnPrintPallet.Size = new System.Drawing.Size(103, 33);
             this.btnPrintPallet.TabIndex = 69;
             this.btnPrintPallet.Text = "IMPRIMIR";
             this.btnPrintPallet.UseVisualStyleBackColor = false;
             this.btnPrintPallet.Click += new System.EventHandler(this.btnPrintPallet_Click);
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label19.Location = new System.Drawing.Point(251, 11);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(34, 13);
+            this.label19.TabIndex = 73;
+            this.label19.Text = "Rollo:";
+            // 
             // btnGetWeight
             // 
             this.btnGetWeight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.btnGetWeight.Enabled = false;
             this.btnGetWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGetWeight.Location = new System.Drawing.Point(380, 18);
             this.btnGetWeight.Name = "btnGetWeight";
@@ -694,91 +681,92 @@
             this.txtBoxWeight.Text = "0";
             this.txtBoxWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // lblPalletTare
+            // lblTare
             // 
-            this.lblPalletTare.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblPalletTare.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPalletTare.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.lblPalletTare.Location = new System.Drawing.Point(22, 698);
-            this.lblPalletTare.Name = "lblPalletTare";
-            this.lblPalletTare.Size = new System.Drawing.Size(83, 24);
-            this.lblPalletTare.TabIndex = 112;
-            this.lblPalletTare.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTare.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblTare.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTare.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.lblTare.Location = new System.Drawing.Point(222, 222);
+            this.lblTare.Name = "lblTare";
+            this.lblTare.Size = new System.Drawing.Size(54, 19);
+            this.lblTare.TabIndex = 112;
+            this.lblTare.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label5.Location = new System.Drawing.Point(46, 725);
+            this.label5.Location = new System.Drawing.Point(188, 223);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(36, 13);
+            this.label5.Size = new System.Drawing.Size(34, 16);
             this.label5.TabIndex = 111;
-            this.label5.Text = "TARA";
+            this.label5.Text = "Tara:";
             // 
-            // lblPalletNet
+            // lblPalletNetKg
             // 
-            this.lblPalletNet.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblPalletNet.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPalletNet.ForeColor = System.Drawing.Color.Green;
-            this.lblPalletNet.Location = new System.Drawing.Point(148, 698);
-            this.lblPalletNet.Name = "lblPalletNet";
-            this.lblPalletNet.Size = new System.Drawing.Size(83, 24);
-            this.lblPalletNet.TabIndex = 110;
-            this.lblPalletNet.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPalletNetKg.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblPalletNetKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPalletNetKg.ForeColor = System.Drawing.Color.Green;
+            this.lblPalletNetKg.Location = new System.Drawing.Point(13, 52);
+            this.lblPalletNetKg.Name = "lblPalletNetKg";
+            this.lblPalletNetKg.Size = new System.Drawing.Size(71, 24);
+            this.lblPalletNetKg.TabIndex = 110;
+            this.lblPalletNetKg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label11.Location = new System.Drawing.Point(300, 725);
+            this.label11.Location = new System.Drawing.Point(106, 79);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(45, 13);
+            this.label11.Size = new System.Drawing.Size(68, 16);
             this.label11.TabIndex = 108;
-            this.label11.Text = "BRUTO";
+            this.label11.Text = "BRUTO (Kg)";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label13.Location = new System.Drawing.Point(173, 725);
+            this.label13.Location = new System.Drawing.Point(16, 79);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(37, 13);
+            this.label13.Size = new System.Drawing.Size(61, 16);
             this.label13.TabIndex = 107;
-            this.label13.Text = "NETO";
+            this.label13.Text = "NETO (Kg)";
             // 
-            // lblPalletGross
+            // lblPalletGrossKg
             // 
-            this.lblPalletGross.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblPalletGross.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPalletGross.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblPalletGross.Location = new System.Drawing.Point(280, 698);
-            this.lblPalletGross.Name = "lblPalletGross";
-            this.lblPalletGross.Size = new System.Drawing.Size(83, 24);
-            this.lblPalletGross.TabIndex = 106;
-            this.lblPalletGross.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPalletGrossKg.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblPalletGrossKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPalletGrossKg.ForeColor = System.Drawing.Color.Firebrick;
+            this.lblPalletGrossKg.Location = new System.Drawing.Point(103, 52);
+            this.lblPalletGrossKg.Name = "lblPalletGrossKg";
+            this.lblPalletGrossKg.Size = new System.Drawing.Size(71, 24);
+            this.lblPalletGrossKg.TabIndex = 106;
+            this.lblPalletGrossKg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label8.Location = new System.Drawing.Point(420, 725);
+            this.label8.Location = new System.Drawing.Point(349, 224);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(47, 13);
+            this.label8.Size = new System.Drawing.Size(40, 16);
             this.label8.TabIndex = 114;
-            this.label8.Text = "PALLET";
+            this.label8.Text = "Pallet:";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // lblPalletNumber
             // 
             this.lblPalletNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblPalletNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPalletNumber.ForeColor = System.Drawing.Color.Black;
-            this.lblPalletNumber.Location = new System.Drawing.Point(400, 698);
+            this.lblPalletNumber.Location = new System.Drawing.Point(389, 222);
             this.lblPalletNumber.Name = "lblPalletNumber";
-            this.lblPalletNumber.Size = new System.Drawing.Size(83, 24);
+            this.lblPalletNumber.Size = new System.Drawing.Size(44, 19);
             this.lblPalletNumber.TabIndex = 113;
             this.lblPalletNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -830,35 +818,13 @@
             this.checkBoxPallet.AutoSize = true;
             this.checkBoxPallet.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxPallet.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.checkBoxPallet.Location = new System.Drawing.Point(380, 672);
+            this.checkBoxPallet.Location = new System.Drawing.Point(386, 797);
             this.checkBoxPallet.Name = "checkBoxPallet";
             this.checkBoxPallet.Size = new System.Drawing.Size(111, 20);
             this.checkBoxPallet.TabIndex = 130;
             this.checkBoxPallet.Text = "Palet Completo";
             this.checkBoxPallet.UseVisualStyleBackColor = true;
-            // 
-            // btnSettings
-            // 
-            this.btnSettings.BackColor = System.Drawing.Color.Transparent;
-            this.btnSettings.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSettings.BackgroundImage")));
-            this.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSettings.FlatAppearance.BorderSize = 0;
-            this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSettings.Location = new System.Drawing.Point(868, 8);
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(15, 15);
-            this.btnSettings.TabIndex = 133;
-            this.btnSettings.UseVisualStyleBackColor = false;
-            // 
-            // picBoxLogo
-            // 
-            this.picBoxLogo.Image = ((System.Drawing.Image)(resources.GetObject("picBoxLogo.Image")));
-            this.picBoxLogo.Location = new System.Drawing.Point(892, 8);
-            this.picBoxLogo.Name = "picBoxLogo";
-            this.picBoxLogo.Size = new System.Drawing.Size(62, 52);
-            this.picBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBoxLogo.TabIndex = 64;
-            this.picBoxLogo.TabStop = false;
+            this.checkBoxPallet.CheckedChanged += new System.EventHandler(this.checkBoxPallet_CheckedChanged);
             // 
             // MenuShipDeleteWeight
             // 
@@ -877,33 +843,264 @@
             this.eliminarToolStripMenuItem.Text = "Eliminar";
             this.eliminarToolStripMenuItem.Click += new System.EventHandler(this.eliminarToolStripMenuItem_Click);
             // 
+            // txtBoxConsole
+            // 
+            this.txtBoxConsole.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.txtBoxConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtBoxConsole.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBoxConsole.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.txtBoxConsole.Location = new System.Drawing.Point(22, 824);
+            this.txtBoxConsole.Multiline = true;
+            this.txtBoxConsole.Name = "txtBoxConsole";
+            this.txtBoxConsole.ReadOnly = true;
+            this.txtBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtBoxConsole.Size = new System.Drawing.Size(932, 42);
+            this.txtBoxConsole.TabIndex = 135;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.lblAkaItem);
+            this.groupBox3.Controls.Add(this.label27);
+            this.groupBox3.Controls.Add(this.lblAkaDescription);
+            this.groupBox3.Controls.Add(this.label31);
+            this.groupBox3.Controls.Add(this.label32);
+            this.groupBox3.Controls.Add(this.label33);
+            this.groupBox3.Controls.Add(this.lblLegalEntitie);
+            this.groupBox3.Controls.Add(this.lblAkaPO);
+            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(24, 405);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(462, 140);
+            this.groupBox3.TabIndex = 134;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "AKA";
+            // 
+            // lblAkaItem
+            // 
+            this.lblAkaItem.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAkaItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAkaItem.Location = new System.Drawing.Point(18, 63);
+            this.lblAkaItem.Name = "lblAkaItem";
+            this.lblAkaItem.Size = new System.Drawing.Size(414, 15);
+            this.lblAkaItem.TabIndex = 16;
+            this.lblAkaItem.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label27.Location = new System.Drawing.Point(200, 49);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(53, 13);
+            this.label27.TabIndex = 15;
+            this.label27.Text = "Producto ";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblAkaDescription
+            // 
+            this.lblAkaDescription.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAkaDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAkaDescription.Location = new System.Drawing.Point(18, 95);
+            this.lblAkaDescription.Name = "lblAkaDescription";
+            this.lblAkaDescription.Size = new System.Drawing.Size(414, 22);
+            this.lblAkaDescription.TabIndex = 6;
+            this.lblAkaDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label31.Location = new System.Drawing.Point(194, 79);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(63, 13);
+            this.label31.TabIndex = 4;
+            this.label31.Text = "Descripción";
+            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label32.Location = new System.Drawing.Point(312, 16);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(72, 13);
+            this.label32.TabIndex = 128;
+            this.label32.Text = "Entidad Legal";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label33.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label33.Location = new System.Drawing.Point(83, 16);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(75, 13);
+            this.label33.TabIndex = 127;
+            this.label33.Text = "Orden Compra";
+            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblLegalEntitie
+            // 
+            this.lblLegalEntitie.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblLegalEntitie.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLegalEntitie.Location = new System.Drawing.Point(244, 32);
+            this.lblLegalEntitie.Name = "lblLegalEntitie";
+            this.lblLegalEntitie.Size = new System.Drawing.Size(190, 15);
+            this.lblLegalEntitie.TabIndex = 7;
+            this.lblLegalEntitie.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblAkaPO
+            // 
+            this.lblAkaPO.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAkaPO.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAkaPO.Location = new System.Drawing.Point(20, 33);
+            this.lblAkaPO.Name = "lblAkaPO";
+            this.lblAkaPO.Size = new System.Drawing.Size(190, 15);
+            this.lblAkaPO.TabIndex = 6;
+            this.lblAkaPO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.BackColor = System.Drawing.Color.Transparent;
+            this.btnSettings.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSettings.BackgroundImage")));
+            this.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSettings.FlatAppearance.BorderSize = 0;
+            this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSettings.Location = new System.Drawing.Point(868, 8);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(15, 15);
+            this.btnSettings.TabIndex = 133;
+            this.btnSettings.UseVisualStyleBackColor = false;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
+            // picBoxLogo
+            // 
+            this.picBoxLogo.Image = ((System.Drawing.Image)(resources.GetObject("picBoxLogo.Image")));
+            this.picBoxLogo.Location = new System.Drawing.Point(892, 8);
+            this.picBoxLogo.Name = "picBoxLogo";
+            this.picBoxLogo.Size = new System.Drawing.Size(62, 52);
+            this.picBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBoxLogo.TabIndex = 64;
+            this.picBoxLogo.TabStop = false;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.tabLayoutPallet);
+            this.groupBox4.Controls.Add(this.lblPalletGrossLbs);
+            this.groupBox4.Controls.Add(this.label21);
+            this.groupBox4.Controls.Add(this.label22);
+            this.groupBox4.Controls.Add(this.lblPalletNetLbs);
+            this.groupBox4.Controls.Add(this.lblPalletGrossKg);
+            this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.lblPalletNetKg);
+            this.groupBox4.Controls.Add(this.label5);
+            this.groupBox4.Controls.Add(this.lblTare);
+            this.groupBox4.Controls.Add(this.lblPalletNumber);
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.label26);
+            this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox4.Location = new System.Drawing.Point(503, 551);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(451, 245);
+            this.groupBox4.TabIndex = 135;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Pallet";
+            // 
+            // tabLayoutPallet
+            // 
+            this.tabLayoutPallet.BackColor = System.Drawing.Color.Transparent;
+            this.tabLayoutPallet.BackgroundImage = global::WOW_Fusion.Properties.Resources.pallet_empty_icon;
+            this.tabLayoutPallet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tabLayoutPallet.ColumnCount = 1;
+            this.tabLayoutPallet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.00062F));
+            this.tabLayoutPallet.Location = new System.Drawing.Point(191, 10);
+            this.tabLayoutPallet.Name = "tabLayoutPallet";
+            this.tabLayoutPallet.RowCount = 1;
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tabLayoutPallet.Size = new System.Drawing.Size(242, 209);
+            this.tabLayoutPallet.TabIndex = 143;
+            // 
+            // lblPalletGrossLbs
+            // 
+            this.lblPalletGrossLbs.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblPalletGrossLbs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPalletGrossLbs.ForeColor = System.Drawing.Color.Firebrick;
+            this.lblPalletGrossLbs.Location = new System.Drawing.Point(103, 141);
+            this.lblPalletGrossLbs.Name = "lblPalletGrossLbs";
+            this.lblPalletGrossLbs.Size = new System.Drawing.Size(71, 24);
+            this.lblPalletGrossLbs.TabIndex = 138;
+            this.lblPalletGrossLbs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label21.Location = new System.Drawing.Point(16, 168);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(64, 16);
+            this.label21.TabIndex = 139;
+            this.label21.Text = "NETO (Lbs)";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label22.Location = new System.Drawing.Point(103, 168);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(71, 16);
+            this.label22.TabIndex = 140;
+            this.label22.Text = "BRUTO (Lbs)";
+            // 
+            // lblPalletNetLbs
+            // 
+            this.lblPalletNetLbs.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblPalletNetLbs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPalletNetLbs.ForeColor = System.Drawing.Color.Green;
+            this.lblPalletNetLbs.Location = new System.Drawing.Point(13, 141);
+            this.lblPalletNetLbs.Name = "lblPalletNetLbs";
+            this.lblPalletNetLbs.Size = new System.Drawing.Size(71, 24);
+            this.lblPalletNetLbs.TabIndex = 141;
+            this.lblPalletNetLbs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label26.Location = new System.Drawing.Point(275, 224);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(21, 16);
+            this.label26.TabIndex = 142;
+            this.label26.Text = "Kg";
+            // 
             // frmLabelP2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(973, 763);
-            this.Controls.Add(this.checkBoxPallet);
+            this.ClientSize = new System.Drawing.Size(981, 878);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.txtBoxConsole);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.lblWorkAreaName);
             this.Controls.Add(this.lblWorkCenterName);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.lblPalletNumber);
-            this.Controls.Add(this.lblPalletTare);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.lblPalletNet);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.lblPalletGross);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblLocationCode);
             this.Controls.Add(this.dgWeights);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnGetWeight);
             this.Controls.Add(this.txtBoxWeight);
             this.Controls.Add(this.picBoxLogo);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.checkBoxPallet);
             this.Name = "frmLabelP2";
             this.Text = "WOW Label";
             this.Load += new System.EventHandler(this.frmLabelP2_Load);
@@ -913,14 +1110,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgWeights)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitLD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLabelPallet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLabelRoll)).EndInit();
+            this.MenuShipDeleteWeight.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxLogo)).EndInit();
-            this.MenuShipDeleteWeight.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -946,24 +1143,22 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label lblItemDescription;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnGetWeight;
         private System.Windows.Forms.TextBox txtBoxWeight;
         private System.Windows.Forms.Button btnPrintPallet;
-        private System.Windows.Forms.Label lblPalletTare;
+        private System.Windows.Forms.Label lblTare;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label lblPalletNet;
+        private System.Windows.Forms.Label lblPalletNetKg;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label lblPalletGross;
+        private System.Windows.Forms.Label lblPalletGrossKg;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblPalletNumber;
         private System.Windows.Forms.Label lblEquipmentInstanceName;
         private System.Windows.Forms.Label lblEquipmentInstanceCode;
-        private System.Windows.Forms.PictureBox picLabel;
+        private System.Windows.Forms.PictureBox picLabelRoll;
         private System.Windows.Forms.PictureBox picBoxWaitWO;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.PictureBox picBoxWaitLD;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label3;
@@ -978,8 +1173,7 @@
         private System.Windows.Forms.Label lblWorkAreaName;
         private System.Windows.Forms.Label lblWorkCenterName;
         private System.Windows.Forms.Button btnSettings;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox picLabelPallet;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox checkBoxPallet;
         private System.Windows.Forms.Label lblLabelDesignRoll;
@@ -991,5 +1185,22 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn GrossKG;
         private System.Windows.Forms.DataGridViewTextBoxColumn NetLBS;
         private System.Windows.Forms.DataGridViewTextBoxColumn GrossLBS;
+        private System.Windows.Forms.TextBox txtBoxConsole;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label lblAkaItem;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label lblAkaDescription;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label lblLegalEntitie;
+        private System.Windows.Forms.Label lblAkaPO;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label lblPalletGrossLbs;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label lblPalletNetLbs;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TableLayoutPanel tabLayoutPallet;
     }
 }

@@ -113,9 +113,19 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap LabelP1 {
+        internal static System.Drawing.Bitmap pallet_empty_icon {
             get {
-                object obj = ResourceManager.GetObject("LabelP1", resourceCulture);
+                object obj = ResourceManager.GetObject("pallet_empty_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pallet_icon {
+            get {
+                object obj = ResourceManager.GetObject("pallet_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -136,6 +146,16 @@ namespace WOW_Fusion.Properties {
         internal static System.Drawing.Bitmap printer_01 {
             get {
                 object obj = ResourceManager.GetObject("printer_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap roll_icon {
+            get {
+                object obj = ResourceManager.GetObject("roll_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
