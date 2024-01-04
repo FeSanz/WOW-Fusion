@@ -56,45 +56,31 @@ namespace WOW_Fusion
             txtBoxPortPrinter.Text = Settings.Default.PrinterPort.ToString();
         }
 
-        private async void btnSave_Click(object sender, EventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
         {
             lblStatus.Text = "Verificando datos...";
-            if (await RadwagController.CheckConnection(txtBoxIpPrinter.Text, int.Parse(txtBoxPortPrinter.Text)))
+    
+            if(!string.IsNullOrEmpty(cmbWorkCenters.Text) && !string.IsNullOrEmpty(txtBoxArea.Text) &&
+                !string.IsNullOrEmpty(txtBoxIpWeighing.Text) && !string.IsNullOrEmpty(txtBoxPortWeighing.Text) &&
+                !string.IsNullOrEmpty(txtBoxIpPrinter.Text) && !string.IsNullOrEmpty(txtBoxPortPrinter.Text))
             {
-                if (await RadwagController.CheckConnection(txtBoxIpWeighing.Text, int.Parse(txtBoxPortWeighing.Text)))
-                {
-                    if(!string.IsNullOrEmpty(cmbWorkCenters.Text))
-                    {
-                        Settings.Default.WorkCenterP2 = workCenterId;
+                Settings.Default.WorkCenterP2 = workCenterId;
 
-                        Settings.Default.WeighingIP = txtBoxIpWeighing.Text;
-                        Settings.Default.WeighingPort = int.Parse(txtBoxPortWeighing.Text);
+                Settings.Default.WeighingIP = txtBoxIpWeighing.Text;
+                Settings.Default.WeighingPort = int.Parse(txtBoxPortWeighing.Text);
 
-                        Settings.Default.PrinterIP = txtBoxIpPrinter.Text;
-                        Settings.Default.PrinterPort = int.Parse(txtBoxPortPrinter.Text);
+                Settings.Default.PrinterIP = txtBoxIpPrinter.Text;
+                Settings.Default.PrinterPort = int.Parse(txtBoxPortPrinter.Text);
 
-                        Settings.Default.Save();
+                Settings.Default.Save();
 
-                        NotifierController.Success("Datos actualizados, cierre aplicación");
-                        this.Close();
-                    }
-                    else
-                    {
-                        lblStatus.Text = "";
-                        NotifierController.Warning("Seleccione centro de trabajo");
-                    }
-
-                }
-                else
-                {
-                    lblStatus.Text = "";
-                    NotifierController.Error("Sin conexión a báscula, verifique datos");
-                }
+                NotifierController.Success("Datos actualizados exitisamente");
+                this.Close();
             }
-            else 
+            else
             {
                 lblStatus.Text = "";
-                NotifierController.Error("Sin conexión a impresora, verifique datos");
+                NotifierController.Warning("Llene todos los campos");
             }
         }
 

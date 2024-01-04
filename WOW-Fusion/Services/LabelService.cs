@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using WOW_Fusion.Controllers;
 using WOW_Fusion.Properties;
 
@@ -25,6 +26,7 @@ namespace WOW_Fusion.Services
             string zpl;
 
             JObject labels = await CommonService.LabelTamplate(labelName);
+            
             if (labels == null) { return null; }
 
             if (mode == 1) //Box
@@ -170,7 +172,7 @@ namespace WOW_Fusion.Services
 
         private static string ReplaceZplBox(int box)
         {
-            string strLabel = zplPalletTemplate; //Template sin reemplazos
+            string strLabel = zplTemplate; //Template sin reemplazos
 
             JObject label = new JObject(JObject.Parse(Constants.LabelJson));
             foreach (var item in label)

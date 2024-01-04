@@ -21,7 +21,7 @@
       <Value Profile="(Default)">https://iapxqy-test.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05</Value>
     </Setting>
     <Setting Name="ApexUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://apex.oracle.com/pls/apex/mcaj/wo</Value>
+      <Value Profile="(Default)">http://129.146.124.5:8080/ords/wow/wo</Value>
     </Setting>
     <Setting Name="Credentials" Type="System.String" Scope="User">
       <Value Profile="(Default)">ZmVsaXBlLmFudG9uaW9AaS1jb25kb3IuY29tOkNvbmRvclhSMTEy</Value>

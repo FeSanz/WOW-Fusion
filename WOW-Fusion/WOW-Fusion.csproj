@@ -256,5 +256,8 @@
   <ItemGroup>
     <None Include="Resources\pallet_empty_icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
