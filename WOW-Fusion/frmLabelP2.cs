@@ -8,10 +8,11 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Tulpep.NotificationWindow;
 using WOW_Fusion.Controllers;
 using WOW_Fusion.Models;
 using WOW_Fusion.Properties;
@@ -22,6 +23,7 @@ namespace WOW_Fusion
     public partial class frmLabelP2 : Form
     {
         Random rnd = new Random();
+        System.Windows.Forms.Timer timerShift = new System.Windows.Forms.Timer();
 
         PopController pop;
 
@@ -41,8 +43,9 @@ namespace WOW_Fusion
 
         //JObjets response
         private JObject machines = null;
+        private dynamic shifts = null;
 
-        //IEnumerable<string> columnWeigthsNetKg = dataGridView1.Rows.Cast<DataGridViewRow>().Where(row => row.Cells["Id"].Value.ToString().Equals("1")).Select(row => row.Cells["Id"].Value.ToString());
+        private string _resourceId = string.Empty;
 
         #region Start
         public frmLabelP2()
@@ -60,9 +63,7 @@ namespace WOW_Fusion
 
             AppController.ToolTip(btnSettings, "Configuración");
             AppController.ToolTip(btnAddPallet, "Agregar Pallet");
-
-            Console.WriteLine($"{DateService.Today()} -> Radwag {Settings.Default.WeighingIP}");
-            Console.WriteLine($"{DateService.Today()} -> Zebra {Settings.Default.PrinterIP}");
+            Console.WriteLine($"{DateService.Today()} -> {0}");
 
             btnGetWeight.Text = "TARA";
         }
@@ -88,9 +89,17 @@ namespace WOW_Fusion
 
             machines = await CommonService.ProductionResourcesMachines(String.Format(EndPoints.ProductionResourcesP2, Constants.Plant2Id)); //Obtener Objeto RECURSOS MAQUINAS 
         }
+
+        private void CheckShift(object sender, EventArgs e)
+        {
+            if(shifts != null && !string.IsNullOrEmpty(_resourceId))
+            {
+                lblShift.Text = (shifts == null) ? string.Empty : DateService.CurrentShift(shifts, _resourceId);
+            }
+        }
         #endregion
 
-        #region DropBox WorkOrders
+        #region WorkOrders
         private async void DropDownWorkOrders(object sender, EventArgs e)
         {
             cmbWorkOrders.Items.Clear();
@@ -109,6 +118,7 @@ namespace WOW_Fusion
 
         private async void SelectedIndexChangedWorkOrders(object sender, EventArgs e)
         {
+            timerShift.Stop();
             try
             {
                 Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WODiscreteDetail, cmbWorkOrders.SelectedItem.ToString()));
@@ -160,6 +170,7 @@ namespace WOW_Fusion
                         //dynamic resource = wo["ProcessWorkOrderResource"]["items"][indexMachine]; //Objeto RESURSO
                         lblResourceCode.Text = resource["ResourceCode"].ToString();
                         lblResourceDescription.Text = resource["ResourceDescription"].ToString();
+                        _resourceId = resource["ResourceId"].ToString();
 
                         if ((int)resource["WorkOrderOperationResourceInstance"]["count"] >= 1)
                         //if ((int)resource["ResourceInstance"]["count"] >= 1)
@@ -169,7 +180,13 @@ namespace WOW_Fusion
                             lblEquipmentInstanceCode.Text = instance["EquipmentInstanceCode"].ToString();
                             lblEquipmentInstanceName.Text = instance["EquipmentInstanceName"].ToString();
 
-                            //Fill label
+                            shifts = await CommonService.OneItem(String.Format(EndPoints.ShiftByWorkCenter, Settings.Default.WorkCenterP2));
+                            lblShift.Text = (shifts == null) ? string.Empty : DateService.CurrentShift(shifts, _resourceId);
+
+                            timerShift.Interval = 5000;
+                            timerShift.Tick += new EventHandler(CheckShift);
+                            timerShift.Start();
+
                             btnGetWeight.Enabled = true;
 
                             lblLabelDesignRoll.Text = "XILAM";
@@ -710,12 +727,12 @@ namespace WOW_Fusion
                 }
                 else
                 {
-                    picLabelRoll.Image = Image.FromStream(LabelService.UpdateLabelLabelary(_rollCount));
+                    picLabelRoll.Image = Image.FromStream(LabelService.UpdateLabelLabelary(_rollCount, "ROLL"));
                 }
             }
         }
 
-        private async void FillLabelPallet(string[] palletWeight, string rollWeights)
+        private void FillLabelPallet(string[] palletWeight, string rollWeights)
         {
             if (!string.IsNullOrEmpty(lblEquipmentInstanceName.Text))
             {
@@ -729,7 +746,8 @@ namespace WOW_Fusion
                 label.WEIGHTS = rollWeights;
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
 
-                picLabelPallet.Image = Image.FromStream(await LabelService.CreateFromApexAsync(lblLabelDesignRoll.Text, 3));
+                //picLabelPallet.Image = Image.FromStream(await LabelService.CreateFromApexAsync(lblLabelDesignRoll.Text, 3));
+                picLabelPallet.Image = Image.FromStream(LabelService.UpdateLabelLabelary(_palletCount, "PALLET"));
             }
         }
         #endregion

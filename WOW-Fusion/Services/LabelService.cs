@@ -64,7 +64,7 @@ namespace WOW_Fusion.Services
             return responseStream;
         }
 
-        public static Stream UpdateLabelLabelary(int item)
+        public static Stream UpdateLabelLabelary(int item, string labelType)
         {
             Stream responseStream;
             if (string.IsNullOrEmpty(zplTemplate) && string.IsNullOrEmpty(zplPalletTemplate))
@@ -75,7 +75,7 @@ namespace WOW_Fusion.Services
             {
                 try
                 {
-                    string zpl = ReplaceZplRoll(item);
+                    string zpl = labelType.Equals("ROLL") ? ReplaceZplRoll(item) : ReplaceZplPallet(item);
                     var request = (HttpWebRequest)WebRequest.Create(String.Format(Constants.LaberalyUrl, zpl));
                     var response = (HttpWebResponse)request.GetResponse();
                     //using (HttpWebResponse response = await request.GetResponseAsync())

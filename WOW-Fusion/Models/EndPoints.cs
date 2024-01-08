@@ -21,6 +21,13 @@ namespace WOW_Fusion.Models
                                                     "&fields=WorkCenterName,WorkCenterDescription,WorkAreaId,WorkAreaName" +
                                                     "&q=OrganizationId={0} and WorkCenterId={1}";
 
+        public static string ShiftByWorkCenter = Settings.Default.FusionUrl + "/workCenters?" + Constants.ParamsGet +
+                                                    "&expand=WorkCenterResource.WorkCenterResourceShift" +
+                                                    "&fields=WorkCenterName;" +
+                                                    "WorkCenterResource:ResourceId;" +
+                                                    "WorkCenterResource.WorkCenterResourceShift:ShiftName,StartTime,Duration" +
+                                                    "&q=WorkCenterId={0}";
+
         //Endpoints Manufactura Discreta
         public static string WODiscreteList = Settings.Default.FusionUrl + "/workOrders?" + Constants.ParamsGet +
                                                     "&fields=WorkOrderNumber" +

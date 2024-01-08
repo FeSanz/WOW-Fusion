@@ -11,13 +11,10 @@ namespace WOW_Fusion
         public const string Plant3Id = "300000002650061";
 
         //Endpoints fusion
-        public static readonly string ObtenerTodasLasOrdenes = "/PurchaseOrdersForReceiving";
         public static readonly string ParamsGet = "limit=500&totalResults=true&onlyData=true";
 
         //Endpoint Etiquetas
         public static string LaberalyUrl = "http://api.labelary.com/v1/printers/12dpmm/labels/4x2/0/ --data-urlencode {0}";
-
-        public const string organizationId = "300000002650049";
 
         //Etiquetas KEYS
         public static string LabelJson = @"{
