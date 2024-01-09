@@ -20,48 +20,16 @@ namespace WOW_Fusion.Services
         private static TcpClient _client;
         private static NetworkStream _stream;
 
-        public static async Task<Stream> CreateFromApexAsync(string labelName, int mode)
+        public static async Task<dynamic> LabelInfo(string clienteName)
         {
-            Stream responseStream;
-            string zpl;
+            dynamic labels = await CommonService.LabelTamplate(clienteName);
 
-            JObject labels = await CommonService.LabelTamplate(labelName);
-            
             if (labels == null) { return null; }
 
-            if (mode == 1) //Box
-            {
-                zplTemplate = labels["LabelZpl"].ToString().Replace("\r\n", String.Empty);
-                zpl = ReplaceZplBox(1);
-            }
-            else if (mode == 2) //Roll
-            {
-                zplTemplate = labels["LabelZpl"].ToString().Replace("\r\n", String.Empty);
-                zplPalletTemplate = labels["LabelPalletZpl"].ToString().Replace("\r\n", String.Empty);
-                zpl = ReplaceZplRoll(1);
-            }
-            else if (mode == 3) //Pallet
-            {
-                zpl = ReplaceZplPallet(1);
-            }
-            else
-            {
-                zpl = "Vacio";
-            }
+            zplTemplate = labels["LabelZpl"].ToString().Replace("\r\n", String.Empty);
+            zplPalletTemplate = labels["LabelPalletZpl"].ToString().Replace("\r\n", String.Empty);
 
-            try
-            {
-                var request = (HttpWebRequest)WebRequest.Create(String.Format(Constants.LaberalyUrl, zpl));
-                var response = (HttpWebResponse)request.GetResponse();
-                responseStream = response.GetResponseStream();
-            }
-            catch (WebException ex)
-            {
-                responseStream = null;
-                NotifierController.DetailError("Error labelary", ex.Message);
-            }
-
-            return responseStream;
+            return labels;
         }
 
         public static Stream UpdateLabelLabelary(int item, string labelType)
@@ -75,7 +43,7 @@ namespace WOW_Fusion.Services
             {
                 try
                 {
-                    string zpl = labelType.Equals("ROLL") ? ReplaceZplRoll(item) : ReplaceZplPallet(item);
+                    string zpl = labelType.Equals("ROLL") ? ReplaceZplRoll(item) : labelType.Equals("BOX") ? ReplaceZplBox(item) : ReplaceZplPallet(item);
                     var request = (HttpWebRequest)WebRequest.Create(String.Format(Constants.LaberalyUrl, zpl));
                     var response = (HttpWebResponse)request.GetResponse();
                     //using (HttpWebResponse response = await request.GetResponseAsync())

@@ -179,6 +179,8 @@ namespace WOW_Fusion
                                 lblEquipmentInstanceName.Text = instance["EquipmentInstanceName"].ToString();
 
                                 lblLabelDesign.Text = "XIPRD";
+
+                                dynamic aka = await LabelService.LabelInfo(lblLabelDesign.Text);
                                 FillLabel();
                             }
                             else
@@ -263,7 +265,7 @@ namespace WOW_Fusion
             }
         }*/
 
-        private async void FillLabel()
+        private void FillLabel()
         {
             if (!string.IsNullOrEmpty(lblItemNumber.Text))
             {
@@ -279,7 +281,7 @@ namespace WOW_Fusion
 
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
 
-                picLabel.Image = Image.FromStream(await LabelService.CreateFromApexAsync(lblLabelDesign.Text, 1));
+                picLabel.Image = Image.FromStream(LabelService.UpdateLabelLabelary(1, "BOX"));
                 btnPrint.Enabled = true;
             }
         }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -183,14 +184,18 @@ namespace WOW_Fusion
                             shifts = await CommonService.OneItem(String.Format(EndPoints.ShiftByWorkCenter, Settings.Default.WorkCenterP2));
                             lblShift.Text = (shifts == null) ? string.Empty : DateService.CurrentShift(shifts, _resourceId);
 
+                            btnGetWeight.Enabled = true;
+
+                            lblLabelDesign.Text = "XILAM";
+                            
+                            dynamic aka = await LabelService.LabelInfo(lblLabelDesign.Text);
+                            lblAkaItem.Text = (aka["AkaItemNumber"].ToString() == "null") ? string.Empty : aka["AkaItemNumber"].ToString();
+                            lblAkaDescription.Text = (aka["AkaItemDescription"].ToString() == "null") ? string.Empty : aka["AkaItemDescription"].ToString();
+                            lblLegalEntitie.Text = (aka["AkaLegalEntity"].ToString() == "null") ? string.Empty : aka["AkaLegalEntity"].ToString();
+
                             timerShift.Interval = 5000;
                             timerShift.Tick += new EventHandler(CheckShift);
                             timerShift.Start();
-
-                            btnGetWeight.Enabled = true;
-
-                            lblLabelDesignRoll.Text = "XILAM";
-                            lblLabelDesignPallet.Text = "PALLET";
                         }
                         else
                         {
@@ -212,13 +217,12 @@ namespace WOW_Fusion
                 MessageBox.Show("Error. " + ex.Message, "Error[WO Selected]", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         #endregion
 
         #region Buttons Actions
         private void btnGetWeight_Click(object sender, EventArgs e)
         {
-            txtBoxWeight.Text = "";
+            txtBoxWeight.Text = string.Empty;
             pop.Show(this);
             if (string.IsNullOrEmpty(lblTare.Text))
             {
@@ -234,6 +238,7 @@ namespace WOW_Fusion
                         lblTare.Text = float.Parse(requestTareWeight).ToString("F2");
                         txtBoxWeight.Text = float.Parse(requestTareWeight).ToString("F2");
                         btnGetWeight.Text = "OBTENER";
+                        btnReloadTare.Visible = true;
                         //_rollCount = 0;
                         _rollByPallet = 0;
                         _palletCount += 1;
@@ -326,11 +331,34 @@ namespace WOW_Fusion
             }
             pop.Close();
         }
+
+        private void btnReloadTare_Click(object sender, EventArgs e)
+        {
+            pop.Show(this);
+            string responseTare = RadwagController.SocketWeighing("T");
+            if (responseTare.Equals("OK"))
+            {
+                string requestTareWeight = RadwagController.SocketWeighing("OT");
+                if (!requestTareWeight.Equals("EX"))
+                {
+                    //TARAR
+                    _tareWeight = float.Parse(requestTareWeight);
+                    lblTare.Text = float.Parse(requestTareWeight).ToString("F2");
+                    txtBoxWeight.Text = float.Parse(requestTareWeight).ToString("F2");
+                }
+                else
+                {
+                    NotifierController.Warning("Tiempo de espera agotado, vuelva a  intentar");
+                }
+            }
+            pop.Close();
+        }
+
         private void btnAddPallet_Click(object sender, EventArgs e)
         {
             if (_isPalletStart)
             {
-                DialogResult dialogResult = MessageBox.Show($"¿Desea agregar nuevo pallet?", "Agregar pallet", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show($"¿Desea agregar nuevo pallet?", "Agregar pallet", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes)
                 {
                     string[] rowPallet = new string[] { _palletCount.ToString(), _tareWeight.ToString(), lblPalletNetKg.Text,lblPalletGrossKg.Text,
@@ -343,8 +371,12 @@ namespace WOW_Fusion
                     {
                         DataGridViewButtonColumn btnColumnPrint = new DataGridViewButtonColumn();
                         {
+                            if (dgPallets.Columns.Contains("P_Print"))
+                            {
+                                dgPallets.Columns.Remove("P_Print");
+                            }
                             btnColumnPrint.HeaderText = "Imprimir";
-                            btnColumnPrint.Name = "btnPrintLabelPallet";
+                            btnColumnPrint.Name = "P_Print";
                             btnColumnPrint.FlatStyle = FlatStyle.Flat;
                             btnColumnPrint.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                             btnColumnPrint.UseColumnTextForButtonValue = true;
@@ -378,10 +410,73 @@ namespace WOW_Fusion
             lblPalletGrossLbs.Text = string.Empty;
             lblTare.Text = string.Empty;
         }
+
         private void btnEndOrder_Click(object sender, EventArgs e)
         {
+            DialogResult dialogResult = MessageBox.Show($"¿Desea terminar orden?", "Terminar Orden", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                //Weight Section
+                txtBoxWeight.Text = string.Empty;
+                btnGetWeight.Enabled = false;
+                btnGetWeight.Text = "TARA";
+                timerShift.Stop();
+                lblShift.Text = string.Empty;
+                btnEndOrder.Enabled = false;
 
+                //WorkOrder Section
+                cmbWorkOrders.Items.Clear();
+                cmbWorkOrders.Enabled = true;
+                lblPlannedQuantity.Text = string.Empty;
+                lblCompletedQuantity.Text = string.Empty;
+                lblUoM.Text = string.Empty;
+                lblPlannedStartDate.Text = string.Empty;
+                lblPlannedCompletionDate.Text = string.Empty;
+                lblResourceCode.Text = string.Empty;
+                lblResourceDescription.Text = string.Empty;
+                lblEquipmentInstanceCode.Text = string.Empty;
+                lblEquipmentInstanceName.Text = string.Empty;
+                lblItemNumber.Text = string.Empty;
+                lblItemDescription.Text = string.Empty;
+                lblItemDescriptionEnglish.Text = string.Empty;
+
+                //AKA Section
+                lblAkaPO.Text = string.Empty;
+                lblLegalEntitie.Text = string.Empty;
+                lblAkaItem.Text = string.Empty;
+                lblAkaDescription.Text = string.Empty;
+
+                //Pallet Anim Section
+                _rollByPallet = 0;
+                _isPalletStart = false;
+                tabLayoutPallet.BackgroundImage = Resources.pallet_empty_icon;
+
+                lblPalletNetKg.Text = string.Empty;
+                lblPalletGrossKg.Text = string.Empty;
+                lblPalletNetLbs.Text = string.Empty;
+                lblPalletGrossLbs.Text = string.Empty;
+                lblTare.Text = string.Empty;
+                lblPalletNumber.Text = string.Empty;
+
+                //DataGrid Rolls Section
+                _rollCount = 0;
+                dgRolls.Rows.Clear();
+                dgRolls.Refresh();
+                lblLabelDesign.Text = string.Empty;
+                picLabelRoll.Image = null;
+
+                //DataGrid Pallets Section
+                _palletCount = 0;
+                dgPallets.Rows.Clear();
+                dgPallets.Refresh();
+                picLabelPallet.Image = null;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
         }
+
         private void btnSettings_Click(object sender, EventArgs e)
         {
             frmSettingsP2 frmSettingsP2 = new frmSettingsP2();
@@ -397,6 +492,7 @@ namespace WOW_Fusion
             _rollCount++;
             _rollByPallet++;
             float rollNetLbs = rollNetKg * _lbs;
+            btnReloadTare.Visible = false;
 
             //Calcular pero bruto de cada rollo (con tara)
             float rollGrossKg = rollNetKg + _tareWeight;
@@ -420,8 +516,13 @@ namespace WOW_Fusion
             {
                 DataGridViewButtonColumn btnColumnPrint = new DataGridViewButtonColumn();
                 {
+                    if (dgRolls.Columns.Contains("R_Print"))
+                    {
+                        dgRolls.Columns.Remove("R_Print");
+                    }
+
                     btnColumnPrint.HeaderText = "Imprimir";
-                    btnColumnPrint.Name = "btnPrintLabel";
+                    btnColumnPrint.Name = "R_Print";
                     btnColumnPrint.FlatStyle = FlatStyle.Flat;
                     btnColumnPrint.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                     btnColumnPrint.UseColumnTextForButtonValue = true;
@@ -544,8 +645,8 @@ namespace WOW_Fusion
             {
                 int rollForPrint = int.Parse(dgRolls.CurrentRow.Cells["R_Roll"].Value.ToString());
 
-                string[] row = new string[dgRolls.CurrentRow.Cells.Count - 1];
-                for (int i = 0; i < dgRolls.CurrentRow.Cells.Count - 1; i++)
+                string[] row = new string[6];
+                for (int i = 0; i < 6; i++)
                 {
                     row[i] = dgRolls.CurrentRow.Cells[i].Value.ToString();
                 }
@@ -649,6 +750,7 @@ namespace WOW_Fusion
             }
 
             FillLabelPallet(palletWeight, rollWeights);
+            btnEndOrder.Enabled = true;
         }
         //Agregar boton para imprimir etiqueta
         private void dgWeightsPallets_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -677,20 +779,20 @@ namespace WOW_Fusion
             if (e.ColumnIndex == 6)
             {
                 int palletForPrint = int.Parse(dgPallets.CurrentRow.Cells["P_Pallet"].Value.ToString());
-
-                string[] row = new string[dgPallets.CurrentRow.Cells.Count - 1];
+                string rollWeights = WeightsPallet(palletForPrint);
+                string[] palletWeight = new string[dgPallets.CurrentRow.Cells.Count - 1];
                 for (int i = 0; i < dgPallets.CurrentRow.Cells.Count - 1; i++)
                 {
-                    row[i] = dgPallets.CurrentRow.Cells[i].Value.ToString();
+                    palletWeight[i] = dgPallets.CurrentRow.Cells[i].Value.ToString();
                 }
-                //FillLabelPallet();
+                FillLabelPallet(palletWeight, rollWeights);
                 await LabelService.PrintP2(palletForPrint, "PALLET");
             }
         }
         #endregion
 
         #region Labels Fill
-        private async void FillLabelRoll(string[] weights)
+        private void FillLabelRoll(string[] weights)
         {
             if (!string.IsNullOrEmpty(lblEquipmentInstanceName.Text))
             {
@@ -721,14 +823,7 @@ namespace WOW_Fusion
 
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
 
-                if (_rollCount == 1)
-                {
-                    picLabelRoll.Image = Image.FromStream(await LabelService.CreateFromApexAsync(lblLabelDesignRoll.Text, 2));
-                }
-                else
-                {
-                    picLabelRoll.Image = Image.FromStream(LabelService.UpdateLabelLabelary(_rollCount, "ROLL"));
-                }
+                picLabelRoll.Image = Image.FromStream(LabelService.UpdateLabelLabelary(_rollCount, "ROLL"));
             }
         }
 
@@ -746,7 +841,6 @@ namespace WOW_Fusion
                 label.WEIGHTS = rollWeights;
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
 
-                //picLabelPallet.Image = Image.FromStream(await LabelService.CreateFromApexAsync(lblLabelDesignRoll.Text, 3));
                 picLabelPallet.Image = Image.FromStream(LabelService.UpdateLabelLabelary(_palletCount, "PALLET"));
             }
         }

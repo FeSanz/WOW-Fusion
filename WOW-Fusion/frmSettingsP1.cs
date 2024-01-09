@@ -25,10 +25,10 @@ namespace WOW_Fusion
             txtBoxPortPrinter.Text = Settings.Default.PrinterPort.ToString();
         }
 
-        private async void btnSave_Click(object sender, EventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
         {
             lblStatus.Text = "Verificando conexión...";
-            if (await RadwagController.CheckConnection(txtBoxIpPrinter.Text, int.Parse(txtBoxPortPrinter.Text)))
+            if (!string.IsNullOrEmpty(txtBoxIpPrinter.Text) && !string.IsNullOrEmpty(txtBoxPortPrinter.Text))
             {
                 Settings.Default.PrinterIP = txtBoxIpPrinter.Text;
                 Settings.Default.PrinterPort = int.Parse(txtBoxPortPrinter.Text);

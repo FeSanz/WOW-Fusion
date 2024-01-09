@@ -65,19 +65,19 @@
             this.label17 = new System.Windows.Forms.Label();
             this.btnPrint = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lblTotalPrint = new System.Windows.Forms.Label();
             this.lblLabelDesign = new System.Windows.Forms.Label();
             this.lblAditional = new System.Windows.Forms.Label();
             this.picBoxWaitLD = new System.Windows.Forms.PictureBox();
-            this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.lblStartPage = new System.Windows.Forms.Label();
             this.lbLabelQuantity = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.picLabel = new System.Windows.Forms.PictureBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.btnSettings = new System.Windows.Forms.Button();
-            this.lblTotalPrint = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
@@ -532,6 +532,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Etiqueta";
             // 
+            // lblTotalPrint
+            // 
+            this.lblTotalPrint.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblTotalPrint.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalPrint.Location = new System.Drawing.Point(408, 318);
+            this.lblTotalPrint.Name = "lblTotalPrint";
+            this.lblTotalPrint.Size = new System.Drawing.Size(51, 19);
+            this.lblTotalPrint.TabIndex = 132;
+            this.lblTotalPrint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // lblLabelDesign
             // 
             this.lblLabelDesign.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -566,18 +576,6 @@
             this.picBoxWaitLD.TabIndex = 128;
             this.picBoxWaitLD.TabStop = false;
             this.picBoxWaitLD.Visible = false;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label15.Location = new System.Drawing.Point(307, 321);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(29, 13);
-            this.label15.TabIndex = 122;
-            this.label15.Text = "Pág.";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label16
             // 
@@ -635,6 +633,30 @@
             this.picLabel.TabIndex = 31;
             this.picLabel.TabStop = false;
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label15.Location = new System.Drawing.Point(307, 321);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(29, 13);
+            this.label15.TabIndex = 122;
+            this.label15.Text = "Pág.";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label11.Location = new System.Drawing.Point(343, 38);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(34, 13);
+            this.label11.TabIndex = 131;
+            this.label11.Text = "Total:";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // rtbLog
             // 
             this.rtbLog.Location = new System.Drawing.Point(12, 386);
@@ -659,28 +681,6 @@
             this.btnSettings.UseVisualStyleBackColor = false;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
-            // lblTotalPrint
-            // 
-            this.lblTotalPrint.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblTotalPrint.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalPrint.Location = new System.Drawing.Point(408, 318);
-            this.lblTotalPrint.Name = "lblTotalPrint";
-            this.lblTotalPrint.Size = new System.Drawing.Size(51, 19);
-            this.lblTotalPrint.TabIndex = 132;
-            this.lblTotalPrint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label11.Location = new System.Drawing.Point(343, 38);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(34, 13);
-            this.label11.TabIndex = 131;
-            this.label11.Text = "Total:";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // frmLabelP1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -691,6 +691,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.btnSettings);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmLabelP1";
             this.Text = "WOW Label";
             this.Load += new System.EventHandler(this.frmLabelP1_Load);
