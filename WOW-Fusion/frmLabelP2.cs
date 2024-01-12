@@ -220,17 +220,17 @@ namespace WOW_Fusion
         #endregion
 
         #region Buttons Actions
-        private void btnGetWeight_Click(object sender, EventArgs e)
+        private async void btnGetWeight_Click(object sender, EventArgs e)
         {
             txtBoxWeight.Text = string.Empty;
             pop.Show(this);
             if (string.IsNullOrEmpty(lblTare.Text))
             {
                 //Solicitar peso tara
-                string responseTare = RadwagController.SocketWeighing("T");
+                string responseTare = await RadwagController.SocketWeighing("T");
                 if (responseTare.Equals("OK"))
                 {
-                    string requestTareWeight = RadwagController.SocketWeighing("OT");
+                    string requestTareWeight = await RadwagController.SocketWeighing("OT");
                     if (!requestTareWeight.Equals("EX"))
                     {
                         //TARAR
@@ -265,7 +265,7 @@ namespace WOW_Fusion
             else
             {
                 //Obtiene peso acomulado (sin tara)
-                string responseWeighing = RadwagController.SocketWeighing("S");
+                string responseWeighing = await RadwagController.SocketWeighing("S");
 
                 if (responseWeighing == "EX")
                 {
@@ -332,13 +332,13 @@ namespace WOW_Fusion
             pop.Close();
         }
 
-        private void btnReloadTare_Click(object sender, EventArgs e)
+        private async void btnReloadTare_Click(object sender, EventArgs e)
         {
             pop.Show(this);
-            string responseTare = RadwagController.SocketWeighing("T");
+            string responseTare = await RadwagController.SocketWeighing("T");
             if (responseTare.Equals("OK"))
             {
-                string requestTareWeight = RadwagController.SocketWeighing("OT");
+                string requestTareWeight = await RadwagController.SocketWeighing("OT");
                 if (!requestTareWeight.Equals("EX"))
                 {
                     //TARAR

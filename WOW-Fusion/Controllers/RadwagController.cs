@@ -10,11 +10,16 @@ using static Google.Apis.Requests.BatchRequest;
 using WOW_Fusion.Properties;
 using System.Net;
 using WOW_Fusion.Services;
+using System.Threading;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace WOW_Fusion
 {
     internal class RadwagController
     {
+        private static TcpClient _client;
+        private static NetworkStream _stream;
+
         public async static Task<bool> CheckConnection(string ip, int port)
         {
             try
@@ -30,35 +35,35 @@ namespace WOW_Fusion
             }
         }
 
-        public static string SocketWeighing(string command)
+        public static async Task<string> SocketWeighing(string command)
         {
             string response = "";
 
-            TcpClient client = new TcpClient();
-            //var result = client.BeginConnect(Settings.Default.RadwagIP, Settings.Default.RadwagPort, null, null);
-            var result = client.BeginConnect(Settings.Default.WeighingIP, Settings.Default.WeighingPort, null, null);
-            result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(3));
-
-
-            if (client.Connected)
+            try
             {
-                StreamWriter writer = new StreamWriter(client.GetStream());
-                StreamReader reader = new StreamReader(client.GetStream());
-                reader.BaseStream.ReadTimeout = 5000;
-
-                try
+                if (_client == null || !_client.Connected)
                 {
-                    writer.Write(command + "\r\n");
-                    writer.Flush();
+                    _client = new TcpClient();
+                    // Cambia la IP y el puerto según tu configuración
+                    await _client.ConnectAsync(Settings.Default.WeighingIP, Settings.Default.WeighingPort); 
+                    _stream = _client.GetStream();
 
-                    string readLine = reader.ReadLine();
+
+                    byte[] data = Encoding.ASCII.GetBytes(command + "\r\n");
+                    // Enviar datos al servidor de forma asíncrona
+                    await _stream.WriteAsync(data, 0, data.Length);
+                    // Leer Datos del servidor
+                    response = await ReadDataUntilCR(_stream, 6000);
+                    string readLine = response;
 
                     if (command.Equals("T") || command.Equals("S"))
                     {
                         switch (readLine.Substring(2, 1))
                         {
                             case "A":
-                                response = SecondLineResponse(reader.ReadLine());
+                                //await _client.ConnectAsync(_ip, _port); // Cambia la IP y el puerto según tu configuración
+                                response = await ReadDataUntilCR(_stream, 6000);
+                                response = SecondLineResponse(response);
                                 break;
                             default:
                                 response = "(1) " + readLine;
@@ -69,32 +74,22 @@ namespace WOW_Fusion
                     {
                         response = readLine.Substring(4, 9).Trim();
                     }
-                    else
-                    {
-                        MessageBox.Show("Comando de báscula no encontrado", "Comando", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-
-                    writer.Close();
-                    reader.Close();
-
                 }
-                catch(Exception ex) 
+
+                if (_client != null)
                 {
-                    response = "EX";
-                    Console.WriteLine($"{DateService.Today()} -> Error Socket Bascula: {ex.Message}");
-                    //MessageBox.Show("Error. " + ex.Message, "Socket Báscula", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    writer.Close();
-                    reader.Close();
-                    client.Close();
+                    _client.Close();
+                    _stream.Close();
+                    _client = null;
+                    _stream = null;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine($"{DateService.Today()} -> Báscula no encontrada");
-                response = "Báscula no encontrada";
+                response = "EX";
+                Console.WriteLine($"{DateService.Today()} -> Error Socket Báscula. {ex.Message}");
+                _client = null;
+                _stream = null;
             }
 
             return response;
@@ -109,6 +104,7 @@ namespace WOW_Fusion
         private static string SecondLineResponse(string secondLineResponse)
         {
             string response = "";
+            //Thread.Sleep(100);
             switch (secondLineResponse.Substring(2, 1))
             {
                 case "D":
@@ -134,9 +130,61 @@ namespace WOW_Fusion
             return response;
         }
 
-        public static string RemoveLines(string s, int linesToRemove)
+        public static async Task<string> ReadDataUntilCR(NetworkStream stream, int timeoutMilliseconds)
         {
-            return s.Split(Environment.NewLine.ToCharArray(), linesToRemove + 1).Skip(linesToRemove).FirstOrDefault();
+            try
+            {
+                StringBuilder dataBuffer = new StringBuilder();
+                byte[] readBuffer = new byte[255];
+
+                // Configurar un CancellationTokenSource con un tiempo de espera
+                CancellationTokenSource cts = new CancellationTokenSource(timeoutMilliseconds);
+
+                while (true)
+                {
+                    // Verificar si hay datos disponibles antes de intentar leer
+                    if (stream.DataAvailable)
+                    {
+                        int bytesRead = await stream.ReadAsync(readBuffer, 0, readBuffer.Length, cts.Token);
+
+                        if (bytesRead == 0)
+                        {
+                            // No se han leído bytes, la conexión probablemente se ha cerrado.
+                            Console.WriteLine($"{DateService.Today()} -> Se ha cerrado la conexión a la báscula");
+                            return null;
+                        }
+
+                        // Decodificar y agregar al búfer
+                        string decodedData = Encoding.ASCII.GetString(readBuffer, 0, bytesRead);
+                        dataBuffer.Append(decodedData);
+
+                        // Verificar si '\n' está presente en el búfer
+                        if (dataBuffer.ToString().Contains("\n"))
+                        {
+                            // Eliminar '\n' del final
+                            int newlineIndex = dataBuffer.ToString().IndexOf('\n');
+                            dataBuffer.Remove(newlineIndex, dataBuffer.Length - newlineIndex);
+
+                            return dataBuffer.ToString();
+                        }
+                    }
+
+                    // Comprobar si se ha cancelado la operación debido al tiempo de espera
+                    if (cts.Token.IsCancellationRequested)
+                    {
+                        Console.WriteLine($"{DateService.Today()} -> Tiempo de espera excedido en la lécura de la báscula");
+                        return "EX";
+                    }
+
+                    // Introducir una pausa para no sobrecargar la CPU
+                    await Task.Delay(10);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{DateService.Today()} -> Error en lectura de la báscula. {ex.Message}");
+                return "EX";
+            }
         }
     }
 }

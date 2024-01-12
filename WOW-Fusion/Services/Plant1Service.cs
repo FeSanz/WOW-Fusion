@@ -33,11 +33,12 @@ namespace WOW_Fusion.Services
 
                         foreach (var item in items)
                         {
-                            string itemNumber = item["ItemNumber"].ToString();
+                            /*string itemNumber = item["ItemNumber"].ToString();
                             if (itemNumber.Substring(itemNumber.Length - 2).Equals("01"))//Terminacion 01 producto empaquetado (CAJAS)
                             {
                                 workOrderNumbers.Add(item["WorkOrderNumber"].ToString());
-                            }
+                            }*/
+                            workOrderNumbers.Add(item["WorkOrderNumber"].ToString());
                         }
                         return workOrderNumbers;
                     }
