@@ -18,6 +18,7 @@ using WOW_Fusion.Controllers;
 using WOW_Fusion.Models;
 using WOW_Fusion.Properties;
 using WOW_Fusion.Services;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace WOW_Fusion
 {
@@ -48,6 +49,9 @@ namespace WOW_Fusion
 
         private string _resourceId = string.Empty;
 
+        //Scheduling
+        List<WorkOrderShedule> schedule;
+
         #region Start
         public frmLabelP2()
         {
@@ -64,7 +68,6 @@ namespace WOW_Fusion
 
             AppController.ToolTip(btnSettings, "Configuración");
             AppController.ToolTip(btnAddPallet, "Agregar Pallet");
-            Console.WriteLine($"{DateService.Today()} -> {0}");
 
             btnGetWeight.Text = "TARA";
         }
@@ -78,7 +81,7 @@ namespace WOW_Fusion
 
             if (org == null || wc == null)
             {
-                AppController.Exit("Sin organización o centro de trabajo, la aplicación se cerrará");
+                NotifierController.Error("Sin organización o centro de trabajo, la aplicación no funcionará");
                 return;
             }
             else
@@ -89,6 +92,19 @@ namespace WOW_Fusion
             }
 
             machines = await CommonService.ProductionResourcesMachines(String.Format(EndPoints.ProductionResourcesP2, Constants.Plant2Id)); //Obtener Objeto RECURSOS MAQUINAS 
+
+            schedule = await CommonService.WODiscreteSchedule(Constants.Plant2Id, Settings.Default.WorkCenterP2); //Obtener OT Schedule
+
+            foreach (var wo in schedule) 
+            {
+                if (DateService.IsBetweenDates(wo.PlannedStartDate, wo.PlannedCompletionDate))
+                {
+                    cmbWorkOrders.Items.Clear();
+                    cmbWorkOrders.Items.Add(wo.WorkOrderNumber.ToString());
+                    cmbWorkOrders.Text = wo.WorkOrderNumber.ToString();
+                    break;
+                }
+            }
         }
 
         private void CheckShift(object sender, EventArgs e)
@@ -117,12 +133,17 @@ namespace WOW_Fusion
             }
         }
 
-        private async void SelectedIndexChangedWorkOrders(object sender, EventArgs e)
+        private void SelectedIndexChangedWorkOrders(object sender, EventArgs e)
+        {
+            WorkOrderUIFill(cmbWorkOrders.SelectedItem.ToString());
+        }
+
+        private async void WorkOrderUIFill(string workOrder)
         {
             timerShift.Stop();
             try
             {
-                Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WODiscreteDetail, cmbWorkOrders.SelectedItem.ToString()));
+                Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WODiscreteDetail, workOrder));
                 string response = await tskWorkOrdersData;
                 if (string.IsNullOrEmpty(response)) { return; }
 
@@ -168,7 +189,7 @@ namespace WOW_Fusion
                     if (indexMachine >= 0)
                     {
                         dynamic resource = wo["WorkOrderResource"]["items"][indexMachine]; //Objeto RESURSO
-                        //dynamic resource = wo["ProcessWorkOrderResource"]["items"][indexMachine]; //Objeto RESURSO
+                                                                                            //dynamic resource = wo["ProcessWorkOrderResource"]["items"][indexMachine]; //Objeto RESURSO
                         lblResourceCode.Text = resource["ResourceCode"].ToString();
                         lblResourceDescription.Text = resource["ResourceDescription"].ToString();
                         _resourceId = resource["ResourceId"].ToString();
@@ -187,7 +208,7 @@ namespace WOW_Fusion
                             btnGetWeight.Enabled = true;
 
                             lblLabelDesign.Text = "XILAM";
-                            
+
                             dynamic aka = await LabelService.LabelInfo(lblLabelDesign.Text);
                             lblAkaItem.Text = (aka["AkaItemNumber"].ToString() == "null") ? string.Empty : aka["AkaItemNumber"].ToString();
                             lblAkaDescription.Text = (aka["AkaItemDescription"].ToString() == "null") ? string.Empty : aka["AkaItemDescription"].ToString();

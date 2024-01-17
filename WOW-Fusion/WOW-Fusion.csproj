@@ -98,16 +98,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ConsoleController.cs" />
-    <Compile Include="frmSettingsP1.cs">
+    <Compile Include="Models\WorkOrder.cs" />
+    <Compile Include="Views\Plant1\frmSettingsP1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSettingsP1.Designer.cs">
+    <Compile Include="Views\Plant1\frmSettingsP1.Designer.cs">
       <DependentUpon>frmSettingsP1.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmSettingsP2.cs">
+    <Compile Include="Views\Plant2\frmSettingsP2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSettingsP2.Designer.cs">
+    <Compile Include="Views\Plant2\frmSettingsP2.Designer.cs">
       <DependentUpon>frmSettingsP2.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Constants.cs" />
@@ -116,34 +117,34 @@
     <Compile Include="Models\EndPoints.cs" />
     <Compile Include="Services\CommonService.cs" />
     <Compile Include="Services\APIService.cs" />
-    <Compile Include="frmLabelP1.cs">
+    <Compile Include="Views\Plant1\frmLabelP1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLabelP1.Designer.cs">
+    <Compile Include="Views\Plant1\frmLabelP1.Designer.cs">
       <DependentUpon>frmLabelP1.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmLabelP2.cs">
+    <Compile Include="Views\Plant2\frmLabelP2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLabelP2.Designer.cs">
+    <Compile Include="Views\Plant2\frmLabelP2.Designer.cs">
       <DependentUpon>frmLabelP2.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmLoading.cs">
+    <Compile Include="Views\frmLoading.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLoading.Designer.cs">
+    <Compile Include="Views\frmLoading.Designer.cs">
       <DependentUpon>frmLoading.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmPetP3.cs">
+    <Compile Include="Views\Plant3\frmPetP3.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPetP3.Designer.cs">
+    <Compile Include="Views\Plant3\frmPetP3.Designer.cs">
       <DependentUpon>frmPetP3.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmSackP3.cs">
+    <Compile Include="Views\Plant3\frmSackP3.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSackP3.Designer.cs">
+    <Compile Include="Views\Plant3\frmSackP3.Designer.cs">
       <DependentUpon>frmSackP3.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\PopController.cs" />
@@ -154,26 +155,27 @@
     <Compile Include="Services\DateService.cs" />
     <Compile Include="Services\LabelService.cs" />
     <Compile Include="Services\Plant1Service.cs" />
+    <Compile Include="Services\Plant3Service.cs" />
     <Compile Include="Services\TranslateService.cs" />
-    <EmbeddedResource Include="frmLabelP1.resx">
+    <EmbeddedResource Include="Views\Plant1\frmLabelP1.resx">
       <DependentUpon>frmLabelP1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmLabelP2.resx">
+    <EmbeddedResource Include="Views\Plant2\frmLabelP2.resx">
       <DependentUpon>frmLabelP2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmLoading.resx">
+    <EmbeddedResource Include="Views\frmLoading.resx">
       <DependentUpon>frmLoading.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmPetP3.resx">
+    <EmbeddedResource Include="Views\Plant3\frmPetP3.resx">
       <DependentUpon>frmPetP3.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSackP3.resx">
+    <EmbeddedResource Include="Views\Plant3\frmSackP3.resx">
       <DependentUpon>frmSackP3.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSettingsP1.resx">
+    <EmbeddedResource Include="Views\Plant1\frmSettingsP1.resx">
       <DependentUpon>frmSettingsP1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSettingsP2.resx">
+    <EmbeddedResource Include="Views\Plant2\frmSettingsP2.resx">
       <DependentUpon>frmSettingsP2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -259,5 +261,6 @@
   <ItemGroup>
     <None Include="Resources\add_icon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

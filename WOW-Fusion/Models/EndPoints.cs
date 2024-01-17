@@ -10,7 +10,7 @@ namespace WOW_Fusion.Models
     internal static class EndPoints
     {
         public static string InventoryOrganizations = Settings.Default.FusionUrl + "/inventoryOrganizations?" + Constants.ParamsGet +
-                                                    "&fields=OrganizationId,OrganizationCode,OrganizationName,LocationCode,ManagementBusinessUnitName" +
+                                                    "&fields=OrganizationId,OrganizationCode,OrganizationName,LocationCode,ManagementBusinessUnitId,ManagementBusinessUnitName" +
                                                     "&q=OrganizationId={0}";
 
         public static string WorkCenters = Settings.Default.FusionUrl + "/workCenters?" + Constants.ParamsGet +
@@ -30,8 +30,8 @@ namespace WOW_Fusion.Models
 
         //Endpoints Manufactura Discreta
         public static string WODiscreteList = Settings.Default.FusionUrl + "/workOrders?" + Constants.ParamsGet +
-                                                    "&fields=WorkOrderNumber" +
-                                                    "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and WorkOrderActiveOperation.WorkCenterId={1}";
+                                                    "&fields=WorkOrderNumber,PlannedStartDate,PlannedCompletionDate" +
+                                                    "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and WorkOrderOperation.WorkCenterId={1} and PlannedCompletionDate>='{2}'";
 
         public static string WODiscreteDetail = Settings.Default.FusionUrl + "/workOrders?" + Constants.ParamsGet +
                                                     "&expand=WorkOrderResource.WorkOrderOperationResourceInstance" +
@@ -43,8 +43,8 @@ namespace WOW_Fusion.Models
 
         //Endpoints Manufactura x Procesos
         public static string WOProcessList = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
-                                                    "&fields=WorkOrderNumber" +
-                                                    "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and WorkOrderActiveOperation.WorkCenterId={1}";
+                                                    "&fields=WorkOrderNumber,PlannedStartDate,PlannedCompletionDate" +
+                                                    "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and Operation.WorkCenterId={1} and PlannedCompletionDate>='{2}'";
 
         public static string WOProcessDetail = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
                                                     "&expand=ProcessWorkOrderResource.WorkOrderOperationResourceInstance" +
@@ -70,6 +70,14 @@ namespace WOW_Fusion.Models
                                                    "&fields=ResourceId" +
                                                    "&q=OrganizationId={0} and ResourceType='EQUIPMENT' and ResourceCode like 'MF-LAM%' or ResourceCode like 'MF-C01%'";
 
-        
+        //EndPoints Planta 3
+        public static string PurchaseOrdersList = Settings.Default.FusionUrl + "/purchaseOrders?" + Constants.ParamsGet +
+                                                "&fields=OrderNumber" +
+                                                "&q=ProcurementBUId={0} and StatusCode='OPEN'";
+
+        public static string PurchaseOrder = Settings.Default.FusionUrl + "/purchaseOrders?" + Constants.ParamsGet +
+                                                "&fields=OrderNumber,POHeaderId,SoldToLegalEntity,Buyer,BuyerId,Supplier,SupplierSite,ProcurementBU,BillToLocation;" +
+                                                "lines:POLineId,LineNumber,StatusCode,LineType,ItemId,Item,Description,UOMCode,UOM,Quantity" +
+                                                "&q=OrderNumber='{0}'";
     }
 }

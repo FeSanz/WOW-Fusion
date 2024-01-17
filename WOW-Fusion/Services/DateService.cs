@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WOW_Fusion.Controllers;
+using WOW_Fusion.Models;
 
 namespace WOW_Fusion.Services
 {
@@ -75,7 +76,25 @@ namespace WOW_Fusion.Services
             }
             return shiftWC;
         }
-        public static string ValidateShifth()
+
+        public static bool IsBetweenDates(DateTime start, DateTime end)
+        {
+            bool isBetweenDates = false;
+            DateTimeOffset now = DateTimeOffset.Now;
+            if (start <= end)
+            {
+                //Inicio y fin estan en el mismo día
+                isBetweenDates = (now >= start && now <= end) ? true : false;
+            }
+            else
+            {
+                //Inicio y fin estan en diferentes días
+                isBetweenDates = (now >= start || now <= end) ? true : false;
+            }
+            return isBetweenDates;
+        }
+
+        /*public static string ValidateShifth()
         {
             DateTime startShift = DateTime.Parse("18:00");
             float durationShift = float.Parse("12.0");
@@ -111,7 +130,8 @@ namespace WOW_Fusion.Services
                 }
             }
             return string.Empty;
-        }
+        }*/
+
         public static string Now()
         {
             //DateTime today = DateTime.UtcNow.Date;
