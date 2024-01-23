@@ -15,12 +15,12 @@ namespace WOW_Fusion.Services
         {
             string shiftWC = string.Empty;
             int shiftIndex = -1;
-            for (int i = 0; i < (int)shifts["WorkCenterResource"]["count"]; i++)
+            for (int i = 0; i < (int)shifts.WorkCenterResource.count; i++)
             {
                 //Buscar recurso (Máquina) de OT en las recursos del centro de trabajo.
-                if (resourceId.Equals(shifts["WorkCenterResource"]["items"][i]["ResourceId"].ToString()))
+                if (resourceId.Equals(shifts.WorkCenterResource.items[i].ResourceId.ToString()))
                 {
-                    int countShifts = (int)shifts["WorkCenterResource"]["items"][i]["WorkCenterResourceShift"]["count"];
+                    int countShifts = (int)shifts.WorkCenterResource.items[i].WorkCenterResourceShift.count;
                     if (countShifts > 0)//Validar si tiene turnos
                     {
                         shiftIndex = i;
@@ -31,14 +31,14 @@ namespace WOW_Fusion.Services
 
             if (shiftIndex != -1)
             {
-                dynamic currentShift = shifts["WorkCenterResource"]["items"][shiftIndex]["WorkCenterResourceShift"]["items"];
+                dynamic currentShift = shifts.WorkCenterResource.items[shiftIndex].WorkCenterResourceShift.items;
 
-                for (int i = 0; i < (int)shifts["WorkCenterResource"]["items"][shiftIndex]["WorkCenterResourceShift"]["count"]; i++)
+                for (int i = 0; i < (int)shifts.WorkCenterResource.items[shiftIndex].WorkCenterResourceShift.count; i++)
                 {
                     try
                     {
-                        DateTime startShift = DateTime.Parse(currentShift[i]["StartTime"].ToString());
-                        float durationShift = string.IsNullOrEmpty(currentShift[i]["Duration"].ToString()) ? 0 : float.Parse(currentShift[i]["Duration"].ToString());
+                        DateTime startShift = DateTime.Parse(currentShift[i].StartTime.ToString());
+                        float durationShift = string.IsNullOrEmpty(currentShift[i].Duration.ToString()) ? 0 : float.Parse(currentShift[i].Duration.ToString());
                         TimeSpan durationParse = TimeSpan.FromHours((double)(new decimal(durationShift)));
                         DateTime sDurationShift = DateTime.Parse(durationParse.ToString());
                         DateTime endShift = startShift.Add(sDurationShift.TimeOfDay);
@@ -49,7 +49,7 @@ namespace WOW_Fusion.Services
                             //Inicio y fin de turno estan en el mismo día
                             if (currentHour.TimeOfDay >= startShift.TimeOfDay && currentHour.TimeOfDay <= endShift.TimeOfDay)
                             {
-                                shiftWC = currentShift[i]["ShiftName"].ToString();
+                                shiftWC = currentShift[i].ShiftName.ToString();
                             }
                             //SINO {currentHour.TimeOfDay} NO ESTA ENTRE {startShift.TimeOfDay}-{endShift.TimeOfDay}
                         }
@@ -58,7 +58,7 @@ namespace WOW_Fusion.Services
                             //Inicio y fin de turno estan en diferentes días
                             if (currentHour.TimeOfDay >= startShift.TimeOfDay || currentHour.TimeOfDay <= endShift.TimeOfDay)
                             {
-                                shiftWC = currentShift[i]["ShiftName"].ToString();
+                                shiftWC = currentShift[i].ShiftName.ToString();
                             }
                             //SINO {currentHour.TimeOfDay} NO ES POSTERIOR {startShift.TimeOfDay} NI ANTERIOR A {endShift.TimeOfDay}
                         }
@@ -93,44 +93,6 @@ namespace WOW_Fusion.Services
             }
             return isBetweenDates;
         }
-
-        /*public static string ValidateShifth()
-        {
-            DateTime startShift = DateTime.Parse("18:00");
-            float durationShift = float.Parse("12.0");
-            TimeSpan durationParse = TimeSpan.FromHours((double)(new decimal(durationShift)));
-            DateTime sDurationShift = DateTime.Parse(durationParse.ToString());
-            DateTime endShift = startShift.Add(sDurationShift.TimeOfDay);
-            DateTime currentHour = DateTime.Parse("07:00");
-
-            if (startShift.TimeOfDay <= endShift.TimeOfDay)
-            {
-                if (currentHour.TimeOfDay >= startShift.TimeOfDay && currentHour.TimeOfDay <= endShift.TimeOfDay)
-                {
-                    MessageBox.Show($"{currentHour.TimeOfDay} POSTERIOR {startShift.TimeOfDay} && {currentHour.TimeOfDay} ANTERIOR {endShift.TimeOfDay}");
-                }
-                else
-                {
-                    MessageBox.Show($"{currentHour.TimeOfDay} NO ESTA ENTRE {startShift.TimeOfDay}-{endShift.TimeOfDay}");
-                }
-            }
-            else
-            {
-                if (currentHour.TimeOfDay >= startShift.TimeOfDay)
-                {
-                    MessageBox.Show($"{currentHour.TimeOfDay} POSTERIOR {startShift.TimeOfDay}");
-                }
-                else if (currentHour.TimeOfDay <= endShift.TimeOfDay)
-                {
-                    MessageBox.Show($"{currentHour.TimeOfDay} ANTERIOR {endShift.TimeOfDay}");
-                }
-                else
-                {
-                    MessageBox.Show($"{currentHour.TimeOfDay} NO ES POSTERIOR {startShift.TimeOfDay} NI ANTERIOR A {endShift.TimeOfDay}");
-                }
-            }
-            return string.Empty;
-        }*/
 
         public static string Now()
         {

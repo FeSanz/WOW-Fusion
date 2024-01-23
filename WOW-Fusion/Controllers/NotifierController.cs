@@ -23,7 +23,7 @@ namespace WOW_Fusion.Controllers
             pop.ShowGrip = false;
             pop.HeaderHeight = 1;
             pop.BorderColor = Color.DarkGray; //Color.FromArgb(35, 35, 35);
-            pop.Image = Properties.Resources.success_icon;
+            pop.Image = Properties.Resources.success;
             pop.ImageSize = new Size(70, 70);
             pop.ImagePadding = new Padding(10);
             pop.Size = new Size(350, 90);
@@ -40,7 +40,7 @@ namespace WOW_Fusion.Controllers
             pop.ShowGrip = false;
             pop.HeaderHeight = 1;
             pop.BorderColor = Color.DarkGray; //Color.FromArgb(35, 35, 35);
-            pop.Image = Properties.Resources.error_icon;
+            pop.Image = Properties.Resources.error;
             pop.ImageSize = new Size(70, 70);
             pop.ImagePadding = new Padding(10);
             pop.Size = new Size(350, 90);
@@ -56,7 +56,7 @@ namespace WOW_Fusion.Controllers
             pop.ShowGrip = false;
             pop.HeaderHeight = 1;
             pop.BorderColor = Color.DarkGray; //Color.FromArgb(35, 35, 35);
-            pop.Image = Properties.Resources.warning_icon;
+            pop.Image = Properties.Resources.warning;
             pop.ImageSize = new Size(70, 70);
             pop.ImagePadding = new Padding(10);
             pop.Size = new Size(350, 90);
@@ -79,7 +79,7 @@ namespace WOW_Fusion.Controllers
             pop.Delay = 15000;
             pop.AnimationInterval = 10;
             pop.AnimationDuration = 500;
-            pop.Image = Properties.Resources.error_icon;
+            pop.Image = Properties.Resources.error;
             pop.ImageSize = new Size(70, 70);
             pop.ImagePadding = new Padding(15);
             pop.Scroll = true;
@@ -102,7 +102,7 @@ namespace WOW_Fusion.Controllers
             pop.Delay = 15000;
             pop.AnimationInterval = 10;
             pop.AnimationDuration = 500;
-            pop.Image = Properties.Resources.warning_icon;
+            pop.Image = Properties.Resources.warning;
             pop.ImageSize = new Size(70, 70);
             pop.ImagePadding = new Padding(10);
             pop.Scroll = true;

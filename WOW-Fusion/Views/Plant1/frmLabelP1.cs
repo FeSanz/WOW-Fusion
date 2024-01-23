@@ -39,6 +39,9 @@ namespace WOW_Fusion
         {
             pop = new PopController();
             AppController.ToolTip(btnSettings, "Configuración");
+
+            ConsoleController console = new ConsoleController(rtbLog);
+            Console.SetOut(console);
         }
 
 
@@ -49,7 +52,7 @@ namespace WOW_Fusion
 
             if (org == null)
             {
-                AppController.Exit("Sin organización, la aplicación se cerrará");
+                NotifierController.Error("Sin organización, la aplicación no funcionará");
                 return;
             }
             else
@@ -95,7 +98,7 @@ namespace WOW_Fusion
             lblItemDescription.Text = string.Empty;
             lblPlannedQuantity.Text = string.Empty;
             lblUoM.Text = string.Empty;
-            lblResourceDescription.Text= string.Empty;
+            lblResourceName.Text= string.Empty;
             lblResourceCode.Text= string.Empty;
             lblPlannedStartDate.Text = string.Empty;
             lblPlannedCompletionDate.Text = string.Empty;
@@ -140,15 +143,16 @@ namespace WOW_Fusion
 
                     lblItemNumber.Text = wo["ItemNumber"].ToString();
                     lblItemDescription.Text = wo["Description"].ToString();
+                    lblItemDescriptionEnglish.Text = TranslateService.Translate(lblItemDescription.Text);
                     lblPlannedStartDate.Text = wo["PlannedStartDate"].ToString();
                     lblPlannedCompletionDate.Text = wo["PlannedCompletionDate"].ToString();
-
+                
                     lblStartPage.Text = string.IsNullOrEmpty(lblPlannedQuantity.Text) ? "" : "1";
                     float additionalLabels = (Properties.Settings.Default.Aditional * int.Parse(lblPlannedQuantity.Text)) / 100;
                     lblAditional.Text = $"(+{Convert.ToInt32(Math.Round(additionalLabels))})";
                     lblTotalPrint.Text = (float.Parse(lblPlannedQuantity.Text) + additionalLabels).ToString();
                     lbLabelQuantity.Text = lblPlannedQuantity.Text;
-
+                    
                     int countResources = (int)wo["WorkOrderResource"]["count"];
                     if (countResources >= 1)
                     {
@@ -170,18 +174,18 @@ namespace WOW_Fusion
                         {
                             dynamic resource = wo["WorkOrderResource"]["items"][indexMachine]; //Objeto RESURSO
                             lblResourceCode.Text = resource["ResourceCode"].ToString();
-                            lblResourceDescription.Text = resource["ResourceDescription"].ToString();
+                            lblResourceName.Text = resource["ResourceName"].ToString();
+
+                            lblLabelDesign.Text = "XIPRD";
+
+                            dynamic aka = await LabelService.LabelInfo(lblLabelDesign.Text);
+                            FillLabel();
 
                             if ((int)resource["WorkOrderOperationResourceInstance"]["count"] >= 1)
                             {
                                 dynamic instance = resource["WorkOrderOperationResourceInstance"]["items"][0]; // Objeto INSTANCIA
                                 lblEquipmentInstanceCode.Text = instance["EquipmentInstanceCode"].ToString();
                                 lblEquipmentInstanceName.Text = instance["EquipmentInstanceName"].ToString();
-
-                                lblLabelDesign.Text = "XIPRD";
-
-                                dynamic aka = await LabelService.LabelInfo(lblLabelDesign.Text);
-                                FillLabel();
                             }
                             else
                             {
@@ -213,14 +217,17 @@ namespace WOW_Fusion
 
         private void CleanUIWorkOrders()
         {
-            lblPlannedQuantity.Text = "";
-            lblUoM.Text = "--";
             lblItemNumber.Text = string.Empty;
-            lblResourceDescription.Text = string.Empty;
+            lblPlannedQuantity.Text = string.Empty;
+            lblUoM.Text = "--";
+            lblItemDescription.Text = string.Empty;
+            lblItemDescriptionEnglish.Text = string.Empty;
             lblResourceCode.Text = string.Empty;
-            lblResourceDescription.Text = string.Empty;
+            lblResourceName.Text = string.Empty;
             lblEquipmentInstanceCode.Text = string.Empty;
             lblEquipmentInstanceName.Text= string.Empty;
+            lblPlannedStartDate.Text = string.Empty;
+            lblPlannedCompletionDate.Text = string.Empty;
         }
 
         private async void btnPrint_Click(object sender, EventArgs e)
@@ -271,13 +278,13 @@ namespace WOW_Fusion
             {
                 dynamic label = JObject.Parse(Constants.LabelJson);
 
-                label.WORKORDER = cmbWorkOrders.Text;
-                label.ITEMNUMBER = lblItemNumber.Text;
-                label.ITEMDESCRIPTION = lblItemDescription.Text;
-                label.DESCRIPTIONENGLISH = TranslateService.Translate(lblItemDescription.Text);
-                label.EQU = lblEquipmentInstanceCode.Text;
+                label.WORKORDER = string.IsNullOrEmpty(cmbWorkOrders.Text) ? " " : cmbWorkOrders.Text;
+                label.ITEMNUMBER = string.IsNullOrEmpty(lblItemNumber.Text) ? " " : lblItemNumber.Text;
+                label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;
+                label.DESCRIPTIONENGLISH = string.IsNullOrEmpty(lblItemDescriptionEnglish.Text) ? " " : lblItemDescriptionEnglish.Text;
+                label.EQU = string.IsNullOrEmpty(lblResourceCode.Text) ? " ": lblResourceCode.Text;
                 label.DATE = DateService.Now();
-                label.BOXNUMBER = "1".PadLeft(5, '0');
+                label.BOX = "1";
 
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
 

@@ -14,7 +14,7 @@ namespace WOW_Fusion
         public static readonly string ParamsGet = "limit=500&totalResults=true&onlyData=true";
 
         //Endpoint Etiquetas
-        public static string LaberalyUrl = "http://api.labelary.com/v1/printers/12dpmm/labels/4x2/0/ --data-urlencode {0}";
+        public static string LaberalyUrl = "http://api.labelary.com/v1/printers/8dpmm/labels/4x2/0/ --data-urlencode {0}";
 
         //Etiquetas KEYS
         public static string LabelJson = @"{
@@ -25,9 +25,9 @@ namespace WOW_Fusion
                                                 ""EQU"": """",
                                                 ""DATE"": """",
                                                 ""SHIFT"": """",
-                                                ""BOXNUMBER"": """",
-                                                ""ROLLNUMBER"": """",
-                                                ""PALLETNUMBER"": """",
+                                                ""BOX"": """",
+                                                ""ROLL"": """",
+                                                ""PALET"": """",
                                                 ""LOTNUMBER"": """",
                                                 ""WNETKG"": """",
                                                 ""WGROSSKG"": """",

@@ -2,9 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WOW_Fusion.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="WorkOrdersPrinted" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="PrinterIP" Type="System.String" Scope="User">
       <Value Profile="(Default)">127.0.0.1</Value>
     </Setting>
@@ -27,13 +24,7 @@
       <Value Profile="(Default)">ZmVsaXBlLmFudG9uaW9AaS1jb25kb3IuY29tOkNvbmRvclhSMTEy</Value>
     </Setting>
     <Setting Name="WeighingIP" Type="System.String" Scope="User">
-      <Value Profile="(Default)">192.168.12.9</Value>
-    </Setting>
-    <Setting Name="RollMax" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">40</Value>
-    </Setting>
-    <Setting Name="RollMin" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">20</Value>
+      <Value Profile="(Default)">192.168.12.1</Value>
     </Setting>
     <Setting Name="WorkCenterP2" Type="System.String" Scope="User">
       <Value Profile="(Default)">300000003523428</Value>

@@ -25,17 +25,6 @@ namespace WOW_Fusion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection WorkOrdersPrinted {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["WorkOrdersPrinted"]));
-            }
-            set {
-                this["WorkOrdersPrinted"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
         public string PrinterIP {
             get {
@@ -120,37 +109,13 @@ namespace WOW_Fusion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.12.9")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.12.1")]
         public string WeighingIP {
             get {
                 return ((string)(this["WeighingIP"]));
             }
             set {
                 this["WeighingIP"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("40")]
-        public int RollMax {
-            get {
-                return ((int)(this["RollMax"]));
-            }
-            set {
-                this["RollMax"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("20")]
-        public int RollMin {
-            get {
-                return ((int)(this["RollMin"]));
-            }
-            set {
-                this["RollMin"] = value;
             }
         }
         

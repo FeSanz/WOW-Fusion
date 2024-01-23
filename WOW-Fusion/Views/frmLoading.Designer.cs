@@ -50,7 +50,7 @@
             // 
             this.pcbIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pcbIcon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pcbIcon.Image = global::WOW_Fusion.Properties.Resources.preloader_01;
+            this.pcbIcon.Image = global::WOW_Fusion.Properties.Resources.preloader;
             this.pcbIcon.Location = new System.Drawing.Point(0, 0);
             this.pcbIcon.Name = "pcbIcon";
             this.pcbIcon.Padding = new System.Windows.Forms.Padding(10);

@@ -245,7 +245,7 @@
             // picBoxWaitWC
             // 
             this.picBoxWaitWC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picBoxWaitWC.Image = global::WOW_Fusion.Properties.Resources.preloader_01;
+            this.picBoxWaitWC.Image = global::WOW_Fusion.Properties.Resources.preloader;
             this.picBoxWaitWC.Location = new System.Drawing.Point(285, 17);
             this.picBoxWaitWC.Name = "picBoxWaitWC";
             this.picBoxWaitWC.Padding = new System.Windows.Forms.Padding(10);

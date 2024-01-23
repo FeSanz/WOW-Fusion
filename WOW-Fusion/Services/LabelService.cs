@@ -146,7 +146,7 @@ namespace WOW_Fusion.Services
             foreach (var item in label)
             {
                 if (!string.IsNullOrEmpty(item.Value.ToString()))
-                    strLabel = item.Key.Equals("BOXNUMBER") ? strLabel.Replace(item.Key, box.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
+                    strLabel = item.Key.Equals("BOX") ? strLabel.Replace(item.Key, box.ToString().PadLeft(5, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
             }
             return strLabel;
         }
@@ -160,7 +160,7 @@ namespace WOW_Fusion.Services
             {
                 if (!string.IsNullOrEmpty(item.Value.ToString()))
                 {
-                    strLabel = item.Key.Equals("ROLLNUMBER") ? strLabel.Replace(item.Key, "R" + roll.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
+                    strLabel = item.Key.Equals("ROLL") ? strLabel.Replace(item.Key, "R" + roll.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
                 }
             }
             return strLabel;
@@ -175,7 +175,7 @@ namespace WOW_Fusion.Services
             {
                 if (!string.IsNullOrEmpty(item.Value.ToString()))
                 {
-                    strLabel = item.Key.Equals("PALLETNUMBER") ? strLabel.Replace(item.Key, "P" + pallet.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
+                    strLabel = item.Key.Equals("PALLET") ? strLabel.Replace(item.Key, "P" + pallet.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
                 }
             }
             return strLabel;

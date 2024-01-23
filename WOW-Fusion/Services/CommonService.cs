@@ -114,7 +114,7 @@ namespace WOW_Fusion.Services
         {
             try
             {
-                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WODiscreteList, organizationId, workCenterId));
+                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WODiscreteList, organizationId, workCenterId, string.Empty));
                 string response = await tskWorkOrders;
                 if (string.IsNullOrEmpty(response))
                 {
@@ -207,7 +207,7 @@ namespace WOW_Fusion.Services
         {
             try
             {
-                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessList, organizationId, workCenterId));
+                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessList, organizationId, workCenterId, string.Empty));
                 string response = await tskWorkOrders;
                 if (string.IsNullOrEmpty(response))
                 {
@@ -227,6 +227,60 @@ namespace WOW_Fusion.Services
                             workOrderNumbers.Add(item["WorkOrderNumber"].ToString());
                         }
                         return workOrderNumbers;
+                    }
+                    else
+                    {
+                        NotifierController.Warning("Sin ordenes de trabajo");
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error. " + ex.Message, "Error [WorkOrdersList]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        public static async Task<List<WorkOrderShedule>> WOProcessSchedule(string organizationId, string workCenterId)
+        {
+            try
+            {
+                DateTimeOffset now = DateTimeOffset.Now;
+                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessList, organizationId, workCenterId, now.ToString("yyyy-MM-dd HH:mm:ss")));
+                string response = await tskWorkOrders;
+                if (string.IsNullOrEmpty(response))
+                {
+                    return null;
+                }
+                else
+                {
+                    JObject workOrders = JObject.Parse(response);
+
+                    if ((int)workOrders["count"] >= 0)
+                    {
+                        List<dynamic> orders = new List<dynamic>(workOrders["items"]);
+
+                        List<WorkOrderShedule> schedule = new List<WorkOrderShedule>();
+
+                        foreach (var item in orders)
+                        {
+                            schedule.Add(new WorkOrderShedule
+                            {
+                                WorkOrderNumber = item.WorkOrderNumber.ToString(),
+                                PlannedStartDate = DateTime.Parse(item.PlannedStartDate.ToString()),
+                                PlannedCompletionDate = DateTime.Parse(item.PlannedCompletionDate.ToString())
+                            });
+                        }
+                        schedule.Sort((a, b) => a.PlannedStartDate.CompareTo(b.PlannedStartDate));
+
+                        foreach (var item in schedule)
+                        {
+                            var i = Array.IndexOf(schedule.ToArray(), item);
+                            Console.WriteLine((i + 1) + ". " + item.WorkOrderNumber.ToString() + " -> " + item.PlannedStartDate.ToString() + " - " + item.PlannedCompletionDate.ToString());
+                        }
+
+                        return schedule;
                     }
                     else
                     {

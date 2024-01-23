@@ -63,9 +63,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap add_icon {
+        internal static System.Drawing.Bitmap add {
             get {
-                object obj = ResourceManager.GetObject("add_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("add", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bascule_01 {
+        internal static System.Drawing.Bitmap delete_filled {
             get {
-                object obj = ResourceManager.GetObject("bascule_01", resourceCulture);
+                object obj = ResourceManager.GetObject("delete_filled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap delete_01 {
+        internal static System.Drawing.Bitmap delete_outline {
             get {
-                object obj = ResourceManager.GetObject("delete_01", resourceCulture);
+                object obj = ResourceManager.GetObject("delete_outline", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap delete_02 {
+        internal static System.Drawing.Bitmap error {
             get {
-                object obj = ResourceManager.GetObject("delete_02", resourceCulture);
+                object obj = ResourceManager.GetObject("error", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap error_icon {
+        internal static System.Drawing.Bitmap logout {
             get {
-                object obj = ResourceManager.GetObject("error_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("logout", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap label_icon {
+        internal static System.Drawing.Bitmap pallet_empty {
             get {
-                object obj = ResourceManager.GetObject("label_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("pallet_empty", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap pallet_empty_icon {
+        internal static System.Drawing.Bitmap pallet_filled {
             get {
-                object obj = ResourceManager.GetObject("pallet_empty_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("pallet_filled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap pallet_icon {
+        internal static System.Drawing.Bitmap preloader {
             get {
-                object obj = ResourceManager.GetObject("pallet_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("preloader", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +143,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap preloader_01 {
+        internal static System.Drawing.Bitmap printer {
             get {
-                object obj = ResourceManager.GetObject("preloader_01", resourceCulture);
+                object obj = ResourceManager.GetObject("printer", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +153,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap printer_01 {
+        internal static System.Drawing.Bitmap roll {
             get {
-                object obj = ResourceManager.GetObject("printer_01", resourceCulture);
+                object obj = ResourceManager.GetObject("roll", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,9 +163,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap roll_icon {
+        internal static System.Drawing.Bitmap setting_filled {
             get {
-                object obj = ResourceManager.GetObject("roll_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("setting_filled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +173,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap settings_01 {
+        internal static System.Drawing.Bitmap setting_outline {
             get {
-                object obj = ResourceManager.GetObject("settings_01", resourceCulture);
+                object obj = ResourceManager.GetObject("setting_outline", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +183,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap settings_02 {
+        internal static System.Drawing.Bitmap success {
             get {
-                object obj = ResourceManager.GetObject("settings_02", resourceCulture);
+                object obj = ResourceManager.GetObject("success", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,9 +193,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap success_icon {
+        internal static System.Drawing.Bitmap swap {
             get {
-                object obj = ResourceManager.GetObject("success_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("swap", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +203,9 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap upload_01 {
+        internal static System.Drawing.Bitmap upload_filled {
             get {
-                object obj = ResourceManager.GetObject("upload_01", resourceCulture);
+                object obj = ResourceManager.GetObject("upload_filled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,9 +213,19 @@ namespace WOW_Fusion.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap warning_icon {
+        internal static System.Drawing.Bitmap warning {
             get {
-                object obj = ResourceManager.GetObject("warning_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("warning", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap weighing {
+            get {
+                object obj = ResourceManager.GetObject("weighing", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

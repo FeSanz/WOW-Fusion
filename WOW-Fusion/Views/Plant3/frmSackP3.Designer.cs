@@ -271,7 +271,7 @@
             // btnReloadWO
             // 
             this.btnReloadWO.BackColor = System.Drawing.Color.Transparent;
-            this.btnReloadWO.BackgroundImage = global::WOW_Fusion.Properties.Resources.upload_01;
+            this.btnReloadWO.BackgroundImage = global::WOW_Fusion.Properties.Resources.upload_filled;
             this.btnReloadWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnReloadWO.FlatAppearance.BorderSize = 0;
             this.btnReloadWO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;

@@ -20,21 +20,6 @@ namespace WOW_Fusion
         private static TcpClient _client;
         private static NetworkStream _stream;
 
-        public async static Task<bool> CheckConnection(string ip, int port)
-        {
-            try
-            {
-                TcpClient client = new TcpClient();
-                await client.ConnectAsync(ip, port);
-
-                return client.Connected ? true : false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         public static async Task<string> SocketWeighing(string command)
         {
             string response = "";
@@ -53,7 +38,7 @@ namespace WOW_Fusion
                     // Enviar datos al servidor de forma asíncrona
                     await _stream.WriteAsync(data, 0, data.Length);
                     // Leer Datos del servidor
-                    response = await ReadDataUntilCR(_stream, 6000);
+                    response = await ReadDataUntilCR(_stream, 6000); //->6000
                     string readLine = response;
 
                     if (command.Equals("T") || command.Equals("S"))
@@ -72,7 +57,7 @@ namespace WOW_Fusion
                     }
                     else if (command.Equals("OT"))
                     {
-                        response = readLine.Substring(4, 9).Trim();
+                        response = readLine.Substring(3, 9).Trim();
                     }
                 }
 
@@ -121,7 +106,7 @@ namespace WOW_Fusion
                     break;
                 case " ":
                     //Peso bascula
-                    response = secondLineResponse.Substring(7, 9).Trim();
+                    response = secondLineResponse.Substring(6, 8).Trim();
                     break;
                 default:
                     response = "(2) " + secondLineResponse;

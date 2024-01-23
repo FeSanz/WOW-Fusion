@@ -34,6 +34,7 @@ namespace WOW_Fusion
         private float _weightFromWeighing = 0.0f;
         private float _previousWeight = 0.0f;
         private float _lbs = 2.205f;
+        private float _stdWeight = 0.0f;
 
         private int _rowSelected = 0;
 
@@ -70,6 +71,9 @@ namespace WOW_Fusion
             AppController.ToolTip(btnAddPallet, "Agregar Pallet");
 
             btnGetWeight.Text = "TARA";
+
+            //string hola = "S    +7        _kg*";
+            //MessageBox.Show(hola.Substring(6, 9));
         }
 
         private async void InitializeFusionData()
@@ -86,24 +90,30 @@ namespace WOW_Fusion
             }
             else
             {
-                lblLocationCode.Text = org["LocationCode"].ToString();
-                lblWorkCenterName.Text = wc["WorkCenterName"].ToString();
-                lblWorkAreaName.Text = wc["WorkAreaName"].ToString();
+                lblOrganizationCode.Text = org.OrganizationCode.ToString();
+                lblLocationCode.Text = org.LocationCode.ToString();
+                lblWorkCenterName.Text = wc.WorkCenterName.ToString();
+                lblWorkAreaName.Text = wc.WorkAreaName.ToString();
             }
 
             machines = await CommonService.ProductionResourcesMachines(String.Format(EndPoints.ProductionResourcesP2, Constants.Plant2Id)); //Obtener Objeto RECURSOS MAQUINAS 
 
-            schedule = await CommonService.WODiscreteSchedule(Constants.Plant2Id, Settings.Default.WorkCenterP2); //Obtener OT Schedule
+            ProductionScheduling();
+        }
 
-            foreach (var wo in schedule) 
+        private async void ProductionScheduling()
+        {
+            schedule = await CommonService.WOProcessSchedule(Constants.Plant2Id, Settings.Default.WorkCenterP2); //Obtener OT Schedule
+
+            foreach (var wo in schedule)
             {
-                if (DateService.IsBetweenDates(wo.PlannedStartDate, wo.PlannedCompletionDate))
-                {
-                    cmbWorkOrders.Items.Clear();
-                    cmbWorkOrders.Items.Add(wo.WorkOrderNumber.ToString());
-                    cmbWorkOrders.Text = wo.WorkOrderNumber.ToString();
-                    break;
-                }
+                //if (DateService.IsBetweenDates(wo.PlannedStartDate, wo.PlannedCompletionDate))
+                //{
+                cmbWorkOrders.Items.Clear();
+                cmbWorkOrders.Items.Add(wo.WorkOrderNumber.ToString());
+                cmbWorkOrders.Text = wo.WorkOrderNumber.ToString();
+                break;
+                //}
             }
         }
 
@@ -122,7 +132,7 @@ namespace WOW_Fusion
             cmbWorkOrders.Items.Clear();
             picBoxWaitWO.Visible = true;
 
-            List<string> workOrderNumbers = await CommonService.WODiscreteByWorkCenter(Constants.Plant2Id, Settings.Default.WorkCenterP2); //Obtener OT
+            List<string> workOrderNumbers = await CommonService.WOProcessByWorkCenter(Constants.Plant2Id, Settings.Default.WorkCenterP2); //Obtener OT
             picBoxWaitWO.Visible = false;
 
             if (workOrderNumbers == null) return;
@@ -143,7 +153,7 @@ namespace WOW_Fusion
             timerShift.Stop();
             try
             {
-                Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WODiscreteDetail, workOrder));
+                Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessDetail, workOrder));
                 string response = await tskWorkOrdersData;
                 if (string.IsNullOrEmpty(response)) { return; }
 
@@ -155,19 +165,32 @@ namespace WOW_Fusion
                 }
                 dynamic wo = objWorkOrder["items"][0]; //Objeto WORKORDER
 
-                lblPlannedQuantity.Text = wo["PlannedStartQuantity"].ToString();
-                //lblPlannedQuantity.Text = wo["BatchQuantity"].ToString();
-                lblCompletedQuantity.Text = wo["CompletedQuantity"].ToString();
-                lblUoM.Text = wo["UOMCode"].ToString();
+                dynamic itemsV2 = await CommonService.OneItem(String.Format(EndPoints.Item, wo.ItemNumber.ToString(), Constants.Plant2Id));
+                if(itemsV2 != null)
+                {
+                    lblUnitWeightQuantity.Text = itemsV2.UnitWeightQuantity.ToString();
+                    lblWeightUOMValue.Text = itemsV2.WeightUOMValue.ToString();
 
-                lblItemNumber.Text = wo["ItemNumber"].ToString();
-                lblItemDescription.Text = wo["Description"].ToString();
-                lblItemDescriptionEnglish.Text = TranslateService.Translate(wo["Description"].ToString());
-                lblPlannedStartDate.Text = wo["PlannedStartDate"].ToString();
-                lblPlannedCompletionDate.Text = wo["PlannedCompletionDate"].ToString();
+                    checkBoxLotControl.Checked = itemsV2.LotControlValue.ToString() == "Full lot control" ? true : false;
+                }
+                else
+                {
+                    NotifierController.Warning("Datos de item no encontrados");
+                }
 
-                int countResources = (int)wo["WorkOrderResource"]["count"];
-                //int countResources = (int)wo["ProcessWorkOrderResource"]["count"];
+                //lblPlannedQuantity.Text = wo.PlannedStartQuantity.ToString();
+                lblPlannedQuantity.Text = wo.BatchQuantity.ToString();
+                //lblCompletedQuantity.Text = wo.CompletedQuantity.ToString();
+                lblUoM.Text = wo.UOMCode.ToString();
+
+                lblItemNumber.Text = wo.ItemNumber.ToString();
+                lblItemDescription.Text = wo.Description.ToString();
+                lblItemDescriptionEnglish.Text = TranslateService.Translate(lblItemDescription.Text.ToString());
+                lblPlannedStartDate.Text = wo.PlannedStartDate.ToString();
+                lblPlannedCompletionDate.Text = wo.PlannedCompletionDate.ToString();
+
+                //int countResources = (int)wo.WorkOrderResource.count;
+                int countResources = (int)wo.ProcessWorkOrderResource.count;
                 if (countResources >= 1)
                 {
                     int indexMachine = -1;
@@ -176,8 +199,8 @@ namespace WOW_Fusion
                     {
                         for (int j = 0; j < (int)machines["count"]; j++)
                         {
-                            string resourceOrder = wo["WorkOrderResource"]["items"][i]["ResourceId"].ToString();
-                            //string resourceOrder = wo["ProcessWorkOrderResource"]["items"][i]["ResourceId"].ToString();
+                            //string resourceOrder = wo.WorkOrderResource.items[i].ResourceId.ToString();
+                            string resourceOrder = wo.ProcessWorkOrderResource.items[i].ResourceId.ToString();
                             string resourceMachines = machines["items"][j]["ResourceId"].ToString();
 
                             if (resourceOrder.Equals(resourceMachines))
@@ -188,39 +211,45 @@ namespace WOW_Fusion
                     }
                     if (indexMachine >= 0)
                     {
-                        dynamic resource = wo["WorkOrderResource"]["items"][indexMachine]; //Objeto RESURSO
-                                                                                            //dynamic resource = wo["ProcessWorkOrderResource"]["items"][indexMachine]; //Objeto RESURSO
-                        lblResourceCode.Text = resource["ResourceCode"].ToString();
-                        lblResourceDescription.Text = resource["ResourceDescription"].ToString();
-                        _resourceId = resource["ResourceId"].ToString();
+                        //dynamic resource = wo.WorkOrderResource.items[indexMachine]; //Objeto RESURSO
+                        dynamic resource = wo.ProcessWorkOrderResource.items[indexMachine]; //Objeto RESURSO
+                        _resourceId = resource.ResourceId.ToString();
+                        lblResourceCode.Text = resource.ResourceCode.ToString();
+                        lblResourceName.Text = resource.ResourceName.ToString();
 
-                        if ((int)resource["WorkOrderOperationResourceInstance"]["count"] >= 1)
-                        //if ((int)resource["ResourceInstance"]["count"] >= 1)
+                        //Consulta de turno
+                        shifts = await CommonService.OneItem(String.Format(EndPoints.ShiftByWorkCenter, Settings.Default.WorkCenterP2));
+                        lblShift.Text = (shifts == null) ? string.Empty : DateService.CurrentShift(shifts, _resourceId);
+
+                        //Consultar datos AKA
+                        dynamic flexPO = wo.ProcessWorkOrderDFF.items[0];
+                        lblAkaPO.Text = flexPO.pedidoDeVenta.ToString();
+
+                        lblLabelDesign.Text = string.IsNullOrEmpty(lblAkaPO.Text) ? "LAMTIN03" : "-------------"; //XILAM LAMTIN03
+
+                        dynamic aka = await LabelService.LabelInfo("XILAM"); // XILAM  lblLabelDesign.Text
+                        lblAkaItem.Text = (aka.AkaItemNumber.ToString() == "null") ? string.Empty : aka.AkaItemNumber.ToString();
+                        lblAkaDescription.Text = (aka.AkaItemDescription.ToString() == "null") ? string.Empty : aka.AkaItemDescription.ToString();
+                        lblLegalEntitie.Text = (aka.AkaLegalEntity.ToString() == "null") ? string.Empty : aka.AkaLegalEntity.ToString();
+                        
+
+                        btnGetWeight.Enabled = true;
+                        timerShift.Interval = 5000;
+                        timerShift.Tick += new EventHandler(CheckShift);
+                        timerShift.Start();
+
+
+                        //if ((int)resource.WorkOrderOperationResourceInstance.count >= 1)
+                        if ((int)resource.ResourceInstance.count >= 1)
                         {
-                            //dynamic instance = resource["ResourceInstance"]["items"][0]; // Objeto INSTANCIA
-                            dynamic instance = resource["WorkOrderOperationResourceInstance"]["items"][0]; // Objeto INSTANCIA
-                            lblEquipmentInstanceCode.Text = instance["EquipmentInstanceCode"].ToString();
-                            lblEquipmentInstanceName.Text = instance["EquipmentInstanceName"].ToString();
-
-                            shifts = await CommonService.OneItem(String.Format(EndPoints.ShiftByWorkCenter, Settings.Default.WorkCenterP2));
-                            lblShift.Text = (shifts == null) ? string.Empty : DateService.CurrentShift(shifts, _resourceId);
-
-                            btnGetWeight.Enabled = true;
-
-                            lblLabelDesign.Text = "XILAM";
-
-                            dynamic aka = await LabelService.LabelInfo(lblLabelDesign.Text);
-                            lblAkaItem.Text = (aka["AkaItemNumber"].ToString() == "null") ? string.Empty : aka["AkaItemNumber"].ToString();
-                            lblAkaDescription.Text = (aka["AkaItemDescription"].ToString() == "null") ? string.Empty : aka["AkaItemDescription"].ToString();
-                            lblLegalEntitie.Text = (aka["AkaLegalEntity"].ToString() == "null") ? string.Empty : aka["AkaLegalEntity"].ToString();
-
-                            timerShift.Interval = 5000;
-                            timerShift.Tick += new EventHandler(CheckShift);
-                            timerShift.Start();
+                            //dynamic instance = resource.WorkOrderOperationResourceInstance.items[0]; // Objeto INSTANCIA
+                            dynamic instance = resource.ResourceInstance.items[0]; // Objeto INSTANCIA
+                            lblEquipmentInstanceCode.Text = instance.EquipmentInstanceCode.ToString();
+                            lblEquipmentInstanceName.Text = instance.EquipmentInstanceName.ToString();
                         }
                         else
                         {
-                            NotifierController.Warning("Datos de máquina no encontrados");
+                            NotifierController.Warning("Datos de instancias no encontrados");
                         }
                     }
                     else
@@ -265,7 +294,7 @@ namespace WOW_Fusion
                         _palletCount += 1;
                         _previousWeight = 0;
 
-                        tabLayoutPallet.BackgroundImage = Resources.pallet_icon;
+                        tabLayoutPallet.BackgroundImage = Resources.pallet_filled;
 
                         lblPalletNumber.Text = _palletCount.ToString();
                         cmbWorkOrders.Enabled = false; // Deshabilitar combo de Ordenes
@@ -319,34 +348,25 @@ namespace WOW_Fusion
                         float rollNetKg = _weightFromWeighing - _previousWeight;
                         txtBoxWeight.Text = rollNetKg.ToString("F2");
 
-                        if (rollNetKg > Settings.Default.RollMax)
-                        {
-                            DialogResult dialogResult = MessageBox.Show($"Peso fuera del rango ({txtBoxWeight.Text} kg) ¿Desea continuar?", "Fuera del rango", MessageBoxButtons.YesNo);
-                            if (dialogResult == DialogResult.Yes)
-                            {
-                                AddRoll(rollNetKg);
-                            }
-                            else if (dialogResult == DialogResult.No)
-                            {
-                                txtBoxWeight.Text = string.Empty;
-                            }
-                        }
-                        else if (rollNetKg < Settings.Default.RollMin)
-                        {
-                            DialogResult dialogResult = MessageBox.Show($"Peso debajo del rango ({txtBoxWeight.Text} kg) ¿Desea continuar?", "Debajo del rango", MessageBoxButtons.YesNo);
-                            if (dialogResult == DialogResult.Yes)
-                            {
-                                AddRoll(rollNetKg);
-                            }
-                            else if (dialogResult == DialogResult.No)
-                            {
-                                txtBoxWeight.Text = string.Empty;
-                            }
-                        }
-                        else
-                        {
-                            AddRoll(rollNetKg);
-                        }
+                        float rollNetLbs = rollNetKg * _lbs;
+                        btnReloadTare.Visible = false;
+
+                        //Calcular pero bruto de cada rollo (con tara)
+                        float rollGrossKg = rollNetKg + _tareWeight;
+                        float rollGrossLbs = rollGrossKg * _lbs;
+
+                        _rollCount++;
+
+                        //Agregar pesos a datagrid
+                        string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), rollNetKg.ToString("F2"),rollGrossKg.ToString("F2"),
+                                                                        rollNetLbs.ToString("F2"), rollGrossLbs.ToString("F2") };
+
+                        dgRolls.Rows.Add(row);
+
+                        //Reserver peso neto acomulado para sacar peso de rollo
+                        _previousWeight = _weightFromWeighing;
+
+                        FillLabelRoll(row);
                     }
                 }
             }
@@ -379,32 +399,25 @@ namespace WOW_Fusion
         {
             if (_isPalletStart)
             {
-                DialogResult dialogResult = MessageBox.Show($"¿Desea agregar nuevo pallet?", "Agregar pallet", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult dialogResult = MessageBox.Show($"¿Desea agregar nuevo palet?", "Agregar palet", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes)
                 {
                     string[] rowPallet = new string[] { _palletCount.ToString(), _tareWeight.ToString(), lblPalletNetKg.Text,lblPalletGrossKg.Text,
                                                                         lblPalletNetLbs.Text, lblPalletGrossLbs.Text};
                     dgPallets.Rows.Add(rowPallet);
 
-                    ClearForPalletNew();
+                    //Limpiar datos para pallet nuevo
+                    _rollByPallet = 0;
+                    _isPalletStart = false;
+                    tabLayoutPallet.BackgroundImage = Resources.pallet_empty;
+                    TableLayoutPalletControl(_rollByPallet);
+                    btnGetWeight.Text = "TARA";
 
-                    if (dgPallets.RowCount == 1)
-                    {
-                        DataGridViewButtonColumn btnColumnPrint = new DataGridViewButtonColumn();
-                        {
-                            if (dgPallets.Columns.Contains("P_Print"))
-                            {
-                                dgPallets.Columns.Remove("P_Print");
-                            }
-                            btnColumnPrint.HeaderText = "Imprimir";
-                            btnColumnPrint.Name = "P_Print";
-                            btnColumnPrint.FlatStyle = FlatStyle.Flat;
-                            btnColumnPrint.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                            btnColumnPrint.UseColumnTextForButtonValue = true;
-                        }
-                        dgPallets.Columns.Add(btnColumnPrint);
-                    }
-                    //_palletCount++;
+                    lblPalletNetKg.Text = string.Empty;
+                    lblPalletGrossKg.Text = string.Empty;
+                    lblPalletNetLbs.Text = string.Empty;
+                    lblPalletGrossLbs.Text = string.Empty;
+                    lblTare.Text = string.Empty;
                 }
                 else if (dialogResult == DialogResult.No)
                 {
@@ -413,23 +426,8 @@ namespace WOW_Fusion
             }
             else
             {
-                NotifierController.Warning("Aún no cuenta con datos de pesaje del nuevo pallet");
+                NotifierController.Warning("Aún no cuenta con datos de pesaje del nuevo palet");
             }
-        }
-
-        private void ClearForPalletNew()
-        {
-            _rollByPallet = 0;
-            _isPalletStart = false;
-            tabLayoutPallet.BackgroundImage = Resources.pallet_empty_icon;
-            TableLayoutPalletControl(_rollByPallet);
-            btnGetWeight.Text = "TARA";
-            
-            lblPalletNetKg.Text = string.Empty;
-            lblPalletGrossKg.Text = string.Empty;
-            lblPalletNetLbs.Text = string.Empty;
-            lblPalletGrossLbs.Text = string.Empty;
-            lblTare.Text = string.Empty;
         }
 
         private void btnEndOrder_Click(object sender, EventArgs e)
@@ -437,60 +435,7 @@ namespace WOW_Fusion
             DialogResult dialogResult = MessageBox.Show($"¿Desea terminar orden?", "Terminar Orden", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                //Weight Section
-                txtBoxWeight.Text = string.Empty;
-                btnGetWeight.Enabled = false;
-                btnGetWeight.Text = "TARA";
-                timerShift.Stop();
-                lblShift.Text = string.Empty;
-                btnEndOrder.Enabled = false;
-
-                //WorkOrder Section
-                cmbWorkOrders.Items.Clear();
-                cmbWorkOrders.Enabled = true;
-                lblPlannedQuantity.Text = string.Empty;
-                lblCompletedQuantity.Text = string.Empty;
-                lblUoM.Text = string.Empty;
-                lblPlannedStartDate.Text = string.Empty;
-                lblPlannedCompletionDate.Text = string.Empty;
-                lblResourceCode.Text = string.Empty;
-                lblResourceDescription.Text = string.Empty;
-                lblEquipmentInstanceCode.Text = string.Empty;
-                lblEquipmentInstanceName.Text = string.Empty;
-                lblItemNumber.Text = string.Empty;
-                lblItemDescription.Text = string.Empty;
-                lblItemDescriptionEnglish.Text = string.Empty;
-
-                //AKA Section
-                lblAkaPO.Text = string.Empty;
-                lblLegalEntitie.Text = string.Empty;
-                lblAkaItem.Text = string.Empty;
-                lblAkaDescription.Text = string.Empty;
-
-                //Pallet Anim Section
-                _rollByPallet = 0;
-                _isPalletStart = false;
-                tabLayoutPallet.BackgroundImage = Resources.pallet_empty_icon;
-
-                lblPalletNetKg.Text = string.Empty;
-                lblPalletGrossKg.Text = string.Empty;
-                lblPalletNetLbs.Text = string.Empty;
-                lblPalletGrossLbs.Text = string.Empty;
-                lblTare.Text = string.Empty;
-                lblPalletNumber.Text = string.Empty;
-
-                //DataGrid Rolls Section
-                _rollCount = 0;
-                dgRolls.Rows.Clear();
-                dgRolls.Refresh();
-                lblLabelDesign.Text = string.Empty;
-                picLabelRoll.Image = null;
-
-                //DataGrid Pallets Section
-                _palletCount = 0;
-                dgPallets.Rows.Clear();
-                dgPallets.Refresh();
-                picLabelPallet.Image = null;
+                ClearAll();
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -508,51 +453,6 @@ namespace WOW_Fusion
         #endregion
 
         #region DataGrid Rollos
-        private void AddRoll(float rollNetKg)
-        {
-            _rollCount++;
-            _rollByPallet++;
-            float rollNetLbs = rollNetKg * _lbs;
-            btnReloadTare.Visible = false;
-
-            //Calcular pero bruto de cada rollo (con tara)
-            float rollGrossKg = rollNetKg + _tareWeight;
-            float rollGrossLbs = rollGrossKg * _lbs;
-
-            //Agregar pesos a datagrid
-            string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), rollNetKg.ToString("F2"),rollGrossKg.ToString("F2"),
-                                                                        rollNetLbs.ToString("F2"), rollGrossLbs.ToString("F2") };
-
-            dgRolls.Rows.Add(row);
-            TableLayoutPalletControl(_rollByPallet);
-
-            //Reserver peso neto acomulado para sacar peso de rollo
-            _previousWeight = _weightFromWeighing;
-
-            //Llenar campos de pallet (SUMA)
-            float palletNetSum = dgRolls.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_NetKg"].Value.ToString()));
-            lblCompletedQuantity.Text = palletNetSum.ToString();
-
-            if (dgRolls.RowCount == 1)
-            {
-                DataGridViewButtonColumn btnColumnPrint = new DataGridViewButtonColumn();
-                {
-                    if (dgRolls.Columns.Contains("R_Print"))
-                    {
-                        dgRolls.Columns.Remove("R_Print");
-                    }
-
-                    btnColumnPrint.HeaderText = "Imprimir";
-                    btnColumnPrint.Name = "R_Print";
-                    btnColumnPrint.FlatStyle = FlatStyle.Flat;
-                    btnColumnPrint.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                    btnColumnPrint.UseColumnTextForButtonValue = true;
-                }
-                dgRolls.Columns.Add(btnColumnPrint);
-            }
-            _isPalletStart = true;
-            FillLabelRoll(row);
-        }
 
         private void TableLayoutPalletControl(int rollNumber)
         {
@@ -593,7 +493,7 @@ namespace WOW_Fusion
                     {
 
                         PictureBox picRoll = new PictureBox();
-                        picRoll.Image = Resources.roll_icon;
+                        picRoll.Image = Resources.roll;
                         picRoll.BackColor = Color.Transparent;
                         picRoll.SizeMode = PictureBoxSizeMode.Zoom;
                         picRoll.Dock = DockStyle.Fill;
@@ -625,25 +525,11 @@ namespace WOW_Fusion
             return cell1.Value.ToString() == cell2.Value.ToString();
         }
 
-        //Agregar botón para imprimir etiqueta
+        //Modificaciones visuales del DataGrid
         private void dgWeight_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
-
-            //Columna a colocar icono
-            if (e.ColumnIndex == 6)
-            {
-                e.Paint(e.CellBounds, DataGridViewPaintParts.All);
-
-                var w = Resources.printer_01.Width / 20;
-                var h = Resources.printer_01.Height / 20;
-                var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
-                var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
-
-                e.Graphics.DrawImage(Resources.printer_01, new Rectangle(x, y, w, h));
-                e.Handled = true;
-            }
 
             //Combinar celdas repetidas
             e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
@@ -659,26 +545,37 @@ namespace WOW_Fusion
             }
         }
 
-        //Imprimir etiqueta (Click sobre fila)
-        private async void dgWeights_CellClick(object sender, DataGridViewCellEventArgs e)
+        //Click derecho sobre fila
+        private void dgWeights_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 6)
-            {
-                int rollForPrint = int.Parse(dgRolls.CurrentRow.Cells["R_Roll"].Value.ToString());
-
-                string[] row = new string[6];
-                for (int i = 0; i < 6; i++)
-                {
-                    row[i] = dgRolls.CurrentRow.Cells[i].Value.ToString();
-                }
-                FillLabelRoll(row);
-                await LabelService.PrintP2(rollForPrint, "ROLL");
-            }
+            
         }
 
         //Cambio de color de filas (Max-Min)
         private void dgWeights_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            //Cambiar color
+            foreach (DataGridViewRow row in dgRolls.Rows)
+            {
+                float rollNetKg = float.Parse(row.Cells["R_NetKg"].Value.ToString());
+                if (!string.IsNullOrEmpty(lblUnitWeightQuantity.Text))
+                {
+                    _stdWeight = float.Parse(lblUnitWeightQuantity.Text);
+                    if (rollNetKg > _stdWeight)
+                    {
+                        row.DefaultCellStyle.BackColor = Color.Red;
+                    }
+                    else if (rollNetKg < _stdWeight)
+                    {
+                        row.DefaultCellStyle.BackColor = Color.Yellow;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
+
             //Combinar celdas (Quitar valor repetido)
             if (e.RowIndex == 0)
                 return;
@@ -687,29 +584,19 @@ namespace WOW_Fusion
                 e.Value = "";
                 e.FormattingApplied = true;
             }
-
-            //Cambiar color
-            foreach (DataGridViewRow row in dgRolls.Rows)
-            {
-                float rollNetKg = float.Parse(row.Cells["R_NetKg"].Value.ToString());
-                if (rollNetKg > Settings.Default.RollMax)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Red;
-                }
-                else if (rollNetKg < Settings.Default.RollMin)
-                {
-                    row.DefaultCellStyle.BackColor = Color.Yellow;
-                }
-                else
-                {
-                    continue;
-                }
-            }
         }
 
-        private void dgRolls_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        private async void dgRolls_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            //dgRolls.Rows[e.RowIndex].Selected = true;
+            _rollByPallet++;
+            _isPalletStart = true;
+            TableLayoutPalletControl(_rollByPallet);
+
+            //Llenar campos de pallet (SUMA)
+            float palletNetSum = dgRolls.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_NetKg"].Value.ToString()));
+            lblCompletedQuantity.Text = palletNetSum.ToString();
+
+            await LabelService.PrintP2(_rollCount, "ROLL"); //Imprimir rollo
         }
 
         //Eliminar ultima fila de la lista de pesos
@@ -759,8 +646,9 @@ namespace WOW_Fusion
             return strWeights.TrimEnd(',');
         }
 
-        private void dgPallets_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        private async void dgPallets_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
+            btnEndOrder.Enabled = true;
             int palletAdded = int.Parse(dgPallets.Rows[e.RowIndex].Cells["P_Pallet"].Value.ToString());
             string rollWeights = WeightsPallet(palletAdded);
 
@@ -771,62 +659,32 @@ namespace WOW_Fusion
             }
 
             FillLabelPallet(palletWeight, rollWeights);
-            btnEndOrder.Enabled = true;
-        }
-        //Agregar boton para imprimir etiqueta
-        private void dgWeightsPallets_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0)
-                return;
+            await LabelService.PrintP2(palletAdded, "PALLET");
 
-            //Columna a colocar icono
-            if (e.ColumnIndex == 6)
-            {
-                e.Paint(e.CellBounds, DataGridViewPaintParts.All);
-
-                var w = Resources.printer_01.Width / 20;
-                var h = Resources.printer_01.Height / 20;
-                var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
-                var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
-
-                e.Graphics.DrawImage(Resources.printer_01, new Rectangle(x, y, w, h));
-                e.Handled = true;
-            }
         }
 
-        //Imprimir etiqueta pallet (Click sobre fila)
-        private async void dgWeightsPallets_CellClick(object sender, DataGridViewCellEventArgs e)
+        //Click derecho sobre fila
+        private void dgWeightsPallets_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 6)
-            {
-                int palletForPrint = int.Parse(dgPallets.CurrentRow.Cells["P_Pallet"].Value.ToString());
-                string rollWeights = WeightsPallet(palletForPrint);
-                string[] palletWeight = new string[dgPallets.CurrentRow.Cells.Count - 1];
-                for (int i = 0; i < dgPallets.CurrentRow.Cells.Count - 1; i++)
-                {
-                    palletWeight[i] = dgPallets.CurrentRow.Cells[i].Value.ToString();
-                }
-                FillLabelPallet(palletWeight, rollWeights);
-                await LabelService.PrintP2(palletForPrint, "PALLET");
-            }
+            
         }
         #endregion
 
         #region Labels Fill
         private void FillLabelRoll(string[] weights)
         {
-            if (!string.IsNullOrEmpty(lblEquipmentInstanceName.Text))
+            if (!string.IsNullOrEmpty(lblResourceCode.Text))
             {
                 dynamic label = JObject.Parse(Constants.LabelJson);
 
-                label.WORKORDER = cmbWorkOrders.Text;
+                label.WORKORDER = cmbWorkOrders.Text.Substring(7);
                 label.ITEMNUMBER = lblItemNumber.Text;
                 label.ITEMDESCRIPTION = lblItemDescription.Text;
                 label.ENGLISHDESCRIPTION = lblItemDescriptionEnglish.Text;
-                label.EQU = lblEquipmentInstanceCode.Text;
+                label.EQU = lblResourceCode.Text;
                 label.DATE = DateService.Now();
                 label.SHIFT = lblShift.Text;
-                label.ROLLNUMBER = "R" + weights[1].PadLeft(4, '0');
+                label.ROLL = "R" + weights[1].PadLeft(4, '0');
                 label.LOTNUMBER = "";
                 label.WNETKG = weights[2];
                 label.WGROSSKG = weights[3];
@@ -843,25 +701,24 @@ namespace WOW_Fusion
                 label.EMAIL = "";
 
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
-
                 picLabelRoll.Image = Image.FromStream(LabelService.UpdateLabelLabelary(_rollCount, "ROLL"));
             }
         }
 
         private void FillLabelPallet(string[] palletWeight, string rollWeights)
         {
-            if (!string.IsNullOrEmpty(lblEquipmentInstanceName.Text))
+            if (!string.IsNullOrEmpty(lblResourceCode.Text))
             {
                 dynamic label = JObject.Parse(Constants.LabelJson);
 
-                label.PALLETNUMBER = "P" + _palletCount.ToString().PadLeft(4, '0');
+                label.PALET = "P" + _palletCount.ToString().PadLeft(4, '0');
                 label.WNETKG = palletWeight[2];
                 label.WGROSSKG = palletWeight[3];
                 label.WNETLBS = palletWeight[4];
                 label.WGROSSLBS = palletWeight[5];
                 label.WEIGHTS = rollWeights;
-                Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
 
+                Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
                 picLabelPallet.Image = Image.FromStream(LabelService.UpdateLabelLabelary(_palletCount, "PALLET"));
             }
         }
@@ -879,6 +736,116 @@ namespace WOW_Fusion
             txtBoxConsole.SelectionStart = txtBoxConsole.Text.Length;
             txtBoxConsole.ScrollToCaret();
         }
+
+        private void ClearAll()
+        {
+            //Weight Section
+            txtBoxWeight.Text = string.Empty;
+            btnGetWeight.Enabled = false;
+            btnGetWeight.Text = "TARA";
+            timerShift.Stop();
+            lblShift.Text = string.Empty;
+            btnEndOrder.Enabled = false;
+
+            //WorkOrder Section
+            cmbWorkOrders.Items.Clear();
+            cmbWorkOrders.Enabled = true;
+            lblPlannedQuantity.Text = string.Empty;
+            lblCompletedQuantity.Text = string.Empty;
+            lblUoM.Text = "--";
+            lblPlannedStartDate.Text = string.Empty;
+            lblPlannedCompletionDate.Text = string.Empty;
+            lblResourceCode.Text = string.Empty;
+            lblResourceName.Text = string.Empty;
+            lblEquipmentInstanceCode.Text = string.Empty;
+            lblEquipmentInstanceName.Text = string.Empty;
+            lblItemNumber.Text = string.Empty;
+            lblItemDescription.Text = string.Empty;
+            lblItemDescriptionEnglish.Text = string.Empty;
+
+            //Item
+            lblUnitWeightQuantity.Text = string.Empty;
+            lblWeightUOMValue.Text = "--";
+            checkBoxLotControl.Checked = false;
+
+            //AKA Section
+            lblAkaPO.Text = string.Empty;
+            lblLegalEntitie.Text = string.Empty;
+            lblAkaItem.Text = string.Empty;
+            lblAkaDescription.Text = string.Empty;
+
+            //Pallet Anim Section
+            _rollByPallet = 0;
+            _isPalletStart = false;
+            tabLayoutPallet.BackgroundImage = Resources.pallet_empty;
+            TableLayoutPalletControl(_rollByPallet);
+
+            lblPalletNetKg.Text = string.Empty;
+            lblPalletGrossKg.Text = string.Empty;
+            lblPalletNetLbs.Text = string.Empty;
+            lblPalletGrossLbs.Text = string.Empty;
+            lblTare.Text = string.Empty;
+            lblPalletNumber.Text = string.Empty;
+
+            //DataGrid Rolls Section
+            _rollCount = 0;
+            dgRolls.Rows.Clear();
+            dgRolls.Refresh();
+            lblLabelDesign.Text = string.Empty;
+            picLabelRoll.Image = null;
+
+            //DataGrid Pallets Section
+            _palletCount = 0;
+            dgPallets.Rows.Clear();
+            dgPallets.Refresh();
+            picLabelPallet.Image = null;
+        }
         #endregion
+
+        private void btnSwapMode_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(cmbWorkOrders.Text))
+            {
+                DialogResult dialogResult = MessageBox.Show($"¿Desea cambiar el modo de trabajo? Los datos de la operación actual se perderán", "Modo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    ClearAll();
+                    if(lblMode.Text.Equals("Auto."))
+                    {
+                        lblMode.Text = "Manual";
+                        cmbWorkOrders.Items.Clear();
+                        cmbWorkOrders.Enabled = true;
+                    }
+                    else
+                    {
+                        lblMode.Text = "Auto.";
+                        cmbWorkOrders.Items.Clear();
+                        cmbWorkOrders.Enabled = false;
+                        ProductionScheduling();
+                    }
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                ClearAll();
+                if (lblMode.Text.Equals("Auto."))
+                {
+                    lblMode.Text = "Manual";
+                    cmbWorkOrders.Items.Clear();
+                    cmbWorkOrders.Enabled = true;
+                }
+                else
+                {
+                    lblMode.Text = "Auto.";
+                    cmbWorkOrders.Items.Clear();
+                    cmbWorkOrders.Enabled = false;
+                    ProductionScheduling();
+                }
+            }
+        }
     }
 }
