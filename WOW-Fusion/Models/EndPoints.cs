@@ -71,7 +71,7 @@ namespace WOW_Fusion.Models
                                                    "&q=OrganizationId={0} and ResourceType='EQUIPMENT' and ResourceCode like 'MF-LAM%' or ResourceCode like 'MF-C01%'";
 
         public static string Item = Settings.Default.FusionUrl + "/itemsV2?" + Constants.ParamsGet +
-                                                   "&fields=UnitWeightQuantity,WeightUOMValue,WeightUOMValue,LotControlValue" +
+                                                   "&fields=ItemId,UnitWeightQuantity,WeightUOMValue,WeightUOMValue,LotControlValue" +
                                                    "&q=ItemNumber='{0}' and OrganizationId={1}";
 
         //EndPoints Planta 3

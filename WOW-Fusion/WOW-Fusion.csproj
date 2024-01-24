@@ -99,6 +99,12 @@
   <ItemGroup>
     <Compile Include="Controllers\ConsoleController.cs" />
     <Compile Include="Models\WorkOrder.cs" />
+    <Compile Include="Views\Plant1\frmReprint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Plant1\frmReprint.Designer.cs">
+      <DependentUpon>frmReprint.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Plant1\frmSettingsP1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,6 +165,9 @@
     <Compile Include="Services\TranslateService.cs" />
     <EmbeddedResource Include="Views\Plant1\frmLabelP1.resx">
       <DependentUpon>frmLabelP1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Plant1\frmReprint.resx">
+      <DependentUpon>frmReprint.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Plant2\frmLabelP2.resx">
       <DependentUpon>frmLabelP2.cs</DependentUpon>

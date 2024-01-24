@@ -71,9 +71,9 @@ namespace WOW_Fusion.Services
             return items.ToArray();
         }
 
-        public static async Task PrintP1(int quantity)
+        public static async Task PrintP1(int start, int end)
         {
-            for (int i = 1; i <= quantity; i++)
+            for (int pag = start; pag <= end; pag++)
             {
                 try
                 {
@@ -84,7 +84,7 @@ namespace WOW_Fusion.Services
 
                     if (_client.Connected)
                     {
-                        string zpl = ReplaceZplBox(i);
+                        string zpl = ReplaceZplBox(pag);
                         Thread.Sleep(500);
                         byte[] data = Encoding.ASCII.GetBytes(zpl);
 
