@@ -47,11 +47,20 @@ namespace WOW_Fusion.Models
 
         public static string WOProcessDetail = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
                                                     "&expand=ProcessWorkOrderResource.WorkOrderOperationResourceInstance" +
-                                                    "&fields=WorkOrderId,ItemNumber,Description,UOMCode,PrimaryProductQuantity,BatchQuantity,PlannedStartDate,PlannedCompletionDate;" +
+                                                    "&fields=WorkOrderId,ItemNumber,Description,UOMCode,PrimaryProductQuantity,CompletedQuantity,PlannedStartDate,PlannedCompletionDate;" +
                                                     "ProcessWorkOrderResource:ResourceId,ResourceCode,ResourceName;" +
                                                     "ProcessWorkOrderResource.ResourceInstance:" +
                                                     "EquipmentInstanceCode,EquipmentInstanceName;" +
                                                     "ProcessWorkOrderDFF:pedidoDeVenta" +
+                                                    "&q=WorkOrderNumber='{0}'";
+
+        public static string WOProcessDetailP1 = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
+                                                    "&fields=WorkOrderId,PlannedStartDate,PlannedCompletionDate;" +
+                                                    "ProcessWorkOrderResource:ResourceId,ResourceCode,ResourceName;" +
+                                                    "ProcessWorkOrderResource.ResourceInstance:" +
+                                                    "EquipmentInstanceCode,EquipmentInstanceName;" +
+                                                    "ProcessWorkOrderDFF:pedidoDeVenta;" +
+                                                    "ProcessWorkOrderOutput:OperationSequenceNumber,OperationName,InventoryItemId,ItemNumber,ItemDescription,UOMCode,OutputQuantity,CompletedQuantity" +
                                                     "&q=WorkOrderNumber='{0}'";
 
         //Endpoints APEX

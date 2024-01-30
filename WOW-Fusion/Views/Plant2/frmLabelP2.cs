@@ -153,7 +153,7 @@ namespace WOW_Fusion
             timerShift.Stop();
             try
             {
-                Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessDetail, workOrder));
+                Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessDetailP1, workOrder));
                 string response = await tskWorkOrdersData;
                 if (string.IsNullOrEmpty(response)) { return; }
 
@@ -179,8 +179,8 @@ namespace WOW_Fusion
                 }
 
                 //lblPlannedQuantity.Text = wo.PlannedStartQuantity.ToString();
-                lblPlannedQuantity.Text = wo.BatchQuantity.ToString();
-                //lblCompletedQuantity.Text = wo.CompletedQuantity.ToString();
+                lblPrimaryProductQuantity.Text = wo.PrimaryProductQuantity.ToString();
+                lblCompletedQuantity.Text = wo.CompletedQuantity.ToString();
                 lblUoM.Text = wo.UOMCode.ToString();
 
                 lblItemNumber.Text = wo.ItemNumber.ToString();
@@ -750,7 +750,7 @@ namespace WOW_Fusion
             //WorkOrder Section
             cmbWorkOrders.Items.Clear();
             cmbWorkOrders.Enabled = true;
-            lblPlannedQuantity.Text = string.Empty;
+            lblPrimaryProductQuantity.Text = string.Empty;
             lblCompletedQuantity.Text = string.Empty;
             lblUoM.Text = "--";
             lblPlannedStartDate.Text = string.Empty;

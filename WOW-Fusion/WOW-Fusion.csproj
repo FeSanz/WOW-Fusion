@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ConsoleController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Models\WorkOrder.cs" />
     <Compile Include="Views\Plant1\frmReprint.cs">
       <SubType>Form</SubType>

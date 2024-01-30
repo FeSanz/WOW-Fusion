@@ -76,6 +76,34 @@ namespace WOW_Fusion.Views.Plant1
 
         private void txtBoxEnd_TextChanged(object sender, EventArgs e)
         {
+            if (int.TryParse(txtBoxEnd.Text, out _))
+            {
+                txtBoxEnd.BackColor = Color.White;
+                lblStatus.Text = string.Empty;
+            }
+            else
+            {
+                txtBoxEnd.BackColor = Color.LightSalmon;
+                lblStatus.Text = "Ingrese únicamente números enteros";
+            }
+
+        }
+
+        private void cmbWorkOrders_DropDown(object sender, EventArgs e)
+        {
+            List<string> ordersPrinted = FileController.ContentFile(Constants.PathPrintedLables);
+            if (ordersPrinted.Count > 0)
+            {
+                cmbWorkOrders.Items.Clear();    
+                foreach (string order in ordersPrinted)
+                {
+                    cmbWorkOrders.Items.Add(order);
+                }
+            }
+        }
+
+        private void cmbWorkOrders_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
     }

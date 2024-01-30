@@ -5,11 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
@@ -17,6 +12,7 @@ using WOW_Fusion.Controllers;
 using WOW_Fusion.Models;
 using WOW_Fusion.Services;
 using WOW_Fusion.Views.Plant1;
+using WOW_Fusion.Properties;
 
 namespace WOW_Fusion
 {
@@ -34,6 +30,7 @@ namespace WOW_Fusion
         //Variables impresion
         public static int startPage = 0;
         public static int endPage = 0;
+        public static string workOrder = string.Empty;
         public static int totalQuantity = 0;
 
         public frmLabelP1()
@@ -51,7 +48,6 @@ namespace WOW_Fusion
             ConsoleController console = new ConsoleController(rtbLog);
             Console.SetOut(console);
         }
-
 
         private async void InitializeFusionData()
         {
@@ -104,7 +100,7 @@ namespace WOW_Fusion
             cmbWorkOrders.Items.Clear();
             lblItemNumber.Text = string.Empty;
             lblItemDescription.Text = string.Empty;
-            lblPlannedQuantity.Text = string.Empty;
+            lblOutputQuantity.Text = string.Empty;
             lblUoM.Text = string.Empty;
             lblResourceName.Text= string.Empty;
             lblResourceCode.Text= string.Empty;
@@ -119,121 +115,27 @@ namespace WOW_Fusion
             cmbWorkOrders.Items.Clear();
             picBoxWaitWO.Visible = true;
 
-            List<string> workOrderNumbers = await Plant1Service.WorkOrdersListItemEval(Constants.Plant1Id, workCenterId); //Obtener datos de Organizacion
+            List<string> workOrderNumbers = await CommonService.WOProcessByWorkCenter(Constants.Plant1Id, workCenterId); //Obtener datos de Organizacion
             picBoxWaitWO.Visible = false;
 
             if (workOrderNumbers == null) return;
 
-            foreach (var item in workOrderNumbers)
+            List<string> ordersPrinted = FileController.ContentFile(Constants.PathPrintedLables);
+
+            foreach(string order in workOrderNumbers)
             {
-                cmbWorkOrders.Items.Add(item.ToString());
+                if(!FileController.IsOrderPrinted(ordersPrinted, order))
+                {
+                    cmbWorkOrders.Items.Add(order);
+                }
             }
         }
 
-        private async void SelectedIndexChangedWorkOrders(object sender, EventArgs e)
+        private void SelectedIndexChangedWorkOrders(object sender, EventArgs e)
         {
             if (cmbWorkOrders.SelectedItem != null)
             {
-                CleanUIWorkOrders();
-                try
-                {
-                    pop.Show(this);
-                    Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WODiscreteDetail, cmbWorkOrders.SelectedItem.ToString()));
-                    string response = await tskWorkOrdersData;
-                    if (string.IsNullOrEmpty(response)) { return; }
-
-                    JObject objWorkOrder = JObject.Parse(response);
-                    dynamic wo = objWorkOrder["items"][0]; //Objeto WORKORDER
-
-
-                    lblPlannedQuantity.Text = wo.PlannedStartQuantity.ToString();
-                    lblUoM.Text = wo.UOMCode.ToString();
-
-                    lblItemNumber.Text = wo.ItemNumber.ToString();
-                    dynamic itemsV2 = await CommonService.OneItem(String.Format(EndPoints.Item, wo.ItemNumber.ToString(), Constants.Plant1Id));
-                    if (itemsV2 != null)
-                    {
-                        itemId = itemsV2.ItemId.ToString();
-                    }
-                    else
-                    {
-                        itemId = string.Empty;
-                        NotifierController.Warning("Datos de item no encontrados");
-                    }
-
-                    lblItemDescription.Text = wo.Description.ToString();
-                    lblItemDescriptionEnglish.Text = TranslateService.Translate(lblItemDescription.Text);
-                    lblPlannedStartDate.Text = wo.PlannedStartDate.ToString();
-                    lblPlannedCompletionDate.Text = wo.PlannedCompletionDate.ToString();
-                
-                    startPage = string.IsNullOrEmpty(lblPlannedQuantity.Text) ? 0 : 1;
-                    lblStartPage.Text = startPage.ToString();
-
-                    float additionalLabels = (Properties.Settings.Default.Aditional * int.Parse(lblPlannedQuantity.Text)) / 100;
-                    lblAditional.Text = $"(+{Convert.ToInt32(Math.Round(additionalLabels))})";
-                    totalQuantity = (int)(float.Parse(lblPlannedQuantity.Text) + additionalLabels);
-                    endPage = totalQuantity;
-                    lblTotalPrint.Text = endPage.ToString();
-                    lbLabelQuantity.Text = lblPlannedQuantity.Text;
-                    
-                    int countResources = (int)wo.WorkOrderResource.count;
-                    if (countResources >= 1)
-                    {
-                        int indexMachine = -1;
-
-                        for (int i = 0; i < countResources; i++)
-                        {
-                            for (int j = 0; j < (int)machines["count"]; j++)
-                            {
-                                string resourceOrder = wo.WorkOrderResource.items[i].ResourceId.ToString();
-                                string resourceMachines = machines["items"][j]["ResourceId"].ToString();
-                                if (resourceOrder.Equals(resourceMachines))
-                                {
-                                    indexMachine = i;
-                                }
-                            }
-                        }
-                        if (indexMachine >= 0)
-                        {
-                            dynamic resource = wo.WorkOrderResource.items[indexMachine]; //Objeto RESURSO
-                            lblResourceCode.Text = resource.ResourceCode.ToString();
-                            lblResourceName.Text = resource.ResourceName.ToString();
-
-                            lblLabelDesign.Text = "XIPRD";
-
-                            dynamic aka = await LabelService.LabelInfo(lblLabelDesign.Text);
-                            FillLabel();
-
-                            btnPrint.Enabled = true;
-                            btnReprint.Enabled = true;
-
-                            if ((int)resource.WorkOrderOperationResourceInstance.count >= 1)
-                            {
-                                dynamic instance = resource.WorkOrderOperationResourceInstance.items[0]; // Objeto INSTANCIA
-                                lblEquipmentInstanceCode.Text = instance.EquipmentInstanceCode.ToString();
-                                lblEquipmentInstanceName.Text = instance.EquipmentInstanceName.ToString();
-                            }
-                            else
-                            {
-                                NotifierController.Warning("Datos de instancia de máquina no encontrados");
-                            }
-                        }
-                        else
-                        {
-                            NotifierController.Warning("Datos de recurso máquina no encontrados");
-                        }
-                    }
-                    else
-                    {
-                        NotifierController.Warning("Orden sin recursos");
-                    }
-                    pop.Close();
-                }
-                catch (Exception ex)
-                {
-                    pop.Close();
-                    MessageBox.Show("Error. " + ex.Message, "Error [WorkOrderSelected]", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                WorkOrderUIFill(cmbWorkOrders.SelectedItem.ToString());
             }
             else
             {
@@ -241,10 +143,166 @@ namespace WOW_Fusion
             }
         }
 
+        private async void WorkOrderUIFill(string workOrder)
+        {
+            CleanUIWorkOrders();
+            try
+            {
+                pop.Show(this);
+                Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessDetailP1, workOrder));
+                string response = await tskWorkOrdersData;
+                if (string.IsNullOrEmpty(response)) { return; }
+
+                JObject objWorkOrder = JObject.Parse(response);
+                if ((int)objWorkOrder["count"] == 0)
+                {
+                    NotifierController.Warning("Datos de orden no encotrada");
+                    return;
+                }
+
+                dynamic wo = objWorkOrder["items"][0]; //Objeto WORKORDER
+
+                /*dynamic itemsV2 = await CommonService.OneItem(String.Format(EndPoints.Item, wo.ItemNumber.ToString(), Constants.Plant1Id));
+                if (itemsV2 != null)
+                {
+                    itemId = itemsV2.ItemId.ToString();
+                }
+                else
+                {
+                    itemId = string.Empty;
+                    NotifierController.Warning("Datos de item no encontrados");
+                }*/
+
+                int countOutput = (int)wo.ProcessWorkOrderOutput.count;
+                if (countOutput == 2)
+                {
+                    int indexOutput = -1;
+                    for (int i = 0; i < countOutput; i++)
+                    {
+                        if ((int)wo.ProcessWorkOrderOutput.items[i].OperationSequenceNumber == 20)//Siempre buscar en SECUENCIA 20
+                        {
+                            indexOutput = i;
+                            break;
+                        }
+                    }
+                    dynamic output = wo.ProcessWorkOrderOutput.items[indexOutput];
+
+                    lblOperationSequenceNumber.Text = output.OperationSequenceNumber;
+                    lblOperationName.Text = output.OperationName;
+
+                    lblOutputQuantity.Text = output.OutputQuantity.ToString();
+                    lblUoM.Text = output.UOMCode.ToString();
+                    itemId = output.InventoryItemId.ToString();
+                    lblItemNumber.Text = output.ItemNumber.ToString();
+                    lblItemDescription.Text = output.ItemDescription.ToString();
+                    lblItemDescriptionEnglish.Text = TranslateService.Translate(lblItemDescription.Text);
+                    lblPlannedStartDate.Text = wo.PlannedStartDate.ToString();
+                    lblPlannedCompletionDate.Text = wo.PlannedCompletionDate.ToString();
+
+                    startPage = string.IsNullOrEmpty(lblOutputQuantity.Text) ? 0 : 1;
+                    lblStartPage.Text = startPage.ToString();
+
+                    float additionalLabels = (Settings.Default.Aditional * int.Parse(lblOutputQuantity.Text)) / 100;
+                    lblAditional.Text = $"(+{Convert.ToInt32(Math.Round(additionalLabels))})";
+                    totalQuantity = (int)(float.Parse(lblOutputQuantity.Text) + additionalLabels);
+                    endPage = totalQuantity;
+                    lblTotalPrint.Text = endPage.ToString();
+                    lbLabelQuantity.Text = lblOutputQuantity.Text;
+                }
+                else
+                {
+                    NotifierController.Warning("Secuencias definidas incorrectamente");
+                }
+
+                /*
+                    lblPrimaryProductQuantity.Text = wo.PrimaryProductQuantity.ToString();
+                    lblUoM.Text = wo.UOMCode.ToString();
+                    lblItemNumber.Text = wo.ItemNumber.ToString();
+                    lblItemDescription.Text = wo.Description.ToString();
+                    lblItemDescriptionEnglish.Text = TranslateService.Translate(lblItemDescription.Text);
+                    lblPlannedStartDate.Text = wo.PlannedStartDate.ToString();
+                    lblPlannedCompletionDate.Text = wo.PlannedCompletionDate.ToString();
+
+                    startPage = string.IsNullOrEmpty(lblPrimaryProductQuantity.Text) ? 0 : 1;
+                    lblStartPage.Text = startPage.ToString();
+
+                    float additionalLabels = (Properties.Settings.Default.Aditional * int.Parse(lblPrimaryProductQuantity.Text)) / 100;
+                    lblAditional.Text = $"(+{Convert.ToInt32(Math.Round(additionalLabels))})";
+                    totalQuantity = (int)(float.Parse(lblPrimaryProductQuantity.Text) + additionalLabels);
+                    endPage = totalQuantity;
+                    lblTotalPrint.Text = endPage.ToString();
+                    lbLabelQuantity.Text = lblPrimaryProductQuantity.Text; 
+                 */
+
+                //int countResources = (int)wo.WorkOrderResource.count;
+                int countResources = (int)wo.ProcessWorkOrderResource.count;
+                if (countResources >= 1)
+                {
+                    int indexMachine = -1;
+
+                    for (int i = 0; i < countResources; i++)
+                    {
+                        for (int j = 0; j < (int)machines["count"]; j++)
+                        {
+                            //string resourceOrder = wo.WorkOrderResource.items[i].ResourceId.ToString();
+                            string resourceOrder = wo.ProcessWorkOrderResource.items[i].ResourceId.ToString();
+                            string resourceMachines = machines["items"][j]["ResourceId"].ToString();
+                            if (resourceOrder.Equals(resourceMachines))
+                            {
+                                indexMachine = i;
+                            }
+                        }
+                    }
+                    if (indexMachine >= 0)
+                    {
+                        //dynamic resource = wo.WorkOrderResource.items[indexMachine]; //Objeto RESURSO
+                        dynamic resource = wo.ProcessWorkOrderResource.items[indexMachine]; //Objeto RESURSO
+                        lblResourceCode.Text = resource.ResourceCode.ToString();
+                        lblResourceName.Text = resource.ResourceName.ToString();
+
+                        lblLabelDesign.Text = "XIPRD";
+
+                        dynamic aka = await LabelService.LabelInfo(lblLabelDesign.Text);
+                        FillLabel();
+
+                        btnPrint.Enabled = true;
+                        btnReprint.Enabled = true;
+
+                        //if ((int)resource.WorkOrderOperationResourceInstance.count >= 1)
+                        if ((int)resource.ResourceInstance.count >= 1)
+                        {
+                            //dynamic instance = resource.WorkOrderOperationResourceInstance.items[0]; // Objeto INSTANCIA
+                            dynamic instance = resource.ResourceInstance.items[0]; // Objeto INSTANCIA
+                            lblEquipmentInstanceCode.Text = instance.EquipmentInstanceCode.ToString();
+                            lblEquipmentInstanceName.Text = instance.EquipmentInstanceName.ToString();
+                        }
+                        else
+                        {
+                            NotifierController.Warning("Datos de instancia de máquina no encontrados");
+                        }
+                    }
+                    else
+                    {
+                        NotifierController.Warning("Datos de recurso máquina no encontrados");
+                    }
+                }
+                else
+                {
+                    NotifierController.Warning("Orden sin recursos");
+                }
+                pop.Close();
+            }
+            catch (Exception ex)
+            {
+                pop.Close();
+                MessageBox.Show("Error. " + ex.Message, "Error [WorkOrderSelected]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void CleanUIWorkOrders()
         {
             lblItemNumber.Text = string.Empty;
-            lblPlannedQuantity.Text = string.Empty;
+            lblOutputQuantity.Text = string.Empty;
             lblUoM.Text = "--";
             lblItemDescription.Text = string.Empty;
             lblItemDescriptionEnglish.Text = string.Empty;
@@ -268,6 +326,8 @@ namespace WOW_Fusion
             else
             {
                 await LabelService.PrintP1(int.Parse(lblStartPage.Text), int.Parse(lblTotalPrint.Text));
+                //Guardar orden impresa
+                await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.PathPrintedLables);
             }
         }
 

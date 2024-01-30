@@ -16,6 +16,8 @@ namespace WOW_Fusion
         //Endpoint Etiquetas
         public static string LaberalyUrl = "http://api.labelary.com/v1/printers/8dpmm/labels/4x2/0/ --data-urlencode {0}";
 
+        public static string PathPrintedLables = @"C:\Fusion\Labels.txt";
+
         public static string UPCPrefix = "7506383";
 
         //Etiquetas KEYS
