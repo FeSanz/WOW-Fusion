@@ -31,6 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLabelP1));
             this.lblItemDescription = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBoxReprint = new System.Windows.Forms.GroupBox();
+            this.txtBoxEnd = new System.Windows.Forms.TextBox();
+            this.txtBoxStart = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.lblOperationSequenceNumber = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -71,6 +77,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.btnPrint = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBoxReprint = new System.Windows.Forms.CheckBox();
             this.lblTotalPrint = new System.Windows.Forms.Label();
             this.lblLabelDesign = new System.Windows.Forms.Label();
             this.lblAditional = new System.Windows.Forms.Label();
@@ -86,6 +93,7 @@
             this.btnReprint = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
+            this.groupBoxReprint.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -105,6 +113,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.groupBoxReprint);
             this.groupBox1.Controls.Add(this.label21);
             this.groupBox1.Controls.Add(this.lblOperationSequenceNumber);
             this.groupBox1.Controls.Add(this.label18);
@@ -143,6 +152,72 @@
             this.groupBox1.TabIndex = 113;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos de producción";
+            // 
+            // groupBoxReprint
+            // 
+            this.groupBoxReprint.Controls.Add(this.txtBoxEnd);
+            this.groupBoxReprint.Controls.Add(this.txtBoxStart);
+            this.groupBoxReprint.Controls.Add(this.label20);
+            this.groupBoxReprint.Controls.Add(this.label8);
+            this.groupBoxReprint.Controls.Add(this.lblStatus);
+            this.groupBoxReprint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxReprint.Location = new System.Drawing.Point(32, 340);
+            this.groupBoxReprint.Name = "groupBoxReprint";
+            this.groupBoxReprint.Size = new System.Drawing.Size(401, 57);
+            this.groupBoxReprint.TabIndex = 160;
+            this.groupBoxReprint.TabStop = false;
+            this.groupBoxReprint.Text = "Reimpresión";
+            this.groupBoxReprint.Visible = false;
+            // 
+            // txtBoxEnd
+            // 
+            this.txtBoxEnd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtBoxEnd.Location = new System.Drawing.Point(273, 13);
+            this.txtBoxEnd.Name = "txtBoxEnd";
+            this.txtBoxEnd.Size = new System.Drawing.Size(75, 20);
+            this.txtBoxEnd.TabIndex = 161;
+            this.txtBoxEnd.TextChanged += new System.EventHandler(this.txtBoxEnd_TextChanged);
+            // 
+            // txtBoxStart
+            // 
+            this.txtBoxStart.Location = new System.Drawing.Point(105, 15);
+            this.txtBoxStart.Name = "txtBoxStart";
+            this.txtBoxStart.Size = new System.Drawing.Size(75, 20);
+            this.txtBoxStart.TabIndex = 160;
+            this.txtBoxStart.TextChanged += new System.EventHandler(this.txtBoxStart_TextChanged);
+            // 
+            // label20
+            // 
+            this.label20.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label20.Location = new System.Drawing.Point(231, 14);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(46, 21);
+            this.label20.TabIndex = 163;
+            this.label20.Text = "Hasta:";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label8
+            // 
+            this.label8.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label8.Location = new System.Drawing.Point(57, 15);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(49, 21);
+            this.label8.TabIndex = 162;
+            this.label8.Text = "Desde:";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblStatus.Location = new System.Drawing.Point(10, 33);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(385, 21);
+            this.lblStatus.TabIndex = 164;
+            this.lblStatus.Text = "...";
+            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label21
             // 
@@ -284,6 +359,7 @@
             this.cmbWorkCenters.Size = new System.Drawing.Size(187, 21);
             this.cmbWorkCenters.TabIndex = 27;
             this.cmbWorkCenters.DropDown += new System.EventHandler(this.DropDownOpenWorkCenters);
+            this.cmbWorkCenters.DropDownClosed += new System.EventHandler(this.cmbWorkCenters_DropDownClosed);
             this.cmbWorkCenters.SelectedValueChanged += new System.EventHandler(this.SelectedIndexChangedWorkCenters);
             // 
             // lblItemNumber
@@ -371,6 +447,7 @@
             this.cmbWorkOrders.TabIndex = 0;
             this.cmbWorkOrders.DropDown += new System.EventHandler(this.DropDownOpenWorkOrders);
             this.cmbWorkOrders.SelectedValueChanged += new System.EventHandler(this.SelectedIndexChangedWorkOrders);
+            this.cmbWorkOrders.TextChanged += new System.EventHandler(this.cmbWorkOrders_TextChanged);
             // 
             // picBoxWaitWO
             // 
@@ -574,7 +651,7 @@
             this.btnPrint.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.btnPrint.Enabled = false;
             this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new System.Drawing.Point(856, 453);
+            this.btnPrint.Location = new System.Drawing.Point(856, 456);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(120, 54);
             this.btnPrint.TabIndex = 117;
@@ -584,6 +661,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.checkBoxReprint);
             this.groupBox3.Controls.Add(this.lblTotalPrint);
             this.groupBox3.Controls.Add(this.lblLabelDesign);
             this.groupBox3.Controls.Add(this.lblAditional);
@@ -601,6 +679,19 @@
             this.groupBox3.TabIndex = 118;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Etiqueta";
+            // 
+            // checkBoxReprint
+            // 
+            this.checkBoxReprint.AutoSize = true;
+            this.checkBoxReprint.Enabled = false;
+            this.checkBoxReprint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxReprint.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.checkBoxReprint.Location = new System.Drawing.Point(14, 280);
+            this.checkBoxReprint.Name = "checkBoxReprint";
+            this.checkBoxReprint.Size = new System.Drawing.Size(84, 17);
+            this.checkBoxReprint.TabIndex = 138;
+            this.checkBoxReprint.Text = "Reimpresión";
+            this.checkBoxReprint.UseVisualStyleBackColor = true;
             // 
             // lblTotalPrint
             // 
@@ -716,7 +807,7 @@
             // 
             // rtbLog
             // 
-            this.rtbLog.Location = new System.Drawing.Point(12, 441);
+            this.rtbLog.Location = new System.Drawing.Point(12, 444);
             this.rtbLog.Name = "rtbLog";
             this.rtbLog.ReadOnly = true;
             this.rtbLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -743,7 +834,6 @@
             this.btnReprint.BackColor = System.Drawing.Color.Transparent;
             this.btnReprint.BackgroundImage = global::WOW_Fusion.Properties.Resources.printer;
             this.btnReprint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnReprint.Enabled = false;
             this.btnReprint.FlatAppearance.BorderSize = 0;
             this.btnReprint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReprint.Location = new System.Drawing.Point(927, 3);
@@ -775,7 +865,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(987, 544);
+            this.ClientSize = new System.Drawing.Size(987, 549);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnReprint);
             this.Controls.Add(this.rtbLog);
@@ -789,6 +879,8 @@
             this.Load += new System.EventHandler(this.frmLabelP1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBoxReprint.ResumeLayout(false);
+            this.groupBoxReprint.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).EndInit();
             this.groupBox3.ResumeLayout(false);
@@ -858,6 +950,13 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label lblOperationName;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBoxReprint;
+        private System.Windows.Forms.TextBox txtBoxEnd;
+        private System.Windows.Forms.TextBox txtBoxStart;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.CheckBox checkBoxReprint;
     }
 }
 

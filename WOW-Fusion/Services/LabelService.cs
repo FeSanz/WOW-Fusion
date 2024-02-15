@@ -71,8 +71,9 @@ namespace WOW_Fusion.Services
             return items.ToArray();
         }
 
-        public static async Task PrintP1(int start, int end)
+        public static async Task<bool> PrintP1(int start, int end)
         {
+            bool status = false;
             for (int pag = start; pag <= end; pag++)
             {
                 try
@@ -86,7 +87,7 @@ namespace WOW_Fusion.Services
                     {
                         string zpl = ReplaceZplBox(pag);
                         Thread.Sleep(500);
-                        byte[] data = Encoding.ASCII.GetBytes(zpl);
+                        byte[] data = Encoding.UTF8.GetBytes(zpl);
 
                         // Enviar datos al servidor de forma asíncrona
                         await _stream.WriteAsync(data, 0, data.Length);
@@ -94,9 +95,12 @@ namespace WOW_Fusion.Services
                         await _stream.FlushAsync();
                         _stream.Close();
                         _client.Close();
+                        //Constants.pop = $"Imprimiento ({pag + 1} de {end})";
+                        status = true;
                     }
                     else
                     {
+                        status = false;
                         break;
                     }
                 }
@@ -104,9 +108,11 @@ namespace WOW_Fusion.Services
                 {
                     _client.Close();
                     NotifierController.DetailError("Error al imprimir", ex.Message);
-                    break;
+                    status = false;
+                    //break;
                 }
             }
+            return status;
         }
 
         public static async Task PrintP2(int number, string typee)

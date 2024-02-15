@@ -10,11 +10,14 @@ namespace WOW_Fusion
         public const string Plant2Id = "300000002650049";
         public const string Plant3Id = "300000002650061";
 
+        //frmLoading
+        public static string pop = "Procesando...";
+
         //Endpoints fusion
         public static readonly string ParamsGet = "limit=500&totalResults=true&onlyData=true";
 
         //Endpoint Etiquetas
-        public static string LaberalyUrl = "http://api.labelary.com/v1/printers/8dpmm/labels/4x2/0/ --data-urlencode {0}";
+        public static string LaberalyUrl = "http://api.labelary.com/v1/printers/8dpmm/labels/4x2/0/ --data-urlencode \"{0}\"";
 
         public static string PathPrintedLables = @"C:\Fusion\Labels.txt";
 

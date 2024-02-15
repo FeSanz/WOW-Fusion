@@ -101,7 +101,7 @@ namespace WOW_Fusion
                     {
                         if (poLines[i]["LineType"].ToString() != "Servicios")
                         {
-                            dgPO.Rows.Add(poLines[i]["LineNumber"], poLines[i]["Quantity"], poLines[i]["UOMCode"], poLines[i]["Item"], poLines[i]["Description"]);
+                            dgPO.Rows.Add(poLines[i]["LineNumber"], poLines[i]["Quantity"], 0, 0, poLines[i]["UOMCode"], poLines[i]["Item"], poLines[i]["Description"]);
                         }
                     }
                 }
@@ -120,9 +120,17 @@ namespace WOW_Fusion
 
         }
 
-        private void label20_Click(object sender, EventArgs e)
+        private void dgPO_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow selectedRow = dgPO.Rows[e.RowIndex];
+                if(selectedRow.Cells["LineNumber"].Value.ToString().ToUpper() == "KG")
+                {
+                    lblLineNumber.Text = selectedRow.Cells["LineNumber"].Value.ToString();
+                    btnGetWeight.Enabled = true;
+                }
+            }
         }
 
     }

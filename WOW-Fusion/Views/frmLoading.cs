@@ -12,6 +12,7 @@ namespace WOW_Fusion
 {
     public partial class frmLoading : Form
     {
+        
         public frmLoading()
         {
             InitializeComponent();
@@ -22,8 +23,9 @@ namespace WOW_Fusion
         public frmLoading(Form parent)
         {
             InitializeComponent();
+            lblLoading.Text = Constants.pop;
             //lblLoading.Text = "";
-            if(parent != null)
+            if (parent != null)
             {
                 this.StartPosition = FormStartPosition.Manual;
                 this.Location = new Point(parent.Location.X + parent.Width / 2 - this.Width / 2, parent.Location.Y + parent.Height / 2 - this.Height / 2);
@@ -42,6 +44,7 @@ namespace WOW_Fusion
             {
                 pcbIcon.Image.Dispose();
             }
+            lblLoading.Text = "Procesando...";
         }
 
      

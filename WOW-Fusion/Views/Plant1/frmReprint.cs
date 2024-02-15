@@ -30,13 +30,13 @@ namespace WOW_Fusion.Views.Plant1
             {
                 if (int.TryParse(txtBoxStart.Text, out _) && int.TryParse(txtBoxEnd.Text, out _))
                 {
-                    if (int.Parse(txtBoxStart.Text) > 0 && int.Parse(txtBoxEnd.Text) <= frmLabelP1.totalQuantity)
+                    if (int.Parse(txtBoxStart.Text) > 0 && int.Parse(txtBoxEnd.Text) <= 0)
                     {
                         if (int.Parse(txtBoxEnd.Text) >= int.Parse(txtBoxStart.Text))
                         {
-                            frmLabelP1.startPage = int.Parse(txtBoxStart.Text);
-                            frmLabelP1.endPage = int.Parse(txtBoxEnd.Text);
-                            NotifierController.Success("Presione imprimir");
+                            //frmLabelP1.startPage = int.Parse(txtBoxStart.Text);
+                            //frmLabelP1.endPage = int.Parse(txtBoxEnd.Text);
+                            //NotifierController.Success("Presione imprimir");
                             Close();
                         }
                         else

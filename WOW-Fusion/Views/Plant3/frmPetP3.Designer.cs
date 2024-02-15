@@ -32,17 +32,17 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPetP3));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -56,13 +56,7 @@
             this.cmbPO = new System.Windows.Forms.ComboBox();
             this.picBoxWaitPO = new System.Windows.Forms.PictureBox();
             this.dgPO = new System.Windows.Forms.DataGridView();
-            this.LineNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UOMCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnGetWeight = new System.Windows.Forms.Button();
-            this.btnEndOrder = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -81,7 +75,15 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lblLocationCode = new System.Windows.Forms.Label();
             this.lblLocation = new System.Windows.Forms.Label();
-            this.btnAddPallet = new System.Windows.Forms.Button();
+            this.LineNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Receipt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tare = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UOMCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblLineNumber = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitPO)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgPO)).BeginInit();
@@ -254,6 +256,8 @@
             this.dgPO.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.LineNumber,
             this.Quantity,
+            this.Receipt,
+            this.Tare,
             this.UOMCode,
             this.Item,
             this.Description});
@@ -283,80 +287,20 @@
             this.dgPO.RowTemplate.Height = 40;
             this.dgPO.Size = new System.Drawing.Size(685, 314);
             this.dgPO.TabIndex = 143;
-            // 
-            // LineNumber
-            // 
-            this.LineNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.LineNumber.DefaultCellStyle = dataGridViewCellStyle3;
-            this.LineNumber.HeaderText = "Linea";
-            this.LineNumber.Name = "LineNumber";
-            this.LineNumber.ReadOnly = true;
-            this.LineNumber.Width = 60;
-            // 
-            // Quantity
-            // 
-            this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Quantity.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Quantity.HeaderText = "Cantidad";
-            this.Quantity.Name = "Quantity";
-            this.Quantity.ReadOnly = true;
-            this.Quantity.Width = 80;
-            // 
-            // UOMCode
-            // 
-            this.UOMCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.UOMCode.DefaultCellStyle = dataGridViewCellStyle5;
-            this.UOMCode.HeaderText = "UoM";
-            this.UOMCode.Name = "UOMCode";
-            this.UOMCode.ReadOnly = true;
-            this.UOMCode.Width = 55;
-            // 
-            // Item
-            // 
-            this.Item.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Item.DefaultCellStyle = dataGridViewCellStyle6;
-            this.Item.HeaderText = "Item";
-            this.Item.Name = "Item";
-            this.Item.ReadOnly = true;
-            this.Item.Width = 52;
-            // 
-            // Description
-            // 
-            this.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.Description.DefaultCellStyle = dataGridViewCellStyle7;
-            this.Description.HeaderText = "Descripción";
-            this.Description.Name = "Description";
-            this.Description.ReadOnly = true;
+            this.dgPO.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgPO_CellClick);
             // 
             // btnGetWeight
             // 
             this.btnGetWeight.BackColor = System.Drawing.Color.DarkTurquoise;
             this.btnGetWeight.Enabled = false;
             this.btnGetWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGetWeight.Location = new System.Drawing.Point(813, 493);
+            this.btnGetWeight.Location = new System.Drawing.Point(837, 458);
             this.btnGetWeight.Name = "btnGetWeight";
-            this.btnGetWeight.Size = new System.Drawing.Size(103, 39);
+            this.btnGetWeight.Size = new System.Drawing.Size(79, 32);
             this.btnGetWeight.TabIndex = 145;
-            this.btnGetWeight.Text = "OBTENER";
+            this.btnGetWeight.Text = "PESAR";
             this.btnGetWeight.UseVisualStyleBackColor = false;
             this.btnGetWeight.Click += new System.EventHandler(this.btnGetWeight_Click);
-            // 
-            // btnEndOrder
-            // 
-            this.btnEndOrder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.btnEndOrder.Enabled = false;
-            this.btnEndOrder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEndOrder.Location = new System.Drawing.Point(18, 493);
-            this.btnEndOrder.Name = "btnEndOrder";
-            this.btnEndOrder.Size = new System.Drawing.Size(103, 39);
-            this.btnEndOrder.TabIndex = 152;
-            this.btnEndOrder.Text = "TERMINAR";
-            this.btnEndOrder.UseVisualStyleBackColor = false;
             // 
             // btnSettings
             // 
@@ -392,7 +336,6 @@
             this.label20.TabIndex = 155;
             this.label20.Text = "Nombre";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label20.Click += new System.EventHandler(this.label20_Click);
             // 
             // lblOrganizationCode
             // 
@@ -462,7 +405,7 @@
             this.dgRolls.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgRolls.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Control;
             this.dgRolls.RowTemplate.Height = 40;
-            this.dgRolls.Size = new System.Drawing.Size(204, 314);
+            this.dgRolls.Size = new System.Drawing.Size(204, 272);
             this.dgRolls.TabIndex = 157;
             // 
             // Num
@@ -484,6 +427,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.lblLineNumber);
             this.groupBox2.Controls.Add(this.label21);
             this.groupBox2.Controls.Add(this.lblTare);
             this.groupBox2.Controls.Add(this.lblPalletGrossKg);
@@ -503,7 +448,7 @@
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label21.Location = new System.Drawing.Point(77, 49);
+            this.label21.Location = new System.Drawing.Point(125, 51);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(58, 16);
             this.label21.TabIndex = 142;
@@ -514,7 +459,7 @@
             this.lblTare.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblTare.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTare.ForeColor = System.Drawing.Color.Green;
-            this.lblTare.Location = new System.Drawing.Point(66, 22);
+            this.lblTare.Location = new System.Drawing.Point(114, 24);
             this.lblTare.Name = "lblTare";
             this.lblTare.Size = new System.Drawing.Size(80, 24);
             this.lblTare.TabIndex = 143;
@@ -524,8 +469,8 @@
             // 
             this.lblPalletGrossKg.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblPalletGrossKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPalletGrossKg.ForeColor = System.Drawing.Color.DimGray;
-            this.lblPalletGrossKg.Location = new System.Drawing.Point(116, 70);
+            this.lblPalletGrossKg.ForeColor = System.Drawing.Color.RosyBrown;
+            this.lblPalletGrossKg.Location = new System.Drawing.Point(116, 83);
             this.lblPalletGrossKg.Name = "lblPalletGrossKg";
             this.lblPalletGrossKg.Size = new System.Drawing.Size(80, 24);
             this.lblPalletGrossKg.TabIndex = 113;
@@ -536,7 +481,7 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label11.Location = new System.Drawing.Point(122, 97);
+            this.label11.Location = new System.Drawing.Point(122, 110);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(68, 16);
             this.label11.TabIndex = 114;
@@ -547,7 +492,7 @@
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label13.Location = new System.Drawing.Point(19, 97);
+            this.label13.Location = new System.Drawing.Point(19, 110);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(61, 16);
             this.label13.TabIndex = 111;
@@ -558,7 +503,7 @@
             this.lblPalletNetKg.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblPalletNetKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPalletNetKg.ForeColor = System.Drawing.Color.Crimson;
-            this.lblPalletNetKg.Location = new System.Drawing.Point(10, 70);
+            this.lblPalletNetKg.Location = new System.Drawing.Point(10, 83);
             this.lblPalletNetKg.Name = "lblPalletNetKg";
             this.lblPalletNetKg.Size = new System.Drawing.Size(80, 24);
             this.lblPalletNetKg.TabIndex = 112;
@@ -601,29 +546,99 @@
             this.lblLocation.Text = "Ubicación";
             this.lblLocation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnAddPallet
+            // LineNumber
             // 
-            this.btnAddPallet.BackColor = System.Drawing.Color.Transparent;
-            this.btnAddPallet.BackgroundImage = global::WOW_Fusion.Properties.Resources.add;
-            this.btnAddPallet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnAddPallet.FlatAppearance.BorderSize = 0;
-            this.btnAddPallet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddPallet.Location = new System.Drawing.Point(669, 496);
-            this.btnAddPallet.Name = "btnAddPallet";
-            this.btnAddPallet.Size = new System.Drawing.Size(34, 32);
-            this.btnAddPallet.TabIndex = 159;
-            this.btnAddPallet.UseVisualStyleBackColor = false;
+            this.LineNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.LineNumber.DefaultCellStyle = dataGridViewCellStyle3;
+            this.LineNumber.HeaderText = "Linea";
+            this.LineNumber.Name = "LineNumber";
+            this.LineNumber.ReadOnly = true;
+            this.LineNumber.Width = 60;
+            // 
+            // Quantity
+            // 
+            this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Quantity.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Quantity.HeaderText = "Cantidad";
+            this.Quantity.Name = "Quantity";
+            this.Quantity.ReadOnly = true;
+            this.Quantity.Width = 80;
+            // 
+            // Receipt
+            // 
+            this.Receipt.HeaderText = "Recepción";
+            this.Receipt.Name = "Receipt";
+            this.Receipt.ReadOnly = true;
+            this.Receipt.Width = 90;
+            // 
+            // Tare
+            // 
+            this.Tare.HeaderText = "Tara";
+            this.Tare.Name = "Tare";
+            this.Tare.ReadOnly = true;
+            this.Tare.Width = 54;
+            // 
+            // UOMCode
+            // 
+            this.UOMCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.UOMCode.DefaultCellStyle = dataGridViewCellStyle5;
+            this.UOMCode.HeaderText = "UoM";
+            this.UOMCode.Name = "UOMCode";
+            this.UOMCode.ReadOnly = true;
+            this.UOMCode.Width = 55;
+            // 
+            // Item
+            // 
+            this.Item.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Item.DefaultCellStyle = dataGridViewCellStyle6;
+            this.Item.HeaderText = "Item";
+            this.Item.Name = "Item";
+            this.Item.ReadOnly = true;
+            this.Item.Width = 52;
+            // 
+            // Description
+            // 
+            this.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.Description.DefaultCellStyle = dataGridViewCellStyle7;
+            this.Description.HeaderText = "Descripción";
+            this.Description.Name = "Description";
+            this.Description.ReadOnly = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label2.Location = new System.Drawing.Point(31, 51);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(36, 16);
+            this.label2.TabIndex = 144;
+            this.label2.Text = "LÍNEA";
+            // 
+            // lblLineNumber
+            // 
+            this.lblLineNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblLineNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLineNumber.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.lblLineNumber.Location = new System.Drawing.Point(10, 24);
+            this.lblLineNumber.Name = "lblLineNumber";
+            this.lblLineNumber.Size = new System.Drawing.Size(80, 24);
+            this.lblLineNumber.TabIndex = 145;
+            this.lblLineNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frmPetP3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(933, 549);
-            this.Controls.Add(this.btnAddPallet);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.dgRolls);
-            this.Controls.Add(this.btnEndOrder);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgPO);
@@ -657,17 +672,11 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label lblSoldToLegalEntity;
         private System.Windows.Forms.Label lblSupplierSite;
-        private System.Windows.Forms.Button btnEndOrder;
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label lblOrganizationCode;
         private System.Windows.Forms.Label lblManagementBUName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LineNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UOMCode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Item;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
         private System.Windows.Forms.DataGridView dgRolls;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label13;
@@ -681,6 +690,14 @@
         private System.Windows.Forms.Label lblLocation;
         private System.Windows.Forms.DataGridViewTextBoxColumn Num;
         private System.Windows.Forms.DataGridViewTextBoxColumn Weight;
-        private System.Windows.Forms.Button btnAddPallet;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LineNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Receipt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Tare;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UOMCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Item;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblLineNumber;
     }
 }

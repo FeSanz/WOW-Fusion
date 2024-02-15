@@ -38,8 +38,8 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.pcbIcon);
             this.panel1.Controls.Add(this.lblLoading);
+            this.panel1.Controls.Add(this.pcbIcon);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -61,13 +61,13 @@
             // 
             // lblLoading
             // 
-            this.lblLoading.AutoSize = true;
             this.lblLoading.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLoading.Location = new System.Drawing.Point(116, 39);
+            this.lblLoading.Location = new System.Drawing.Point(95, 8);
             this.lblLoading.Name = "lblLoading";
-            this.lblLoading.Size = new System.Drawing.Size(140, 23);
+            this.lblLoading.Size = new System.Drawing.Size(189, 90);
             this.lblLoading.TabIndex = 1;
             this.lblLoading.Text = "Procesando ...";
+            this.lblLoading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frmLoading
             // 
@@ -81,7 +81,6 @@
             this.Text = "frmLoading";
             this.TopMost = true;
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pcbIcon)).EndInit();
             this.ResumeLayout(false);
 

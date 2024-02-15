@@ -153,7 +153,7 @@ namespace WOW_Fusion
             timerShift.Stop();
             try
             {
-                Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessDetailP1, workOrder));
+                Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessDetail, workOrder));
                 string response = await tskWorkOrdersData;
                 if (string.IsNullOrEmpty(response)) { return; }
 
@@ -225,7 +225,7 @@ namespace WOW_Fusion
                         dynamic flexPO = wo.ProcessWorkOrderDFF.items[0];
                         lblAkaPO.Text = flexPO.pedidoDeVenta.ToString();
 
-                        lblLabelDesign.Text = string.IsNullOrEmpty(lblAkaPO.Text) ? "LAMTIN03" : "-------------"; //XILAM LAMTIN03
+                        lblLabelDesign.Text = string.IsNullOrEmpty(lblAkaPO.Text) ? "XILAM" : "-------------"; //XILAM LAMTIN03
 
                         dynamic aka = await LabelService.LabelInfo(lblLabelDesign.Text); // XILAM  lblLabelDesign.Text
                         lblAkaItem.Text = (aka.AkaItemNumber.ToString() == "null") ? string.Empty : aka.AkaItemNumber.ToString();
