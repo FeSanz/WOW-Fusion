@@ -82,15 +82,5 @@ namespace WOW_Fusion.Models
         public static string Item = Settings.Default.FusionUrl + "/itemsV2?" + Constants.ParamsGet +
                                                    "&fields=ItemId,UnitWeightQuantity,WeightUOMValue,WeightUOMValue,LotControlValue" +
                                                    "&q=ItemNumber='{0}' and OrganizationId={1}";
-
-        //EndPoints Planta 3
-        public static string PurchaseOrdersList = Settings.Default.FusionUrl + "/purchaseOrders?" + Constants.ParamsGet +
-                                                "&fields=OrderNumber" +
-                                                "&q=ProcurementBUId={0} and StatusCode='OPEN'";
-
-        public static string PurchaseOrder = Settings.Default.FusionUrl + "/purchaseOrders?" + Constants.ParamsGet +
-                                                "&fields=OrderNumber,POHeaderId,SoldToLegalEntity,Buyer,BuyerId,Supplier,SupplierSite,ProcurementBU,BillToLocation;" +
-                                                "lines:POLineId,LineNumber,StatusCode,LineType,ItemId,Item,Description,UOMCode,UOM,Quantity" +
-                                                "&q=OrderNumber='{0}'";
     }
 }

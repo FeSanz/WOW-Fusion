@@ -77,10 +77,10 @@ namespace WOW_Fusion
                 }
                 dynamic po = objPurchaseOrder["items"][0]; //Objeto WORKORDER
 
-                lblProcurementBU.Text = po["ProcurementBU"].ToString();
-                lblSupplier.Text = po["Supplier"].ToString();
-                lblSupplierSite.Text = po["SupplierSite"].ToString();
-                lblSoldToLegalEntity.Text = po["SoldToLegalEntity"].ToString();
+                lblProcurementBU.Text = po.ProcurementBU.ToString();
+                lblSupplier.Text = po.Supplier.ToString();
+                lblSupplierSite.Text = po.SupplierSite.ToString();
+                lblSoldToLegalEntity.Text = po.SoldToLegalEntity.ToString();
 
                 dynamic poLines = objPurchaseOrder["items"][0]["lines"]["items"]; //Objeto LINEAS
                 int countLines = (int)objPurchaseOrder["items"][0]["lines"]["count"];
@@ -88,8 +88,6 @@ namespace WOW_Fusion
 
                 dgPO.Rows.Clear();
                 dgPO.Refresh();
-
-
 
                 for (int i = 0; i < countLines; i++)
                 {
