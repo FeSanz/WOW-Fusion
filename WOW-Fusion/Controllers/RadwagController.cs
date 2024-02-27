@@ -47,6 +47,7 @@ namespace WOW_Fusion
                         {
                             case "A":
                                 //await _client.ConnectAsync(_ip, _port); // Cambia la IP y el puerto según tu configuración
+                                //Thread.Sleep(100);
                                 response = await ReadDataUntilCR(_stream, 6000);
                                 response = SecondLineResponse(response);
                                 break;
@@ -89,7 +90,7 @@ namespace WOW_Fusion
         private static string SecondLineResponse(string secondLineResponse)
         {
             string response = "";
-            //Thread.Sleep(100);
+            Thread.Sleep(100);
             switch (secondLineResponse.Substring(2, 1))
             {
                 case "D":

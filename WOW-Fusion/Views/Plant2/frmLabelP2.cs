@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Timers;
 using WOW_Fusion.Controllers;
 using WOW_Fusion.Models;
 using WOW_Fusion.Properties;
@@ -25,7 +26,7 @@ namespace WOW_Fusion
     public partial class frmLabelP2 : Form
     {
         Random rnd = new Random();
-        System.Windows.Forms.Timer timerShift = new System.Windows.Forms.Timer();
+        //Timer timerShift = new Timer();
 
         PopController pop;
 
@@ -69,11 +70,10 @@ namespace WOW_Fusion
 
             AppController.ToolTip(btnSettings, "Configuración");
             AppController.ToolTip(btnAddPallet, "Agregar Pallet");
+            AppController.ToolTip(pbRed, "Peso debajo del estándar");
+            AppController.ToolTip(pbYellow, "Peso encima del estándar");
 
             btnGetWeight.Text = "TARA";
-
-            //string hola = "S    +7        _kg*";
-            //MessageBox.Show(hola.Substring(6, 9));
         }
 
         private async void InitializeFusionData()
@@ -98,22 +98,34 @@ namespace WOW_Fusion
 
             machines = await CommonService.ProductionResourcesMachines(String.Format(EndPoints.ProductionResourcesP2, Constants.Plant2Id)); //Obtener Objeto RECURSOS MAQUINAS 
 
-            ProductionScheduling();
+            ProductionScheduling(this, EventArgs.Empty);
         }
 
-        private async void ProductionScheduling()
+        private async void ProductionScheduling(object sender, EventArgs e)
         {
+            picBoxWaitWO.Visible = true;
             schedule = await CommonService.WOProcessSchedule(Constants.Plant2Id, Settings.Default.WorkCenterP2); //Obtener OT Schedule
 
             foreach (var wo in schedule)
             {
-                //if (DateService.IsBetweenDates(wo.PlannedStartDate, wo.PlannedCompletionDate))
-                //{
-                cmbWorkOrders.Items.Clear();
-                cmbWorkOrders.Items.Add(wo.WorkOrderNumber.ToString());
-                cmbWorkOrders.Text = wo.WorkOrderNumber.ToString();
-                break;
-                //}
+                if (DateService.IsBetweenDates(wo.PlannedStartDate, wo.PlannedCompletionDate))
+                {
+                    cmbWorkOrders.Items.Clear();
+                    cmbWorkOrders.Items.Add(wo.WorkOrderNumber.ToString());
+                    cmbWorkOrders.Text = wo.WorkOrderNumber.ToString();
+                    break;
+                }
+            }
+
+            if(string.IsNullOrEmpty(cmbWorkOrders.Text) && lblMode.Text.Equals("Auto."))
+            {
+                timerSchedule.Tick += new EventHandler(ProductionScheduling);
+                timerSchedule.Start();
+            }
+            else
+            {
+                picBoxWaitWO.Visible = false;
+                timerSchedule.Stop();   
             }
         }
 
@@ -231,10 +243,11 @@ namespace WOW_Fusion
                         lblAkaItem.Text = (aka.AkaItemNumber.ToString() == "null") ? string.Empty : aka.AkaItemNumber.ToString();
                         lblAkaDescription.Text = (aka.AkaItemDescription.ToString() == "null") ? string.Empty : aka.AkaItemDescription.ToString();
                         lblLegalEntitie.Text = (aka.AkaLegalEntity.ToString() == "null") ? string.Empty : aka.AkaLegalEntity.ToString();
+
+                        lblRollOnPallet.Text = "4";
                         
 
                         btnGetWeight.Enabled = true;
-                        timerShift.Interval = 5000;
                         timerShift.Tick += new EventHandler(CheckShift);
                         timerShift.Start();
 
@@ -410,7 +423,7 @@ namespace WOW_Fusion
                     _rollByPallet = 0;
                     _isPalletStart = false;
                     tabLayoutPallet.BackgroundImage = Resources.pallet_empty;
-                    TableLayoutPalletControl(_rollByPallet);
+                    TableLayoutPalletControl(int.Parse(lblRollOnPallet.Text),_rollByPallet);
                     btnGetWeight.Text = "TARA";
 
                     lblPalletNetKg.Text = string.Empty;
@@ -454,11 +467,11 @@ namespace WOW_Fusion
 
         #region DataGrid Rollos
 
-        private void TableLayoutPalletControl(int rollNumber)
+        private void TableLayoutPalletControl(int rollOnPallet, int rollNumber)
         {
-            lblRollCount.Text = $"+ {rollNumber}";
+            lblRollCount.Text = $"+ {rollOnPallet}";
 
-            if (rollNumber <= 12)
+            if (rollOnPallet <= 12)
             {
                 lblRollCount.Visible = false;
                 int count = 0;
@@ -467,13 +480,13 @@ namespace WOW_Fusion
                 tabLayoutPallet.RowStyles.Clear();
                 tabLayoutPallet.ColumnStyles.Clear();
 
-                tabLayoutPallet.ColumnCount = rollNumber > 4 ? 4 : rollNumber;
+                tabLayoutPallet.ColumnCount = rollOnPallet > 4 ? 4 : rollOnPallet;
 
-                if (rollNumber >= 9)
+                if (rollOnPallet >= 9)
                 {
                     tabLayoutPallet.RowCount = 3;
                 }
-                else if (rollNumber >= 5 && rollNumber <= 8)
+                else if (rollOnPallet >= 5 && rollOnPallet <= 8)
                 {
                     tabLayoutPallet.RowCount = 2;
                 }
@@ -491,16 +504,50 @@ namespace WOW_Fusion
                     tabLayoutPallet.RowStyles.Add(new RowStyle(SizeType.Percent, 1));
                     for (int col = 0; col < tabLayoutPallet.ColumnCount; col++)
                     {
-
                         PictureBox picRoll = new PictureBox();
-                        picRoll.Image = Resources.roll;
+                        if (count < rollNumber)
+                        {
+                            IEnumerable<string> columnWeigthsNetKg = dgRolls.Rows.Cast<DataGridViewRow>()
+                                                                    .Where(fila => fila.Cells["R_Pallet"].Value.ToString().Equals(lblPalletNumber.Text))
+                                                                    .Select(fila => fila.Cells["R_NetKg"].Value.ToString());
+                            Console.WriteLine(columnWeigthsNetKg);
+                            Console.WriteLine(count.ToString());
+                            string[] weigthRoll = columnWeigthsNetKg.ToArray();
+
+                            if(float.Parse(weigthRoll[count]) == float.Parse(lblUnitWeightQuantity.Text))
+                            {
+                                picRoll.Image = Resources.roll;
+                            }
+                            else if(float.Parse(weigthRoll[count]) > float.Parse(lblUnitWeightQuantity.Text))
+                            {
+                                picRoll.Image = Resources.roll_yellow;
+                            }
+                            else if(float.Parse(weigthRoll[count]) < float.Parse(lblUnitWeightQuantity.Text))
+                            {
+                                picRoll.Image = Resources.roll_red;
+                            }
+                            else
+                            {
+                                continue;
+                            }
+
+                            //picRoll.Image = Resources.roll;
+                            AppController.ToolTip(picRoll, weigthRoll[count].ToString() + " kg");
+                        }
+                        else
+                        {
+                            picRoll.Image = Resources.roll_empty;
+                        }
+
                         picRoll.BackColor = Color.Transparent;
                         picRoll.SizeMode = PictureBoxSizeMode.Zoom;
                         picRoll.Dock = DockStyle.Fill;
 
+                        
+
                         count++;
 
-                        if (count <= rollNumber)
+                        if (count <= rollOnPallet)
                         {
                             tabLayoutPallet.Controls.Add(picRoll, col, row);
                         }
@@ -563,11 +610,11 @@ namespace WOW_Fusion
                     _stdWeight = float.Parse(lblUnitWeightQuantity.Text);
                     if (rollNetKg > _stdWeight)
                     {
-                        row.DefaultCellStyle.BackColor = Color.Red;
+                        row.DefaultCellStyle.BackColor = Color.Yellow;
                     }
                     else if (rollNetKg < _stdWeight)
                     {
-                        row.DefaultCellStyle.BackColor = Color.Yellow;
+                        row.DefaultCellStyle.BackColor = Color.Red;
                     }
                     else
                     {
@@ -590,7 +637,7 @@ namespace WOW_Fusion
         {
             _rollByPallet++;
             _isPalletStart = true;
-            TableLayoutPalletControl(_rollByPallet);
+            TableLayoutPalletControl(int.Parse(lblRollOnPallet.Text), _rollByPallet);
 
             //Llenar campos de pallet (SUMA)
             float palletNetSum = dgRolls.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_NetKg"].Value.ToString()));
@@ -778,7 +825,7 @@ namespace WOW_Fusion
             _rollByPallet = 0;
             _isPalletStart = false;
             tabLayoutPallet.BackgroundImage = Resources.pallet_empty;
-            TableLayoutPalletControl(_rollByPallet);
+            TableLayoutPalletControl(0, 0);
 
             lblPalletNetKg.Text = string.Empty;
             lblPalletGrossKg.Text = string.Empty;
@@ -806,7 +853,9 @@ namespace WOW_Fusion
         {
             if (!string.IsNullOrEmpty(cmbWorkOrders.Text))
             {
-                DialogResult dialogResult = MessageBox.Show($"¿Desea cambiar el modo de trabajo? Los datos de la operación actual se perderán", "Modo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult dialogResult = MessageBox.Show($"¿Desea cambiar el modo de trabajo? Los datos de la operación actual se perderán",
+                                                            "Modo", 
+                                                            MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.Yes)
                 {
                     ClearAll();
@@ -815,13 +864,14 @@ namespace WOW_Fusion
                         lblMode.Text = "Manual";
                         cmbWorkOrders.Items.Clear();
                         cmbWorkOrders.Enabled = true;
+                        picBoxWaitWO.Visible = false;
                     }
                     else
                     {
                         lblMode.Text = "Auto.";
                         cmbWorkOrders.Items.Clear();
                         cmbWorkOrders.Enabled = false;
-                        ProductionScheduling();
+                        ProductionScheduling(this, EventArgs.Empty);
                     }
                 }
                 else if (dialogResult == DialogResult.No)
@@ -837,13 +887,14 @@ namespace WOW_Fusion
                     lblMode.Text = "Manual";
                     cmbWorkOrders.Items.Clear();
                     cmbWorkOrders.Enabled = true;
+                    picBoxWaitWO.Visible = false;
                 }
                 else
                 {
                     lblMode.Text = "Auto.";
                     cmbWorkOrders.Items.Clear();
                     cmbWorkOrders.Enabled = false;
-                    ProductionScheduling();
+                    ProductionScheduling(this, EventArgs.Empty);
                 }
             }
         }

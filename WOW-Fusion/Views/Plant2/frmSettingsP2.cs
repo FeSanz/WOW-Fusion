@@ -74,7 +74,7 @@ namespace WOW_Fusion
 
                 Settings.Default.Save();
 
-                NotifierController.Success("Datos actualizados exitisamente");
+                NotifierController.Success("Datos actualizados");
                 this.Close();
             }
             else

@@ -52,6 +52,8 @@
             this.lblPrimaryProductQuantity = new System.Windows.Forms.Label();
             this.lblUoM = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.lblRollOnPallet = new System.Windows.Forms.Label();
             this.checkBoxLotControl = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.lblUnitWeightQuantity = new System.Windows.Forms.Label();
@@ -135,15 +137,19 @@
             this.picLabelPallet = new System.Windows.Forms.PictureBox();
             this.label7 = new System.Windows.Forms.Label();
             this.lblShift = new System.Windows.Forms.Label();
-            this.btnSwapMode = new System.Windows.Forms.Button();
-            this.btnSettings = new System.Windows.Forms.Button();
-            this.btnAddPallet = new System.Windows.Forms.Button();
-            this.btnEndOrder = new System.Windows.Forms.Button();
             this.lblLocationCode = new System.Windows.Forms.Label();
             this.lblLocation = new System.Windows.Forms.Label();
             this.lblOrganizationCode = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.lblMode = new System.Windows.Forms.Label();
+            this.timerShift = new System.Windows.Forms.Timer(this.components);
+            this.timerSchedule = new System.Windows.Forms.Timer(this.components);
+            this.pbYellow = new System.Windows.Forms.PictureBox();
+            this.pbRed = new System.Windows.Forms.PictureBox();
+            this.btnEndOrder = new System.Windows.Forms.Button();
+            this.btnSwapMode = new System.Windows.Forms.Button();
+            this.btnSettings = new System.Windows.Forms.Button();
+            this.btnAddPallet = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgRolls)).BeginInit();
@@ -155,6 +161,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgPallets)).BeginInit();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLabelPallet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbYellow)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbRed)).BeginInit();
             this.SuspendLayout();
             // 
             // lblResourceName
@@ -200,6 +208,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label23);
+            this.groupBox1.Controls.Add(this.lblRollOnPallet);
             this.groupBox1.Controls.Add(this.checkBoxLotControl);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.lblUnitWeightQuantity);
@@ -231,12 +241,35 @@
             this.groupBox1.Controls.Add(this.picBoxWaitWO);
             this.groupBox1.Controls.Add(this.lblUoM);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(22, 66);
+            this.groupBox1.Location = new System.Drawing.Point(22, 78);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(462, 331);
             this.groupBox1.TabIndex = 61;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos de producción";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label23.Location = new System.Drawing.Point(333, 285);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(27, 13);
+            this.label23.TabIndex = 139;
+            this.label23.Text = "R/P";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblRollOnPallet
+            // 
+            this.lblRollOnPallet.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblRollOnPallet.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRollOnPallet.ForeColor = System.Drawing.Color.SlateGray;
+            this.lblRollOnPallet.Location = new System.Drawing.Point(330, 300);
+            this.lblRollOnPallet.Name = "lblRollOnPallet";
+            this.lblRollOnPallet.Size = new System.Drawing.Size(36, 20);
+            this.lblRollOnPallet.TabIndex = 138;
+            this.lblRollOnPallet.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // checkBoxLotControl
             // 
@@ -244,7 +277,7 @@
             this.checkBoxLotControl.Enabled = false;
             this.checkBoxLotControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxLotControl.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.checkBoxLotControl.Location = new System.Drawing.Point(298, 298);
+            this.checkBoxLotControl.Location = new System.Drawing.Point(18, 299);
             this.checkBoxLotControl.Name = "checkBoxLotControl";
             this.checkBoxLotControl.Size = new System.Drawing.Size(47, 17);
             this.checkBoxLotControl.TabIndex = 137;
@@ -253,31 +286,30 @@
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label6.Location = new System.Drawing.Point(351, 281);
+            this.label6.Location = new System.Drawing.Point(378, 283);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(76, 13);
+            this.label6.Size = new System.Drawing.Size(58, 13);
             this.label6.TabIndex = 136;
-            this.label6.Text = "Peso Estándar";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label6.Text = "Standard";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblUnitWeightQuantity
             // 
             this.lblUnitWeightQuantity.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblUnitWeightQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUnitWeightQuantity.ForeColor = System.Drawing.Color.Olive;
-            this.lblUnitWeightQuantity.Location = new System.Drawing.Point(348, 296);
+            this.lblUnitWeightQuantity.ForeColor = System.Drawing.Color.DarkGreen;
+            this.lblUnitWeightQuantity.Location = new System.Drawing.Point(378, 299);
             this.lblUnitWeightQuantity.Name = "lblUnitWeightQuantity";
-            this.lblUnitWeightQuantity.Size = new System.Drawing.Size(83, 20);
+            this.lblUnitWeightQuantity.Size = new System.Drawing.Size(57, 20);
             this.lblUnitWeightQuantity.TabIndex = 134;
             this.lblUnitWeightQuantity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblWeightUOMValue
             // 
             this.lblWeightUOMValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWeightUOMValue.Location = new System.Drawing.Point(429, 298);
+            this.lblWeightUOMValue.Location = new System.Drawing.Point(429, 300);
             this.lblWeightUOMValue.Name = "lblWeightUOMValue";
             this.lblWeightUOMValue.Size = new System.Drawing.Size(32, 13);
             this.lblWeightUOMValue.TabIndex = 135;
@@ -585,7 +617,7 @@
             this.R_GrossLbs});
             this.dgRolls.EnableHeadersVisualStyles = false;
             this.dgRolls.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.dgRolls.Location = new System.Drawing.Point(503, 73);
+            this.dgRolls.Location = new System.Drawing.Point(503, 85);
             this.dgRolls.Name = "dgRolls";
             this.dgRolls.ReadOnly = true;
             this.dgRolls.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -661,7 +693,7 @@
             // 
             this.groupBox2.Controls.Add(this.picLabelRoll);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(503, 577);
+            this.groupBox2.Location = new System.Drawing.Point(503, 594);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(462, 256);
             this.groupBox2.TabIndex = 65;
@@ -859,7 +891,7 @@
             this.txtBoxConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtBoxConsole.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBoxConsole.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txtBoxConsole.Location = new System.Drawing.Point(981, 409);
+            this.txtBoxConsole.Location = new System.Drawing.Point(981, 421);
             this.txtBoxConsole.Multiline = true;
             this.txtBoxConsole.Name = "txtBoxConsole";
             this.txtBoxConsole.ReadOnly = true;
@@ -881,7 +913,7 @@
             this.groupBox3.Controls.Add(this.lblLegalEntitie);
             this.groupBox3.Controls.Add(this.lblAkaPO);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(22, 409);
+            this.groupBox3.Location = new System.Drawing.Point(22, 421);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(462, 159);
             this.groupBox3.TabIndex = 134;
@@ -994,7 +1026,7 @@
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(24, 577);
+            this.groupBox4.Location = new System.Drawing.Point(24, 594);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(462, 256);
             this.groupBox4.TabIndex = 135;
@@ -1128,7 +1160,7 @@
             this.P_GrossLbs});
             this.dgPallets.EnableHeadersVisualStyles = false;
             this.dgPallets.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.dgPallets.Location = new System.Drawing.Point(981, 73);
+            this.dgPallets.Location = new System.Drawing.Point(981, 85);
             this.dgPallets.Name = "dgPallets";
             this.dgPallets.ReadOnly = true;
             this.dgPallets.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -1207,7 +1239,7 @@
             // 
             this.groupBox5.Controls.Add(this.picLabelPallet);
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox5.Location = new System.Drawing.Point(981, 577);
+            this.groupBox5.Location = new System.Drawing.Point(981, 594);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(462, 256);
             this.groupBox5.TabIndex = 137;
@@ -1230,7 +1262,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label7.Location = new System.Drawing.Point(921, 23);
+            this.label7.Location = new System.Drawing.Point(919, 23);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(35, 13);
             this.label7.TabIndex = 141;
@@ -1240,68 +1272,11 @@
             // 
             this.lblShift.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblShift.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblShift.Location = new System.Drawing.Point(904, 39);
+            this.lblShift.Location = new System.Drawing.Point(901, 39);
             this.lblShift.Name = "lblShift";
             this.lblShift.Size = new System.Drawing.Size(63, 20);
             this.lblShift.TabIndex = 140;
             this.lblShift.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnSwapMode
-            // 
-            this.btnSwapMode.BackColor = System.Drawing.Color.Transparent;
-            this.btnSwapMode.BackgroundImage = global::WOW_Fusion.Properties.Resources.swap;
-            this.btnSwapMode.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSwapMode.FlatAppearance.BorderSize = 0;
-            this.btnSwapMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSwapMode.Location = new System.Drawing.Point(1404, 28);
-            this.btnSwapMode.Name = "btnSwapMode";
-            this.btnSwapMode.Size = new System.Drawing.Size(30, 28);
-            this.btnSwapMode.TabIndex = 142;
-            this.btnSwapMode.UseVisualStyleBackColor = false;
-            this.btnSwapMode.Click += new System.EventHandler(this.btnSwapMode_Click);
-            // 
-            // btnSettings
-            // 
-            this.btnSettings.BackColor = System.Drawing.Color.Transparent;
-            this.btnSettings.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSettings.BackgroundImage")));
-            this.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSettings.FlatAppearance.BorderSize = 0;
-            this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSettings.Location = new System.Drawing.Point(22, 4);
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(15, 15);
-            this.btnSettings.TabIndex = 133;
-            this.btnSettings.UseVisualStyleBackColor = false;
-            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
-            // 
-            // btnAddPallet
-            // 
-            this.btnAddPallet.BackColor = System.Drawing.Color.Transparent;
-            this.btnAddPallet.BackgroundImage = global::WOW_Fusion.Properties.Resources.add;
-            this.btnAddPallet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnAddPallet.FlatAppearance.BorderSize = 0;
-            this.btnAddPallet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddPallet.Location = new System.Drawing.Point(1409, 365);
-            this.btnAddPallet.Name = "btnAddPallet";
-            this.btnAddPallet.Size = new System.Drawing.Size(34, 32);
-            this.btnAddPallet.TabIndex = 138;
-            this.btnAddPallet.UseVisualStyleBackColor = false;
-            this.btnAddPallet.Click += new System.EventHandler(this.btnAddPallet_Click);
-            // 
-            // btnEndOrder
-            // 
-            this.btnEndOrder.BackColor = System.Drawing.Color.Transparent;
-            this.btnEndOrder.BackgroundImage = global::WOW_Fusion.Properties.Resources.logout;
-            this.btnEndOrder.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnEndOrder.Enabled = false;
-            this.btnEndOrder.FlatAppearance.BorderSize = 0;
-            this.btnEndOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEndOrder.Location = new System.Drawing.Point(981, 365);
-            this.btnEndOrder.Name = "btnEndOrder";
-            this.btnEndOrder.Size = new System.Drawing.Size(34, 32);
-            this.btnEndOrder.TabIndex = 143;
-            this.btnEndOrder.UseVisualStyleBackColor = false;
-            this.btnEndOrder.Click += new System.EventHandler(this.btnEndOrder_Click);
             // 
             // lblLocationCode
             // 
@@ -1356,11 +1331,98 @@
             this.lblMode.Text = "Auto.";
             this.lblMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // timerShift
+            // 
+            this.timerShift.Interval = 5000;
+            // 
+            // timerSchedule
+            // 
+            this.timerSchedule.Interval = 30000;
+            // 
+            // pbYellow
+            // 
+            this.pbYellow.BackColor = System.Drawing.Color.Yellow;
+            this.pbYellow.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbYellow.Location = new System.Drawing.Point(944, 62);
+            this.pbYellow.Name = "pbYellow";
+            this.pbYellow.Size = new System.Drawing.Size(20, 20);
+            this.pbYellow.TabIndex = 168;
+            this.pbYellow.TabStop = false;
+            // 
+            // pbRed
+            // 
+            this.pbRed.BackColor = System.Drawing.Color.Red;
+            this.pbRed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbRed.Location = new System.Drawing.Point(917, 62);
+            this.pbRed.Name = "pbRed";
+            this.pbRed.Size = new System.Drawing.Size(20, 20);
+            this.pbRed.TabIndex = 166;
+            this.pbRed.TabStop = false;
+            // 
+            // btnEndOrder
+            // 
+            this.btnEndOrder.BackColor = System.Drawing.Color.Transparent;
+            this.btnEndOrder.BackgroundImage = global::WOW_Fusion.Properties.Resources.logout;
+            this.btnEndOrder.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnEndOrder.Enabled = false;
+            this.btnEndOrder.FlatAppearance.BorderSize = 0;
+            this.btnEndOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEndOrder.Location = new System.Drawing.Point(981, 377);
+            this.btnEndOrder.Name = "btnEndOrder";
+            this.btnEndOrder.Size = new System.Drawing.Size(34, 32);
+            this.btnEndOrder.TabIndex = 143;
+            this.btnEndOrder.UseVisualStyleBackColor = false;
+            this.btnEndOrder.Click += new System.EventHandler(this.btnEndOrder_Click);
+            // 
+            // btnSwapMode
+            // 
+            this.btnSwapMode.BackColor = System.Drawing.Color.Transparent;
+            this.btnSwapMode.BackgroundImage = global::WOW_Fusion.Properties.Resources.swap;
+            this.btnSwapMode.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSwapMode.FlatAppearance.BorderSize = 0;
+            this.btnSwapMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSwapMode.Location = new System.Drawing.Point(1404, 28);
+            this.btnSwapMode.Name = "btnSwapMode";
+            this.btnSwapMode.Size = new System.Drawing.Size(30, 28);
+            this.btnSwapMode.TabIndex = 142;
+            this.btnSwapMode.UseVisualStyleBackColor = false;
+            this.btnSwapMode.Click += new System.EventHandler(this.btnSwapMode_Click);
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.BackColor = System.Drawing.Color.Transparent;
+            this.btnSettings.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSettings.BackgroundImage")));
+            this.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSettings.FlatAppearance.BorderSize = 0;
+            this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSettings.Location = new System.Drawing.Point(22, 4);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(15, 15);
+            this.btnSettings.TabIndex = 133;
+            this.btnSettings.UseVisualStyleBackColor = false;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
+            // btnAddPallet
+            // 
+            this.btnAddPallet.BackColor = System.Drawing.Color.Transparent;
+            this.btnAddPallet.BackgroundImage = global::WOW_Fusion.Properties.Resources.add;
+            this.btnAddPallet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnAddPallet.FlatAppearance.BorderSize = 0;
+            this.btnAddPallet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddPallet.Location = new System.Drawing.Point(1409, 377);
+            this.btnAddPallet.Name = "btnAddPallet";
+            this.btnAddPallet.Size = new System.Drawing.Size(34, 32);
+            this.btnAddPallet.TabIndex = 138;
+            this.btnAddPallet.UseVisualStyleBackColor = false;
+            this.btnAddPallet.Click += new System.EventHandler(this.btnAddPallet_Click);
+            // 
             // frmLabelP2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1455, 846);
+            this.ClientSize = new System.Drawing.Size(1455, 884);
+            this.Controls.Add(this.pbYellow);
+            this.Controls.Add(this.pbRed);
             this.Controls.Add(this.lblLocationCode);
             this.Controls.Add(this.lblLocation);
             this.Controls.Add(this.lblOrganizationCode);
@@ -1404,6 +1466,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgPallets)).EndInit();
             this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picLabelPallet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbYellow)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbRed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1507,5 +1571,11 @@
         private System.Windows.Forms.Label lblUnitWeightQuantity;
         private System.Windows.Forms.Label lblWeightUOMValue;
         private System.Windows.Forms.CheckBox checkBoxLotControl;
+        private System.Windows.Forms.Timer timerShift;
+        private System.Windows.Forms.Timer timerSchedule;
+        private System.Windows.Forms.PictureBox pbRed;
+        private System.Windows.Forms.PictureBox pbYellow;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label lblRollOnPallet;
     }
 }

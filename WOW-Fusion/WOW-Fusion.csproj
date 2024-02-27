@@ -279,5 +279,17 @@
   <ItemGroup>
     <None Include="Resources\logout.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rollyellow_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rollgreen_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rollred_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rollempty_icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
