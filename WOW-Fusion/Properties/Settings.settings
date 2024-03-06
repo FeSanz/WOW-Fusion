@@ -29,5 +29,11 @@
     <Setting Name="WorkCenterP2" Type="System.String" Scope="User">
       <Value Profile="(Default)">300000003523428</Value>
     </Setting>
+    <Setting Name="RollToPrint" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="PalletToPrint" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

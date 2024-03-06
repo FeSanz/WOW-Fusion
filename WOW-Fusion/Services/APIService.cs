@@ -15,25 +15,7 @@ namespace WOW_Fusion
 {
     internal class APIService
     {  
-        public static async Task<string> GetApexAsync(string path)
-        {
-            try
-            {
-                WebRequest request = WebRequest.Create(path);
-                request.ContentType = "application/json";
-                using (WebResponse response = await request.GetResponseAsync())
-                using (Stream stream = response.GetResponseStream())
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    return await reader.ReadToEndAsync();
-                }
-            }
-            catch (WebException ex)
-            {
-                MessageBox.Show("Error. " + ex.Message, "Error GET[APEX]", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-        }
+        //*********************************** Servicios para FUSION ***********************************
         public static async Task<string> GetRequestAsync(string path)
         {
             try
@@ -160,6 +142,81 @@ namespace WOW_Fusion
             catch (WebException ex)
             {
                 MessageBox.Show("Error POST. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        //*********************************** Servicios para APEX ***********************************
+        public static async Task<string> GetApexAsync(string path)
+        {
+            try
+            {
+                WebRequest request = WebRequest.Create(path);
+                request.ContentType = "application/json";
+                using (WebResponse response = await request.GetResponseAsync())
+                using (Stream stream = response.GetResponseStream())
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    return await reader.ReadToEndAsync();
+                }
+            }
+            catch (WebException ex)
+            {
+                MessageBox.Show("Error. " + ex.Message, "Error GET[APEX]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        public static async Task<string> PostApexAsync(string path, string json)
+        {
+            try
+            {
+                WebRequest request = WebRequest.Create(path);
+                request.ContentType = "application/json";
+                request.Method = "POST";
+
+                using (StreamWriter writer = new StreamWriter(await request.GetRequestStreamAsync()))
+                {
+                    writer.Write(json);
+                    await writer.FlushAsync();
+                }
+
+                using (WebResponse response = await request.GetResponseAsync())
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    return await reader.ReadToEndAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error POST APEX. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        public static async Task<string> PutApexAsync(string path, string json)
+        {
+            try
+            {
+                WebRequest request = WebRequest.Create(path);
+                request.ContentType = "application/json";
+                request.Method = "PUT";
+
+                using (StreamWriter writer = new StreamWriter(await request.GetRequestStreamAsync()))
+                {
+                    writer.Write(json);
+                    await writer.FlushAsync();
+                }
+
+                using (WebResponse response = await request.GetResponseAsync())
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    return await reader.ReadToEndAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error PUT APEX. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }

@@ -130,5 +130,29 @@ namespace WOW_Fusion.Properties {
                 this["WorkCenterP2"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int RollToPrint {
+            get {
+                return ((int)(this["RollToPrint"]));
+            }
+            set {
+                this["RollToPrint"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int PalletToPrint {
+            get {
+                return ((int)(this["PalletToPrint"]));
+            }
+            set {
+                this["PalletToPrint"] = value;
+            }
+        }
     }
 }

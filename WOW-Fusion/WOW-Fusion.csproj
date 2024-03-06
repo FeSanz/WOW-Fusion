@@ -101,6 +101,7 @@
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Models\EndPointsInventory.cs" />
     <Compile Include="Models\P3Payloads.cs" />
+    <Compile Include="Models\Payloads.cs" />
     <Compile Include="Models\WorkOrder.cs" />
     <Compile Include="Views\Plant1\frmReprint.cs">
       <SubType>Form</SubType>

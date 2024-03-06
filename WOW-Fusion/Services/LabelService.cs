@@ -117,30 +117,40 @@ namespace WOW_Fusion.Services
 
         public static async Task PrintP2(int number, string typee)
         {
-            try
+            int end = typee.Equals("ROLL") ? Settings.Default.RollToPrint : Settings.Default.PalletToPrint;
+            for (int pag = 0; pag < end; pag++)
             {
-                _client = new TcpClient();
-                await _client.ConnectAsync(Settings.Default.PrinterIP, Settings.Default.PrinterPort);
-                //_client.Connect(ipPrinter, portPrinter);
-                _stream = _client.GetStream();
-
-                if (_client.Connected)
+                try
                 {
-                    string zpl = typee.Equals("ROLL") ? ReplaceZplRoll(number) : ReplaceZplPallet(number);
-                    byte[] data = Encoding.ASCII.GetBytes(zpl);
+                    _client = new TcpClient();
+                    await _client.ConnectAsync(Settings.Default.PrinterIP, Settings.Default.PrinterPort);
+                    //_client.Connect(ipPrinter, portPrinter);
+                    _stream = _client.GetStream();
 
-                    // Enviar datos al servidor de forma asíncrona
-                    await _stream.WriteAsync(data, 0, data.Length);
-                    //_stream.Write(data, 0, data.Length);
-                    await _stream.FlushAsync();
-                    _stream.Close();
-                    _client.Close();
+                    if (_client.Connected)
+                    {
+                        
+                        string zpl = typee.Equals("ROLL") ? ReplaceZplRoll(number) : ReplaceZplPallet(number);
+                        Thread.Sleep(500);
+                        byte[] data = Encoding.ASCII.GetBytes(zpl);
+
+                        // Enviar datos al servidor de forma asíncrona
+                        await _stream.WriteAsync(data, 0, data.Length);
+                        //_stream.Write(data, 0, data.Length);
+                        await _stream.FlushAsync();
+                        _stream.Close();
+                        _client.Close();
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                _client.Close();
-                NotifierController.DetailError("Error al imprimir", ex.Message);
+                catch (Exception ex)
+                {
+                    _client.Close();
+                    NotifierController.DetailError("Error al imprimir", ex.Message);
+                }
             }
         }
 

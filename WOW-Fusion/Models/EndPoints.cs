@@ -65,6 +65,8 @@ namespace WOW_Fusion.Models
 
         //Endpoints APEX
         public static string LabelTamplate = Settings.Default.ApexUrl + "/getEntity/{0}";
+        public static string WeightPallets = Settings.Default.ApexUrl + "/weightPallets/WO/Pallet";
+        public static string WeightRolls = Settings.Default.ApexUrl + "/weightRolls/WO/Roll";
 
         //Endpoints Planta 1
         public static string WorkOrdersItemList = Settings.Default.FusionUrl + "/workOrders?" + Constants.ParamsGet +
@@ -80,7 +82,7 @@ namespace WOW_Fusion.Models
                                                    "&q=OrganizationId={0} and ResourceType='EQUIPMENT' and ResourceCode like 'MF-LAM%' or ResourceCode like 'MF-C01%'";
 
         public static string Item = Settings.Default.FusionUrl + "/itemsV2?" + Constants.ParamsGet +
-                                                   "&fields=ItemId,UnitWeightQuantity,WeightUOMValue,WeightUOMValue,LotControlValue" +
+                                                   "&fields=ItemId,UnitWeightQuantity,WeightUOMValue,WeightUOMValue,MaximumLoadWeight,ContainerTypeValue,LotControlValue" +
                                                    "&q=ItemNumber='{0}' and OrganizationId={1}";
     }
 }

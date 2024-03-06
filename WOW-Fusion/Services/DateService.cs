@@ -115,5 +115,22 @@ namespace WOW_Fusion.Services
             localTimeOffset = dateTimeOffset.ToLocalTime();
             return localTimeOffset.ToString("dd/MM/yyyy HH:mm:ss");
         }
+
+        public static string EpochTime()
+        {
+            // DateTime Unix epoch [Segundos]
+            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            DateTime currentTime = DateTime.UtcNow;
+
+            // Calcular deferencia entre tiempo actual y EPOCH Obtener en segundos
+            TimeSpan timeSinceEpoch = currentTime - epoch;
+            long epochTimeInSeconds = (long)timeSinceEpoch.TotalSeconds;
+
+            // Convertir EPOCH a fecha y hora estándar
+            DateTime epochTimeDateTime = epoch.AddSeconds(epochTimeInSeconds);
+
+            //Retornar en segundos [10 caracteres] - [13 en ms]
+            return epochTimeInSeconds.ToString();
+        }
     }
 }
