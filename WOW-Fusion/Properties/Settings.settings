@@ -24,7 +24,7 @@
       <Value Profile="(Default)">ZmVsaXBlLmFudG9uaW9AaS1jb25kb3IuY29tOkNvbmRvclhSMTEy</Value>
     </Setting>
     <Setting Name="WeighingIP" Type="System.String" Scope="User">
-      <Value Profile="(Default)">192.168.12.1</Value>
+      <Value Profile="(Default)">192.168.12.2</Value>
     </Setting>
     <Setting Name="WorkCenterP2" Type="System.String" Scope="User">
       <Value Profile="(Default)">300000003523428</Value>

@@ -314,4 +314,11 @@ namespace WOW_Fusion.Services
         }
 
     }
+
+    public class WorkOrderShedule
+    {
+        public string WorkOrderNumber;
+        public DateTime PlannedStartDate;
+        public DateTime PlannedCompletionDate;
+    }
 }

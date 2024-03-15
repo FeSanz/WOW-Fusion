@@ -63,10 +63,19 @@ namespace WOW_Fusion.Models
                                                     "ProcessWorkOrderOutput:OperationSequenceNumber,OperationName,InventoryItemId,ItemNumber,ItemDescription,UOMCode,OutputQuantity,CompletedQuantity" +
                                                     "&q=WorkOrderNumber='{0}'";
 
+        //Enpoints AKA
+        public static string TradingPartnerItemRelationships = "/tradingPartnerItemRelationships?" + Constants.ParamsGet +
+                                                            "&fields=TradingPartnerType,TradingPartnerName,TradingPartnerItemNumber,RelationshipDescription" +
+                                                            "&q=Item='{0}' and TradingPartnerName='{1}'";
+
+        public static string TradingPartnerItems = Settings.Default.FusionUrl + "/tradingPartnerItemRelationships?" + Constants.ParamsGet +
+                                                    "&fields=TradingPartnerItemNumber,TradingPartnerItemDescription" +
+                                                    "&q={0}";
+
         //Endpoints APEX
         public static string LabelTamplate = Settings.Default.ApexUrl + "/getEntity/{0}";
-        public static string WeightPallets = Settings.Default.ApexUrl + "/weightPallets/WO/Pallet";
-        public static string WeightRolls = Settings.Default.ApexUrl + "/weightRolls/WO/Roll";
+        public static string WeightPallets = Settings.Default.ApexUrl + "/weightPallets/{0}/{1}";
+        public static string WeightRolls = Settings.Default.ApexUrl + "/weightRolls/{0}/{1}";
 
         //Endpoints Planta 1
         public static string WorkOrdersItemList = Settings.Default.FusionUrl + "/workOrders?" + Constants.ParamsGet +
@@ -81,8 +90,18 @@ namespace WOW_Fusion.Models
                                                    "&fields=ResourceId" +
                                                    "&q=OrganizationId={0} and ResourceType='EQUIPMENT' and ResourceCode like 'MF-LAM%' or ResourceCode like 'MF-C01%'";
 
-        public static string Item = Settings.Default.FusionUrl + "/itemsV2?" + Constants.ParamsGet +
-                                                   "&fields=ItemId,UnitWeightQuantity,WeightUOMValue,WeightUOMValue,MaximumLoadWeight,ContainerTypeValue,LotControlValue" +
-                                                   "&q=ItemNumber='{0}' and OrganizationId={1}";
+        public static string Item = "/itemsV2?" + Constants.ParamsGet +
+                                    "&fields=ItemId,UnitWeightQuantity,WeightUOMValue,WeightUOMValue,MaximumLoadWeight,ContainerTypeValue,LotControlValue" +
+                                    "&q=ItemNumber='{0}' and OrganizationId={1}";
+
+        //EndPoints Planta 3
+        public static string PurchaseOrdersList = Settings.Default.FusionUrl + "/purchaseOrders?" + Constants.ParamsGet +
+                                                "&fields=OrderNumber" +
+                                                "&q=ProcurementBUId={0} and StatusCode='OPEN'";
+
+        public static string PurchaseOrder = Settings.Default.FusionUrl + "/purchaseOrders?" + Constants.ParamsGet +
+                                                "&fields=OrderNumber,POHeaderId,SoldToLegalEntity,Buyer,BuyerId,Supplier,SupplierSite,ProcurementBU,BillToLocation;" +
+                                                "lines:POLineId,LineNumber,StatusCode,LineType,ItemId,Item,Description,UOMCode,UOM,Quantity" +
+                                                "&q=OrderNumber='{0}'";
     }
 }

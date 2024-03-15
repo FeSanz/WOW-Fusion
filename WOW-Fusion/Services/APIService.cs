@@ -68,13 +68,14 @@ namespace WOW_Fusion
             }
         }
 
-        public async Task<string> PostBatchRequestAsync(string path, string json)
+        public static async Task<string> PostBatchRequestAsync(string json)
         {
             try
             {
-                WebRequest request = WebRequest.Create(path);
-                request.Headers.Add("Authorization", "Basic " + Settings.Default.Credentials);
+                WebRequest request = WebRequest.Create("https://fa-esll-saasfademo1.ds-fa.oraclepdemos.com//fscmRestApi/resources/11.13.18.05");
+                request.Headers.Add("Authorization", "Basic U0NNX0lNUEw6dCpENmNFNF4=" /*+ Settings.Default.Credentials*/);
                 request.ContentType = "application/vnd.oracle.adf.batch+json";
+                request.Headers.Add("REST-framework-version", "4");
                 request.Method = "POST";
 
                 using (StreamWriter writer = new StreamWriter(await request.GetRequestStreamAsync()))
@@ -91,7 +92,7 @@ namespace WOW_Fusion
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error POST. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error POST[BATCH]. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }

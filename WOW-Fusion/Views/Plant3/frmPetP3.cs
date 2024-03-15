@@ -65,7 +65,7 @@ namespace WOW_Fusion
         {
             try
             {
-                Task<string> tskPurchaseOrdersData = APIService.GetRequestAsync(String.Format(EndPointsInventory.PurchaseOrder, cmbPO.SelectedItem.ToString()));
+                Task<string> tskPurchaseOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.PurchaseOrder, cmbPO.SelectedItem.ToString()));
                 string response = await tskPurchaseOrdersData;
                 if (string.IsNullOrEmpty(response)) { return; }
 

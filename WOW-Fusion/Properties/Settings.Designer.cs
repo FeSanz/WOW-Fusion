@@ -109,7 +109,7 @@ namespace WOW_Fusion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.12.1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.12.2")]
         public string WeighingIP {
             get {
                 return ((string)(this["WeighingIP"]));

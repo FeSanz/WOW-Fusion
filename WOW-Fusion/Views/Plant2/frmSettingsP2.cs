@@ -30,7 +30,7 @@ namespace WOW_Fusion
         private async void InitializeFusionData()
         {
             //Obtener datos de centro de trabajo
-            dynamic wc = await CommonService.OneItem(String.Format(EndPoints.WorkCentersById, Constants.Plant2Id, Settings.Default.WorkCenterP2));
+            /*dynamic wc = await CommonService.OneItem(String.Format(EndPoints.WorkCentersById, Constants.Plant2Id, Settings.Default.WorkCenterP2));
 
             if (wc != null)
             {
@@ -42,7 +42,12 @@ namespace WOW_Fusion
             else
             {
                 NotifierController.Warning("No se encontraron centros de trabajo");
-            }
+            }*/
+
+            cmbWorkCenters.Items.Clear();
+            cmbWorkCenters.Items.Add("LAMINADORA L01");
+            cmbWorkCenters.SelectedIndex = 0;
+            txtBoxArea.Text = "LAMINADORA L01";
         }
 
         private void frmSettingsP2_Load(object sender, EventArgs e)

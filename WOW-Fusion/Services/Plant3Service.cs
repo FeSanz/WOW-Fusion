@@ -16,7 +16,7 @@ namespace WOW_Fusion.Services
         {
             try
             {
-                Task<string> tskPurchaseOrders = APIService.GetRequestAsync(String.Format(EndPointsInventory.PurchaseOrdersList, businessUnitId));
+                Task<string> tskPurchaseOrders = APIService.GetRequestAsync(String.Format(EndPoints.PurchaseOrdersList, businessUnitId));
                 string response = await tskPurchaseOrders;
                 if (string.IsNullOrEmpty(response))
                 {
