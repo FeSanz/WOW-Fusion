@@ -43,7 +43,7 @@ namespace WOW_Fusion.Models
         //Endpoints Manufactura x Procesos
         public static string WOProcessList = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
                                                     "&fields=WorkOrderNumber,PlannedStartDate,PlannedCompletionDate" +
-                                                    "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and Operation.WorkCenterId={1} and PlannedCompletionDate>='{2}'";
+                                                    "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and Operation.WorkCenterId={1}";
 
         public static string WOProcessDetail = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
                                                     "&expand=ProcessWorkOrderResource.WorkOrderOperationResourceInstance" +
@@ -73,7 +73,7 @@ namespace WOW_Fusion.Models
                                                     "&q={0}";
 
         //Endpoints APEX
-        public static string LabelTamplate = Settings.Default.ApexUrl + "/getEntity/{0}";
+        public static string LabelTamplate = Settings.Default.ApexUrl + "/labels/{0}/{1}";
         public static string WeightPallets = Settings.Default.ApexUrl + "/weightPallets/{0}/{1}";
         public static string WeightRolls = Settings.Default.ApexUrl + "/weightRolls/{0}/{1}";
 

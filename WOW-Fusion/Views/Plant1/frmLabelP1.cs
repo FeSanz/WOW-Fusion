@@ -15,6 +15,7 @@ using WOW_Fusion.Views.Plant1;
 using WOW_Fusion.Properties;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Reflection;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 namespace WOW_Fusion
 {
@@ -281,9 +282,10 @@ namespace WOW_Fusion
                         lblResourceCode.Text = resource.ResourceCode.ToString();
                         lblResourceName.Text = resource.ResourceName.ToString();
 
-                        lblLabelDesign.Text = "XIPRD";
+                        string akaCustomer = "STANDARD";
+                        dynamic aka = await LabelService.LabelInfo(Constants.Plant2Id, akaCustomer); //Obtener template de etiqueta APEX
+                        lblLabelName.Text = aka.LabelName.ToString();
 
-                        dynamic aka = await LabelService.LabelInfo(lblLabelDesign.Text);
                         FillLabel();
 
                         btnPrint.Enabled = true;

@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WOW_Fusion.Controllers;
+using WOW_Fusion.Models;
 using WOW_Fusion.Properties;
 
 namespace WOW_Fusion.Services
@@ -20,9 +21,9 @@ namespace WOW_Fusion.Services
         private static TcpClient _client;
         private static NetworkStream _stream;
 
-        public static async Task<dynamic> LabelInfo(string clienteName)
+        public static async Task<dynamic> LabelInfo(string organization, string customer)
         {
-            dynamic labels = await CommonService.LabelTamplate(clienteName);
+            dynamic labels = await CommonService.LabelTamplate(String.Format(EndPoints.LabelTamplate, organization, customer));
 
             if (labels == null) { return null; }
 

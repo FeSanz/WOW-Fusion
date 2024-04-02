@@ -101,6 +101,7 @@
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Models\Batchs.cs" />
     <Compile Include="Models\Payloads.cs" />
+    <Compile Include="Models\WorkOrderShedule.cs" />
     <Compile Include="Views\Plant1\frmReprint.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +113,12 @@
     </Compile>
     <Compile Include="Views\Plant1\frmSettingsP1.Designer.cs">
       <DependentUpon>frmSettingsP1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Plant2\frmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Plant2\frmLogin.Designer.cs">
+      <DependentUpon>frmLogin.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Plant2\frmSettingsP2.cs">
       <SubType>Form</SubType>
@@ -176,6 +183,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmLoading.resx">
       <DependentUpon>frmLoading.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Plant2\frmLogin.resx">
+      <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Plant3\frmPetP3.resx">
       <DependentUpon>frmPetP3.cs</DependentUpon>
@@ -289,6 +299,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\rollempty_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\light_yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\light_green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\light_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\light_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo2_blk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo2_wht.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo 128x128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo_blk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo_wht.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\password.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

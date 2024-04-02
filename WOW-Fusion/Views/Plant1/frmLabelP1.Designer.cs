@@ -79,7 +79,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.checkBoxReprint = new System.Windows.Forms.CheckBox();
             this.lblTotalPrint = new System.Windows.Forms.Label();
-            this.lblLabelDesign = new System.Windows.Forms.Label();
+            this.lblLabelName = new System.Windows.Forms.Label();
             this.lblAditional = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.lblStartPage = new System.Windows.Forms.Label();
@@ -663,7 +663,7 @@
             // 
             this.groupBox3.Controls.Add(this.checkBoxReprint);
             this.groupBox3.Controls.Add(this.lblTotalPrint);
-            this.groupBox3.Controls.Add(this.lblLabelDesign);
+            this.groupBox3.Controls.Add(this.lblLabelName);
             this.groupBox3.Controls.Add(this.lblAditional);
             this.groupBox3.Controls.Add(this.label16);
             this.groupBox3.Controls.Add(this.lblStartPage);
@@ -703,16 +703,16 @@
             this.lblTotalPrint.TabIndex = 132;
             this.lblTotalPrint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblLabelDesign
+            // lblLabelName
             // 
-            this.lblLabelDesign.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblLabelDesign.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLabelDesign.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblLabelDesign.Location = new System.Drawing.Point(14, 31);
-            this.lblLabelDesign.Name = "lblLabelDesign";
-            this.lblLabelDesign.Size = new System.Drawing.Size(187, 15);
-            this.lblLabelDesign.TabIndex = 130;
-            this.lblLabelDesign.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblLabelName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblLabelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLabelName.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblLabelName.Location = new System.Drawing.Point(14, 31);
+            this.lblLabelName.Name = "lblLabelName";
+            this.lblLabelName.Size = new System.Drawing.Size(187, 15);
+            this.lblLabelName.TabIndex = 130;
+            this.lblLabelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblAditional
             // 
@@ -938,7 +938,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.Label lblAditional;
-        private System.Windows.Forms.Label lblLabelDesign;
+        private System.Windows.Forms.Label lblLabelName;
         private System.Windows.Forms.Label lblTotalPrint;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.RichTextBox rtbLog;

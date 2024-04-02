@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using WOW_Fusion.Controllers;
 using WOW_Fusion.Models;
 
@@ -207,7 +208,7 @@ namespace WOW_Fusion.Services
         {
             try
             {
-                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessList, organizationId, workCenterId, string.Empty));
+                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessList, organizationId, workCenterId));
                 string response = await tskWorkOrders;
                 if (string.IsNullOrEmpty(response))
                 {
@@ -247,7 +248,7 @@ namespace WOW_Fusion.Services
             try
             {
                 DateTimeOffset now = DateTimeOffset.Now;
-                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessList, organizationId, workCenterId, now.ToString("yyyy-MM-dd HH:mm:ss")));
+                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessList, organizationId, workCenterId/*, now.ToString("yyyy-MM-dd HH:mm:ss")*/));
                 string response = await tskWorkOrders;
                 if (string.IsNullOrEmpty(response))
                 {
@@ -296,11 +297,11 @@ namespace WOW_Fusion.Services
             }
         }
 
-        public static async Task<JObject> LabelTamplate(string label)
+        public static async Task<JObject> LabelTamplate(string endpoint)
         {
             try
             {
-                Task<string> tskLabels = APIService.GetApexAsync(String.Format(EndPoints.LabelTamplate, label));
+                Task<string> tskLabels = APIService.GetApexAsync(endpoint);
                 string response = await tskLabels;
 
                 return JObject.Parse(response);
@@ -313,12 +314,16 @@ namespace WOW_Fusion.Services
             }
         }
 
-    }
+        public static List<WorkOrderShedule> OrderByPriority(List<WorkOrderShedule> ordersList, string workOrder)
+        {
+            PropertyInfo propInfo = typeof(WorkOrderShedule).GetProperty(workOrder);
+            if (propInfo == null)
+            {
+                throw new ArgumentException("Orden invalida");
+            }
 
-    public class WorkOrderShedule
-    {
-        public string WorkOrderNumber;
-        public DateTime PlannedStartDate;
-        public DateTime PlannedCompletionDate;
+            return ordersList.OrderBy(obj => propInfo.GetValue(obj, null)).ToList(); //OR OrderByDescending
+        }
+
     }
 }

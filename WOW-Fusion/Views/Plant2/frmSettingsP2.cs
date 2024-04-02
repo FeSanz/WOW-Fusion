@@ -59,6 +59,9 @@ namespace WOW_Fusion
 
             txtBoxIpPrinter.Text = Settings.Default.PrinterIP;
             txtBoxPortPrinter.Text = Settings.Default.PrinterPort.ToString();
+
+            txtRoll.Text = Settings.Default.RollToPrint.ToString();
+            txtPallet.Text = Settings.Default.PalletToPrint.ToString();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -67,7 +70,8 @@ namespace WOW_Fusion
     
             if(!string.IsNullOrEmpty(cmbWorkCenters.Text) && !string.IsNullOrEmpty(txtBoxArea.Text) &&
                 !string.IsNullOrEmpty(txtBoxIpWeighing.Text) && !string.IsNullOrEmpty(txtBoxPortWeighing.Text) &&
-                !string.IsNullOrEmpty(txtBoxIpPrinter.Text) && !string.IsNullOrEmpty(txtBoxPortPrinter.Text))
+                !string.IsNullOrEmpty(txtBoxIpPrinter.Text) && !string.IsNullOrEmpty(txtBoxPortPrinter.Text) &&
+                !string.IsNullOrEmpty(txtRoll.Text) && !string.IsNullOrEmpty(txtPallet.Text))
             {
                 Settings.Default.WorkCenterP2 = workCenterId;
 
@@ -76,6 +80,9 @@ namespace WOW_Fusion
 
                 Settings.Default.PrinterIP = txtBoxIpPrinter.Text;
                 Settings.Default.PrinterPort = int.Parse(txtBoxPortPrinter.Text);
+
+                Settings.Default.RollToPrint = int.Parse(txtRoll.Text);
+                Settings.Default.PalletToPrint = int.Parse(txtPallet.Text);
 
                 Settings.Default.Save();
 
@@ -122,6 +129,62 @@ namespace WOW_Fusion
 
             txtBoxArea.Text = ct["WorkAreaName"].ToString();
             workCenterId = ct["WorkCenterId"].ToString();
+        }
+
+        private void txtBoxPortWeighing_TextChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtBoxPortWeighing.Text, out _))
+            {
+                txtBoxPortWeighing.BackColor = Color.White;
+                lblStatus.Text = string.Empty;
+            }
+            else
+            {
+                txtBoxPortWeighing.BackColor = Color.LightSalmon;
+                lblStatus.Text = "Ingrese únicamente números";
+            }
+        }
+
+        private void txtBoxPortPrinter_TextChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtBoxPortPrinter.Text, out _))
+            {
+                txtBoxPortPrinter.BackColor = Color.White;
+                lblStatus.Text = string.Empty;
+            }
+            else
+            {
+                txtBoxPortPrinter.BackColor = Color.LightSalmon;
+                lblStatus.Text = "Ingrese únicamente números";
+            }
+        }
+
+        private void txtRoll_TextChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtRoll.Text, out _))
+            {
+                txtRoll.BackColor = Color.White;
+                lblStatus.Text = string.Empty;
+            }
+            else
+            {
+                txtRoll.BackColor = Color.LightSalmon;
+                lblStatus.Text = "Ingrese únicamente números";
+            }
+        }
+
+        private void txtPallet_TextChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtPallet.Text, out _))
+            {
+                txtPallet.BackColor = Color.White;
+                lblStatus.Text = string.Empty;
+            }
+            else
+            {
+                txtPallet.BackColor = Color.LightSalmon;
+                lblStatus.Text = "Ingrese únicamente números";
+            }
         }
     }
 }
