@@ -51,7 +51,7 @@ namespace WOW_Fusion.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error [WorkOrdersList]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "[Error] Lista de ordenes", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }

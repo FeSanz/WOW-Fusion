@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -33,7 +34,7 @@ namespace WOW_Fusion.Services
             return labels;
         }
 
-        public static Stream UpdateLabelLabelary(int item, string labelType)
+        public static async Task<Stream> UpdateLabelLabelary(int item, string labelType)
         {
             Stream responseStream;
             if (string.IsNullOrEmpty(zplTemplate) && string.IsNullOrEmpty(zplPalletTemplate))
@@ -45,15 +46,42 @@ namespace WOW_Fusion.Services
                 try
                 {
                     string zpl = labelType.Equals("ROLL") ? ReplaceZplRoll(item) : labelType.Equals("BOX") ? ReplaceZplBox(item) : ReplaceZplPallet(item);
-                    var request = (HttpWebRequest)WebRequest.Create(String.Format(Constants.LaberalyUrl, zpl));
-                    var response = (HttpWebResponse)request.GetResponse();
-                    //using (HttpWebResponse response = await request.GetResponseAsync())
-                    responseStream = response.GetResponseStream();
+                    if (!string.IsNullOrEmpty(zpl))
+                    {
+                        WebRequest request = WebRequest.Create(String.Format(Constants.LaberalyUrl, zpl));
+                        WebResponse response = await request.GetResponseAsync();
+                        responseStream = response.GetResponseStream();
+                        responseStream = (responseStream != null && responseStream != Stream.Null) ? responseStream : null;
+                    }
+                    else
+                    {
+                        responseStream = null;
+                    }
+
                 }
                 catch (WebException ex)
                 {
-                    responseStream = null;
-                    NotifierController.DetailError("Error labelary Update ", ex.Message);
+                    Bitmap image = Resources.empty;
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        image.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                        byte[] imageData = memoryStream.ToArray();
+                        responseStream = new MemoryStream(imageData);
+                    }
+
+                    Console.WriteLine($"Error al procesar previsualización de etiqueta. {ex.Message} [{DateService.Today()}]", Color.Red);
+                }
+            }
+
+            if (responseStream == null || responseStream == Stream.Null)
+            {
+                Bitmap image = Resources.empty;
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    image.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                    byte[] imageData = memoryStream.ToArray();
+                    responseStream = new MemoryStream(imageData);
+                    Console.WriteLine($"Previsualización de etiqueta no disponible [{DateService.Today()}]", Color.Black);
                 }
             }
 

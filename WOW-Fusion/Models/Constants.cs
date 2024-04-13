@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Drawing;
 using System.Text;
 
 namespace WOW_Fusion
 {
     internal static class Constants
     {
-        //ID Organizaciones
-        public const string Plant1Id = "300000002650034";
-        public const string Plant2Id = "300000002650049";
-        public const string Plant3Id = "300000002650061";
+        //ID Organizaciones TEST
+        public const string Plant1Id = "300000003173662";
+        public const string Plant2Id = "300000003173674";
+        public const string Plant3Id = "300000003173686";
+
+        //ID Organizaciones PRODUCCION
+        /*public const string Plant1Id = "300000003173662";
+        public const string Plant2Id = "300000003173674";
+        public const string Plant3Id = "300000003173686";*/
 
         //frmLoading
         public static string pop = "Procesando...";
@@ -48,16 +54,7 @@ namespace WOW_Fusion
                                                 ""PURCHASEORDER"": """",
                                                 ""ADDRESS"": """",
                                                 ""EMAIL"": """",
-                                                ""UPCA"": """",
-                                                ""ATTRIBUTTE01"": """",
-                                                ""ATTRIBUTTE03"": """",
-                                                ""ATTRIBUTTE04"": """",
-                                                ""ATTRIBUTTE05"": """",
-                                                ""ATTRIBUTTE06"": """",
-                                                ""ATTRIBUTTE07"": """",
-                                                ""ATTRIBUTTE08"": """",
-                                                ""ATTRIBUTTE09"": """",
-                                                ""ATTRIBUTTE10"": """"
+                                                ""UPCA"": """"
                                           }";
     }
 }

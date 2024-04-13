@@ -105,7 +105,7 @@ namespace WOW_Fusion.Services
         public static string Today()
         {
             DateTimeOffset today = DateTimeOffset.Now;
-            return today.ToString("dd-MM-yyyy HH:mm:ss");
+            return today.ToString("dd/MM/yy HH:mm:ss");
         }
 
         public static string LocalDate(string dateISO8601)

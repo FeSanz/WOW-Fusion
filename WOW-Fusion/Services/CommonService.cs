@@ -41,7 +41,7 @@ namespace WOW_Fusion.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error [OneItem]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "[1] Error de consulta", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -55,7 +55,7 @@ namespace WOW_Fusion.Services
 
                 if (string.IsNullOrEmpty(response))
                 {
-                    AppController.Exit("Sin recursos de producción, la aplicacion se cerrará");
+                    NotifierController.Error("Sin recursos de producción, la aplicacion no funcionará adecuadamente");
                     return null;
                 }
 
@@ -63,7 +63,7 @@ namespace WOW_Fusion.Services
 
                 if ((int)productionResoucesMachines["count"] == 0)
                 {
-                    AppController.Exit("Sin recursos de producción, la aplicacion se cerrará");
+                    NotifierController.Error("Sin recursos de producción, la aplicacion no funcionará adecuadamente");
                     return null;
                 }
                 else
@@ -74,7 +74,7 @@ namespace WOW_Fusion.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error [ProductionResources]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "[Error] Recursos de producción", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -106,7 +106,7 @@ namespace WOW_Fusion.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error [WorkCenters]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "[Error] Centros de trabajo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -145,7 +145,7 @@ namespace WOW_Fusion.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error [WorkOrdersList]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "[Error] Lista de ordenes", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -185,7 +185,7 @@ namespace WOW_Fusion.Services
                         foreach (var item in schedule)
                         {
                             var i = Array.IndexOf(schedule.ToArray(), item);
-                            Console.WriteLine((i+1) + ". " + item.WorkOrderNumber.ToString() +" -> "+ item.PlannedStartDate.ToString() + " - " + item.PlannedCompletionDate.ToString());
+                            //Console.WriteLine((i+1) + ". " + item.WorkOrderNumber.ToString() +" -> "+ item.PlannedStartDate.ToString() + " - " + item.PlannedCompletionDate.ToString());
                         }
 
                         return schedule;
@@ -199,7 +199,7 @@ namespace WOW_Fusion.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error [WorkOrdersList]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error. " + ex.Message, "[Error] Lista de ordenes", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -238,7 +238,7 @@ namespace WOW_Fusion.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error [WorkOrdersList]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "[Error] Lista de ordes", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -273,13 +273,15 @@ namespace WOW_Fusion.Services
                                 PlannedCompletionDate = DateTime.Parse(item.PlannedCompletionDate.ToString())
                             });
                         }
+
+                        //Ordenar por fecha de inicio
                         schedule.Sort((a, b) => a.PlannedStartDate.CompareTo(b.PlannedStartDate));
 
-                        foreach (var item in schedule)
+                        /*foreach (var item in schedule)
                         {
                             var i = Array.IndexOf(schedule.ToArray(), item);
                             Console.WriteLine((i + 1) + ". " + item.WorkOrderNumber.ToString() + " -> " + item.PlannedStartDate.ToString() + " - " + item.PlannedCompletionDate.ToString());
-                        }
+                        }*/
 
                         return schedule;
                     }
@@ -292,7 +294,7 @@ namespace WOW_Fusion.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error [WorkOrdersList]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "[Error] Lista de ordes", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -309,7 +311,7 @@ namespace WOW_Fusion.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error [Label]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error al obtener etiquetas", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }

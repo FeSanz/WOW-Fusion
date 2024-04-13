@@ -97,7 +97,7 @@ namespace WOW_Fusion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ZmVsaXBlLmFudG9uaW9AaS1jb25kb3IuY29tOkNvbmRvclhSMTEy")]
+        [global::System.Configuration.DefaultSettingValueAttribute("QVBFWCBJT1Q6Q29uZG9yMjAyNA==")]
         public string Credentials {
             get {
                 return ((string)(this["Credentials"]));
@@ -121,7 +121,7 @@ namespace WOW_Fusion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("300000003523428")]
+        [global::System.Configuration.DefaultSettingValueAttribute("300000003822435")]
         public string WorkCenterP2 {
             get {
                 return ((string)(this["WorkCenterP2"]));

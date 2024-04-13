@@ -109,7 +109,7 @@
             this.btnLogin.ForeColor = System.Drawing.Color.White;
             this.btnLogin.Location = new System.Drawing.Point(32, 324);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(236, 30);
+            this.btnLogin.Size = new System.Drawing.Size(236, 37);
             this.btnLogin.TabIndex = 6;
             this.btnLogin.Text = "Iniciar Sesión";
             this.btnLogin.UseVisualStyleBackColor = false;
@@ -119,7 +119,7 @@
             // 
             this.lblExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblExit.ForeColor = System.Drawing.Color.DarkOrange;
-            this.lblExit.Location = new System.Drawing.Point(32, 366);
+            this.lblExit.Location = new System.Drawing.Point(32, 369);
             this.lblExit.Name = "lblExit";
             this.lblExit.Size = new System.Drawing.Size(236, 17);
             this.lblExit.TabIndex = 7;

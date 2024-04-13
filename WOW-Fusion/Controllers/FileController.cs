@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,7 @@ namespace WOW_Fusion.Controllers
                         {
                             fs.Close();
                         }
-                        Console.WriteLine($"{DateService.Today()} > Archivo OT escritura creado");
+                        
                         await Write(key, path);
                     }
                 }
@@ -51,7 +52,7 @@ namespace WOW_Fusion.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{DateService.Today()} > Error de escritura. {ex.Message}");
+                Console.WriteLine($"Error de escritura. {ex.Message} [{DateService.Today()}]", Color.Red);
             }
         }
 
@@ -84,7 +85,6 @@ namespace WOW_Fusion.Controllers
                         {
                             fs.Close();
                         }
-                        Console.WriteLine($"{DateService.Today()} > Archivo OT lectura creado");
 
                         ContentFile(path);
                         return orders;
@@ -99,7 +99,7 @@ namespace WOW_Fusion.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{DateService.Today()} > Error de lectura. {ex.Message}");
+                Console.WriteLine($"Error de lectura. {ex.Message} [{DateService.Today()}]", Color.Red);
                 return orders;
             }
         }

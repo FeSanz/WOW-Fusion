@@ -15,7 +15,7 @@ namespace WOW_Fusion.Controllers
         private static PopupNotifier pop = new PopupNotifier();
         public static void Success(string content)
         {
-
+            pop.TitleText = "";
             pop.ContentText = content;
             pop.ContentColor = Color.Black;
             pop.ContentFont = new Font("Arial", 12);
@@ -32,7 +32,7 @@ namespace WOW_Fusion.Controllers
         }
         public static void Error(string content)
         {
-
+            pop.TitleText = "";
             pop.ContentText = content;
             pop.ContentColor = Color.Black;
             pop.ContentFont = new Font("Arial", 12);
@@ -49,6 +49,7 @@ namespace WOW_Fusion.Controllers
         }
         public static void Warning(string content)
         {
+            pop.TitleText = "";
             pop.ContentText = content;
             pop.ContentColor = Color.Black;
             pop.ContentFont = new Font("Arial", 12);

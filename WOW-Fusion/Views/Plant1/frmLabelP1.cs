@@ -283,7 +283,7 @@ namespace WOW_Fusion
                         lblResourceName.Text = resource.ResourceName.ToString();
 
                         string akaCustomer = "STANDARD";
-                        dynamic aka = await LabelService.LabelInfo(Constants.Plant2Id, akaCustomer); //Obtener template de etiqueta APEX
+                        dynamic aka = await LabelService.LabelInfo(Constants.Plant1Id, akaCustomer); //Obtener template de etiqueta APEX
                         lblLabelName.Text = aka.LabelName.ToString();
 
                         FillLabel();
@@ -420,7 +420,7 @@ namespace WOW_Fusion
             }
         }
 
-        private void FillLabel()
+        private async void FillLabel()
         {
             if (!string.IsNullOrEmpty(lblItemNumber.Text))
             {
@@ -429,7 +429,7 @@ namespace WOW_Fusion
                 label.ITEMNUMBER = string.IsNullOrEmpty(lblItemNumber.Text) ? " " : lblItemNumber.Text;
                 label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;
                 label.ENGLISHDESCRIPTION = string.IsNullOrEmpty(lblItemDescriptionEnglish.Text) ? " " : lblItemDescriptionEnglish.Text;
-                label.WORKORDER = string.IsNullOrEmpty(cmbWorkOrders.Text) ? " " : cmbWorkOrders.Text.Substring(7);
+                label.WORKORDER = string.IsNullOrEmpty(cmbWorkOrders.Text) ? " " : cmbWorkOrders.Text/*.Substring(7)*/;
                 label.UPCA = string.IsNullOrEmpty(itemId) ? $"{Constants.UPCPrefix}0000" : $"{Constants.UPCPrefix}{itemId.Substring(itemId.Length - 4)}";
                 label.EQU = string.IsNullOrEmpty(lblResourceCode.Text) ? " ": lblResourceCode.Text;
                 label.DATE = DateService.Now();
@@ -437,7 +437,7 @@ namespace WOW_Fusion
 
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
 
-                picLabel.Image = Image.FromStream(LabelService.UpdateLabelLabelary(1, "BOX"));
+                picLabel.Image = Image.FromStream(await LabelService.UpdateLabelLabelary(1, "BOX"));
                 btnPrint.Enabled = true;
             }
         }

@@ -12,6 +12,7 @@ using System.Net;
 using WOW_Fusion.Services;
 using System.Threading;
 using System.Runtime.InteropServices.ComTypes;
+using System.Drawing;
 
 namespace WOW_Fusion
 {
@@ -52,7 +53,7 @@ namespace WOW_Fusion
                                 response = SecondLineResponse(response);
                                 break;
                             default:
-                                response = "(1) " + readLine;
+                                response = "[1] " + readLine;
                                 break;
                         }
                     }
@@ -73,7 +74,7 @@ namespace WOW_Fusion
             catch (Exception ex)
             {
                 response = "EX";
-                Console.WriteLine($"{DateService.Today()} -> Error Socket Báscula. {ex.Message}");
+                Console.WriteLine($"Error de comunicación a báscula. {ex.Message} [{DateService.Today()}]", Color.Red);
                 _client = null;
                 _stream = null;
             }
@@ -110,7 +111,7 @@ namespace WOW_Fusion
                     response = secondLineResponse.Substring(6, 8).Trim();
                     break;
                 default:
-                    response = "(2) " + secondLineResponse;
+                    response = "[2] " + secondLineResponse;
                     break;
             }
             return response;
@@ -136,7 +137,7 @@ namespace WOW_Fusion
                         if (bytesRead == 0)
                         {
                             // No se han leído bytes, la conexión probablemente se ha cerrado.
-                            Console.WriteLine($"{DateService.Today()} -> Se ha cerrado la conexión a la báscula");
+                            Console.WriteLine($"Se ha cerrado la conexión a la báscula [{DateService.Today()}]");
                             return null;
                         }
 
@@ -158,7 +159,7 @@ namespace WOW_Fusion
                     // Comprobar si se ha cancelado la operación debido al tiempo de espera
                     if (cts.Token.IsCancellationRequested)
                     {
-                        Console.WriteLine($"{DateService.Today()} -> Tiempo de espera excedido en la lécura de la báscula");
+                        Console.WriteLine($"Tiempo de espera excedido en la lécura de la báscula [{DateService.Today()}]");
                         return "EX";
                     }
 
@@ -168,7 +169,7 @@ namespace WOW_Fusion
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{DateService.Today()} -> Error en lectura de la báscula. {ex.Message}");
+                Console.WriteLine($"Error en lectura de la báscula. {ex.Message} [{DateService.Today()}]");
                 return "EX";
             }
         }

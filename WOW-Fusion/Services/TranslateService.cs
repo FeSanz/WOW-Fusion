@@ -9,6 +9,7 @@ using Google.Cloud.Translation.V2;
 using Newtonsoft.Json;
 using static Google.Apis.Requests.BatchRequest;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace WOW_Fusion.Services
 {
@@ -47,7 +48,7 @@ namespace WOW_Fusion.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error [Translate]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine($"Error en traducción. {ex.Message} [{DateService.Today()}]", Color.Red);
                 return "";
             }
         }

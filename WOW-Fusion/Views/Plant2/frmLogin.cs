@@ -36,10 +36,8 @@ namespace WOW_Fusion.Views.Plant2
                     //Settings.Default.Credentials = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(txtUser.Text + ":" + txtPassword.Text));
                     //Settings.Default.Save();
 
-                    frmLabelP2 frmLabelP2 = new frmLabelP2();
                     frmSettingsP2 frmSettingsP2 = new frmSettingsP2();
                     frmSettingsP2.StartPosition = FormStartPosition.CenterParent;
-                    frmSettingsP2.FormClosed += frmLabelP2.FrmSettingsP2Closed;
                     frmSettingsP2.ShowDialog();
 
                     Close();

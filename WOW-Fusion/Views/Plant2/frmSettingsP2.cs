@@ -27,10 +27,10 @@ namespace WOW_Fusion
             InitializeFusionData();
         }
 
-        private async void InitializeFusionData()
+        public async void InitializeFusionData()
         {
             //Obtener datos de centro de trabajo
-            /*dynamic wc = await CommonService.OneItem(String.Format(EndPoints.WorkCentersById, Constants.Plant2Id, Settings.Default.WorkCenterP2));
+            dynamic wc = await CommonService.OneItem(String.Format(EndPoints.WorkCentersById, Constants.Plant2Id, Settings.Default.WorkCenterP2));
 
             if (wc != null)
             {
@@ -42,16 +42,13 @@ namespace WOW_Fusion
             else
             {
                 NotifierController.Warning("No se encontraron centros de trabajo");
-            }*/
-
-            cmbWorkCenters.Items.Clear();
-            cmbWorkCenters.Items.Add("LAMINADORA L01");
-            cmbWorkCenters.SelectedIndex = 0;
-            txtBoxArea.Text = "LAMINADORA L01";
+            }
         }
 
         private void frmSettingsP2_Load(object sender, EventArgs e)
         {
+            Console.WriteLine($"{DateService.Today()} > Acceso a configuración", Color.Black);
+
             workCenterId = Settings.Default.WorkCenterP2;
 
             txtBoxIpWeighing.Text = Settings.Default.WeighingIP;
@@ -87,7 +84,8 @@ namespace WOW_Fusion
                 Settings.Default.Save();
 
                 NotifierController.Success("Datos actualizados");
-                this.Close();
+
+                Close();
             }
             else
             {
@@ -98,7 +96,7 @@ namespace WOW_Fusion
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private async void cmbWorkCenters_DropDown(object sender, EventArgs e)
@@ -184,6 +182,18 @@ namespace WOW_Fusion
             {
                 txtPallet.BackColor = Color.LightSalmon;
                 lblStatus.Text = "Ingrese únicamente números";
+            }
+        }
+
+        public event EventHandler FormClosedEvent;
+        private void frmSettingsP2_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            FormClosedEvent?.Invoke(this, EventArgs.Empty);
+
+            frmLabelP2 frmLabelP2 = Application.OpenForms.OfType<frmLabelP2>().FirstOrDefault();
+            if (frmLabelP2 != null)
+            {
+                frmLabelP2.InitializeFusionData();
             }
         }
     }

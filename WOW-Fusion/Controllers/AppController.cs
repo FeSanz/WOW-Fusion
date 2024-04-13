@@ -19,19 +19,14 @@ namespace WOW_Fusion.Controllers
         public static void ToolTip(Control control, string message)
         {
             ToolTip toolTip = new ToolTip();
-            toolTip.ShowAlways = true;
+            toolTip.ShowAlways = false;
             toolTip.SetToolTip(control, message);
         }
 
         public static string ComputeHash(string input, HashAlgorithm algorithm)
         {
-            // Convert the input string to a byte array
             byte[] inputBytes = Encoding.ASCII.GetBytes(input);
-
-            // Compute the hash value
             byte[] hashBytes = algorithm.ComputeHash(inputBytes);
-
-            // Convert the byte array to a hexadecimal string
             StringBuilder hashStringBuilder = new StringBuilder();
             for (int i = 0; i < hashBytes.Length; i++)
             {

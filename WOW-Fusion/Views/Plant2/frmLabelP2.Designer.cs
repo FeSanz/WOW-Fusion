@@ -52,7 +52,6 @@
             this.lblPrimaryProductQuantity = new System.Windows.Forms.Label();
             this.lblUoM = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBoxLotControl = new System.Windows.Forms.CheckBox();
             this.lblItemDescriptionEnglish = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -60,21 +59,18 @@
             this.lblItemNumber = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.lblItemDescription = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.lblEquipmentInstanceName = new System.Windows.Forms.Label();
-            this.lblEquipmentInstanceCode = new System.Windows.Forms.Label();
             this.lblCompletedQuantity = new System.Windows.Forms.Label();
             this.lblPlannedCompletionDate = new System.Windows.Forms.Label();
             this.lblPlannedStartDate = new System.Windows.Forms.Label();
             this.cmbWorkOrders = new System.Windows.Forms.ComboBox();
             this.picBoxWaitWO = new System.Windows.Forms.PictureBox();
+            this.lblWOStatus = new System.Windows.Forms.Label();
             this.lblPalletTotal = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.lblRollOnPallet = new System.Windows.Forms.Label();
@@ -107,7 +103,6 @@
             this.lblWorkCenterName = new System.Windows.Forms.Label();
             this.MenuShipWeight = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.recalcularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtBoxConsole = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lblAkaItem = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
@@ -160,6 +155,8 @@
             this.btnSettings = new System.Windows.Forms.Button();
             this.pbYellow = new System.Windows.Forms.PictureBox();
             this.pbRed = new System.Windows.Forms.PictureBox();
+            this.richTextConsole = new System.Windows.Forms.RichTextBox();
+            this.TipStatusWO = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgRolls)).BeginInit();
@@ -179,7 +176,7 @@
             // 
             this.lblResourceName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblResourceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResourceName.Location = new System.Drawing.Point(244, 111);
+            this.lblResourceName.Location = new System.Drawing.Point(244, 112);
             this.lblResourceName.Name = "lblResourceName";
             this.lblResourceName.Size = new System.Drawing.Size(190, 15);
             this.lblResourceName.TabIndex = 25;
@@ -189,7 +186,7 @@
             // 
             this.lblResourceCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblResourceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResourceCode.Location = new System.Drawing.Point(20, 113);
+            this.lblResourceCode.Location = new System.Drawing.Point(20, 112);
             this.lblResourceCode.Name = "lblResourceCode";
             this.lblResourceCode.Size = new System.Drawing.Size(190, 15);
             this.lblResourceCode.TabIndex = 24;
@@ -202,7 +199,7 @@
             this.lblPrimaryProductQuantity.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.lblPrimaryProductQuantity.Location = new System.Drawing.Point(244, 33);
             this.lblPrimaryProductQuantity.Name = "lblPrimaryProductQuantity";
-            this.lblPrimaryProductQuantity.Size = new System.Drawing.Size(83, 20);
+            this.lblPrimaryProductQuantity.Size = new System.Drawing.Size(94, 20);
             this.lblPrimaryProductQuantity.TabIndex = 22;
             this.lblPrimaryProductQuantity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -218,7 +215,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.checkBoxLotControl);
             this.groupBox1.Controls.Add(this.lblItemDescriptionEnglish);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label12);
@@ -226,16 +222,12 @@
             this.groupBox1.Controls.Add(this.lblItemNumber);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.lblItemDescription);
-            this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.label25);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.lblEquipmentInstanceName);
-            this.groupBox1.Controls.Add(this.lblEquipmentInstanceCode);
             this.groupBox1.Controls.Add(this.lblResourceName);
             this.groupBox1.Controls.Add(this.lblResourceCode);
             this.groupBox1.Controls.Add(this.lblPrimaryProductQuantity);
@@ -245,32 +237,20 @@
             this.groupBox1.Controls.Add(this.cmbWorkOrders);
             this.groupBox1.Controls.Add(this.picBoxWaitWO);
             this.groupBox1.Controls.Add(this.lblUoM);
+            this.groupBox1.Controls.Add(this.lblWOStatus);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(22, 78);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(462, 307);
+            this.groupBox1.Size = new System.Drawing.Size(462, 245);
             this.groupBox1.TabIndex = 61;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos de producción";
-            // 
-            // checkBoxLotControl
-            // 
-            this.checkBoxLotControl.AutoSize = true;
-            this.checkBoxLotControl.Enabled = false;
-            this.checkBoxLotControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxLotControl.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.checkBoxLotControl.Location = new System.Drawing.Point(20, 282);
-            this.checkBoxLotControl.Name = "checkBoxLotControl";
-            this.checkBoxLotControl.Size = new System.Drawing.Size(47, 17);
-            this.checkBoxLotControl.TabIndex = 137;
-            this.checkBoxLotControl.Text = "Lote";
-            this.checkBoxLotControl.UseVisualStyleBackColor = true;
             // 
             // lblItemDescriptionEnglish
             // 
             this.lblItemDescriptionEnglish.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblItemDescriptionEnglish.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemDescriptionEnglish.Location = new System.Drawing.Point(21, 254);
+            this.lblItemDescriptionEnglish.Location = new System.Drawing.Point(21, 209);
             this.lblItemDescriptionEnglish.Name = "lblItemDescriptionEnglish";
             this.lblItemDescriptionEnglish.Size = new System.Drawing.Size(414, 22);
             this.lblItemDescriptionEnglish.TabIndex = 18;
@@ -293,7 +273,7 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label12.Location = new System.Drawing.Point(180, 239);
+            this.label12.Location = new System.Drawing.Point(184, 194);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(94, 13);
             this.label12.TabIndex = 17;
@@ -316,7 +296,7 @@
             // 
             this.lblItemNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblItemNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemNumber.Location = new System.Drawing.Point(20, 181);
+            this.lblItemNumber.Location = new System.Drawing.Point(21, 141);
             this.lblItemNumber.Name = "lblItemNumber";
             this.lblItemNumber.Size = new System.Drawing.Size(414, 15);
             this.lblItemNumber.TabIndex = 16;
@@ -339,53 +319,29 @@
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label17.Location = new System.Drawing.Point(202, 167);
+            this.label17.Location = new System.Drawing.Point(206, 127);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(50, 13);
             this.label17.TabIndex = 15;
             this.label17.Text = "Producto";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label4.Location = new System.Drawing.Point(295, 136);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(90, 13);
-            this.label4.TabIndex = 130;
-            this.label4.Text = "Nombre Instancia";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // lblItemDescription
             // 
             this.lblItemDescription.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblItemDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemDescription.Location = new System.Drawing.Point(20, 213);
+            this.lblItemDescription.Location = new System.Drawing.Point(21, 170);
             this.lblItemDescription.Name = "lblItemDescription";
             this.lblItemDescription.Size = new System.Drawing.Size(414, 22);
             this.lblItemDescription.TabIndex = 6;
             this.lblItemDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label16.Location = new System.Drawing.Point(73, 136);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(86, 13);
-            this.label16.TabIndex = 129;
-            this.label16.Text = "Código Instancia";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label25
             // 
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label25.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label25.Location = new System.Drawing.Point(196, 197);
+            this.label25.Location = new System.Drawing.Point(200, 157);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(63, 13);
             this.label25.TabIndex = 4;
@@ -397,7 +353,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label3.Location = new System.Drawing.Point(312, 59);
+            this.label3.Location = new System.Drawing.Point(312, 60);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(54, 13);
             this.label3.TabIndex = 128;
@@ -408,7 +364,7 @@
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label15.Location = new System.Drawing.Point(83, 59);
+            this.label15.Location = new System.Drawing.Point(83, 60);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(65, 13);
             this.label15.TabIndex = 127;
@@ -420,7 +376,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label2.Location = new System.Drawing.Point(296, 98);
+            this.label2.Location = new System.Drawing.Point(296, 99);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 13);
             this.label2.TabIndex = 126;
@@ -432,41 +388,21 @@
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label14.Location = new System.Drawing.Point(74, 97);
+            this.label14.Location = new System.Drawing.Point(78, 93);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(83, 13);
             this.label14.TabIndex = 125;
             this.label14.Text = "Código Recurso";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblEquipmentInstanceName
-            // 
-            this.lblEquipmentInstanceName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblEquipmentInstanceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEquipmentInstanceName.Location = new System.Drawing.Point(244, 150);
-            this.lblEquipmentInstanceName.Name = "lblEquipmentInstanceName";
-            this.lblEquipmentInstanceName.Size = new System.Drawing.Size(190, 15);
-            this.lblEquipmentInstanceName.TabIndex = 29;
-            this.lblEquipmentInstanceName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lblEquipmentInstanceCode
-            // 
-            this.lblEquipmentInstanceCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblEquipmentInstanceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEquipmentInstanceCode.Location = new System.Drawing.Point(20, 152);
-            this.lblEquipmentInstanceCode.Name = "lblEquipmentInstanceCode";
-            this.lblEquipmentInstanceCode.Size = new System.Drawing.Size(190, 15);
-            this.lblEquipmentInstanceCode.TabIndex = 28;
-            this.lblEquipmentInstanceCode.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // lblCompletedQuantity
             // 
             this.lblCompletedQuantity.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblCompletedQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCompletedQuantity.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblCompletedQuantity.Location = new System.Drawing.Point(348, 32);
+            this.lblCompletedQuantity.Location = new System.Drawing.Point(341, 33);
             this.lblCompletedQuantity.Name = "lblCompletedQuantity";
-            this.lblCompletedQuantity.Size = new System.Drawing.Size(83, 20);
+            this.lblCompletedQuantity.Size = new System.Drawing.Size(94, 20);
             this.lblCompletedQuantity.TabIndex = 9;
             this.lblCompletedQuantity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -474,7 +410,7 @@
             // 
             this.lblPlannedCompletionDate.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblPlannedCompletionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlannedCompletionDate.Location = new System.Drawing.Point(244, 75);
+            this.lblPlannedCompletionDate.Location = new System.Drawing.Point(244, 76);
             this.lblPlannedCompletionDate.Name = "lblPlannedCompletionDate";
             this.lblPlannedCompletionDate.Size = new System.Drawing.Size(190, 15);
             this.lblPlannedCompletionDate.TabIndex = 7;
@@ -514,6 +450,18 @@
             this.picBoxWaitWO.TabIndex = 120;
             this.picBoxWaitWO.TabStop = false;
             this.picBoxWaitWO.Visible = false;
+            // 
+            // lblWOStatus
+            // 
+            this.lblWOStatus.AutoSize = true;
+            this.lblWOStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWOStatus.ForeColor = System.Drawing.Color.DarkGray;
+            this.lblWOStatus.Location = new System.Drawing.Point(2, 33);
+            this.lblWOStatus.Name = "lblWOStatus";
+            this.lblWOStatus.Size = new System.Drawing.Size(20, 20);
+            this.lblWOStatus.TabIndex = 135;
+            this.lblWOStatus.Text = "●";
+            this.lblWOStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblPalletTotal
             // 
@@ -575,7 +523,7 @@
             this.lblLabelName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblLabelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLabelName.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblLabelName.Location = new System.Drawing.Point(244, 33);
+            this.lblLabelName.Location = new System.Drawing.Point(244, 30);
             this.lblLabelName.Name = "lblLabelName";
             this.lblLabelName.Size = new System.Drawing.Size(188, 15);
             this.lblLabelName.TabIndex = 134;
@@ -586,7 +534,7 @@
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label19.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label19.Location = new System.Drawing.Point(320, 18);
+            this.label19.Location = new System.Drawing.Point(320, 15);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(46, 13);
             this.label19.TabIndex = 73;
@@ -636,6 +584,7 @@
             this.dgRolls.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgRolls.RowHeadersVisible = false;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.Transparent;
             dataGridViewCellStyle7.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black;
@@ -643,8 +592,8 @@
             this.dgRolls.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgRolls.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgRolls.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Control;
-            this.dgRolls.RowTemplate.Height = 40;
-            this.dgRolls.Size = new System.Drawing.Size(462, 465);
+            this.dgRolls.RowTemplate.Height = 25;
+            this.dgRolls.Size = new System.Drawing.Size(462, 398);
             this.dgRolls.TabIndex = 66;
             this.dgRolls.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgWeights_CellClick);
             this.dgRolls.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgWeights_CellFormatting);
@@ -698,9 +647,9 @@
             // 
             this.groupBox2.Controls.Add(this.picLabelRoll);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(503, 563);
+            this.groupBox2.Location = new System.Drawing.Point(503, 500);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(462, 256);
+            this.groupBox2.Size = new System.Drawing.Size(462, 272);
             this.groupBox2.TabIndex = 65;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Etiqueta Rollo";
@@ -890,21 +839,6 @@
             this.recalcularToolStripMenuItem.Text = "Pesar";
             this.recalcularToolStripMenuItem.Click += new System.EventHandler(this.ReWeightMenuItem_Click);
             // 
-            // txtBoxConsole
-            // 
-            this.txtBoxConsole.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.txtBoxConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtBoxConsole.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBoxConsole.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.txtBoxConsole.Location = new System.Drawing.Point(981, 406);
-            this.txtBoxConsole.Multiline = true;
-            this.txtBoxConsole.Name = "txtBoxConsole";
-            this.txtBoxConsole.ReadOnly = true;
-            this.txtBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtBoxConsole.Size = new System.Drawing.Size(462, 143);
-            this.txtBoxConsole.TabIndex = 135;
-            this.txtBoxConsole.TextChanged += new System.EventHandler(this.txtBoxConsole_TextChanged);
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.lblLabelName);
@@ -918,9 +852,9 @@
             this.groupBox3.Controls.Add(this.lblAkaCustomer);
             this.groupBox3.Controls.Add(this.lblAkaOrder);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(21, 391);
+            this.groupBox3.Location = new System.Drawing.Point(21, 332);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(462, 159);
+            this.groupBox3.Size = new System.Drawing.Size(462, 151);
             this.groupBox3.TabIndex = 134;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "AKA";
@@ -929,7 +863,7 @@
             // 
             this.lblAkaItem.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblAkaItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAkaItem.Location = new System.Drawing.Point(18, 95);
+            this.lblAkaItem.Location = new System.Drawing.Point(18, 92);
             this.lblAkaItem.Name = "lblAkaItem";
             this.lblAkaItem.Size = new System.Drawing.Size(414, 15);
             this.lblAkaItem.TabIndex = 16;
@@ -940,7 +874,7 @@
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label27.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label27.Location = new System.Drawing.Point(200, 81);
+            this.label27.Location = new System.Drawing.Point(200, 78);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(53, 13);
             this.label27.TabIndex = 15;
@@ -951,7 +885,7 @@
             // 
             this.lblAkaDescription.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblAkaDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAkaDescription.Location = new System.Drawing.Point(18, 127);
+            this.lblAkaDescription.Location = new System.Drawing.Point(18, 124);
             this.lblAkaDescription.Name = "lblAkaDescription";
             this.lblAkaDescription.Size = new System.Drawing.Size(414, 15);
             this.lblAkaDescription.TabIndex = 6;
@@ -962,7 +896,7 @@
             this.label31.AutoSize = true;
             this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label31.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label31.Location = new System.Drawing.Point(194, 111);
+            this.label31.Location = new System.Drawing.Point(194, 108);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(63, 13);
             this.label31.TabIndex = 4;
@@ -974,7 +908,7 @@
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label32.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label32.Location = new System.Drawing.Point(206, 48);
+            this.label32.Location = new System.Drawing.Point(206, 45);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(39, 13);
             this.label32.TabIndex = 128;
@@ -985,7 +919,7 @@
             this.label33.AutoSize = true;
             this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label33.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label33.Location = new System.Drawing.Point(96, 16);
+            this.label33.Location = new System.Drawing.Point(96, 13);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(36, 13);
             this.label33.TabIndex = 127;
@@ -996,7 +930,7 @@
             // 
             this.lblAkaCustomer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblAkaCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAkaCustomer.Location = new System.Drawing.Point(17, 64);
+            this.lblAkaCustomer.Location = new System.Drawing.Point(17, 61);
             this.lblAkaCustomer.Name = "lblAkaCustomer";
             this.lblAkaCustomer.Size = new System.Drawing.Size(417, 15);
             this.lblAkaCustomer.TabIndex = 7;
@@ -1006,7 +940,7 @@
             // 
             this.lblAkaOrder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblAkaOrder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAkaOrder.Location = new System.Drawing.Point(17, 33);
+            this.lblAkaOrder.Location = new System.Drawing.Point(17, 30);
             this.lblAkaOrder.Name = "lblAkaOrder";
             this.lblAkaOrder.Size = new System.Drawing.Size(190, 15);
             this.lblAkaOrder.TabIndex = 6;
@@ -1047,7 +981,7 @@
             this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Controls.Add(this.lblWeightUOMRoll);
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(22, 556);
+            this.groupBox4.Location = new System.Drawing.Point(22, 499);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(462, 273);
             this.groupBox4.TabIndex = 135;
@@ -1320,6 +1254,7 @@
             this.dgPallets.RowHeadersDefaultCellStyle = dataGridViewCellStyle16;
             this.dgPallets.RowHeadersVisible = false;
             dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.Transparent;
             dataGridViewCellStyle17.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.Black;
@@ -1327,8 +1262,8 @@
             this.dgPallets.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgPallets.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgPallets.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Control;
-            this.dgPallets.RowTemplate.Height = 40;
-            this.dgPallets.Size = new System.Drawing.Size(462, 289);
+            this.dgPallets.RowTemplate.Height = 25;
+            this.dgPallets.Size = new System.Drawing.Size(462, 398);
             this.dgPallets.TabIndex = 136;
             this.dgPallets.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgWeightsPallets_CellClick);
             this.dgPallets.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgPallets_CellFormatting);
@@ -1386,9 +1321,9 @@
             // 
             this.groupBox5.Controls.Add(this.picLabelPallet);
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox5.Location = new System.Drawing.Point(981, 563);
+            this.groupBox5.Location = new System.Drawing.Point(981, 500);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(462, 256);
+            this.groupBox5.Size = new System.Drawing.Size(462, 272);
             this.groupBox5.TabIndex = 137;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Etiqueta Palet";
@@ -1493,7 +1428,7 @@
             this.btnEndProcess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnEndProcess.FlatAppearance.BorderSize = 0;
             this.btnEndProcess.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEndProcess.Location = new System.Drawing.Point(1413, 375);
+            this.btnEndProcess.Location = new System.Drawing.Point(1405, 449);
             this.btnEndProcess.Name = "btnEndProcess";
             this.btnEndProcess.Size = new System.Drawing.Size(30, 28);
             this.btnEndProcess.TabIndex = 169;
@@ -1549,11 +1484,24 @@
             this.pbRed.TabIndex = 166;
             this.pbRed.TabStop = false;
             // 
+            // richTextConsole
+            // 
+            this.richTextConsole.BackColor = System.Drawing.SystemColors.Control;
+            this.richTextConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextConsole.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextConsole.Location = new System.Drawing.Point(21, 774);
+            this.richTextConsole.Name = "richTextConsole";
+            this.richTextConsole.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.richTextConsole.Size = new System.Drawing.Size(1422, 18);
+            this.richTextConsole.TabIndex = 170;
+            this.richTextConsole.Text = "v 1.0";
+            // 
             // frmLabelP2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1455, 836);
+            this.ClientSize = new System.Drawing.Size(1455, 800);
+            this.Controls.Add(this.richTextConsole);
             this.Controls.Add(this.btnEndProcess);
             this.Controls.Add(this.pbYellow);
             this.Controls.Add(this.pbRed);
@@ -1562,7 +1510,6 @@
             this.Controls.Add(this.lblOrganizationCode);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.btnSwapMode);
-            this.Controls.Add(this.txtBoxConsole);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.lblShift);
             this.Controls.Add(this.groupBox5);
@@ -1581,9 +1528,11 @@
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.lblMode);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "frmLabelP2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WOW Labels";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmLabelP2_FormClosing);
             this.Load += new System.EventHandler(this.frmLabelP2_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -1634,8 +1583,6 @@
         private System.Windows.Forms.Label lblPalletGrossKg;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblPalletNumber;
-        private System.Windows.Forms.Label lblEquipmentInstanceName;
-        private System.Windows.Forms.Label lblEquipmentInstanceCode;
         private System.Windows.Forms.PictureBox picLabelRoll;
         private System.Windows.Forms.PictureBox picBoxWaitWO;
         private System.Windows.Forms.Label label19;
@@ -1643,8 +1590,6 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label1;
@@ -1656,7 +1601,6 @@
         private System.Windows.Forms.PictureBox picLabelPallet;
         private System.Windows.Forms.Label lblLabelName;
         private System.Windows.Forms.ContextMenuStrip MenuShipWeight;
-        private System.Windows.Forms.TextBox txtBoxConsole;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label lblAkaItem;
         private System.Windows.Forms.Label label27;
@@ -1698,7 +1642,6 @@
         private System.Windows.Forms.Label lblMode;
         private System.Windows.Forms.Label lblStdRoll;
         private System.Windows.Forms.Label lblWeightUOMPallet;
-        private System.Windows.Forms.CheckBox checkBoxLotControl;
         private System.Windows.Forms.Timer timerShift;
         private System.Windows.Forms.Timer timerSchedule;
         private System.Windows.Forms.Label label23;
@@ -1720,5 +1663,8 @@
         private System.Windows.Forms.ToolStripMenuItem recalcularToolStripMenuItem;
         private System.Windows.Forms.PictureBox pbYellow;
         private System.Windows.Forms.PictureBox pbRed;
+        private System.Windows.Forms.RichTextBox richTextConsole;
+        private System.Windows.Forms.Label lblWOStatus;
+        private System.Windows.Forms.ToolTip TipStatusWO;
     }
 }

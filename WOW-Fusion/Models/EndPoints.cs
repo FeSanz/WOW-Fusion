@@ -52,7 +52,7 @@ namespace WOW_Fusion.Models
                                                     "ProcessWorkOrderResource.ResourceInstance:" +
                                                     "EquipmentInstanceCode,EquipmentInstanceName;" +
                                                     "ProcessWorkOrderDFF:pedidoDeVenta" +
-                                                    "&q=WorkOrderNumber='{0}'";
+                                                    "&q=WorkOrderNumber='{0}' and OrganizationId={1}";
 
         public static string WOProcessDetailP1 = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
                                                     "&fields=WorkOrderId,PlannedStartDate,PlannedCompletionDate;" +

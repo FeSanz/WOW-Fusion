@@ -33,7 +33,7 @@ namespace WOW_Fusion
             }
             catch (WebException ex)
             {
-                MessageBox.Show(ex.Message, $"Error GET [*" + path.Split('/', '?')[1].ToLower() + "]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error de consulta", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -63,7 +63,7 @@ namespace WOW_Fusion
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error POST. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error en envío de datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -72,8 +72,8 @@ namespace WOW_Fusion
         {
             try
             {
-                WebRequest request = WebRequest.Create("https://fa-esll-saasfademo1.ds-fa.oraclepdemos.com//fscmRestApi/resources/11.13.18.05");
-                request.Headers.Add("Authorization", "Basic U0NNX0lNUEw6dCpENmNFNF4=" /*+ Settings.Default.Credentials*/);
+                WebRequest request = WebRequest.Create(Settings.Default.FusionUrl);
+                request.Headers.Add("Authorization", "Basic " + Settings.Default.Credentials);
                 request.ContentType = "application/vnd.oracle.adf.batch+json";
                 request.Headers.Add("REST-framework-version", "4");
                 request.Method = "POST";
@@ -92,7 +92,7 @@ namespace WOW_Fusion
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error POST[BATCH]. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "[BATCH] Error en el servicio", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -114,7 +114,7 @@ namespace WOW_Fusion
             }
             catch (WebException ex)
             {
-                MessageBox.Show("Error GET. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error de consulta", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -142,7 +142,7 @@ namespace WOW_Fusion
             }
             catch (WebException ex)
             {
-                MessageBox.Show("Error POST. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error en envío de datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -163,7 +163,7 @@ namespace WOW_Fusion
             }
             catch (WebException ex)
             {
-                MessageBox.Show("Error. " + ex.Message, "Error GET[APEX]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "[APEX] Error de consulta", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -190,7 +190,7 @@ namespace WOW_Fusion
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error POST APEX. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "[APEX] Error en envío de datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -217,7 +217,7 @@ namespace WOW_Fusion
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error PUT APEX. " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "[APEX] Error en actualización de datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
