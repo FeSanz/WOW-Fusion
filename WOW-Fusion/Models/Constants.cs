@@ -18,6 +18,7 @@ namespace WOW_Fusion
 
         //frmLoading
         public static string pop = "Procesando...";
+        public static string Exception = "Error de excepción";
 
         //Endpoints fusion
         public static readonly string ParamsGet = "limit=500&totalResults=true&onlyData=true";

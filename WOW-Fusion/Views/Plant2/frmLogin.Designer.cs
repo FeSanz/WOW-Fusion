@@ -38,6 +38,7 @@
             this.lblExit = new System.Windows.Forms.Label();
             this.txtUser = new System.Windows.Forms.TextBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
+            this.lblStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -151,12 +152,23 @@
             this.txtPassword.Text = "example_pwd";
             this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
+            // lblStatus
+            // 
+            this.lblStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.lblStatus.Location = new System.Drawing.Point(32, 285);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(235, 17);
+            this.lblStatus.TabIndex = 10;
+            this.lblStatus.Text = ".";
+            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // frmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(292, 408);
+            this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUser);
             this.Controls.Add(this.lblExit);
@@ -192,5 +204,6 @@
         private System.Windows.Forms.Label lblExit;
         private System.Windows.Forms.TextBox txtUser;
         private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.Label lblStatus;
     }
 }

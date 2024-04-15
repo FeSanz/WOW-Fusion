@@ -12,7 +12,7 @@ namespace WOW_Fusion
 {
     internal class PopController
     {
-        frmLoading FormLoading;
+        static frmLoading FormLoading;
         Thread threadLoading;
 
         public void Show()
@@ -33,6 +33,7 @@ namespace WOW_Fusion
                 FormLoading.BeginInvoke(new ThreadStart(FormLoading.LoadingClose));
                 FormLoading = null;
                 threadLoading = null;
+                Constants.pop = "Procesando...";
             }
         }
 
