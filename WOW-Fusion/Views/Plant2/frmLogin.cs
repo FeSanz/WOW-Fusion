@@ -59,7 +59,8 @@ namespace WOW_Fusion.Views.Plant2
                     frmSettingsP2 frmSettingsP2 = new frmSettingsP2();
                     frmSettingsP2.StartPosition = FormStartPosition.CenterParent;
                     frmSettingsP2.ShowDialog();
-
+                    
+                    Hide();
                     Close();
                 }
                 else

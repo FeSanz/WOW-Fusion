@@ -187,17 +187,6 @@ namespace WOW_Fusion
 
                 dynamic wo = objWorkOrder["items"][0]; //Objeto WORKORDER
 
-                /*dynamic itemsV2 = await CommonService.OneItem(String.Format(EndPoints.Item, wo.ItemNumber.ToString(), Constants.Plant1Id));
-                if (itemsV2 != null)
-                {
-                    itemId = itemsV2.ItemId.ToString();
-                }
-                else
-                {
-                    itemId = string.Empty;
-                    NotifierController.Warning("Datos de item no encontrados");
-                }*/
-
                 int countOutput = (int)wo.ProcessWorkOrderOutput.count;
                 if (countOutput == 2)
                 {
@@ -256,6 +245,10 @@ namespace WOW_Fusion
                     lbLabelQuantity.Text = lblPrimaryProductQuantity.Text; 
                  */
 
+                //Flex orden de venta
+                dynamic flexPO = wo.ProcessWorkOrderDFF.items[0];
+                lblAkaOrder.Text = string.IsNullOrEmpty(flexPO.pedidoDeVenta.ToString()) ? "NA" : flexPO.pedidoDeVenta.ToString();
+
                 //int countResources = (int)wo.WorkOrderResource.count;
                 int countResources = (int)wo.ProcessWorkOrderResource.count;
                 if (countResources >= 1)
@@ -279,18 +272,12 @@ namespace WOW_Fusion
                     {
                         //dynamic resource = wo.WorkOrderResource.items[indexMachine]; //Objeto RESURSO
                         dynamic resource = wo.ProcessWorkOrderResource.items[indexMachine]; //Objeto RESURSO
-                        lblResourceCode.Text = resource.ResourceCode.ToString();
-                        lblResourceName.Text = resource.ResourceName.ToString();
+                        string resourceCode = resource.ResourceCode.ToString();
+                        lblResourceCode.Text = resourceCode.Replace("-EMP", "");
+                        string resourceName = resource.ResourceName.ToString();
+                        lblResourceName.Text = resourceName.Replace("-EMP", "");
 
-                        string akaCustomer = "STANDARD";
-                        dynamic aka = await LabelService.LabelInfo(Constants.Plant1Id, akaCustomer); //Obtener template de etiqueta APEX
-                        lblLabelName.Text = aka.LabelName.ToString();
-
-                        FillLabel();
-
-                        btnPrint.Enabled = true;
-
-                        //if ((int)resource.WorkOrderOperationResourceInstance.count >= 1)
+                        /*//if ((int)resource.WorkOrderOperationResourceInstance.count >= 1)
                         if ((int)resource.ResourceInstance.count >= 1)
                         {
                             //dynamic instance = resource.WorkOrderOperationResourceInstance.items[0]; // Objeto INSTANCIA
@@ -301,7 +288,7 @@ namespace WOW_Fusion
                         else
                         {
                             NotifierController.Warning("Datos de instancia de máquina no encontrados");
-                        }
+                        }*/
                     }
                     else
                     {
@@ -312,6 +299,47 @@ namespace WOW_Fusion
                 {
                     NotifierController.Warning("Orden sin recursos");
                 }
+
+                if (lblAkaOrder.Text.Equals("NA"))
+                {
+                    dynamic labelApex = await LabelService.LabelInfo(Constants.Plant1Id, "STANDARD"); //Obtener template de etiqueta APEX
+                    lblLabelName.Text = labelApex.LabelName.ToString();
+                }
+                else
+                {
+                    //Consultar cliente de orden de venta +++++++++++++++++++++++++
+
+                    //Consulta datos AKA
+                    Task<string> tskTradingPartner = APIService.GetRequestAsync(String.Format(EndPoints.TradingPartnerItemRelationships, lblItemNumber.Text, lblAkaCustomer.Text));
+                    string responsTP = await tskTradingPartner;
+
+                    if (!string.IsNullOrEmpty(responsTP))
+                    {
+
+                        JObject objTradingPartner = JObject.Parse(response);
+                        if ((int)objTradingPartner["count"] > 0)
+                        {
+                            //Obtener datos AKA [TradingPartnerItemRelationships]
+                            dynamic aka = objTradingPartner["items"][0];
+                            lblAkaCustomer.Text = aka.TradingPartnerName.ToString();
+                            lblAkaItem.Text = aka.TradingPartnerItemNumber.ToString();
+                            lblAkaDescription.Text = aka.RelationshipDescription.ToString();
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Orden sin datos AKA definidos [{DateService.Today()}]", Color.Black);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Sin datos AKA del producto [{DateService.Today()}]", Color.Red);
+                    }
+
+                }
+
+                FillLabel();
+
+                btnPrint.Enabled = true;
                 pop.Close();
             }
             catch (Exception ex)
@@ -332,8 +360,8 @@ namespace WOW_Fusion
             lblItemDescriptionEnglish.Text = string.Empty;
             lblResourceCode.Text = string.Empty;
             lblResourceName.Text = string.Empty;
-            lblEquipmentInstanceCode.Text = string.Empty;
-            lblEquipmentInstanceName.Text= string.Empty;
+            //lblEquipmentInstanceCode.Text = string.Empty;
+            //lblEquipmentInstanceName.Text= string.Empty;
             lblPlannedStartDate.Text = string.Empty;
             lblPlannedCompletionDate.Text = string.Empty;
 
@@ -431,7 +459,7 @@ namespace WOW_Fusion
                 label.ENGLISHDESCRIPTION = string.IsNullOrEmpty(lblItemDescriptionEnglish.Text) ? " " : lblItemDescriptionEnglish.Text;
                 label.WORKORDER = string.IsNullOrEmpty(cmbWorkOrders.Text) ? " " : cmbWorkOrders.Text/*.Substring(7)*/;
                 label.UPCA = string.IsNullOrEmpty(itemId) ? $"{Constants.UPCPrefix}0000" : $"{Constants.UPCPrefix}{itemId.Substring(itemId.Length - 4)}";
-                label.EQU = string.IsNullOrEmpty(lblResourceCode.Text) ? " ": lblResourceCode.Text;
+                label.EQU = string.IsNullOrEmpty(lblResourceName.Text) ? " ": lblResourceName.Text;
                 label.DATE = DateService.Now();
                 label.BOX = "1";
 

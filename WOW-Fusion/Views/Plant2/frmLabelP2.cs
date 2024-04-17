@@ -124,6 +124,8 @@ namespace WOW_Fusion
             ordersForSchedule = obj;
              */
 
+            Console.WriteLine($"Verificando programación de las ordenes [{DateService.Today()}]", Color.Gray);
+
             ordersForSchedule = await CommonService.WOProcessSchedule(Constants.Plant2Id, Settings.Default.WorkCenterP2); //Obtener OT Schedule
 
             if (ordersForSchedule.Count > 0)
@@ -141,10 +143,14 @@ namespace WOW_Fusion
                     }
                 }
 
-                cmbWorkOrders.Items.Clear();
-                cmbWorkOrders.Items.Add(schedule[0].WorkOrderNumber);
-                cmbWorkOrders.SelectedIndex = 0;
-                btnGetWeight.Enabled = true;
+                if (cmbWorkOrders.Text != schedule[0].WorkOrderNumber)
+                {
+                    Console.WriteLine($"Cargando datos de la orden [{DateService.Today()}]", Color.Blue);
+                    cmbWorkOrders.Items.Clear();
+                    cmbWorkOrders.Items.Add(schedule[0].WorkOrderNumber);
+                    cmbWorkOrders.SelectedIndex = 0;
+                    btnGetWeight.Enabled = true;
+                }
             }
             else
             {
@@ -160,9 +166,9 @@ namespace WOW_Fusion
                     cmbWorkOrders.Text = wo.WorkOrderNumber.ToString();
                     break;
                 }
-            }
+            }*/
 
-            if(string.IsNullOrEmpty(cmbWorkOrders.Text) && lblMode.Text.Equals("Auto."))
+            if(lblMode.Text.Equals("Auto."))
             {
                 timerSchedule.Tick += new EventHandler(ProductionScheduling);
                 timerSchedule.Start();
@@ -170,7 +176,7 @@ namespace WOW_Fusion
             else
             {
                 timerSchedule.Stop();   
-            }*/
+            }
         }
 
         private void CheckStatusScheduleOrder(DateTime start, DateTime end)
@@ -659,6 +665,7 @@ namespace WOW_Fusion
                     if (lblMode.Text.Equals("Auto."))
                     {
                         lblMode.Text = "Manual";
+                        timerSchedule.Stop();
                         cmbWorkOrders.Items.Clear();
                         cmbWorkOrders.Enabled = true;
                         picBoxWaitWO.Visible = false;
@@ -682,6 +689,7 @@ namespace WOW_Fusion
                 if (lblMode.Text.Equals("Auto."))
                 {
                     lblMode.Text = "Manual";
+                    timerSchedule.Stop();
                     cmbWorkOrders.Items.Clear();
                     cmbWorkOrders.Enabled = true;
                     picBoxWaitWO.Visible = false;
@@ -884,6 +892,8 @@ namespace WOW_Fusion
         {
             _rollByPallet++;
             _isPalletStart = true;
+            if (lblMode.Text.Equals("Auto."))
+                timerSchedule.Stop();
             TableLayoutPalletControl(int.Parse(lblRollOnPallet.Text), _rollByPallet);
 
             //Llenar campos de pallet (SUMA)
