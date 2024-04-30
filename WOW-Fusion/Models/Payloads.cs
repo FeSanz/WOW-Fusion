@@ -13,7 +13,7 @@ namespace WOW_Fusion.Models
         public static string weightPallet = @"{
                                                 ""DateMark"":""0000000000"",
                                                 ""OrganizationId"": ""300000002650049"",
-                                                ""WorkOrderNumber"": ""WO-PL2-00000"",
+                                                ""WorkOrderNumber"": ""0000"",
                                                 ""ItemNumber"": ""XXXX"",
                                                 ""PalletNumber"": 0,
                                                 ""PalletRolls"": 0,
@@ -35,9 +35,21 @@ namespace WOW_Fusion.Models
                                                     }";
 
         public static string weightRollUpdate = @"{
-                                                        ""Pallet"": 0,
-                                                        ""Weight"": 0.0
-                                                    }";
+                                                      ""Pallet"": 0,
+                                                      ""Weight"": 0.0
+                                                  }";
+
+        public static string printHistory = @"{
+                                                    ""DateMark"":""0000000000"",
+                                                    ""WorkOrderId"": 0,
+                                                    ""UserId"": 0,
+                                                    ""PrintCount"": 0
+                                               }";
+        public static string reprint = @"{
+                                            ""WorkOrderId"": 0,
+                                            ""UserId"": 0,
+                                            ""ReprintCount"": ""0-0""
+                                        }";
 
         //************************************* Payloads Planta 3 ************************************
         public static string receivingReceiptRequests = @"{

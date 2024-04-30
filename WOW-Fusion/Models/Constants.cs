@@ -11,10 +11,14 @@ namespace WOW_Fusion
         public const string Plant2Id = "300000003173674";
         public const string Plant3Id = "300000003173686";
 
-        //ID Organizaciones PRODUCCION
+         //ID Organizaciones PRODUCCION
         /*public const string Plant1Id = "300000003173662";
         public const string Plant2Id = "300000003173674";
         public const string Plant3Id = "300000003173686";*/
+
+        public static string BusinessUnitId = "000000000000000";
+        public static string UserName = "user.name";
+        public static int UserId = 0;
 
         //frmLoading
         public static string pop = "Procesando...";
@@ -26,7 +30,9 @@ namespace WOW_Fusion
         //Endpoint Etiquetas
         public static string LaberalyUrl = "http://api.labelary.com/v1/printers/8dpmm/labels/4x2/0/ --data-urlencode \"{0}\"";
 
-        public static string PathPrintedLables = @"C:\Fusion\Labels.txt";
+        public static string OrdersPrintedP1 = @"C:\Fusion\P1Labels.txt";
+        public static string OrdersReprintedP1 = @"C:\Fusion\P1Reprinted.txt";
+        public static string OrdersPrintedP2 = @"C:\Fusion\P2Labels.txt";
 
         public static string UPCPrefix = "7506383";
 

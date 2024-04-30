@@ -28,6 +28,11 @@ namespace WOW_Fusion.Models
                                                     "WorkCenterResource.WorkCenterResourceShift:ShiftName,StartTime,Duration" +
                                                     "&q=WorkCenterId={0}";
 
+        public static string SalesOrders = Settings.Default.FusionUrl + "/salesOrdersForOrderHub?" + Constants.ParamsGet +
+                                                    "&fields=BuyingPartyId,BuyingPartyName,BuyingPartyNumber" +
+                                                    "&q=OrderNumber='{0}' and BusinessUnitId={1}";
+
+
         //Endpoints Manufactura Discreta
         public static string WODiscreteList = Settings.Default.FusionUrl + "/workOrders?" + Constants.ParamsGet +
                                                     "&fields=WorkOrderNumber,PlannedStartDate,PlannedCompletionDate" +
@@ -55,16 +60,16 @@ namespace WOW_Fusion.Models
                                                     "&q=WorkOrderNumber='{0}' and OrganizationId={1}";
 
         public static string WOProcessDetailP1 = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
-                                                    "&fields=WorkOrderId,PlannedStartDate,PlannedCompletionDate;" +
+                                                    "&fields=WorkOrderId,PrimaryProductId,ItemNumber,Description,PrimaryProductQuantity,CompletedQuantity,PrimaryProductUOMCode,PlannedStartDate,PlannedCompletionDate;" +
                                                     "ProcessWorkOrderResource:ResourceId,ResourceCode,ResourceName;" +
                                                     "ProcessWorkOrderResource.ResourceInstance:" +
                                                     "EquipmentInstanceCode,EquipmentInstanceName;" +
                                                     "ProcessWorkOrderDFF:pedidoDeVenta;" +
-                                                    "ProcessWorkOrderOutput:OperationSequenceNumber,OperationName,InventoryItemId,ItemNumber,ItemDescription,UOMCode,OutputQuantity,CompletedQuantity" +
-                                                    "&q=WorkOrderNumber='{0}'";
+                                                    "ProcessWorkOrderOutput:OperationSequenceNumber,OperationName" +
+                                                    "&q=WorkOrderNumber='{0}' and OrganizationId={1}";
 
         //Enpoints AKA
-        public static string TradingPartnerItemRelationships = "/tradingPartnerItemRelationships?" + Constants.ParamsGet +
+        public static string TradingPartnerItemRelationships = Settings.Default.FusionUrl + "/tradingPartnerItemRelationships?" + Constants.ParamsGet +
                                                             "&fields=TradingPartnerType,TradingPartnerName,TradingPartnerItemNumber,RelationshipDescription" +
                                                             "&q=Item='{0}' and TradingPartnerName='{1}'";
 
@@ -76,6 +81,8 @@ namespace WOW_Fusion.Models
         public static string LabelTamplate = Settings.Default.ApexUrl + "/labels/{0}/{1}";
         public static string WeightPallets = Settings.Default.ApexUrl + "/weightPallets/{0}/{1}";
         public static string WeightRolls = Settings.Default.ApexUrl + "/weightRolls/{0}/{1}";
+        public static string PrintHistory = Settings.Default.ApexUrl + "/labelHistory";
+        public static string Auth = Settings.Default.ApexUrl + "/labelUsers/{0}";
 
         //Endpoints Planta 1
         public static string WorkOrdersItemList = Settings.Default.FusionUrl + "/workOrders?" + Constants.ParamsGet +
@@ -90,7 +97,7 @@ namespace WOW_Fusion.Models
                                                    "&fields=ResourceId" +
                                                    "&q=OrganizationId={0} and ResourceType='EQUIPMENT' and ResourceCode like 'MF-LAM%' or ResourceCode like 'MF-C01%'";
 
-        public static string Item = "/itemsV2?" + Constants.ParamsGet +
+        public static string ItemP2 = Settings.Default.FusionUrl + "/itemsV2?" + Constants.ParamsGet +
                                     "&fields=ItemId,UnitWeightQuantity,WeightUOMValue,WeightUOMValue,MaximumLoadWeight,ContainerTypeValue,LotControlValue" +
                                     "&q=ItemNumber='{0}' and OrganizationId={1}";
 

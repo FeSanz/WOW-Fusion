@@ -45,11 +45,9 @@
             this.lblResourceName = new System.Windows.Forms.Label();
             this.lblResourceCode = new System.Windows.Forms.Label();
             this.lblPlannedCompletionDate = new System.Windows.Forms.Label();
-            this.picBoxWaitWC = new System.Windows.Forms.PictureBox();
             this.lblPlannedStartDate = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.cmbWorkOrders = new System.Windows.Forms.ComboBox();
-            this.picBoxWaitWO = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
@@ -81,30 +79,36 @@
             this.lblStartPage = new System.Windows.Forms.Label();
             this.lbLabelQuantity = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.picLabel = new System.Windows.Forms.PictureBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
-            this.btnSettings = new System.Windows.Forms.Button();
-            this.btnReprint = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.lblAkaCustomer = new System.Windows.Forms.Label();
             this.lblAkaOrder = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.lblAkaItem = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.lblAkaDescription = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.lblAkaCustomer = new System.Windows.Forms.Label();
+            this.lblUserName = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnCloseReprint = new System.Windows.Forms.Button();
+            this.btnReprint = new System.Windows.Forms.Button();
+            this.picLabel = new System.Windows.Forms.PictureBox();
+            this.picBoxWaitWC = new System.Windows.Forms.PictureBox();
+            this.picBoxWaitWO = new System.Windows.Forms.PictureBox();
+            this.btnSettings = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBoxReprint.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.SuspendLayout();
             // 
             // lblItemDescription
@@ -305,19 +309,6 @@
             this.lblPlannedCompletionDate.TabIndex = 7;
             this.lblPlannedCompletionDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // picBoxWaitWC
-            // 
-            this.picBoxWaitWC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picBoxWaitWC.Image = global::WOW_Fusion.Properties.Resources.preloader;
-            this.picBoxWaitWC.Location = new System.Drawing.Point(427, 28);
-            this.picBoxWaitWC.Name = "picBoxWaitWC";
-            this.picBoxWaitWC.Padding = new System.Windows.Forms.Padding(10);
-            this.picBoxWaitWC.Size = new System.Drawing.Size(45, 45);
-            this.picBoxWaitWC.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBoxWaitWC.TabIndex = 120;
-            this.picBoxWaitWC.TabStop = false;
-            this.picBoxWaitWC.Visible = false;
-            // 
             // lblPlannedStartDate
             // 
             this.lblPlannedStartDate.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -351,19 +342,6 @@
             this.cmbWorkOrders.DropDown += new System.EventHandler(this.DropDownOpenWorkOrders);
             this.cmbWorkOrders.SelectedValueChanged += new System.EventHandler(this.SelectedIndexChangedWorkOrders);
             this.cmbWorkOrders.TextChanged += new System.EventHandler(this.cmbWorkOrders_TextChanged);
-            // 
-            // picBoxWaitWO
-            // 
-            this.picBoxWaitWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picBoxWaitWO.Image = global::WOW_Fusion.Properties.Resources.preloader;
-            this.picBoxWaitWO.Location = new System.Drawing.Point(210, 28);
-            this.picBoxWaitWO.Name = "picBoxWaitWO";
-            this.picBoxWaitWO.Padding = new System.Windows.Forms.Padding(10);
-            this.picBoxWaitWO.Size = new System.Drawing.Size(45, 45);
-            this.picBoxWaitWO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBoxWaitWO.TabIndex = 119;
-            this.picBoxWaitWO.TabStop = false;
-            this.picBoxWaitWO.Visible = false;
             // 
             // label2
             // 
@@ -451,6 +429,7 @@
             // 
             // groupBoxReprint
             // 
+            this.groupBoxReprint.Controls.Add(this.btnCloseReprint);
             this.groupBoxReprint.Controls.Add(this.txtBoxEnd);
             this.groupBoxReprint.Controls.Add(this.txtBoxStart);
             this.groupBoxReprint.Controls.Add(this.label20);
@@ -513,7 +492,7 @@
             this.lblStatus.Size = new System.Drawing.Size(458, 15);
             this.lblStatus.TabIndex = 164;
             this.lblStatus.Text = "...";
-            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label7
             // 
@@ -728,17 +707,6 @@
             this.label12.Text = "a";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // picLabel
-            // 
-            this.picLabel.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.picLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picLabel.Location = new System.Drawing.Point(14, 49);
-            this.picLabel.Name = "picLabel";
-            this.picLabel.Size = new System.Drawing.Size(440, 220);
-            this.picLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picLabel.TabIndex = 31;
-            this.picLabel.TabStop = false;
-            // 
             // label15
             // 
             this.label15.AutoSize = true;
@@ -766,41 +734,14 @@
             // rtbLog
             // 
             this.rtbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbLog.Location = new System.Drawing.Point(12, 537);
+            this.rtbLog.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbLog.Location = new System.Drawing.Point(12, 534);
             this.rtbLog.Name = "rtbLog";
             this.rtbLog.ReadOnly = true;
             this.rtbLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbLog.Size = new System.Drawing.Size(964, 14);
+            this.rtbLog.Size = new System.Drawing.Size(964, 18);
             this.rtbLog.TabIndex = 119;
             this.rtbLog.Text = "v 1.0";
-            // 
-            // btnSettings
-            // 
-            this.btnSettings.BackColor = System.Drawing.Color.Transparent;
-            this.btnSettings.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSettings.BackgroundImage")));
-            this.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSettings.FlatAppearance.BorderSize = 0;
-            this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSettings.Location = new System.Drawing.Point(956, 3);
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(20, 20);
-            this.btnSettings.TabIndex = 120;
-            this.btnSettings.UseVisualStyleBackColor = false;
-            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
-            // 
-            // btnReprint
-            // 
-            this.btnReprint.BackColor = System.Drawing.Color.Transparent;
-            this.btnReprint.BackgroundImage = global::WOW_Fusion.Properties.Resources.printer;
-            this.btnReprint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnReprint.FlatAppearance.BorderSize = 0;
-            this.btnReprint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReprint.Location = new System.Drawing.Point(927, 3);
-            this.btnReprint.Name = "btnReprint";
-            this.btnReprint.Size = new System.Drawing.Size(20, 20);
-            this.btnReprint.TabIndex = 121;
-            this.btnReprint.UseVisualStyleBackColor = false;
-            this.btnReprint.Click += new System.EventHandler(this.btnReprint_Click);
             // 
             // groupBox2
             // 
@@ -837,6 +778,27 @@
             this.groupBox4.TabIndex = 161;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "AKA";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label32.Location = new System.Drawing.Point(217, 43);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(39, 13);
+            this.label32.TabIndex = 130;
+            this.label32.Text = "Cliente";
+            // 
+            // lblAkaCustomer
+            // 
+            this.lblAkaCustomer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAkaCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAkaCustomer.Location = new System.Drawing.Point(28, 59);
+            this.lblAkaCustomer.Name = "lblAkaCustomer";
+            this.lblAkaCustomer.Size = new System.Drawing.Size(417, 15);
+            this.lblAkaCustomer.TabIndex = 129;
+            this.lblAkaCustomer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblAkaOrder
             // 
@@ -904,26 +866,105 @@
             this.lblAkaDescription.TabIndex = 122;
             this.lblAkaDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label32
+            // lblUserName
             // 
-            this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label32.Location = new System.Drawing.Point(217, 43);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(39, 13);
-            this.label32.TabIndex = 130;
-            this.label32.Text = "Cliente";
+            this.lblUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUserName.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblUserName.Location = new System.Drawing.Point(31, 8);
+            this.lblUserName.Name = "lblUserName";
+            this.lblUserName.Size = new System.Drawing.Size(440, 13);
+            this.lblUserName.TabIndex = 132;
+            this.lblUserName.Text = "user.name";
+            this.lblUserName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblAkaCustomer
+            // pictureBox1
             // 
-            this.lblAkaCustomer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblAkaCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAkaCustomer.Location = new System.Drawing.Point(28, 59);
-            this.lblAkaCustomer.Name = "lblAkaCustomer";
-            this.lblAkaCustomer.Size = new System.Drawing.Size(417, 15);
-            this.lblAkaCustomer.TabIndex = 129;
-            this.lblAkaCustomer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.pictureBox1.Image = global::WOW_Fusion.Properties.Resources.user;
+            this.pictureBox1.Location = new System.Drawing.Point(10, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(24, 18);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 132;
+            this.pictureBox1.TabStop = false;
+            // 
+            // btnCloseReprint
+            // 
+            this.btnCloseReprint.BackColor = System.Drawing.Color.Transparent;
+            this.btnCloseReprint.BackgroundImage = global::WOW_Fusion.Properties.Resources.close_outline;
+            this.btnCloseReprint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnCloseReprint.FlatAppearance.BorderSize = 0;
+            this.btnCloseReprint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCloseReprint.Location = new System.Drawing.Point(456, 8);
+            this.btnCloseReprint.Name = "btnCloseReprint";
+            this.btnCloseReprint.Size = new System.Drawing.Size(15, 15);
+            this.btnCloseReprint.TabIndex = 162;
+            this.btnCloseReprint.UseVisualStyleBackColor = false;
+            this.btnCloseReprint.Click += new System.EventHandler(this.btnCloseReprint_Click);
+            // 
+            // btnReprint
+            // 
+            this.btnReprint.BackColor = System.Drawing.Color.Transparent;
+            this.btnReprint.BackgroundImage = global::WOW_Fusion.Properties.Resources.printer;
+            this.btnReprint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnReprint.FlatAppearance.BorderSize = 0;
+            this.btnReprint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReprint.Location = new System.Drawing.Point(915, 4);
+            this.btnReprint.Name = "btnReprint";
+            this.btnReprint.Size = new System.Drawing.Size(25, 25);
+            this.btnReprint.TabIndex = 121;
+            this.btnReprint.UseVisualStyleBackColor = false;
+            this.btnReprint.Click += new System.EventHandler(this.btnReprint_Click);
+            // 
+            // picLabel
+            // 
+            this.picLabel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.picLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picLabel.Location = new System.Drawing.Point(14, 49);
+            this.picLabel.Name = "picLabel";
+            this.picLabel.Size = new System.Drawing.Size(440, 220);
+            this.picLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picLabel.TabIndex = 31;
+            this.picLabel.TabStop = false;
+            // 
+            // picBoxWaitWC
+            // 
+            this.picBoxWaitWC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picBoxWaitWC.Image = global::WOW_Fusion.Properties.Resources.preloader;
+            this.picBoxWaitWC.Location = new System.Drawing.Point(427, 28);
+            this.picBoxWaitWC.Name = "picBoxWaitWC";
+            this.picBoxWaitWC.Padding = new System.Windows.Forms.Padding(10);
+            this.picBoxWaitWC.Size = new System.Drawing.Size(45, 45);
+            this.picBoxWaitWC.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBoxWaitWC.TabIndex = 120;
+            this.picBoxWaitWC.TabStop = false;
+            this.picBoxWaitWC.Visible = false;
+            // 
+            // picBoxWaitWO
+            // 
+            this.picBoxWaitWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picBoxWaitWO.Image = global::WOW_Fusion.Properties.Resources.preloader;
+            this.picBoxWaitWO.Location = new System.Drawing.Point(210, 28);
+            this.picBoxWaitWO.Name = "picBoxWaitWO";
+            this.picBoxWaitWO.Padding = new System.Windows.Forms.Padding(10);
+            this.picBoxWaitWO.Size = new System.Drawing.Size(45, 45);
+            this.picBoxWaitWO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBoxWaitWO.TabIndex = 119;
+            this.picBoxWaitWO.TabStop = false;
+            this.picBoxWaitWO.Visible = false;
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.BackColor = System.Drawing.Color.Transparent;
+            this.btnSettings.BackgroundImage = global::WOW_Fusion.Properties.Resources.setting_outline;
+            this.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSettings.FlatAppearance.BorderSize = 0;
+            this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSettings.Location = new System.Drawing.Point(956, 6);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(18, 18);
+            this.btnSettings.TabIndex = 120;
+            this.btnSettings.UseVisualStyleBackColor = false;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // frmLabelP1
             // 
@@ -931,6 +972,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(987, 558);
             this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.lblUserName);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBoxReprint);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnReprint);
@@ -944,17 +987,18 @@
             this.Load += new System.EventHandler(this.frmLabelP1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).EndInit();
             this.groupBoxReprint.ResumeLayout(false);
             this.groupBoxReprint.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1029,6 +1073,9 @@
         private System.Windows.Forms.Label lblAkaDescription;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label lblAkaCustomer;
+        private System.Windows.Forms.Label lblUserName;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnCloseReprint;
     }
 }
 

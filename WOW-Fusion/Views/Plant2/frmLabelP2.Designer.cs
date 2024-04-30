@@ -1501,8 +1501,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1455, 800);
-            this.Controls.Add(this.richTextConsole);
             this.Controls.Add(this.btnEndProcess);
+            this.Controls.Add(this.richTextConsole);
             this.Controls.Add(this.pbYellow);
             this.Controls.Add(this.pbRed);
             this.Controls.Add(this.lblLocationCode);

@@ -16,6 +16,7 @@ using WOW_Fusion.Properties;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Reflection;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
+using WOW_Fusion.Views.Plant2;
 
 namespace WOW_Fusion
 {
@@ -28,7 +29,11 @@ namespace WOW_Fusion
         private JObject workCenters = null;
 
         private int workCenterSelected = -1;
+        private int workOrderId = 0;
         private string itemId = string.Empty;
+
+        private string _akaCustomer = "STANDARD";
+
 
         public frmLabelP1()
         {
@@ -38,12 +43,17 @@ namespace WOW_Fusion
 
         private void frmLabelP1_Load(object sender, EventArgs e)
         {
+            lblUserName.Text = Constants.UserName;
+
             pop = new PopController();
             AppController.ToolTip(btnSettings, "Configuración");
             AppController.ToolTip(btnReprint, "Reimprimir");
-
+            AppController.ToolTip(btnCloseReprint, "Cerrar reimpresión");
+            
+            rtbLog.Clear();
             ConsoleController console = new ConsoleController(rtbLog);
             Console.SetOut(console);
+            Console.WriteLine($"Bienvenido {Constants.UserName}", Color.Black);
         }
 
         private async void InitializeFusionData()
@@ -58,6 +68,7 @@ namespace WOW_Fusion
             }
             else
             {
+                Constants.BusinessUnitId = org.ManagementBusinessUnitId.ToString();
                 lblOrganizationCode.Text = org.OrganizationCode.ToString();
                 lblOrganizationName.Text = org.OrganizationName.ToString();
                 lblLocationCode.Text = org.LocationCode.ToString();
@@ -106,7 +117,6 @@ namespace WOW_Fusion
                 dynamic ct = workCenters["items"][workCenterSelected]; //Objeto CENTROS DE TRABAJO
 
                 lblWorkAreaName.Text = ct.WorkAreaName.ToString();
-                //workCenterId = ct.WorkCenterId.ToString();
 
                 cmbWorkOrders.Items.Clear();
                 lblItemNumber.Text = string.Empty;
@@ -132,22 +142,25 @@ namespace WOW_Fusion
 
             if (workOrderNumbers == null) return;
 
-            List<string> ordersPrinted = FileController.ContentFile(Constants.PathPrintedLables);
-
+            List<string> ordersPrinted = FileController.ContentFile(Constants.OrdersPrintedP1);
+            List<string> ordersReprinted = FileController.ContentFile(Constants.OrdersReprintedP1);
             foreach (string order in workOrderNumbers)
             {
                 //Reimpresión activada
                 if (checkBoxReprint.Checked)
                 {
-                    //Ordenes IGUAL a las ya impresas y aún en RELEASED
+                    //Ordenes impresas
                     if (FileController.IsOrderPrinted(ordersPrinted, order))
                     {
-                        cmbWorkOrders.Items.Add(order);
+                        if(!FileController.IsOrderPrinted(ordersReprinted, order))
+                        {
+                            cmbWorkOrders.Items.Add(order);
+                        }
                     }
                 }
                 else
                 {
-                    //Ordenes DIFERENTES a las ya impresas y en RELEASED
+                    //Ordenes pendientes por imprimir
                     if (!FileController.IsOrderPrinted(ordersPrinted, order))
                     {
                         cmbWorkOrders.Items.Add(order);
@@ -170,30 +183,51 @@ namespace WOW_Fusion
 
         private async void WorkOrderUIFill(string workOrder)
         {
-            CleanUIWorkOrders();
+            pop.Show(this);
             try
             {
-                pop.Show(this);
-                Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessDetailP1, workOrder));
+                //♥ Consultar WORKORDER ♥
+                Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessDetailP1, workOrder, Constants.Plant1Id));
                 string response = await tskWorkOrdersData;
-                if (string.IsNullOrEmpty(response)) { return; }
+                if (string.IsNullOrEmpty(response)) { pop.Close(); return; }
 
                 JObject objWorkOrder = JObject.Parse(response);
                 if ((int)objWorkOrder["count"] == 0)
                 {
+                    pop.Close();
                     NotifierController.Warning("Datos de orden no encotrada");
                     return;
                 }
 
                 dynamic wo = objWorkOrder["items"][0]; //Objeto WORKORDER
+                workOrderId = wo.WorkOrderId;
 
+
+                lblOutputQuantity.Text = wo.PrimaryProductQuantity.ToString();
+                lblUoM.Text = wo.PrimaryProductUOMCode.ToString();
+                itemId = wo.PrimaryProductId.ToString();
+                lblItemNumber.Text = wo.ItemNumber.ToString();
+                lblItemDescription.Text = wo.Description.ToString();
+                lblItemDescriptionEnglish.Text = TranslateService.Translate(lblItemDescription.Text);
+                lblPlannedStartDate.Text = wo.PlannedStartDate.ToString();
+                lblPlannedCompletionDate.Text = wo.PlannedCompletionDate.ToString();
+
+                lblStartPage.Text = string.IsNullOrEmpty(lblOutputQuantity.Text) ? 0.ToString() : 1.ToString();
+
+                //Porcentaje adicional
+                float additionalLabels = (Settings.Default.Aditional * int.Parse(lblOutputQuantity.Text)) / 100;
+                lblAditional.Text = $"(+{Convert.ToInt32(Math.Round(additionalLabels))})";
+                lblTotalPrint.Text = (float.Parse(lblOutputQuantity.Text) + additionalLabels).ToString();
+                lbLabelQuantity.Text = lblOutputQuantity.Text;
+
+                // → SECUENCIA 20 ←
                 int countOutput = (int)wo.ProcessWorkOrderOutput.count;
                 if (countOutput == 2)
                 {
                     int indexOutput = -1;
                     for (int i = 0; i < countOutput; i++)
                     {
-                        if ((int)wo.ProcessWorkOrderOutput.items[i].OperationSequenceNumber == 20)//Siempre buscar en SECUENCIA 20
+                        if ((int)wo.ProcessWorkOrderOutput.items[i].OperationSequenceNumber == 20)
                         {
                             indexOutput = i;
                             break;
@@ -204,62 +238,22 @@ namespace WOW_Fusion
                     lblOperationSequenceNumber.Text = output.OperationSequenceNumber;
                     lblOperationName.Text = output.OperationName;
 
-                    lblOutputQuantity.Text = output.OutputQuantity.ToString();
-                    lblUoM.Text = output.UOMCode.ToString();
-                    itemId = output.InventoryItemId.ToString();
-                    lblItemNumber.Text = output.ItemNumber.ToString();
-                    lblItemDescription.Text = output.ItemDescription.ToString();
-                    lblItemDescriptionEnglish.Text = TranslateService.Translate(lblItemDescription.Text);
-                    lblPlannedStartDate.Text = wo.PlannedStartDate.ToString();
-                    lblPlannedCompletionDate.Text = wo.PlannedCompletionDate.ToString();
-
-                    lblStartPage.Text = string.IsNullOrEmpty(lblOutputQuantity.Text) ? 0.ToString() : 1.ToString();
-
-                    float additionalLabels = (Settings.Default.Aditional * int.Parse(lblOutputQuantity.Text)) / 100;
-                    lblAditional.Text = $"(+{Convert.ToInt32(Math.Round(additionalLabels))})";
-                    lblTotalPrint.Text = (float.Parse(lblOutputQuantity.Text) + additionalLabels).ToString();
-                    lbLabelQuantity.Text = lblOutputQuantity.Text;
                 }
                 else
                 {
                     NotifierController.Warning("Secuencias definidas incorrectamente");
                 }
 
-                /*
-                    lblPrimaryProductQuantity.Text = wo.PrimaryProductQuantity.ToString();
-                    lblUoM.Text = wo.UOMCode.ToString();
-                    lblItemNumber.Text = wo.ItemNumber.ToString();
-                    lblItemDescription.Text = wo.Description.ToString();
-                    lblItemDescriptionEnglish.Text = TranslateService.Translate(lblItemDescription.Text);
-                    lblPlannedStartDate.Text = wo.PlannedStartDate.ToString();
-                    lblPlannedCompletionDate.Text = wo.PlannedCompletionDate.ToString();
-
-                    startPage = string.IsNullOrEmpty(lblPrimaryProductQuantity.Text) ? 0 : 1;
-                    lblStartPage.Text = startPage.ToString();
-
-                    float additionalLabels = (Properties.Settings.Default.Aditional * int.Parse(lblPrimaryProductQuantity.Text)) / 100;
-                    lblAditional.Text = $"(+{Convert.ToInt32(Math.Round(additionalLabels))})";
-                    totalQuantity = (int)(float.Parse(lblPrimaryProductQuantity.Text) + additionalLabels);
-                    endPage = totalQuantity;
-                    lblTotalPrint.Text = endPage.ToString();
-                    lbLabelQuantity.Text = lblPrimaryProductQuantity.Text; 
-                 */
-
-                //Flex orden de venta
-                dynamic flexPO = wo.ProcessWorkOrderDFF.items[0];
-                lblAkaOrder.Text = string.IsNullOrEmpty(flexPO.pedidoDeVenta.ToString()) ? "NA" : flexPO.pedidoDeVenta.ToString();
-
-                //int countResources = (int)wo.WorkOrderResource.count;
+                //Obtener datos de máquina
                 int countResources = (int)wo.ProcessWorkOrderResource.count;
                 if (countResources >= 1)
                 {
                     int indexMachine = -1;
-
+                    //Buscar maquina entre recursos de producción
                     for (int i = 0; i < countResources; i++)
                     {
                         for (int j = 0; j < (int)machines["count"]; j++)
                         {
-                            //string resourceOrder = wo.WorkOrderResource.items[i].ResourceId.ToString();
                             string resourceOrder = wo.ProcessWorkOrderResource.items[i].ResourceId.ToString();
                             string resourceMachines = machines["items"][j]["ResourceId"].ToString();
                             if (resourceOrder.Equals(resourceMachines))
@@ -268,27 +262,14 @@ namespace WOW_Fusion
                             }
                         }
                     }
+                    //obtener index de maquina encontrada
                     if (indexMachine >= 0)
                     {
-                        //dynamic resource = wo.WorkOrderResource.items[indexMachine]; //Objeto RESURSO
                         dynamic resource = wo.ProcessWorkOrderResource.items[indexMachine]; //Objeto RESURSO
                         string resourceCode = resource.ResourceCode.ToString();
                         lblResourceCode.Text = resourceCode.Replace("-EMP", "");
                         string resourceName = resource.ResourceName.ToString();
                         lblResourceName.Text = resourceName.Replace("-EMP", "");
-
-                        /*//if ((int)resource.WorkOrderOperationResourceInstance.count >= 1)
-                        if ((int)resource.ResourceInstance.count >= 1)
-                        {
-                            //dynamic instance = resource.WorkOrderOperationResourceInstance.items[0]; // Objeto INSTANCIA
-                            dynamic instance = resource.ResourceInstance.items[0]; // Objeto INSTANCIA
-                            lblEquipmentInstanceCode.Text = instance.EquipmentInstanceCode.ToString();
-                            lblEquipmentInstanceName.Text = instance.EquipmentInstanceName.ToString();
-                        }
-                        else
-                        {
-                            NotifierController.Warning("Datos de instancia de máquina no encontrados");
-                        }*/
                     }
                     else
                     {
@@ -300,73 +281,128 @@ namespace WOW_Fusion
                     NotifierController.Warning("Orden sin recursos");
                 }
 
-                if (lblAkaOrder.Text.Equals("NA"))
+                //Flex orden de venta
+                string flexPV = wo.ProcessWorkOrderDFF.items[0].pedidoDeVenta.ToString();
+                if (string.IsNullOrEmpty(flexPV))
                 {
-                    dynamic labelApex = await LabelService.LabelInfo(Constants.Plant1Id, "STANDARD"); //Obtener template de etiqueta APEX
-                    lblLabelName.Text = labelApex.LabelName.ToString();
+                    lblAkaOrder.Text = "NA";
+                    _akaCustomer = "STANDARD";
                 }
                 else
                 {
-                    //Consultar cliente de orden de venta +++++++++++++++++++++++++
+                    lblAkaOrder.Text = flexPV;
 
-                    //Consulta datos AKA
-                    Task<string> tskTradingPartner = APIService.GetRequestAsync(String.Format(EndPoints.TradingPartnerItemRelationships, lblItemNumber.Text, lblAkaCustomer.Text));
-                    string responsTP = await tskTradingPartner;
-
-                    if (!string.IsNullOrEmpty(responsTP))
-                    {
-
-                        JObject objTradingPartner = JObject.Parse(response);
-                        if ((int)objTradingPartner["count"] > 0)
-                        {
-                            //Obtener datos AKA [TradingPartnerItemRelationships]
-                            dynamic aka = objTradingPartner["items"][0];
-                            lblAkaCustomer.Text = aka.TradingPartnerName.ToString();
-                            lblAkaItem.Text = aka.TradingPartnerItemNumber.ToString();
-                            lblAkaDescription.Text = aka.RelationshipDescription.ToString();
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Orden sin datos AKA definidos [{DateService.Today()}]", Color.Black);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Sin datos AKA del producto [{DateService.Today()}]", Color.Red);
-                    }
-
+                    //♥ Consultar OM & AKA ♥
+                    AkaData();
                 }
-
-                FillLabel();
-
-                btnPrint.Enabled = true;
-                pop.Close();
+                TemplateLabel();
             }
             catch (Exception ex)
             {
                 pop.Close();
                 MessageBox.Show("Error. " + ex.Message, "Error [WorkOrderSelected]", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            pop.Close();
         }
 
-        private void CleanUIWorkOrders()
+        //Obtener datos OM & AKA
+        private async void AkaData()
         {
+            //♥ Consultar OM ♥
+            dynamic om = await CommonService.OneItem(String.Format(EndPoints.SalesOrders, lblAkaOrder.Text, Constants.BusinessUnitId));
+            if (om != null)
+            {
+                lblAkaCustomer.Text = om.BuyingPartyName.ToString();//BuyingPartyNumber
+                _akaCustomer = lblAkaCustomer.Text;
+
+                //♥ Consultar TradingPartnerItemRelationships ♥
+                dynamic aka = await CommonService.OneItem(String.Format(EndPoints.TradingPartnerItemRelationships, lblItemNumber.Text, lblAkaCustomer.Text));
+                if (aka != null)
+                {
+                    lblAkaItem.Text = aka.TradingPartnerItemNumber.ToString();
+                    lblAkaDescription.Text = aka.RelationshipDescription.ToString();
+                }
+                else
+                {
+                    Console.WriteLine($"Orden sin datos AKA [{DateService.Today()}]", Color.Black);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Pedido de venta no encontrado [{DateService.Today()}]", Color.Red);
+            }
+        }
+
+        //Template etiqueta y validar boton de impresión
+        private async void TemplateLabel()
+        {
+            //Consultar template etiqueta en APEX 
+            dynamic labelApex = await LabelService.LabelInfo(Constants.Plant1Id, _akaCustomer);
+            if (labelApex.LabelName.ToString().Equals("null"))
+            {
+                pop.Close();
+                MessageBox.Show("Etiqueta de cliente/producto no encontrada", "Verificar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                lblLabelName.Text = labelApex.LabelName.ToString();
+                FillLabel();
+            }
+
+            //Validar activacion de boton de pesaje
+            if (!string.IsNullOrEmpty(cmbWorkOrders.Text) && !string.IsNullOrEmpty(lblResourceName.Text) && !string.IsNullOrEmpty(lblLabelName.Text))
+            {
+                if (lblAkaOrder.Text.Equals("NA") && _akaCustomer.Equals("STANDARD"))
+                {
+                    btnPrint.Enabled = true;
+                }
+                else
+                {
+                    btnPrint.Enabled = string.IsNullOrEmpty(lblAkaItem.Text) ? false : true;
+                }
+            }
+            else
+            {
+                btnPrint.Enabled = false;
+            }
+        }
+
+        private void CleanAll()
+        {
+            //WOrkOrder Section
+            cmbWorkOrders.Items.Clear();
             lblOperationSequenceNumber.Text = string.Empty;
             lblOperationName.Text = string.Empty;
+            //Item Section
             lblItemNumber.Text = string.Empty;
             lblOutputQuantity.Text = string.Empty;
             lblUoM.Text = "--";
             lblItemDescription.Text = string.Empty;
             lblItemDescriptionEnglish.Text = string.Empty;
+            //Resource Section
             lblResourceCode.Text = string.Empty;
             lblResourceName.Text = string.Empty;
-            //lblEquipmentInstanceCode.Text = string.Empty;
-            //lblEquipmentInstanceName.Text= string.Empty;
+            //Planned Dates
             lblPlannedStartDate.Text = string.Empty;
             lblPlannedCompletionDate.Text = string.Empty;
-
+            //AKA Section
+            lblAkaOrder.Text = string.Empty;
+            lblAkaItem.Text = string.Empty;
+            lblAkaCustomer.Text = string.Empty;
+            lblAkaDescription.Text = string.Empty;
+            //Reprint Section
+            groupBoxReprint.Visible = false;
+            txtBoxStart.Text = string.Empty;
+            txtBoxEnd.Text = string.Empty;
+            lblStatus.Text = string.Empty;
+            //Label Preview Section
+            lblLabelName.Text = string.Empty;
+            lbLabelQuantity.Text = string.Empty;
+            lblAditional.Text = "(+0)";
+            lblStartPage.Text = string.Empty;
+            lblTotalPrint.Text = string.Empty;
+            picLabel.Image = null;
             btnPrint.Enabled = false;
-            btnReprint.Enabled = false;
         }
 
         private async void btnPrint_Click(object sender, EventArgs e)
@@ -392,13 +428,11 @@ namespace WOW_Fusion
                                     pop.Show(this);
                                     if (await LabelService.PrintP1(int.Parse(txtBoxStart.Text), int.Parse(txtBoxEnd.Text)))
                                     {
-                                        lblStatus.Text = string.Empty;
-                                        txtBoxStart.Text = string.Empty;
-                                        txtBoxEnd.Text = string.Empty;
+                                        ReprintApex();
+                                        CleanAll();
+
                                         checkBoxReprint.Checked = false;
-                                        groupBoxReprint.Visible = false;
-                                        cmbWorkOrders.Items.Clear();
-                                        CleanUIWorkOrders();
+                                        btnPrint.Text = "IMPRIMIR";
                                     }
                                     else
                                     {
@@ -433,9 +467,9 @@ namespace WOW_Fusion
                     if (await LabelService.PrintP1(int.Parse(lblStartPage.Text), int.Parse(lblTotalPrint.Text)))
                     {
                         //Guardar orden impresa
-                        await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.PathPrintedLables);
-                        cmbWorkOrders.Items.Clear();
-                        CleanUIWorkOrders();
+                        await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP1);
+                        RegisterPrintApex();
+                        CleanAll();
                         pop.Close();
                     }
                     else
@@ -479,17 +513,15 @@ namespace WOW_Fusion
 
         private void btnReprint_Click(object sender, EventArgs e)
         {
-            /*frmReprint frmReprint = new frmReprint();
-            frmReprint.StartPosition = FormStartPosition.CenterParent;
-            frmReprint.FormClosed += FrmReprintClosed;
-            frmReprint.ShowDialog();*/
-
             DialogResult dialogResult = MessageBox.Show($"¿Desea reimprimir alguna etiqueta?", "Reimpresión", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
             if (dialogResult == DialogResult.Yes)
             {
-                NotifierController.Success("Indique etiquetas a imprimir");
+                NotifierController.Success("Seleccione la orden a imprimir");
+
+                CleanAll();
                 checkBoxReprint.Checked = true;
                 groupBoxReprint.Visible = true;
+                btnPrint.Text = "REIMPRIMIR";
                 txtBoxStart.Focus();
             }
             else if (dialogResult == DialogResult.No)
@@ -544,14 +576,68 @@ namespace WOW_Fusion
 
         private void cmbWorkOrders_TextChanged(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(cmbWorkOrders.Text)) 
+        }
+
+        #region APEX
+        private async void RegisterPrintApex()
+        {
+            dynamic jsonPrint = JObject.Parse(Payloads.printHistory);
+
+            jsonPrint.DateMark = DateService.EpochTime();
+            jsonPrint.WorkOrderId = workOrderId;
+            jsonPrint.UserId = Constants.UserId;
+            jsonPrint.PrintCount = int.Parse(lblTotalPrint.Text);
+
+            string jsonSerialized = JsonConvert.SerializeObject(jsonPrint, Formatting.Indented);
+
+            Task<string> postPrint = APIService.PostApexAsync(EndPoints.PrintHistory, jsonSerialized);
+            string response = await postPrint;
+
+            if (!string.IsNullOrEmpty(response))
             {
-                btnReprint.Enabled = true;
+                dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
+                Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
             }
             else
             {
-                btnReprint.Enabled = false;
+                Console.WriteLine($"Sin respuesta al impresión [{DateService.Today()}]", Color.Red);
             }
+        }
+
+        private async void ReprintApex()
+        {
+            //Guardar orden reimpresa
+            await FileController.Write(cmbWorkOrders.Text.ToString(), Constants.OrdersReprintedP1);
+
+            dynamic jsonReprint = JObject.Parse(Payloads.reprint);
+
+            jsonReprint.WorkOrderId = workOrderId;
+            jsonReprint.UserId = Constants.UserId;
+            jsonReprint.ReprintCount = txtBoxStart.Text + "-" + txtBoxEnd.Text;
+
+            string jsonSerialized = JsonConvert.SerializeObject(jsonReprint, Formatting.Indented);
+
+            Task<string> putReprint = APIService.PutApexAsync(EndPoints.PrintHistory, jsonSerialized);
+            string response = await putReprint;
+
+            if (!string.IsNullOrEmpty(response))
+            {
+                dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
+                Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
+            }
+            else
+            {
+                Console.WriteLine($"Sin respuesta al actualizar orden reimpresa [{DateService.Today()}]", Color.Red);
+            }
+        }
+        #endregion
+
+        private void btnCloseReprint_Click(object sender, EventArgs e)
+        {
+            CleanAll();
+            checkBoxReprint.Checked = false;
+            groupBoxReprint.Visible = false;
+            btnPrint.Text = "IMPRIMIR";
         }
     }
 }

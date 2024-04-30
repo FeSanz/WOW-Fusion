@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -23,6 +24,7 @@ namespace WOW_Fusion.Services
                 string response = await tskItem;
                 if (string.IsNullOrEmpty(response))
                 {
+                    Console.WriteLine($"Respuesta vacía [{DateService.Today()}]", Color.Red);
                     return null;
                 }
                 else

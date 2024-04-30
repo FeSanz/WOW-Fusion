@@ -111,8 +111,10 @@ namespace WOW_Fusion.Controllers
             {
                 foreach (string orderNumber in ordersPrinted)
                 {
+                    //MessageBox.Show(order + "(S) - " + orderNumber + "(I)");
                     if (orderNumber.Equals(order))
                     {
+                        //MessageBox.Show(order + "(S) - " + orderNumber + "(I)");
                         status = true;
                     }
                 }
