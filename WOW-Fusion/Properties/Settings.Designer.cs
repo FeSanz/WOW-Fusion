@@ -122,12 +122,12 @@ namespace WOW_Fusion.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("300000003822435")]
-        public string WorkCenterP2 {
+        public string WorkCenterId {
             get {
-                return ((string)(this["WorkCenterP2"]));
+                return ((string)(this["WorkCenterId"]));
             }
             set {
-                this["WorkCenterP2"] = value;
+                this["WorkCenterId"] = value;
             }
         }
         
@@ -152,6 +152,18 @@ namespace WOW_Fusion.Properties {
             }
             set {
                 this["PalletToPrint"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300000003822457")]
+        public string ResourceId {
+            get {
+                return ((string)(this["ResourceId"]));
+            }
+            set {
+                this["ResourceId"] = value;
             }
         }
     }

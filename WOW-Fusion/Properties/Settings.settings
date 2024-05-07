@@ -26,7 +26,7 @@
     <Setting Name="WeighingIP" Type="System.String" Scope="User">
       <Value Profile="(Default)">192.168.12.2</Value>
     </Setting>
-    <Setting Name="WorkCenterP2" Type="System.String" Scope="User">
+    <Setting Name="WorkCenterId" Type="System.String" Scope="User">
       <Value Profile="(Default)">300000003822435</Value>
     </Setting>
     <Setting Name="RollToPrint" Type="System.Int32" Scope="User">
@@ -34,6 +34,9 @@
     </Setting>
     <Setting Name="PalletToPrint" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="ResourceId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">300000003822457</Value>
     </Setting>
   </Settings>
 </SettingsFile>

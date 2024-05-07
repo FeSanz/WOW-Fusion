@@ -90,7 +90,11 @@ namespace WOW_Fusion
 
             foreach (var item in items)
             {
-                cmbWorkCenters.Items.Add(item.WorkCenterName.ToString());
+                if (item.WorkCenterName.ToString() != "SERVICIOS" && item.WorkCenterName.ToString() != "INSTALACIONES" &&
+                    item.WorkCenterName.ToString() != "DECORADO")
+                {
+                    cmbWorkCenters.Items.Add(item.WorkCenterName.ToString());
+                }
             }
         }
 
@@ -118,15 +122,7 @@ namespace WOW_Fusion
 
                 lblWorkAreaName.Text = ct.WorkAreaName.ToString();
 
-                cmbWorkOrders.Items.Clear();
-                lblItemNumber.Text = string.Empty;
-                lblItemDescription.Text = string.Empty;
-                lblOutputQuantity.Text = string.Empty;
-                lblUoM.Text = string.Empty;
-                lblResourceName.Text = string.Empty;
-                lblResourceCode.Text = string.Empty;
-                lblPlannedStartDate.Text = string.Empty;
-                lblPlannedCompletionDate.Text = string.Empty;
+                CleanAll();
 
                 cmbWorkOrders.Enabled = true;
             }
@@ -219,30 +215,6 @@ namespace WOW_Fusion
                 lblAditional.Text = $"(+{Convert.ToInt32(Math.Round(additionalLabels))})";
                 lblTotalPrint.Text = (float.Parse(lblOutputQuantity.Text) + additionalLabels).ToString();
                 lbLabelQuantity.Text = lblOutputQuantity.Text;
-
-                // → SECUENCIA 20 ←
-                int countOutput = (int)wo.ProcessWorkOrderOutput.count;
-                if (countOutput == 2)
-                {
-                    int indexOutput = -1;
-                    for (int i = 0; i < countOutput; i++)
-                    {
-                        if ((int)wo.ProcessWorkOrderOutput.items[i].OperationSequenceNumber == 20)
-                        {
-                            indexOutput = i;
-                            break;
-                        }
-                    }
-                    dynamic output = wo.ProcessWorkOrderOutput.items[indexOutput];
-
-                    lblOperationSequenceNumber.Text = output.OperationSequenceNumber;
-                    lblOperationName.Text = output.OperationName;
-
-                }
-                else
-                {
-                    NotifierController.Warning("Secuencias definidas incorrectamente");
-                }
 
                 //Obtener datos de máquina
                 int countResources = (int)wo.ProcessWorkOrderResource.count;
@@ -371,8 +343,6 @@ namespace WOW_Fusion
         {
             //WOrkOrder Section
             cmbWorkOrders.Items.Clear();
-            lblOperationSequenceNumber.Text = string.Empty;
-            lblOperationName.Text = string.Empty;
             //Item Section
             lblItemNumber.Text = string.Empty;
             lblOutputQuantity.Text = string.Empty;

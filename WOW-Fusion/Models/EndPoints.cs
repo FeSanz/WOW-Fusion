@@ -13,6 +13,14 @@ namespace WOW_Fusion.Models
                                                     "&fields=OrganizationId,OrganizationCode,OrganizationName,LocationCode,ManagementBusinessUnitId,ManagementBusinessUnitName" +
                                                     "&q=OrganizationId={0}";
 
+        public static string ResourcesTypeMachine = Settings.Default.FusionUrl + "/productionResources?" + Constants.ParamsGet +
+                                                  "&fields=ResourceId,ResourceCode,ResourceName" +
+                                                  "&q=OrganizationId={0} and ResourceType='EQUIPMENT' and ResourceCode like '%MF-%'";
+
+        public static string ResourceById = Settings.Default.FusionUrl + "/productionResources?" + Constants.ParamsGet +
+                                                    "&fields=ResourceCode,ResourceName" +
+                                                    "&q=ResourceId={0}";
+
         public static string WorkCenters = Settings.Default.FusionUrl + "/workCenters?" + Constants.ParamsGet +
                                                     "&fields=WorkCenterId,WorkCenterName,WorkAreaId,WorkAreaName" +
                                                     "&q=OrganizationId={0}";
@@ -20,6 +28,10 @@ namespace WOW_Fusion.Models
         public static string WorkCentersById = Settings.Default.FusionUrl + "/workCenters?" + Constants.ParamsGet +
                                                     "&fields=WorkCenterName,WorkCenterDescription,WorkAreaId,WorkAreaName" +
                                                     "&q=OrganizationId={0} and WorkCenterId={1}";
+
+        public static string WorkCenterByResourceId = Settings.Default.FusionUrl + "/workCenters?" + Constants.ParamsGet +
+                                                    "&fields=WorkCenterId,WorkCenterName" +
+                                                    "&finder=WorkCentersByResourceId;ResourceId={0}";
 
         public static string ShiftByWorkCenter = Settings.Default.FusionUrl + "/workCenters?" + Constants.ParamsGet +
                                                     "&expand=WorkCenterResource.WorkCenterResourceShift" +
@@ -49,6 +61,14 @@ namespace WOW_Fusion.Models
         public static string WOProcessList = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
                                                     "&fields=WorkOrderNumber,PlannedStartDate,PlannedCompletionDate" +
                                                     "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and Operation.WorkCenterId={1}";
+
+        public static string WOListByResource = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
+                                                    "&fields=WorkOrderNumber,PlannedStartDate,PlannedCompletionDate" +
+                                                    "&q=WorkOrderStatusCode='ORA_RELEASED' and OrganizationId={0} and ProcessWorkOrderResource.ResourceId={1}";
+
+        public static string WOByMachine = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
+                                                    "&fields=WorkOrderNumber,PlannedStartDate,PlannedCompletionDate" +
+                                                    "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and ProcessWorkOrderResource.ResourceId={1}";
 
         public static string WOProcessDetail = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
                                                     "&expand=ProcessWorkOrderResource.WorkOrderOperationResourceInstance" +

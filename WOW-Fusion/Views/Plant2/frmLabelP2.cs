@@ -59,8 +59,6 @@ namespace WOW_Fusion
         private JObject machines = null;
         private dynamic shifts = null;
 
-        private string _resourceId = string.Empty;
-
         //Scheduling
         List<WorkOrderShedule> ordersForSchedule;
         private bool _startOrder = false;
@@ -91,24 +89,23 @@ namespace WOW_Fusion
 
         public async void InitializeFusionData()
         {
-            
-            //Obtener datos de Organizacion
             dynamic org = await CommonService.OneItem(String.Format(EndPoints.InventoryOrganizations, Constants.Plant2Id));
-            //Obtener datos de centro de trabajo
-            dynamic wc = await CommonService.OneItem(String.Format(EndPoints.WorkCentersById, Constants.Plant2Id, Settings.Default.WorkCenterP2));
-           
-            if (org == null || wc == null)
+            dynamic resource = await CommonService.OneItem(String.Format(EndPoints.ResourceById, Settings.Default.ResourceId));
+            dynamic wc = await CommonService.OneItem(String.Format(EndPoints.WorkCenterByResourceId, Settings.Default.ResourceId));
+
+
+            if (org == null || resource == null || wc == null)
             {
-                NotifierController.Error("Sin organización o centro de trabajo, la aplicación no funcionará");
+                NotifierController.Error("Sin organización, recurso o centro de trabajo, la aplicación no funcionará");
                 return;
             }
             else
             {  
                 Constants.BusinessUnitId = org.ManagementBusinessUnitId.ToString();
-                lblOrganizationCode.Text = org.OrganizationCode.ToString();
                 lblLocationCode.Text = org.LocationCode.ToString();
+                lblResourceCode.Text = resource.ResourceCode.ToString();
+                lblResourceName.Text = resource.ResourceName.ToString();
                 lblWorkCenterName.Text = wc.WorkCenterName.ToString();
-                lblWorkAreaName.Text = wc.WorkAreaName.ToString();
                 Refresh();
             }
 
@@ -121,19 +118,7 @@ namespace WOW_Fusion
         #region Scheduling
         private async void ProductionScheduling(object sender, EventArgs e)
         {
-            /*List<WorkOrderShedule> obj = new List<WorkOrderShedule>();
-            obj.Add(new WorkOrderShedule { WorkOrderNumber = "WO-PL2-1003", PlannedStartDate = DateTime.Parse("2024-03-19T23:36:58.565Z"), PlannedCompletionDate = DateTime.Parse("2024-03-19T23:37:22.646Z") });
-            obj.Add(new WorkOrderShedule { WorkOrderNumber = "WO-PL2-1005", PlannedStartDate = DateTime.Parse("2024-03-19T23:37:12.281Z"), PlannedCompletionDate = DateTime.Parse("2024-03-19T23:37:22.646Z") });
-            obj.Add(new WorkOrderShedule { WorkOrderNumber = "WO-PL2-1004", PlannedStartDate = DateTime.Parse("2024-03-19T23:37:05.274Z"), PlannedCompletionDate = DateTime.Parse("2024-03-19T23:37:22.646Z") });
-            //obj.Add(new WorkOrderShedule { WorkOrderNumber = "WO-PL2-1001", PlannedStartDate = DateTime.Parse("2024-03-19T23:18:54.447Z"), PlannedCompletionDate = DateTime.Parse("2024-03-19T23:37:22.646Z") });
-            obj.Add(new WorkOrderShedule { WorkOrderNumber = "WO-PL2-1006", PlannedStartDate = DateTime.Parse("2024-03-19T23:36:50.640Z"), PlannedCompletionDate = DateTime.Parse("2024-03-19T23:37:22.646Z") });
-           
-            ordersForSchedule = obj;
-             */
-
-            //Console.WriteLine($"Verificando programación de las ordenes [{DateService.Today()}]", Color.Gray);
-
-            ordersForSchedule = await CommonService.WOProcessSchedule(Constants.Plant2Id, Settings.Default.WorkCenterP2); //Obtener OT Schedule
+            ordersForSchedule = await CommonService.WOProcessSchedule(Constants.Plant2Id, Settings.Default.ResourceId); //Obtener OT Schedule
            
             if (ordersForSchedule.Count > 0)
             {
@@ -215,9 +200,9 @@ namespace WOW_Fusion
 
         private void CheckShift(object sender, EventArgs e)
         {
-            if(shifts != null && !string.IsNullOrEmpty(_resourceId))
+            if(shifts != null && !string.IsNullOrEmpty(Settings.Default.ResourceId))
             {
-                lblShift.Text = (shifts == null) ? string.Empty : DateService.CurrentShift(shifts, _resourceId);
+                lblShift.Text = (shifts == null) ? string.Empty : DateService.CurrentShift(shifts, Settings.Default.ResourceId);
             }
         }
         #endregion
@@ -228,7 +213,7 @@ namespace WOW_Fusion
             cmbWorkOrders.Items.Clear();
             picBoxWaitWO.Visible = true;
 
-            List<string> workOrderNumbers = await CommonService.WOProcessByWorkCenter(Constants.Plant2Id, Settings.Default.WorkCenterP2); //Obtener OT
+            List<string> workOrderNumbers = await CommonService.WOProcessByResource(Constants.Plant2Id, Settings.Default.ResourceId); //Obtener OT
             picBoxWaitWO.Visible = false;
 
             if (workOrderNumbers == null) return;
@@ -290,50 +275,6 @@ namespace WOW_Fusion
 
                 //Verificar Status de la programacion de la orden
                 CheckStatusScheduleOrder(DateTime.Parse(wo.PlannedStartDate.ToString()), DateTime.Parse(wo.PlannedCompletionDate.ToString()));
-
-                //Obtener datos de máquina
-                int countResources = (int)wo.ProcessWorkOrderResource.count;
-                if (countResources >= 1)
-                {
-                    int indexMachine = -1;
-                    //Buscar maquina entre recursos de producción
-                    for (int i = 0; i < countResources; i++)
-                    {
-                        for (int j = 0; j < (int)machines["count"]; j++)
-                        {
-                            string resourceOrder = wo.ProcessWorkOrderResource.items[i].ResourceId.ToString();
-                            string resourceMachines = machines["items"][j]["ResourceId"].ToString();
-
-                            if (resourceOrder.Equals(resourceMachines))
-                            {
-                                indexMachine = i;
-                            }
-                        }
-                    }
-                    //obtener index de maquina encontrada
-                    if (indexMachine >= 0)
-                    {
-                        dynamic resource = wo.ProcessWorkOrderResource.items[indexMachine]; //Objeto RESURSO
-                        _resourceId = resource.ResourceId.ToString();
-                        lblResourceCode.Text = resource.ResourceCode.ToString();
-                        lblResourceName.Text = resource.ResourceName.ToString();
-
-                        //♥ Consultar TURNO ♥
-                        shifts = await CommonService.OneItem(String.Format(EndPoints.ShiftByWorkCenter, Settings.Default.WorkCenterP2));
-                        lblShift.Text = (shifts == null) ? string.Empty : DateService.CurrentShift(shifts, _resourceId);
-
-                        timerShift.Tick += new EventHandler(CheckShift);
-                        timerShift.Start();
-                    }
-                    else
-                    {
-                        NotifierController.Warning("Datos de recurso no definidos");
-                    }
-                }
-                else
-                {
-                    NotifierController.Warning("Orden sin recursos");
-                }
                 
                 //♥ Consultar ITEM ♥
                 WeightAndPalletStandard();
@@ -407,7 +348,7 @@ namespace WOW_Fusion
                 if (string.IsNullOrEmpty(itemsV2.UnitWeightQuantity.ToString()) || string.IsNullOrEmpty(itemsV2.MaximumLoadWeight.ToString()))
                 {
                     pop.Close();
-                    //++MessageBox.Show("Peso estándar no definido", "Verificar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Peso estándar no definido", "Verificar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
@@ -421,7 +362,7 @@ namespace WOW_Fusion
                 }
 
                 //Quitar despues------------------------------------------------------------------
-                btnGetWeight.Enabled = true;
+                /*btnGetWeight.Enabled = true;
                 lblStdRoll.Text = "50000";
                 lblWeightUOMRoll.Text = "kg";
                 lblWeightUOMPallet.Text = "kg";
@@ -431,7 +372,7 @@ namespace WOW_Fusion
                 lblRollOnPallet.Text = rollsOnPalletss.ToString();
 
                 int palletTotal = (int)Math.Ceiling(float.Parse(lblPrimaryProductQuantity.Text) / (float.Parse(lblStdRoll.Text) * float.Parse(lblRollOnPallet.Text)));
-                lblPalletTotal.Text = palletTotal.ToString();
+                lblPalletTotal.Text = palletTotal.ToString();*/
                 //Quitar despues------------------------------------------------------------------
 
             }

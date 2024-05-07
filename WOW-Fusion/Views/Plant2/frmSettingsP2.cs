@@ -18,7 +18,8 @@ namespace WOW_Fusion
 {
     public partial class frmSettingsP2 : Form
     {
-        private JObject workCenters = null;
+        private JObject resourcesMfg = null;
+        private string resourceId = string.Empty;
         private string workCenterId = string.Empty;
 
         public frmSettingsP2()
@@ -29,19 +30,29 @@ namespace WOW_Fusion
 
         public async void InitializeFusionData()
         {
-            //Obtener datos de centro de trabajo
-            dynamic wc = await CommonService.OneItem(String.Format(EndPoints.WorkCentersById, Constants.Plant2Id, Settings.Default.WorkCenterP2));
+            //Obtener datos de la máquina
+            dynamic resource = await CommonService.OneItem(String.Format(EndPoints.ResourceById, Settings.Default.ResourceId));
 
-            if (wc != null)
+            if (resource != null)
             {
-                cmbWorkCenters.Items.Clear();
-                cmbWorkCenters.Items.Add(wc["WorkCenterName"].ToString());
-                cmbWorkCenters.SelectedIndex = 0;
-                txtBoxArea.Text = wc["WorkAreaName"].ToString();
+                cmbResources.Items.Clear();
+                cmbResources.Items.Add(resource.ResourceName.ToString());
+                cmbResources.SelectedIndex = 0;
+
+                dynamic wc = await CommonService.OneItem(String.Format(EndPoints.WorkCenterByResourceId, Settings.Default.ResourceId));
+
+                if (wc != null)
+                {
+                    txtBoxWorkCenter.Text = wc.WorkCenterName.ToString();
+                }
+                else
+                {
+                    NotifierController.Warning("No se encontro centro de trabajo");
+                }
             }
             else
             {
-                NotifierController.Warning("No se encontraron centros de trabajo");
+                NotifierController.Warning("No se encontro recurso");
             }
         }
 
@@ -49,7 +60,8 @@ namespace WOW_Fusion
         {
             Console.WriteLine($"{DateService.Today()} > Acceso a configuración", Color.Black);
 
-            workCenterId = Settings.Default.WorkCenterP2;
+            resourceId = Settings.Default.ResourceId;
+            workCenterId = Settings.Default.WorkCenterId;
 
             txtBoxIpWeighing.Text = Settings.Default.WeighingIP;
             txtBoxPortWeighing.Text = Settings.Default.WeighingPort.ToString();
@@ -65,12 +77,13 @@ namespace WOW_Fusion
         {
             lblStatus.Text = "Verificando datos...";
     
-            if(!string.IsNullOrEmpty(cmbWorkCenters.Text) && !string.IsNullOrEmpty(txtBoxArea.Text) &&
+            if(!string.IsNullOrEmpty(cmbResources.Text) && !string.IsNullOrEmpty(txtBoxWorkCenter.Text) &&
                 !string.IsNullOrEmpty(txtBoxIpWeighing.Text) && !string.IsNullOrEmpty(txtBoxPortWeighing.Text) &&
                 !string.IsNullOrEmpty(txtBoxIpPrinter.Text) && !string.IsNullOrEmpty(txtBoxPortPrinter.Text) &&
                 !string.IsNullOrEmpty(txtRoll.Text) && !string.IsNullOrEmpty(txtPallet.Text))
             {
-                Settings.Default.WorkCenterP2 = workCenterId;
+                Settings.Default.ResourceId = resourceId;
+                Settings.Default.WorkCenterId = workCenterId;
 
                 Settings.Default.WeighingIP = txtBoxIpWeighing.Text;
                 Settings.Default.WeighingPort = int.Parse(txtBoxPortWeighing.Text);
@@ -101,32 +114,43 @@ namespace WOW_Fusion
 
         private async void cmbWorkCenters_DropDown(object sender, EventArgs e)
         {
-            cmbWorkCenters.Items.Clear();
+            cmbResources.Items.Clear();
             picBoxWaitWC.Visible = true;
 
-            workCenters = await CommonService.WorkCenters(Constants.Plant2Id); //Obtener Objeto CENTROS DE TRABAJO
+            resourcesMfg = await CommonService.ResourcesTypeMachine(Constants.Plant2Id);
             picBoxWaitWC.Visible = false;
 
-            if (workCenters == null) return;
+            if (resourcesMfg == null) return;
 
-            dynamic items = workCenters["items"];
+            dynamic items = resourcesMfg["items"];
 
             foreach (var item in items)
             {
-                cmbWorkCenters.Items.Add(item["WorkCenterName"].ToString());
+                cmbResources.Items.Add(item.ResourceName.ToString());
             }
         }
 
-        private void cmbWorkCenters_SelectedValueChanged(object sender, EventArgs e)
+        private async void cmbWorkCenters_SelectedValueChanged(object sender, EventArgs e)
         {
-            int index = cmbWorkCenters.SelectedIndex;
+            int index = cmbResources.SelectedIndex;
 
-            if (workCenters == null) { return; }
+            if (resourcesMfg == null) { return; }
 
-            dynamic ct = workCenters["items"][index]; //Objeto CENTROS DE TRABAJO
+            dynamic resource = resourcesMfg["items"][index]; 
 
-            txtBoxArea.Text = ct["WorkAreaName"].ToString();
-            workCenterId = ct["WorkCenterId"].ToString();
+            resourceId = resource.ResourceId.ToString();
+
+            dynamic wc = await CommonService.OneItem(String.Format(EndPoints.WorkCenterByResourceId, resourceId));
+
+            if (wc != null)
+            {
+                workCenterId = wc.WorkCenterId.ToString();
+                txtBoxWorkCenter.Text = wc.WorkCenterName.ToString();
+            }
+            else
+            {
+                NotifierController.Warning("No se encontro la centro de trabajo");
+            }
         }
 
         private void txtBoxPortWeighing_TextChanged(object sender, EventArgs e)

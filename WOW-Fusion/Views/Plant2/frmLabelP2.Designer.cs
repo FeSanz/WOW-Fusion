@@ -97,9 +97,7 @@
             this.lblPalletGrossKg = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lblPalletNumber = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
-            this.lblWorkAreaName = new System.Windows.Forms.Label();
             this.lblWorkCenterName = new System.Windows.Forms.Label();
             this.MenuShipWeight = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.recalcularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -145,8 +143,6 @@
             this.lblShift = new System.Windows.Forms.Label();
             this.lblLocationCode = new System.Windows.Forms.Label();
             this.lblLocation = new System.Windows.Forms.Label();
-            this.lblOrganizationCode = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
             this.lblMode = new System.Windows.Forms.Label();
             this.timerShift = new System.Windows.Forms.Timer(this.components);
             this.timerSchedule = new System.Windows.Forms.Timer(this.components);
@@ -176,21 +172,21 @@
             // 
             this.lblResourceName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblResourceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResourceName.Location = new System.Drawing.Point(244, 112);
+            this.lblResourceName.Location = new System.Drawing.Point(740, 39);
             this.lblResourceName.Name = "lblResourceName";
-            this.lblResourceName.Size = new System.Drawing.Size(190, 15);
+            this.lblResourceName.Size = new System.Drawing.Size(225, 20);
             this.lblResourceName.TabIndex = 25;
-            this.lblResourceName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblResourceName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblResourceCode
             // 
             this.lblResourceCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblResourceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResourceCode.Location = new System.Drawing.Point(20, 112);
+            this.lblResourceCode.Location = new System.Drawing.Point(589, 39);
             this.lblResourceCode.Name = "lblResourceCode";
-            this.lblResourceCode.Size = new System.Drawing.Size(190, 15);
+            this.lblResourceCode.Size = new System.Drawing.Size(145, 20);
             this.lblResourceCode.TabIndex = 24;
-            this.lblResourceCode.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblResourceCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblPrimaryProductQuantity
             // 
@@ -226,10 +222,6 @@
             this.groupBox1.Controls.Add(this.label25);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.lblResourceName);
-            this.groupBox1.Controls.Add(this.lblResourceCode);
             this.groupBox1.Controls.Add(this.lblPrimaryProductQuantity);
             this.groupBox1.Controls.Add(this.lblCompletedQuantity);
             this.groupBox1.Controls.Add(this.lblPlannedCompletionDate);
@@ -241,7 +233,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(22, 78);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(462, 245);
+            this.groupBox1.Size = new System.Drawing.Size(462, 240);
             this.groupBox1.TabIndex = 61;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos de producción";
@@ -250,7 +242,7 @@
             // 
             this.lblItemDescriptionEnglish.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblItemDescriptionEnglish.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemDescriptionEnglish.Location = new System.Drawing.Point(21, 209);
+            this.lblItemDescriptionEnglish.Location = new System.Drawing.Point(21, 178);
             this.lblItemDescriptionEnglish.Name = "lblItemDescriptionEnglish";
             this.lblItemDescriptionEnglish.Size = new System.Drawing.Size(414, 22);
             this.lblItemDescriptionEnglish.TabIndex = 18;
@@ -273,7 +265,7 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label12.Location = new System.Drawing.Point(184, 194);
+            this.label12.Location = new System.Drawing.Point(184, 163);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(94, 13);
             this.label12.TabIndex = 17;
@@ -296,7 +288,7 @@
             // 
             this.lblItemNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblItemNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemNumber.Location = new System.Drawing.Point(21, 141);
+            this.lblItemNumber.Location = new System.Drawing.Point(21, 110);
             this.lblItemNumber.Name = "lblItemNumber";
             this.lblItemNumber.Size = new System.Drawing.Size(414, 15);
             this.lblItemNumber.TabIndex = 16;
@@ -319,7 +311,7 @@
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label17.Location = new System.Drawing.Point(206, 127);
+            this.label17.Location = new System.Drawing.Point(206, 96);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(50, 13);
             this.label17.TabIndex = 15;
@@ -330,7 +322,7 @@
             // 
             this.lblItemDescription.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblItemDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemDescription.Location = new System.Drawing.Point(21, 170);
+            this.lblItemDescription.Location = new System.Drawing.Point(21, 139);
             this.lblItemDescription.Name = "lblItemDescription";
             this.lblItemDescription.Size = new System.Drawing.Size(414, 22);
             this.lblItemDescription.TabIndex = 6;
@@ -341,7 +333,7 @@
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label25.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label25.Location = new System.Drawing.Point(200, 157);
+            this.label25.Location = new System.Drawing.Point(200, 126);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(63, 13);
             this.label25.TabIndex = 4;
@@ -376,7 +368,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label2.Location = new System.Drawing.Point(296, 99);
+            this.label2.Location = new System.Drawing.Point(809, 23);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 13);
             this.label2.TabIndex = 126;
@@ -388,7 +380,7 @@
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label14.Location = new System.Drawing.Point(78, 93);
+            this.label14.Location = new System.Drawing.Point(620, 23);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(83, 13);
             this.label14.TabIndex = 125;
@@ -779,46 +771,25 @@
             this.lblPalletNumber.TabIndex = 113;
             this.lblPalletNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label10.Location = new System.Drawing.Point(779, 23);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(29, 13);
-            this.label10.TabIndex = 132;
-            this.label10.Text = "Área";
-            // 
             // label20
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label20.Location = new System.Drawing.Point(548, 23);
+            this.label20.Location = new System.Drawing.Point(1030, 23);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(92, 13);
             this.label20.TabIndex = 131;
             this.label20.Text = "Centro de Trabajo";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblWorkAreaName
-            // 
-            this.lblWorkAreaName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblWorkAreaName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWorkAreaName.Location = new System.Drawing.Point(699, 39);
-            this.lblWorkAreaName.Name = "lblWorkAreaName";
-            this.lblWorkAreaName.Size = new System.Drawing.Size(186, 20);
-            this.lblWorkAreaName.TabIndex = 130;
-            this.lblWorkAreaName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // lblWorkCenterName
             // 
             this.lblWorkCenterName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblWorkCenterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWorkCenterName.Location = new System.Drawing.Point(505, 39);
+            this.lblWorkCenterName.Location = new System.Drawing.Point(981, 39);
             this.lblWorkCenterName.Name = "lblWorkCenterName";
-            this.lblWorkCenterName.Size = new System.Drawing.Size(177, 20);
+            this.lblWorkCenterName.Size = new System.Drawing.Size(190, 20);
             this.lblWorkCenterName.TabIndex = 129;
             this.lblWorkCenterName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -852,9 +823,9 @@
             this.groupBox3.Controls.Add(this.lblAkaCustomer);
             this.groupBox3.Controls.Add(this.lblAkaOrder);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(21, 332);
+            this.groupBox3.Location = new System.Drawing.Point(21, 324);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(462, 151);
+            this.groupBox3.Size = new System.Drawing.Size(462, 159);
             this.groupBox3.TabIndex = 134;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "AKA";
@@ -1344,7 +1315,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label7.Location = new System.Drawing.Point(919, 23);
+            this.label7.Location = new System.Drawing.Point(517, 23);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(35, 13);
             this.label7.TabIndex = 141;
@@ -1354,7 +1325,7 @@
             // 
             this.lblShift.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblShift.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblShift.Location = new System.Drawing.Point(901, 39);
+            this.lblShift.Location = new System.Drawing.Point(503, 39);
             this.lblShift.Name = "lblShift";
             this.lblShift.Size = new System.Drawing.Size(63, 20);
             this.lblShift.TabIndex = 140;
@@ -1364,9 +1335,9 @@
             // 
             this.lblLocationCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblLocationCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLocationCode.Location = new System.Drawing.Point(1185, 39);
+            this.lblLocationCode.Location = new System.Drawing.Point(1189, 39);
             this.lblLocationCode.Name = "lblLocationCode";
-            this.lblLocationCode.Size = new System.Drawing.Size(177, 20);
+            this.lblLocationCode.Size = new System.Drawing.Size(173, 20);
             this.lblLocationCode.TabIndex = 163;
             this.lblLocationCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1374,33 +1345,12 @@
             // 
             this.lblLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLocation.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblLocation.Location = new System.Drawing.Point(1186, 24);
+            this.lblLocation.Location = new System.Drawing.Point(1189, 23);
             this.lblLocation.Name = "lblLocation";
-            this.lblLocation.Size = new System.Drawing.Size(177, 13);
+            this.lblLocation.Size = new System.Drawing.Size(174, 13);
             this.lblLocation.TabIndex = 164;
             this.lblLocation.Text = "Ubicación";
             this.lblLocation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblOrganizationCode
-            // 
-            this.lblOrganizationCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblOrganizationCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOrganizationCode.Location = new System.Drawing.Point(983, 39);
-            this.lblOrganizationCode.Name = "lblOrganizationCode";
-            this.lblOrganizationCode.Size = new System.Drawing.Size(186, 20);
-            this.lblOrganizationCode.TabIndex = 160;
-            this.lblOrganizationCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label24
-            // 
-            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label24.Location = new System.Drawing.Point(984, 22);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(186, 13);
-            this.label24.TabIndex = 162;
-            this.label24.Text = "Código Organización";
-            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblMode
             // 
@@ -1507,22 +1457,22 @@
             this.Controls.Add(this.pbRed);
             this.Controls.Add(this.lblLocationCode);
             this.Controls.Add(this.lblLocation);
-            this.Controls.Add(this.lblOrganizationCode);
-            this.Controls.Add(this.label24);
             this.Controls.Add(this.btnSwapMode);
             this.Controls.Add(this.label7);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.lblShift);
+            this.Controls.Add(this.lblResourceName);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.dgPallets);
+            this.Controls.Add(this.lblResourceCode);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.btnSettings);
-            this.Controls.Add(this.label10);
             this.Controls.Add(this.label20);
-            this.Controls.Add(this.lblWorkAreaName);
-            this.Controls.Add(this.lblWorkCenterName);
+            this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgRolls);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.lblWorkCenterName);
             this.Controls.Add(this.btnGetWeight);
             this.Controls.Add(this.txtBoxWeight);
             this.Controls.Add(this.groupBox4);
@@ -1593,9 +1543,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label lblWorkAreaName;
         private System.Windows.Forms.Label lblWorkCenterName;
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.PictureBox picLabelPallet;
@@ -1637,8 +1585,6 @@
         private System.Windows.Forms.Button btnSwapMode;
         private System.Windows.Forms.Label lblLocationCode;
         private System.Windows.Forms.Label lblLocation;
-        private System.Windows.Forms.Label lblOrganizationCode;
-        private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label lblMode;
         private System.Windows.Forms.Label lblStdRoll;
         private System.Windows.Forms.Label lblWeightUOMPallet;

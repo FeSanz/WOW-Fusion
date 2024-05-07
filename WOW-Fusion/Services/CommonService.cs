@@ -81,6 +81,38 @@ namespace WOW_Fusion.Services
             }
         }
 
+        public static async Task<JObject> ResourcesTypeMachine(string organizationId)
+        {
+            try
+            {
+                Task<string> tsk = APIService.GetRequestAsync(String.Format(EndPoints.ResourcesTypeMachine, organizationId));
+                string response = await tsk;
+                if (string.IsNullOrEmpty(response))
+                {
+                    return null;
+                }
+                else
+                {
+                    JObject obj = JObject.Parse(response);
+
+                    if ((int)obj["count"] == 0)
+                    {
+                        NotifierController.Warning("No se encontraron máquinas");
+                        return null;
+                    }
+                    else
+                    {
+                        return obj;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "[Error] Recursos Máquinas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
         public static async Task<JObject> WorkCenters(string organizationId)
         {
             try
@@ -240,17 +272,56 @@ namespace WOW_Fusion.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "[Error] Lista de ordes", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "[Error] Lista de ordenes por centro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
 
-        public static async Task<List<WorkOrderShedule>> WOProcessSchedule(string organizationId, string workCenterId)
+        public static async Task<List<string>> WOProcessByResource(string organizationId, string resourceId)
+        {
+            try
+            {
+                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WOListByResource, organizationId, resourceId));
+                string response = await tskWorkOrders;
+                if (string.IsNullOrEmpty(response))
+                {
+                    return null;
+                }
+                else
+                {
+                    JObject workOrders = JObject.Parse(response);
+
+                    if ((int)workOrders["count"] >= 0)
+                    {
+                        List<string> workOrderNumbers = new List<string>();
+                        dynamic items = workOrders["items"];
+
+                        foreach (var item in items)
+                        {
+                            workOrderNumbers.Add(item["WorkOrderNumber"].ToString());
+                        }
+                        return workOrderNumbers;
+                    }
+                    else
+                    {
+                        NotifierController.Warning("Sin ordenes de trabajo");
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "[Error] Lista de ordenes por recurso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        public static async Task<List<WorkOrderShedule>> WOProcessSchedule(string organizationId, string resourceId)
         {
             try
             {
                 DateTimeOffset now = DateTimeOffset.Now;
-                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessList, organizationId, workCenterId/*, now.ToString("yyyy-MM-dd HH:mm:ss")*/));
+                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WOListByResource, organizationId, resourceId/*, now.ToString("yyyy-MM-dd HH:mm:ss")*/));
                 string response = await tskWorkOrders;
                 if (string.IsNullOrEmpty(response))
                 {

@@ -31,10 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLabelP1));
             this.lblItemDescription = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.lblOperationSequenceNumber = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.lblOperationName = new System.Windows.Forms.Label();
             this.lblItemDescriptionEnglish = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -45,9 +41,11 @@
             this.lblResourceName = new System.Windows.Forms.Label();
             this.lblResourceCode = new System.Windows.Forms.Label();
             this.lblPlannedCompletionDate = new System.Windows.Forms.Label();
+            this.picBoxWaitWC = new System.Windows.Forms.PictureBox();
             this.lblPlannedStartDate = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.cmbWorkOrders = new System.Windows.Forms.ComboBox();
+            this.picBoxWaitWO = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
@@ -56,6 +54,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.groupBoxReprint = new System.Windows.Forms.GroupBox();
+            this.btnCloseReprint = new System.Windows.Forms.Button();
             this.txtBoxEnd = new System.Windows.Forms.TextBox();
             this.txtBoxStart = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -79,6 +78,7 @@
             this.lblStartPage = new System.Windows.Forms.Label();
             this.lbLabelQuantity = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.picLabel = new System.Windows.Forms.PictureBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
@@ -94,28 +94,24 @@
             this.lblAkaDescription = new System.Windows.Forms.Label();
             this.lblUserName = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnCloseReprint = new System.Windows.Forms.Button();
             this.btnReprint = new System.Windows.Forms.Button();
-            this.picLabel = new System.Windows.Forms.PictureBox();
-            this.picBoxWaitWC = new System.Windows.Forms.PictureBox();
-            this.picBoxWaitWO = new System.Windows.Forms.PictureBox();
             this.btnSettings = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBoxReprint.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.SuspendLayout();
             // 
             // lblItemDescription
             // 
             this.lblItemDescription.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblItemDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemDescription.Location = new System.Drawing.Point(32, 168);
+            this.lblItemDescription.Location = new System.Drawing.Point(32, 129);
             this.lblItemDescription.Name = "lblItemDescription";
             this.lblItemDescription.Size = new System.Drawing.Size(401, 22);
             this.lblItemDescription.TabIndex = 6;
@@ -123,10 +119,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label21);
-            this.groupBox1.Controls.Add(this.lblOperationSequenceNumber);
-            this.groupBox1.Controls.Add(this.label18);
-            this.groupBox1.Controls.Add(this.lblOperationName);
             this.groupBox1.Controls.Add(this.lblItemDescriptionEnglish);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.label5);
@@ -153,60 +145,16 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(12, 26);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(471, 324);
+            this.groupBox1.Size = new System.Drawing.Size(471, 305);
             this.groupBox1.TabIndex = 113;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos de producción";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label21.Location = new System.Drawing.Point(39, 80);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(29, 13);
-            this.label21.TabIndex = 131;
-            this.label21.Text = "Sec.";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblOperationSequenceNumber
-            // 
-            this.lblOperationSequenceNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblOperationSequenceNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOperationSequenceNumber.Location = new System.Drawing.Point(32, 93);
-            this.lblOperationSequenceNumber.Name = "lblOperationSequenceNumber";
-            this.lblOperationSequenceNumber.Size = new System.Drawing.Size(40, 15);
-            this.lblOperationSequenceNumber.TabIndex = 130;
-            this.lblOperationSequenceNumber.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label18.Location = new System.Drawing.Point(207, 80);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(56, 13);
-            this.label18.TabIndex = 129;
-            this.label18.Text = "Operación";
-            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblOperationName
-            // 
-            this.lblOperationName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblOperationName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOperationName.Location = new System.Drawing.Point(78, 93);
-            this.lblOperationName.Name = "lblOperationName";
-            this.lblOperationName.Size = new System.Drawing.Size(355, 15);
-            this.lblOperationName.TabIndex = 128;
-            this.lblOperationName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblItemDescriptionEnglish
             // 
             this.lblItemDescriptionEnglish.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblItemDescriptionEnglish.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemDescriptionEnglish.Location = new System.Drawing.Point(32, 206);
+            this.lblItemDescriptionEnglish.Location = new System.Drawing.Point(32, 167);
             this.lblItemDescriptionEnglish.Name = "lblItemDescriptionEnglish";
             this.lblItemDescriptionEnglish.Size = new System.Drawing.Size(401, 22);
             this.lblItemDescriptionEnglish.TabIndex = 127;
@@ -217,7 +165,7 @@
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label13.Location = new System.Drawing.Point(185, 193);
+            this.label13.Location = new System.Drawing.Point(185, 154);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(94, 13);
             this.label13.TabIndex = 126;
@@ -229,7 +177,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label5.Location = new System.Drawing.Point(298, 236);
+            this.label5.Location = new System.Drawing.Point(298, 197);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(87, 13);
             this.label5.TabIndex = 124;
@@ -239,7 +187,7 @@
             // lblUoM
             // 
             this.lblUoM.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUoM.Location = new System.Drawing.Point(436, 133);
+            this.lblUoM.Location = new System.Drawing.Point(436, 94);
             this.lblUoM.Name = "lblUoM";
             this.lblUoM.Size = new System.Drawing.Size(34, 13);
             this.lblUoM.TabIndex = 21;
@@ -251,7 +199,7 @@
             this.lblOutputQuantity.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblOutputQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOutputQuantity.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblOutputQuantity.Location = new System.Drawing.Point(246, 130);
+            this.lblOutputQuantity.Location = new System.Drawing.Point(246, 91);
             this.lblOutputQuantity.Name = "lblOutputQuantity";
             this.lblOutputQuantity.Size = new System.Drawing.Size(187, 22);
             this.lblOutputQuantity.TabIndex = 22;
@@ -273,7 +221,7 @@
             // 
             this.lblItemNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblItemNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemNumber.Location = new System.Drawing.Point(32, 130);
+            this.lblItemNumber.Location = new System.Drawing.Point(32, 91);
             this.lblItemNumber.Name = "lblItemNumber";
             this.lblItemNumber.Size = new System.Drawing.Size(187, 22);
             this.lblItemNumber.TabIndex = 16;
@@ -283,7 +231,7 @@
             // 
             this.lblResourceName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblResourceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResourceName.Location = new System.Drawing.Point(246, 249);
+            this.lblResourceName.Location = new System.Drawing.Point(246, 210);
             this.lblResourceName.Name = "lblResourceName";
             this.lblResourceName.Size = new System.Drawing.Size(187, 15);
             this.lblResourceName.TabIndex = 25;
@@ -293,7 +241,7 @@
             // 
             this.lblResourceCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblResourceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResourceCode.Location = new System.Drawing.Point(32, 251);
+            this.lblResourceCode.Location = new System.Drawing.Point(32, 212);
             this.lblResourceCode.Name = "lblResourceCode";
             this.lblResourceCode.Size = new System.Drawing.Size(187, 15);
             this.lblResourceCode.TabIndex = 24;
@@ -303,17 +251,30 @@
             // 
             this.lblPlannedCompletionDate.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblPlannedCompletionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlannedCompletionDate.Location = new System.Drawing.Point(246, 283);
+            this.lblPlannedCompletionDate.Location = new System.Drawing.Point(246, 244);
             this.lblPlannedCompletionDate.Name = "lblPlannedCompletionDate";
             this.lblPlannedCompletionDate.Size = new System.Drawing.Size(187, 15);
             this.lblPlannedCompletionDate.TabIndex = 7;
             this.lblPlannedCompletionDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // picBoxWaitWC
+            // 
+            this.picBoxWaitWC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picBoxWaitWC.Image = global::WOW_Fusion.Properties.Resources.preloader;
+            this.picBoxWaitWC.Location = new System.Drawing.Point(427, 28);
+            this.picBoxWaitWC.Name = "picBoxWaitWC";
+            this.picBoxWaitWC.Padding = new System.Windows.Forms.Padding(10);
+            this.picBoxWaitWC.Size = new System.Drawing.Size(45, 45);
+            this.picBoxWaitWC.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBoxWaitWC.TabIndex = 120;
+            this.picBoxWaitWC.TabStop = false;
+            this.picBoxWaitWC.Visible = false;
+            // 
             // lblPlannedStartDate
             // 
             this.lblPlannedStartDate.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblPlannedStartDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlannedStartDate.Location = new System.Drawing.Point(32, 284);
+            this.lblPlannedStartDate.Location = new System.Drawing.Point(32, 245);
             this.lblPlannedStartDate.Name = "lblPlannedStartDate";
             this.lblPlannedStartDate.Size = new System.Drawing.Size(187, 15);
             this.lblPlannedStartDate.TabIndex = 6;
@@ -324,7 +285,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label4.Location = new System.Drawing.Point(314, 270);
+            this.label4.Location = new System.Drawing.Point(314, 231);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(54, 13);
             this.label4.TabIndex = 5;
@@ -343,6 +304,19 @@
             this.cmbWorkOrders.SelectedValueChanged += new System.EventHandler(this.SelectedIndexChangedWorkOrders);
             this.cmbWorkOrders.TextChanged += new System.EventHandler(this.cmbWorkOrders_TextChanged);
             // 
+            // picBoxWaitWO
+            // 
+            this.picBoxWaitWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picBoxWaitWO.Image = global::WOW_Fusion.Properties.Resources.preloader;
+            this.picBoxWaitWO.Location = new System.Drawing.Point(210, 28);
+            this.picBoxWaitWO.Name = "picBoxWaitWO";
+            this.picBoxWaitWO.Padding = new System.Windows.Forms.Padding(10);
+            this.picBoxWaitWO.Size = new System.Drawing.Size(45, 45);
+            this.picBoxWaitWO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBoxWaitWO.TabIndex = 119;
+            this.picBoxWaitWO.TabStop = false;
+            this.picBoxWaitWO.Visible = false;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -360,7 +334,7 @@
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label25.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label25.Location = new System.Drawing.Point(201, 155);
+            this.label25.Location = new System.Drawing.Point(201, 116);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(63, 13);
             this.label25.TabIndex = 4;
@@ -372,7 +346,7 @@
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label22.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label22.Location = new System.Drawing.Point(84, 235);
+            this.label22.Location = new System.Drawing.Point(84, 196);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(83, 13);
             this.label22.TabIndex = 23;
@@ -384,7 +358,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label3.Location = new System.Drawing.Point(93, 269);
+            this.label3.Location = new System.Drawing.Point(93, 230);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 4;
@@ -408,7 +382,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label9.Location = new System.Drawing.Point(317, 113);
+            this.label9.Location = new System.Drawing.Point(317, 74);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 13);
             this.label9.TabIndex = 10;
@@ -420,7 +394,7 @@
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label17.Location = new System.Drawing.Point(100, 113);
+            this.label17.Location = new System.Drawing.Point(100, 74);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(50, 13);
             this.label17.TabIndex = 15;
@@ -443,6 +417,20 @@
             this.groupBoxReprint.TabStop = false;
             this.groupBoxReprint.Text = "Reimpresión";
             this.groupBoxReprint.Visible = false;
+            // 
+            // btnCloseReprint
+            // 
+            this.btnCloseReprint.BackColor = System.Drawing.Color.Transparent;
+            this.btnCloseReprint.BackgroundImage = global::WOW_Fusion.Properties.Resources.close_outline;
+            this.btnCloseReprint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnCloseReprint.FlatAppearance.BorderSize = 0;
+            this.btnCloseReprint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCloseReprint.Location = new System.Drawing.Point(456, 8);
+            this.btnCloseReprint.Name = "btnCloseReprint";
+            this.btnCloseReprint.Size = new System.Drawing.Size(15, 15);
+            this.btnCloseReprint.TabIndex = 162;
+            this.btnCloseReprint.UseVisualStyleBackColor = false;
+            this.btnCloseReprint.Click += new System.EventHandler(this.btnCloseReprint_Click);
             // 
             // txtBoxEnd
             // 
@@ -707,6 +695,17 @@
             this.label12.Text = "a";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // picLabel
+            // 
+            this.picLabel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.picLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picLabel.Location = new System.Drawing.Point(14, 49);
+            this.picLabel.Name = "picLabel";
+            this.picLabel.Size = new System.Drawing.Size(440, 220);
+            this.picLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picLabel.TabIndex = 31;
+            this.picLabel.TabStop = false;
+            // 
             // label15
             // 
             this.label15.AutoSize = true;
@@ -772,9 +771,9 @@
             this.groupBox4.Controls.Add(this.label27);
             this.groupBox4.Controls.Add(this.lblAkaDescription);
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(10, 356);
+            this.groupBox4.Location = new System.Drawing.Point(10, 351);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(472, 122);
+            this.groupBox4.Size = new System.Drawing.Size(472, 127);
             this.groupBox4.TabIndex = 161;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "AKA";
@@ -887,20 +886,6 @@
             this.pictureBox1.TabIndex = 132;
             this.pictureBox1.TabStop = false;
             // 
-            // btnCloseReprint
-            // 
-            this.btnCloseReprint.BackColor = System.Drawing.Color.Transparent;
-            this.btnCloseReprint.BackgroundImage = global::WOW_Fusion.Properties.Resources.close_outline;
-            this.btnCloseReprint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnCloseReprint.FlatAppearance.BorderSize = 0;
-            this.btnCloseReprint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCloseReprint.Location = new System.Drawing.Point(456, 8);
-            this.btnCloseReprint.Name = "btnCloseReprint";
-            this.btnCloseReprint.Size = new System.Drawing.Size(15, 15);
-            this.btnCloseReprint.TabIndex = 162;
-            this.btnCloseReprint.UseVisualStyleBackColor = false;
-            this.btnCloseReprint.Click += new System.EventHandler(this.btnCloseReprint_Click);
-            // 
             // btnReprint
             // 
             this.btnReprint.BackColor = System.Drawing.Color.Transparent;
@@ -914,43 +899,6 @@
             this.btnReprint.TabIndex = 121;
             this.btnReprint.UseVisualStyleBackColor = false;
             this.btnReprint.Click += new System.EventHandler(this.btnReprint_Click);
-            // 
-            // picLabel
-            // 
-            this.picLabel.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.picLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picLabel.Location = new System.Drawing.Point(14, 49);
-            this.picLabel.Name = "picLabel";
-            this.picLabel.Size = new System.Drawing.Size(440, 220);
-            this.picLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picLabel.TabIndex = 31;
-            this.picLabel.TabStop = false;
-            // 
-            // picBoxWaitWC
-            // 
-            this.picBoxWaitWC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picBoxWaitWC.Image = global::WOW_Fusion.Properties.Resources.preloader;
-            this.picBoxWaitWC.Location = new System.Drawing.Point(427, 28);
-            this.picBoxWaitWC.Name = "picBoxWaitWC";
-            this.picBoxWaitWC.Padding = new System.Windows.Forms.Padding(10);
-            this.picBoxWaitWC.Size = new System.Drawing.Size(45, 45);
-            this.picBoxWaitWC.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBoxWaitWC.TabIndex = 120;
-            this.picBoxWaitWC.TabStop = false;
-            this.picBoxWaitWC.Visible = false;
-            // 
-            // picBoxWaitWO
-            // 
-            this.picBoxWaitWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picBoxWaitWO.Image = global::WOW_Fusion.Properties.Resources.preloader;
-            this.picBoxWaitWO.Location = new System.Drawing.Point(210, 28);
-            this.picBoxWaitWO.Name = "picBoxWaitWO";
-            this.picBoxWaitWO.Padding = new System.Windows.Forms.Padding(10);
-            this.picBoxWaitWO.Size = new System.Drawing.Size(45, 45);
-            this.picBoxWaitWO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBoxWaitWO.TabIndex = 119;
-            this.picBoxWaitWO.TabStop = false;
-            this.picBoxWaitWO.Visible = false;
             // 
             // btnSettings
             // 
@@ -987,18 +935,18 @@
             this.Load += new System.EventHandler(this.frmLabelP1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).EndInit();
             this.groupBoxReprint.ResumeLayout(false);
             this.groupBoxReprint.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1052,10 +1000,6 @@
         private System.Windows.Forms.Label lblItemDescriptionEnglish;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button btnReprint;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label lblOperationSequenceNumber;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label lblOperationName;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBoxReprint;
         private System.Windows.Forms.TextBox txtBoxEnd;
