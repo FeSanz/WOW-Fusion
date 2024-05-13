@@ -225,7 +225,7 @@
             this.lblItemNumber.Name = "lblItemNumber";
             this.lblItemNumber.Size = new System.Drawing.Size(187, 22);
             this.lblItemNumber.TabIndex = 16;
-            this.lblItemNumber.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblItemNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblResourceName
             // 

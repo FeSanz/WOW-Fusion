@@ -130,6 +130,7 @@
   <ItemGroup>
     <Compile Include="Controllers\ConsoleController.cs" />
     <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Models\BatchPoints.cs" />
     <Compile Include="Models\Batchs.cs" />
     <Compile Include="Models\Payloads.cs" />
     <Compile Include="Models\WorkOrderShedule.cs" />

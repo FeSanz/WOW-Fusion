@@ -29,10 +29,13 @@ namespace WOW_Fusion
         private JObject workCenters = null;
 
         private int workCenterSelected = -1;
+        private string workCenterIdSelected = string.Empty;
+        private List<string> workCentersNew = new List<string>();
+
         private int workOrderId = 0;
         private string itemId = string.Empty;
 
-        private string _akaCustomer = "STANDARD";
+        private string _akaCustomer = "DEFAULT";
 
 
         public frmLabelP1()
@@ -87,12 +90,12 @@ namespace WOW_Fusion
             if (workCenters == null) return;
 
             dynamic items = workCenters["items"];
-
+            //List<dynamic> ordersPosition = new List<dynamic>();
             foreach (var item in items)
             {
-                if (item.WorkCenterName.ToString() != "SERVICIOS" && item.WorkCenterName.ToString() != "INSTALACIONES" &&
-                    item.WorkCenterName.ToString() != "DECORADO")
+                if (item.WorkCenterId.ToString() != "300000003225523" && item.WorkCenterId.ToString() != "300000003225522" && item.WorkCenterId.ToString() != "300000003822433")
                 {
+                    //ordersPosition.Add(new List<dynamic> { item.WorkCenterId.ToString(), item.WorkCenterName.ToString() });
                     cmbWorkCenters.Items.Add(item.WorkCenterName.ToString());
                 }
             }
@@ -116,10 +119,20 @@ namespace WOW_Fusion
 
                 if (workCenters == null) { return; }
 
-                workCenterSelected = cmbWorkCenters.SelectedIndex;
+                //workCenterSelected = cmbWorkCenters.SelectedIndex;
 
+                dynamic reviewWC = workCenters["items"];
+                for (int i=0; i<= (int)workCenters["count"]; i++)
+                {
+                    if (reviewWC[i].WorkCenterName.ToString() == cmbWorkCenters.Text)
+                    {
+                        workCenterSelected = i;
+                        break;
+                    }
+                }
                 dynamic ct = workCenters["items"][workCenterSelected]; //Objeto CENTROS DE TRABAJO
 
+                workCenterIdSelected = ct.WorkCenterId.ToString();
                 lblWorkAreaName.Text = ct.WorkAreaName.ToString();
 
                 CleanAll();
@@ -133,7 +146,10 @@ namespace WOW_Fusion
             cmbWorkOrders.Items.Clear();
             picBoxWaitWO.Visible = true;
 
-            List<string> workOrderNumbers = await CommonService.WOProcessByWorkCenter(Constants.Plant1Id, workCenters["items"][workCenterSelected]["WorkCenterId"].ToString()); //Obtener datos de la orden
+            List<string> workOrderNumbers = workCenterIdSelected.Equals("300000003822431") ? //EXTRUSION
+                await CommonService.WOByCenterAndOperation(Constants.Plant1Id, workCenterIdSelected, "50") : 
+                await CommonService.WOProcessByWorkCenter(Constants.Plant1Id, workCenterIdSelected);
+
             picBoxWaitWO.Visible = false;
 
             if (workOrderNumbers == null) return;
@@ -258,16 +274,66 @@ namespace WOW_Fusion
                 if (string.IsNullOrEmpty(flexPV))
                 {
                     lblAkaOrder.Text = "NA";
-                    _akaCustomer = "STANDARD";
+                    _akaCustomer = "DEFAULT";
                 }
                 else
                 {
                     lblAkaOrder.Text = flexPV;
 
-                    //♥ Consultar OM & AKA ♥
-                    AkaData();
+                    //♥ Consultar OM ♥
+                    dynamic om = await CommonService.OneItem(String.Format(EndPoints.SalesOrders, lblAkaOrder.Text, Constants.BusinessUnitId));
+                    if (om != null)
+                    {
+                        lblAkaCustomer.Text = om.BuyingPartyNumber.ToString();//BuyingPartyNumber BuyingPartyName
+                        _akaCustomer = lblAkaCustomer.Text;
+
+                        //♥ Consultar TradingPartnerItemRelationships ♥
+                        dynamic aka = await CommonService.OneItem(String.Format(EndPoints.TradingPartnerItemRelationships, lblItemNumber.Text, lblAkaCustomer.Text));
+                        if (aka != null)
+                        {
+                            lblAkaItem.Text = aka.TradingPartnerItemNumber.ToString();
+                            lblAkaDescription.Text = aka.RelationshipDescription.ToString();
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Orden sin datos AKA [{DateService.Today()}]", Color.Black);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Pedido de venta no encontrado [{DateService.Today()}]", Color.Red);
+                    }
                 }
-                TemplateLabel();
+
+                //Consultar template etiqueta en APEX 
+                dynamic labelApex = await LabelService.LabelInfo(Constants.Plant1Id, _akaCustomer, lblItemNumber.Text);
+                if (labelApex.LabelName.ToString().Equals("null"))
+                {
+                    pop.Close();
+                    MessageBox.Show("Etiqueta de cliente/producto no encontrada", "Verificar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    lblLabelName.Text = labelApex.LabelName.ToString();
+                    FillLabel();
+                }
+
+                //Validar activacion de boton de pesaje
+                if (!string.IsNullOrEmpty(cmbWorkOrders.Text) && !string.IsNullOrEmpty(lblResourceName.Text) && !string.IsNullOrEmpty(lblLabelName.Text))
+                {
+                    if (lblAkaOrder.Text.Equals("NA") && _akaCustomer.Equals("DEFAULT"))
+                    {
+                        btnPrint.Enabled = true;
+                    }
+                    else
+                    {
+                        btnPrint.Enabled = string.IsNullOrEmpty(lblAkaItem.Text) ? false : true;
+                    }
+                }
+                else
+                {
+                    btnPrint.Enabled = false;
+                }
             }
             catch (Exception ex)
             {
@@ -275,68 +341,6 @@ namespace WOW_Fusion
                 MessageBox.Show("Error. " + ex.Message, "Error [WorkOrderSelected]", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             pop.Close();
-        }
-
-        //Obtener datos OM & AKA
-        private async void AkaData()
-        {
-            //♥ Consultar OM ♥
-            dynamic om = await CommonService.OneItem(String.Format(EndPoints.SalesOrders, lblAkaOrder.Text, Constants.BusinessUnitId));
-            if (om != null)
-            {
-                lblAkaCustomer.Text = om.BuyingPartyName.ToString();//BuyingPartyNumber
-                _akaCustomer = lblAkaCustomer.Text;
-
-                //♥ Consultar TradingPartnerItemRelationships ♥
-                dynamic aka = await CommonService.OneItem(String.Format(EndPoints.TradingPartnerItemRelationships, lblItemNumber.Text, lblAkaCustomer.Text));
-                if (aka != null)
-                {
-                    lblAkaItem.Text = aka.TradingPartnerItemNumber.ToString();
-                    lblAkaDescription.Text = aka.RelationshipDescription.ToString();
-                }
-                else
-                {
-                    Console.WriteLine($"Orden sin datos AKA [{DateService.Today()}]", Color.Black);
-                }
-            }
-            else
-            {
-                Console.WriteLine($"Pedido de venta no encontrado [{DateService.Today()}]", Color.Red);
-            }
-        }
-
-        //Template etiqueta y validar boton de impresión
-        private async void TemplateLabel()
-        {
-            //Consultar template etiqueta en APEX 
-            dynamic labelApex = await LabelService.LabelInfo(Constants.Plant1Id, _akaCustomer);
-            if (labelApex.LabelName.ToString().Equals("null"))
-            {
-                pop.Close();
-                MessageBox.Show("Etiqueta de cliente/producto no encontrada", "Verificar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                lblLabelName.Text = labelApex.LabelName.ToString();
-                FillLabel();
-            }
-
-            //Validar activacion de boton de pesaje
-            if (!string.IsNullOrEmpty(cmbWorkOrders.Text) && !string.IsNullOrEmpty(lblResourceName.Text) && !string.IsNullOrEmpty(lblLabelName.Text))
-            {
-                if (lblAkaOrder.Text.Equals("NA") && _akaCustomer.Equals("STANDARD"))
-                {
-                    btnPrint.Enabled = true;
-                }
-                else
-                {
-                    btnPrint.Enabled = string.IsNullOrEmpty(lblAkaItem.Text) ? false : true;
-                }
-            }
-            else
-            {
-                btnPrint.Enabled = false;
-            }
         }
 
         private void CleanAll()

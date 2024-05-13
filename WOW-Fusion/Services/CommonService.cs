@@ -277,6 +277,45 @@ namespace WOW_Fusion.Services
             }
         }
 
+        public static async Task<List<string>> WOByCenterAndOperation(string organizationId, string workCenterId, string operation)
+        {
+            try
+            {
+                Task<string> tskWorkOrders = APIService.GetRequestAsync(String.Format(EndPoints.WOProcesstByOperation, organizationId, workCenterId, operation));
+                string response = await tskWorkOrders;
+                if (string.IsNullOrEmpty(response))
+                {
+                    return null;
+                }
+                else
+                {
+                    JObject workOrders = JObject.Parse(response);
+
+                    if ((int)workOrders["count"] >= 0)
+                    {
+                        List<string> workOrderNumbers = new List<string>();
+                        dynamic items = workOrders["items"];
+
+                        foreach (var item in items)
+                        {
+                            workOrderNumbers.Add(item["WorkOrderNumber"].ToString());
+                        }
+                        return workOrderNumbers;
+                    }
+                    else
+                    {
+                        NotifierController.Warning("Sin ordenes de trabajo");
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "[Error] Lista de ordenes por centro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
         public static async Task<List<string>> WOProcessByResource(string organizationId, string resourceId)
         {
             try

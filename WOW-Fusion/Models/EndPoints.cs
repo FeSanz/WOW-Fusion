@@ -34,7 +34,6 @@ namespace WOW_Fusion.Models
                                                     "&finder=WorkCentersByResourceId;ResourceId={0}";
 
         public static string ShiftByWorkCenter = Settings.Default.FusionUrl + "/workCenters?" + Constants.ParamsGet +
-                                                    "&expand=WorkCenterResource.WorkCenterResourceShift" +
                                                     "&fields=WorkCenterName;" +
                                                     "WorkCenterResource:ResourceId;" +
                                                     "WorkCenterResource.WorkCenterResourceShift:ShiftName,StartTime,Duration" +
@@ -43,7 +42,6 @@ namespace WOW_Fusion.Models
         public static string SalesOrders = Settings.Default.FusionUrl + "/salesOrdersForOrderHub?" + Constants.ParamsGet +
                                                     "&fields=BuyingPartyId,BuyingPartyName,BuyingPartyNumber" +
                                                     "&q=OrderNumber='{0}' and BusinessUnitId={1}";
-
 
         //Endpoints Manufactura Discreta
         public static string WODiscreteList = Settings.Default.FusionUrl + "/workOrders?" + Constants.ParamsGet +
@@ -62,6 +60,10 @@ namespace WOW_Fusion.Models
                                                     "&fields=WorkOrderNumber,PlannedStartDate,PlannedCompletionDate" +
                                                     "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and Operation.WorkCenterId={1}";
 
+        public static string WOProcesstByOperation = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
+                                                    "&fields=WorkOrderNumber,PlannedStartDate,PlannedCompletionDate" +
+                                                    "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and Operation.WorkCenterId={1} and Operation.OperationSequenceNumber={2}";
+
         public static string WOListByResource = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
                                                     "&fields=WorkOrderNumber,PlannedStartDate,PlannedCompletionDate" +
                                                     "&q=WorkOrderStatusCode='ORA_RELEASED' and OrganizationId={0} and ProcessWorkOrderResource.ResourceId={1}";
@@ -70,12 +72,8 @@ namespace WOW_Fusion.Models
                                                     "&fields=WorkOrderNumber,PlannedStartDate,PlannedCompletionDate" +
                                                     "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and ProcessWorkOrderResource.ResourceId={1}";
 
-        public static string WOProcessDetail = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
-                                                    "&expand=ProcessWorkOrderResource.WorkOrderOperationResourceInstance" +
+        public static string WOProcessData = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
                                                     "&fields=WorkOrderId,ItemNumber,Description,UOMCode,PrimaryProductQuantity,CompletedQuantity,PlannedStartDate,PlannedCompletionDate;" +
-                                                    "ProcessWorkOrderResource:ResourceId,ResourceCode,ResourceName;" +
-                                                    "ProcessWorkOrderResource.ResourceInstance:" +
-                                                    "EquipmentInstanceCode,EquipmentInstanceName;" +
                                                     "ProcessWorkOrderDFF:pedidoDeVenta" +
                                                     "&q=WorkOrderNumber='{0}' and OrganizationId={1}";
 
@@ -91,14 +89,14 @@ namespace WOW_Fusion.Models
         //Enpoints AKA
         public static string TradingPartnerItemRelationships = Settings.Default.FusionUrl + "/tradingPartnerItemRelationships?" + Constants.ParamsGet +
                                                             "&fields=TradingPartnerType,TradingPartnerName,TradingPartnerItemNumber,RelationshipDescription" +
-                                                            "&q=Item='{0}' and TradingPartnerName='{1}'";
+                                                            "&q=Item='{0}' and RegistryId='{1}'";
 
         public static string TradingPartnerItems = Settings.Default.FusionUrl + "/tradingPartnerItemRelationships?" + Constants.ParamsGet +
                                                     "&fields=TradingPartnerItemNumber,TradingPartnerItemDescription" +
                                                     "&q={0}";
 
         //Endpoints APEX
-        public static string LabelTamplate = Settings.Default.ApexUrl + "/labels/{0}/{1}";
+        public static string LabelTamplate = Settings.Default.ApexUrl + "/labels/{0}/{1}/{2}";
         public static string WeightPallets = Settings.Default.ApexUrl + "/weightPallets/{0}/{1}";
         public static string WeightRolls = Settings.Default.ApexUrl + "/weightRolls/{0}/{1}";
         public static string PrintHistory = Settings.Default.ApexUrl + "/labelHistory";

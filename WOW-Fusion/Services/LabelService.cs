@@ -22,9 +22,9 @@ namespace WOW_Fusion.Services
         private static TcpClient _client;
         private static NetworkStream _stream;
 
-        public static async Task<dynamic> LabelInfo(string organization, string customer)
+        public static async Task<dynamic> LabelInfo(string organization, string customer, string item)
         {
-            dynamic labels = await CommonService.LabelTamplate(String.Format(EndPoints.LabelTamplate, organization, customer));
+            dynamic labels = await CommonService.LabelTamplate(String.Format(EndPoints.LabelTamplate, organization, customer, item));
 
             if (labels == null) { return null; }
 
