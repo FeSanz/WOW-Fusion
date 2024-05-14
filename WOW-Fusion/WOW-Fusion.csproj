@@ -140,6 +140,12 @@
     <Compile Include="Views\Plant1\frmLoginP1.Designer.cs">
       <DependentUpon>frmLoginP1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Plant1\frmSettingsLogP1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Plant1\frmSettingsLogP1.Designer.cs">
+      <DependentUpon>frmSettingsLogP1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Plant1\frmSettingsP1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -208,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Plant1\frmLoginP1.resx">
       <DependentUpon>frmLoginP1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Plant1\frmSettingsLogP1.resx">
+      <DependentUpon>frmSettingsLogP1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Plant2\frmLabelP2.resx">
       <DependentUpon>frmLabelP2.cs</DependentUpon>
@@ -367,6 +376,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ico_wow.ico" />
+    <None Include="Resources\reprint.png" />
+    <None Include="Resources\lock.png" />
     <None Include="Resources\close_outline.png" />
     <None Include="Resources\cerrar.png" />
     <None Include="Resources\empty.png" />

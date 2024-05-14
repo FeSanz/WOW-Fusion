@@ -58,7 +58,7 @@ namespace WOW_Fusion
 
         private void frmSettingsP2_Load(object sender, EventArgs e)
         {
-            Console.WriteLine($"{DateService.Today()} > Acceso a configuración", Color.Black);
+            Console.WriteLine($"Acceso a configuración [{DateService.Today()}]", Color.Black);
 
             resourceId = Settings.Default.ResourceId;
             workCenterId = Settings.Default.WorkCenterId;

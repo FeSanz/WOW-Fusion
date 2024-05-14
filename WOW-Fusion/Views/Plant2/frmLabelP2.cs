@@ -166,14 +166,14 @@ namespace WOW_Fusion
                     }
                 }
                 
-                if (cmbWorkOrders.Text != schedule[0].WorkOrderNumber)
+                /*if (cmbWorkOrders.Text != schedule[0].WorkOrderNumber)
                 {
                     cmbWorkOrders.Items.Clear();
                     cmbWorkOrders.Items.Add(schedule[0].WorkOrderNumber);
                     cmbWorkOrders.SelectedIndex = 0;
-                }
+                }*/
                 
-                /*foreach (var wo in schedule)
+                foreach (var wo in schedule)
                 {
                     if (DateService.IsBetweenDates(wo.PlannedStartDate, wo.PlannedCompletionDate))
                     {
@@ -182,7 +182,7 @@ namespace WOW_Fusion
                         cmbWorkOrders.Text = wo.WorkOrderNumber.ToString();
                         break;
                     }
-                }*/
+                }
             }
             else
             {
@@ -339,7 +339,7 @@ namespace WOW_Fusion
                 }
 
                 //Flex orden de venta
-                string flexPV = /*wo.ProcessWorkOrderDFF.items[0].pedidoDeVenta.ToString()*/"34";
+                string flexPV = wo.ProcessWorkOrderDFF.items[0].pedidoDeVenta.ToString();//"34"
                 if (string.IsNullOrEmpty(flexPV))
                 {
                     lblAkaOrder.Text = "NA";

@@ -23,6 +23,8 @@ namespace WOW_Fusion
         {
             txtBoxIpPrinter.Text = Settings.Default.PrinterIP;
             txtBoxPortPrinter.Text = Settings.Default.PrinterPort.ToString();
+            trackBarAdtional.Value = Settings.Default.Aditional;
+            lblAditional.Text = Settings.Default.Aditional.ToString() + "%";
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -32,6 +34,7 @@ namespace WOW_Fusion
             {
                 Settings.Default.PrinterIP = txtBoxIpPrinter.Text;
                 Settings.Default.PrinterPort = int.Parse(txtBoxPortPrinter.Text);
+                Settings.Default.Aditional = trackBarAdtional.Value;
                 Settings.Default.Save();
 
                 NotifierController.Success("Conexión exitosa, datos modificados");
@@ -47,6 +50,11 @@ namespace WOW_Fusion
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void trackBarAdtional_Scroll(object sender, EventArgs e)
+        {
+            lblAditional.Text = trackBarAdtional.Value.ToString() + "%";
         }
     }
 }

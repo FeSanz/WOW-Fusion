@@ -480,9 +480,9 @@ namespace WOW_Fusion
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            frmSettingsP1 frmSettingsP1 = new frmSettingsP1();
-            frmSettingsP1.StartPosition = FormStartPosition.CenterParent;
-            frmSettingsP1.ShowDialog();
+            frmSettingsLogP1 frmSettingsLogP1 = new frmSettingsLogP1();
+            frmSettingsLogP1.StartPosition = FormStartPosition.CenterParent;
+            frmSettingsLogP1.ShowDialog();
         }
 
         private void btnReprint_Click(object sender, EventArgs e)
@@ -612,6 +612,22 @@ namespace WOW_Fusion
             checkBoxReprint.Checked = false;
             groupBoxReprint.Visible = false;
             btnPrint.Text = "IMPRIMIR";
+        }
+
+        private void frmLabelP1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                if (!string.IsNullOrEmpty(cmbWorkOrders.Text))
+                {
+                    DialogResult result = MessageBox.Show("¿Seguro que desea cerra la aplicación?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (result == DialogResult.No)
+                    {
+                        e.Cancel = true;
+                    }
+                }
+            }
         }
     }
 }
