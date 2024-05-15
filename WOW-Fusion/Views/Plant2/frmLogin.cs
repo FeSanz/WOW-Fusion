@@ -56,12 +56,12 @@ namespace WOW_Fusion.Views.Plant2
                     Settings.Default.Credentials = credentials;
                     Settings.Default.Save();
 
-                    frmSettingsP2 frmSettingsP2 = new frmSettingsP2();
-                    frmSettingsP2.StartPosition = FormStartPosition.CenterParent;
-                    frmSettingsP2.ShowDialog();
-                    
                     Hide();
                     Close();
+
+                    frmSettingsP2 frmSettingsP2 = new frmSettingsP2();
+                    frmSettingsP2.StartPosition = FormStartPosition.CenterParent;
+                    frmSettingsP2.ShowDialog(); 
                 }
                 else
                 {

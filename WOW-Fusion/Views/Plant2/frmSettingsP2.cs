@@ -22,6 +22,9 @@ namespace WOW_Fusion
         private string resourceId = string.Empty;
         private string workCenterId = string.Empty;
 
+        private string environment = string.Empty;
+        private string environmentChanged = string.Empty;
+
         public frmSettingsP2()
         { 
             InitializeComponent();
@@ -71,6 +74,21 @@ namespace WOW_Fusion
 
             txtRoll.Text = Settings.Default.RollToPrint.ToString();
             txtPallet.Text = Settings.Default.PalletToPrint.ToString();
+
+            if (Settings.Default.FusionUrl.Contains("-test"))
+            {
+                rdbTest.Checked = true;
+                rdbProd.Checked = false;
+                environment = "TEST";
+                environmentChanged = "TEST";
+            }
+            else
+            {
+                rdbTest.Checked = false;
+                rdbProd.Checked = true;
+                environment = "PROD";
+                environmentChanged = "PROD";
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -94,9 +112,17 @@ namespace WOW_Fusion
                 Settings.Default.RollToPrint = int.Parse(txtRoll.Text);
                 Settings.Default.PalletToPrint = int.Parse(txtPallet.Text);
 
-                Settings.Default.Save();
+                Settings.Default.FusionUrl = rdbProd.Checked ? "https://iapxqy.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05" : 
+                                                               "https://iapxqy-test.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05";
 
+                Settings.Default.Save();
                 NotifierController.Success("Datos actualizados");
+
+                if(!environment.Equals(environmentChanged))
+                {
+                    MessageBox.Show("Es necesario reiniciar la aplicación al cambiar de ambiente, la aplicación se cerrará automáticamente", "Reinicar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Application.Exit();
+                }
 
                 Close();
             }
@@ -219,6 +245,16 @@ namespace WOW_Fusion
             {
                 frmLabelP2.InitializeFusionData();
             }
+        }
+
+        private void rdbProd_CheckedChanged(object sender, EventArgs e)
+        {
+            environmentChanged = "PROD";
+        }
+
+        private void rdbTest_CheckedChanged(object sender, EventArgs e)
+        {
+            environmentChanged = "TEST";
         }
     }
 }

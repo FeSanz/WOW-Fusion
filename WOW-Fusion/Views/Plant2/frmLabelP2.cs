@@ -80,7 +80,7 @@ namespace WOW_Fusion
             AppController.ToolTip(pbRed, "Peso debajo del estándar");
             AppController.ToolTip(pbYellow, "Peso encima del estándar");
 
-            TipStatusWO.SetToolTip(lblWOStatus, "Status orden");
+            TipStatusWO.SetToolTip(lblWOStatus, "Status orden");;
 
             btnGetWeight.Text = "TARAR";
             btnGetWeight.Enabled = false;
@@ -294,6 +294,12 @@ namespace WOW_Fusion
                 dynamic wo = objWorkOrder["items"][0]; //Objeto WORKORDER
                 lblPrimaryProductQuantity.Text = wo.PrimaryProductQuantity.ToString();
                 lblCompletedQuantity.Text = wo.CompletedQuantity.ToString();
+                if(!string.IsNullOrEmpty(lblCompletedQuantity.Text))
+                {
+                    pop.Close();
+                    MessageBox.Show("Orden con cantidad completa registrada, pesaje no admitido", "Verificar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 lblUoM.Text = wo.UOMCode.ToString();
 
                 lblItemNumber.Text = wo.ItemNumber.ToString();
@@ -886,6 +892,7 @@ namespace WOW_Fusion
             //Llenar campos de pallet (SUMA)
             float palletNetSum = dgRolls.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_NetKg"].Value.ToString()));
             lblCompletedQuantity.Text = palletNetSum.ToString();
+            CalculateAdvace(palletNetSum);
 
             await LabelService.PrintP2(_rollCount, "ROLL"); //Imprimir rollo
 
@@ -991,6 +998,7 @@ namespace WOW_Fusion
 
                             float palletNetSum = dgRolls.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_NetKg"].Value.ToString()));
                             lblCompletedQuantity.Text = palletNetSum.ToString();
+                            CalculateAdvace(palletNetSum);
 
                             TableLayoutPalletControl(int.Parse(lblRollOnPallet.Text), _rollByPallet);
                             FillLabelRoll(rowRoll);
@@ -1222,6 +1230,8 @@ namespace WOW_Fusion
             lblPrimaryProductQuantity.Text = string.Empty;
             lblCompletedQuantity.Text = string.Empty;
             lblUoM.Text = "--";
+            progressBarWO.Value = 0;
+            lblAdvance.Text = "0%";
             lblPlannedStartDate.Text = string.Empty;
             lblPlannedCompletionDate.Text = string.Empty;
             /*lblResourceCode.Text = string.Empty;
@@ -1281,6 +1291,37 @@ namespace WOW_Fusion
             if (lblMode.Text.Equals("Auto."))
             {
                 ProductionScheduling(this, EventArgs.Empty);
+            }
+        }
+
+        private void CalculateAdvace(float completed)
+        {
+            if (string.IsNullOrEmpty(lblPrimaryProductQuantity.Text))
+            {
+                return;
+            }
+            else
+            {
+                float goal = float.Parse(lblPrimaryProductQuantity.Text);
+                if (goal == 0 || completed == 0)
+                {
+                    progressBarWO.Value = 0;
+                    lblAdvance.Text = "0%";
+                }
+                else
+                {
+                    if (completed >= float.Parse(lblPrimaryProductQuantity.Text))
+                    {
+                        progressBarWO.Value = 100;
+                        lblAdvance.Text = "100%";
+                    }
+                    else
+                    {
+                        int advance = Convert.ToInt32((completed * 100) / float.Parse(lblPrimaryProductQuantity.Text));
+                        progressBarWO.Value = advance;
+                        lblAdvance.Text = advance + "%";
+                    }
+                }
             }
         }
 

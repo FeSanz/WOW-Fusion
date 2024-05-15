@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettingsP1));
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.txtBoxIpPrinter = new System.Windows.Forms.TextBox();
@@ -40,9 +41,13 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblAditional = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.rdbProd = new System.Windows.Forms.RadioButton();
+            this.rdbTest = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarAdtional)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSave
@@ -50,7 +55,7 @@
             this.btnSave.BackColor = System.Drawing.Color.LimeGreen;
             this.btnSave.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnSave.Location = new System.Drawing.Point(241, 219);
+            this.btnSave.Location = new System.Drawing.Point(241, 277);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(97, 32);
             this.btnSave.TabIndex = 118;
@@ -63,7 +68,7 @@
             this.btnCancel.BackColor = System.Drawing.Color.IndianRed;
             this.btnCancel.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnCancel.Location = new System.Drawing.Point(129, 219);
+            this.btnCancel.Location = new System.Drawing.Point(129, 277);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(97, 32);
             this.btnCancel.TabIndex = 119;
@@ -124,7 +129,7 @@
             // 
             this.lblStatus.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblStatus.Location = new System.Drawing.Point(25, 196);
+            this.lblStatus.Location = new System.Drawing.Point(25, 256);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(313, 17);
             this.lblStatus.TabIndex = 122;
@@ -174,17 +179,56 @@
             this.label4.Text = "Adicional:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.rdbProd);
+            this.groupBox5.Controls.Add(this.rdbTest);
+            this.groupBox5.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox5.ForeColor = System.Drawing.SystemColors.Control;
+            this.groupBox5.Location = new System.Drawing.Point(25, 200);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(313, 56);
+            this.groupBox5.TabIndex = 129;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Ambientes";
+            // 
+            // rdbProd
+            // 
+            this.rdbProd.AutoSize = true;
+            this.rdbProd.Location = new System.Drawing.Point(216, 20);
+            this.rdbProd.Name = "rdbProd";
+            this.rdbProd.Size = new System.Drawing.Size(57, 20);
+            this.rdbProd.TabIndex = 126;
+            this.rdbProd.TabStop = true;
+            this.rdbProd.Text = "PROD";
+            this.rdbProd.UseVisualStyleBackColor = true;
+            this.rdbProd.CheckedChanged += new System.EventHandler(this.rdbProd_CheckedChanged);
+            // 
+            // rdbTest
+            // 
+            this.rdbTest.AutoSize = true;
+            this.rdbTest.Location = new System.Drawing.Point(61, 23);
+            this.rdbTest.Name = "rdbTest";
+            this.rdbTest.Size = new System.Drawing.Size(47, 20);
+            this.rdbTest.TabIndex = 125;
+            this.rdbTest.TabStop = true;
+            this.rdbTest.Text = "TEST";
+            this.rdbTest.UseVisualStyleBackColor = true;
+            this.rdbTest.CheckedChanged += new System.EventHandler(this.rdbTest_CheckedChanged);
+            // 
             // frmSettingsP1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(66)))), ((int)(((byte)(82)))));
-            this.ClientSize = new System.Drawing.Size(366, 266);
+            this.ClientSize = new System.Drawing.Size(366, 329);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSettingsP1";
             this.Text = "frmSettingsP1";
             this.Load += new System.EventHandler(this.frmSettingsP1_Load);
@@ -192,6 +236,8 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarAdtional)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -210,5 +256,8 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label lblAditional;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.RadioButton rdbProd;
+        private System.Windows.Forms.RadioButton rdbTest;
     }
 }

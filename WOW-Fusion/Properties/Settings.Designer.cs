@@ -166,5 +166,17 @@ namespace WOW_Fusion.Properties {
                 this["ResourceId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Environment {
+            get {
+                return ((int)(this["Environment"]));
+            }
+            set {
+                this["Environment"] = value;
+            }
+        }
     }
 }

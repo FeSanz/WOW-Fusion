@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettingsP2));
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.txtBoxIpWeighing = new System.Windows.Forms.TextBox();
@@ -52,11 +53,15 @@
             this.txtRoll = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.rdbProd = new System.Windows.Forms.RadioButton();
+            this.rdbTest = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -64,7 +69,7 @@
             this.btnCancel.BackColor = System.Drawing.Color.IndianRed;
             this.btnCancel.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnCancel.Location = new System.Drawing.Point(145, 484);
+            this.btnCancel.Location = new System.Drawing.Point(145, 546);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(97, 32);
             this.btnCancel.TabIndex = 124;
@@ -77,7 +82,7 @@
             this.btnSave.BackColor = System.Drawing.Color.LimeGreen;
             this.btnSave.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnSave.Location = new System.Drawing.Point(257, 484);
+            this.btnSave.Location = new System.Drawing.Point(257, 546);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(97, 32);
             this.btnSave.TabIndex = 123;
@@ -139,7 +144,7 @@
             // 
             this.lblStatus.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblStatus.Location = new System.Drawing.Point(24, 458);
+            this.lblStatus.Location = new System.Drawing.Point(24, 524);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(330, 17);
             this.lblStatus.TabIndex = 126;
@@ -315,12 +320,50 @@
             this.label8.Text = "Rollo:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.rdbProd);
+            this.groupBox5.Controls.Add(this.rdbTest);
+            this.groupBox5.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox5.ForeColor = System.Drawing.SystemColors.Control;
+            this.groupBox5.Location = new System.Drawing.Point(27, 461);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(327, 56);
+            this.groupBox5.TabIndex = 128;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Ambientes";
+            // 
+            // rdbProd
+            // 
+            this.rdbProd.AutoSize = true;
+            this.rdbProd.Location = new System.Drawing.Point(230, 23);
+            this.rdbProd.Name = "rdbProd";
+            this.rdbProd.Size = new System.Drawing.Size(57, 20);
+            this.rdbProd.TabIndex = 126;
+            this.rdbProd.TabStop = true;
+            this.rdbProd.Text = "PROD";
+            this.rdbProd.UseVisualStyleBackColor = true;
+            this.rdbProd.CheckedChanged += new System.EventHandler(this.rdbProd_CheckedChanged);
+            // 
+            // rdbTest
+            // 
+            this.rdbTest.AutoSize = true;
+            this.rdbTest.Location = new System.Drawing.Point(61, 23);
+            this.rdbTest.Name = "rdbTest";
+            this.rdbTest.Size = new System.Drawing.Size(47, 20);
+            this.rdbTest.TabIndex = 125;
+            this.rdbTest.TabStop = true;
+            this.rdbTest.Text = "TEST";
+            this.rdbTest.UseVisualStyleBackColor = true;
+            this.rdbTest.CheckedChanged += new System.EventHandler(this.rdbTest_CheckedChanged);
+            // 
             // frmSettingsP2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(66)))), ((int)(((byte)(82)))));
-            this.ClientSize = new System.Drawing.Size(382, 531);
+            this.ClientSize = new System.Drawing.Size(382, 597);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -329,6 +372,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblStatus);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSettingsP2";
             this.Text = "frmSettingsP2";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmSettingsP2_FormClosed);
@@ -342,6 +386,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -372,5 +418,8 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtBoxWorkCenter;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.RadioButton rdbProd;
+        private System.Windows.Forms.RadioButton rdbTest;
     }
 }
