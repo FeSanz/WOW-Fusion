@@ -97,8 +97,8 @@ namespace WOW_Fusion.Models
 
         //Endpoints APEX
         public static string LabelTamplate = Settings.Default.ApexUrl + "/labels/{0}/{1}/{2}";
-        public static string WeightPallets = Settings.Default.ApexUrl + "/weightPallets/{0}/{1}";
-        public static string WeightRolls = Settings.Default.ApexUrl + "/weightRolls/{0}/{1}";
+        public static string WeightPallets = Settings.Default.ApexUrl + "/weightPallets/{0}/{1}/{2}";
+        public static string WeightRolls = Settings.Default.ApexUrl + "/weightRolls/{0}/{1}/{2}";
         public static string PrintHistory = Settings.Default.ApexUrl + "/labelHistory";
         public static string Auth = Settings.Default.ApexUrl + "/labelUsers/{0}";
 

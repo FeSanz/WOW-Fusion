@@ -138,6 +138,7 @@ namespace WOW_Fusion.Services
                     _client.Close();
                     NotifierController.DetailError("Error al imprimir", ex.Message);
                     status = false;
+                    break;
                     //break;
                 }
             }

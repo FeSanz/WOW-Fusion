@@ -41,9 +41,11 @@
             this.lblResourceName = new System.Windows.Forms.Label();
             this.lblResourceCode = new System.Windows.Forms.Label();
             this.lblPlannedCompletionDate = new System.Windows.Forms.Label();
+            this.picBoxWaitWC = new System.Windows.Forms.PictureBox();
             this.lblPlannedStartDate = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.cmbWorkOrders = new System.Windows.Forms.ComboBox();
+            this.picBoxWaitWO = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
@@ -52,6 +54,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.groupBoxReprint = new System.Windows.Forms.GroupBox();
+            this.btnCloseReprint = new System.Windows.Forms.Button();
             this.txtBoxEnd = new System.Windows.Forms.TextBox();
             this.txtBoxStart = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -75,6 +78,7 @@
             this.lblStartPage = new System.Windows.Forms.Label();
             this.lbLabelQuantity = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.picLabel = new System.Windows.Forms.PictureBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
@@ -90,28 +94,30 @@
             this.lblAkaDescription = new System.Windows.Forms.Label();
             this.lblUserName = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnCloseReprint = new System.Windows.Forms.Button();
             this.btnReprint = new System.Windows.Forms.Button();
-            this.picLabel = new System.Windows.Forms.PictureBox();
-            this.picBoxWaitWC = new System.Windows.Forms.PictureBox();
-            this.picBoxWaitWO = new System.Windows.Forms.PictureBox();
             this.btnSettings = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBoxReprint.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblItemDescription
             // 
             this.lblItemDescription.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblItemDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemDescription.Location = new System.Drawing.Point(32, 129);
+            this.lblItemDescription.Location = new System.Drawing.Point(7, 129);
             this.lblItemDescription.Name = "lblItemDescription";
             this.lblItemDescription.Size = new System.Drawing.Size(401, 22);
             this.lblItemDescription.TabIndex = 6;
@@ -143,9 +149,9 @@
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label17);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(12, 30);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(471, 305);
+            this.groupBox1.Size = new System.Drawing.Size(446, 305);
             this.groupBox1.TabIndex = 113;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos de producción";
@@ -154,7 +160,7 @@
             // 
             this.lblItemDescriptionEnglish.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblItemDescriptionEnglish.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemDescriptionEnglish.Location = new System.Drawing.Point(32, 167);
+            this.lblItemDescriptionEnglish.Location = new System.Drawing.Point(7, 167);
             this.lblItemDescriptionEnglish.Name = "lblItemDescriptionEnglish";
             this.lblItemDescriptionEnglish.Size = new System.Drawing.Size(401, 22);
             this.lblItemDescriptionEnglish.TabIndex = 127;
@@ -165,7 +171,7 @@
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label13.Location = new System.Drawing.Point(185, 154);
+            this.label13.Location = new System.Drawing.Point(160, 154);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(94, 13);
             this.label13.TabIndex = 126;
@@ -177,7 +183,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label5.Location = new System.Drawing.Point(298, 197);
+            this.label5.Location = new System.Drawing.Point(273, 197);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(87, 13);
             this.label5.TabIndex = 124;
@@ -187,7 +193,7 @@
             // lblUoM
             // 
             this.lblUoM.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUoM.Location = new System.Drawing.Point(436, 94);
+            this.lblUoM.Location = new System.Drawing.Point(411, 94);
             this.lblUoM.Name = "lblUoM";
             this.lblUoM.Size = new System.Drawing.Size(34, 13);
             this.lblUoM.TabIndex = 21;
@@ -199,7 +205,7 @@
             this.lblOutputQuantity.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblOutputQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOutputQuantity.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblOutputQuantity.Location = new System.Drawing.Point(246, 91);
+            this.lblOutputQuantity.Location = new System.Drawing.Point(221, 91);
             this.lblOutputQuantity.Name = "lblOutputQuantity";
             this.lblOutputQuantity.Size = new System.Drawing.Size(187, 22);
             this.lblOutputQuantity.TabIndex = 22;
@@ -209,7 +215,7 @@
             // 
             this.cmbWorkCenters.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbWorkCenters.FormattingEnabled = true;
-            this.cmbWorkCenters.Location = new System.Drawing.Point(248, 42);
+            this.cmbWorkCenters.Location = new System.Drawing.Point(223, 42);
             this.cmbWorkCenters.Name = "cmbWorkCenters";
             this.cmbWorkCenters.Size = new System.Drawing.Size(187, 21);
             this.cmbWorkCenters.TabIndex = 27;
@@ -221,7 +227,7 @@
             // 
             this.lblItemNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblItemNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItemNumber.Location = new System.Drawing.Point(32, 91);
+            this.lblItemNumber.Location = new System.Drawing.Point(7, 91);
             this.lblItemNumber.Name = "lblItemNumber";
             this.lblItemNumber.Size = new System.Drawing.Size(187, 22);
             this.lblItemNumber.TabIndex = 16;
@@ -231,7 +237,7 @@
             // 
             this.lblResourceName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblResourceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResourceName.Location = new System.Drawing.Point(246, 210);
+            this.lblResourceName.Location = new System.Drawing.Point(221, 210);
             this.lblResourceName.Name = "lblResourceName";
             this.lblResourceName.Size = new System.Drawing.Size(187, 15);
             this.lblResourceName.TabIndex = 25;
@@ -241,7 +247,7 @@
             // 
             this.lblResourceCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblResourceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResourceCode.Location = new System.Drawing.Point(32, 212);
+            this.lblResourceCode.Location = new System.Drawing.Point(7, 212);
             this.lblResourceCode.Name = "lblResourceCode";
             this.lblResourceCode.Size = new System.Drawing.Size(187, 15);
             this.lblResourceCode.TabIndex = 24;
@@ -251,17 +257,30 @@
             // 
             this.lblPlannedCompletionDate.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblPlannedCompletionDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlannedCompletionDate.Location = new System.Drawing.Point(246, 244);
+            this.lblPlannedCompletionDate.Location = new System.Drawing.Point(221, 244);
             this.lblPlannedCompletionDate.Name = "lblPlannedCompletionDate";
             this.lblPlannedCompletionDate.Size = new System.Drawing.Size(187, 15);
             this.lblPlannedCompletionDate.TabIndex = 7;
             this.lblPlannedCompletionDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // picBoxWaitWC
+            // 
+            this.picBoxWaitWC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picBoxWaitWC.Image = global::WOW_Fusion.Properties.Resources.preloader;
+            this.picBoxWaitWC.Location = new System.Drawing.Point(399, 28);
+            this.picBoxWaitWC.Name = "picBoxWaitWC";
+            this.picBoxWaitWC.Padding = new System.Windows.Forms.Padding(10);
+            this.picBoxWaitWC.Size = new System.Drawing.Size(45, 45);
+            this.picBoxWaitWC.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBoxWaitWC.TabIndex = 120;
+            this.picBoxWaitWC.TabStop = false;
+            this.picBoxWaitWC.Visible = false;
+            // 
             // lblPlannedStartDate
             // 
             this.lblPlannedStartDate.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblPlannedStartDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlannedStartDate.Location = new System.Drawing.Point(32, 245);
+            this.lblPlannedStartDate.Location = new System.Drawing.Point(7, 245);
             this.lblPlannedStartDate.Name = "lblPlannedStartDate";
             this.lblPlannedStartDate.Size = new System.Drawing.Size(187, 15);
             this.lblPlannedStartDate.TabIndex = 6;
@@ -272,7 +291,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label4.Location = new System.Drawing.Point(314, 231);
+            this.label4.Location = new System.Drawing.Point(289, 231);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(54, 13);
             this.label4.TabIndex = 5;
@@ -283,7 +302,7 @@
             this.cmbWorkOrders.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbWorkOrders.Enabled = false;
             this.cmbWorkOrders.FormattingEnabled = true;
-            this.cmbWorkOrders.Location = new System.Drawing.Point(32, 39);
+            this.cmbWorkOrders.Location = new System.Drawing.Point(7, 39);
             this.cmbWorkOrders.Name = "cmbWorkOrders";
             this.cmbWorkOrders.Size = new System.Drawing.Size(187, 21);
             this.cmbWorkOrders.TabIndex = 0;
@@ -291,12 +310,25 @@
             this.cmbWorkOrders.SelectedValueChanged += new System.EventHandler(this.SelectedIndexChangedWorkOrders);
             this.cmbWorkOrders.TextChanged += new System.EventHandler(this.cmbWorkOrders_TextChanged);
             // 
+            // picBoxWaitWO
+            // 
+            this.picBoxWaitWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picBoxWaitWO.Image = global::WOW_Fusion.Properties.Resources.preloader;
+            this.picBoxWaitWO.Location = new System.Drawing.Point(181, 28);
+            this.picBoxWaitWO.Name = "picBoxWaitWO";
+            this.picBoxWaitWO.Padding = new System.Windows.Forms.Padding(10);
+            this.picBoxWaitWO.Size = new System.Drawing.Size(45, 45);
+            this.picBoxWaitWO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBoxWaitWO.TabIndex = 119;
+            this.picBoxWaitWO.TabStop = false;
+            this.picBoxWaitWO.Visible = false;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label2.Location = new System.Drawing.Point(297, 23);
+            this.label2.Location = new System.Drawing.Point(272, 23);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(92, 13);
             this.label2.TabIndex = 28;
@@ -308,7 +340,7 @@
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label25.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label25.Location = new System.Drawing.Point(201, 116);
+            this.label25.Location = new System.Drawing.Point(176, 116);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(63, 13);
             this.label25.TabIndex = 4;
@@ -320,7 +352,7 @@
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label22.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label22.Location = new System.Drawing.Point(84, 196);
+            this.label22.Location = new System.Drawing.Point(59, 196);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(83, 13);
             this.label22.TabIndex = 23;
@@ -332,7 +364,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label3.Location = new System.Drawing.Point(93, 230);
+            this.label3.Location = new System.Drawing.Point(68, 230);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 4;
@@ -344,7 +376,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label1.Location = new System.Drawing.Point(82, 23);
+            this.label1.Location = new System.Drawing.Point(57, 23);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(90, 13);
             this.label1.TabIndex = 1;
@@ -356,7 +388,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label9.Location = new System.Drawing.Point(317, 74);
+            this.label9.Location = new System.Drawing.Point(292, 74);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 13);
             this.label9.TabIndex = 10;
@@ -368,7 +400,7 @@
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label17.Location = new System.Drawing.Point(100, 74);
+            this.label17.Location = new System.Drawing.Point(75, 74);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(50, 13);
             this.label17.TabIndex = 15;
@@ -384,13 +416,27 @@
             this.groupBoxReprint.Controls.Add(this.label8);
             this.groupBoxReprint.Controls.Add(this.lblStatus);
             this.groupBoxReprint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxReprint.Location = new System.Drawing.Point(10, 487);
+            this.groupBoxReprint.Location = new System.Drawing.Point(3, 447);
             this.groupBoxReprint.Name = "groupBoxReprint";
-            this.groupBoxReprint.Size = new System.Drawing.Size(474, 48);
+            this.groupBoxReprint.Size = new System.Drawing.Size(448, 48);
             this.groupBoxReprint.TabIndex = 160;
             this.groupBoxReprint.TabStop = false;
             this.groupBoxReprint.Text = "Reimpresión";
             this.groupBoxReprint.Visible = false;
+            // 
+            // btnCloseReprint
+            // 
+            this.btnCloseReprint.BackColor = System.Drawing.Color.Transparent;
+            this.btnCloseReprint.BackgroundImage = global::WOW_Fusion.Properties.Resources.close_outline;
+            this.btnCloseReprint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnCloseReprint.FlatAppearance.BorderSize = 0;
+            this.btnCloseReprint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCloseReprint.Location = new System.Drawing.Point(431, 8);
+            this.btnCloseReprint.Name = "btnCloseReprint";
+            this.btnCloseReprint.Size = new System.Drawing.Size(15, 15);
+            this.btnCloseReprint.TabIndex = 162;
+            this.btnCloseReprint.UseVisualStyleBackColor = false;
+            this.btnCloseReprint.Click += new System.EventHandler(this.btnCloseReprint_Click);
             // 
             // txtBoxEnd
             // 
@@ -403,7 +449,7 @@
             // 
             // txtBoxStart
             // 
-            this.txtBoxStart.Location = new System.Drawing.Point(138, 12);
+            this.txtBoxStart.Location = new System.Drawing.Point(107, 12);
             this.txtBoxStart.Name = "txtBoxStart";
             this.txtBoxStart.Size = new System.Drawing.Size(75, 20);
             this.txtBoxStart.TabIndex = 160;
@@ -424,7 +470,7 @@
             // 
             this.label8.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label8.Location = new System.Drawing.Point(85, 12);
+            this.label8.Location = new System.Drawing.Point(54, 12);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(49, 21);
             this.label8.TabIndex = 162;
@@ -437,7 +483,7 @@
             this.lblStatus.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblStatus.Location = new System.Drawing.Point(10, 30);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(458, 15);
+            this.lblStatus.Size = new System.Drawing.Size(415, 15);
             this.lblStatus.TabIndex = 164;
             this.lblStatus.Text = "...";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -558,7 +604,7 @@
             this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(504, 141);
+            this.groupBox3.Location = new System.Drawing.Point(3, 114);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(472, 341);
             this.groupBox3.TabIndex = 118;
@@ -655,6 +701,17 @@
             this.label12.Text = "a";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // picLabel
+            // 
+            this.picLabel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.picLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picLabel.Location = new System.Drawing.Point(14, 49);
+            this.picLabel.Name = "picLabel";
+            this.picLabel.Size = new System.Drawing.Size(440, 220);
+            this.picLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picLabel.TabIndex = 31;
+            this.picLabel.TabStop = false;
+            // 
             // label15
             // 
             this.label15.AutoSize = true;
@@ -681,13 +738,15 @@
             // 
             // rtbLog
             // 
+            this.rtbLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbLog.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbLog.Location = new System.Drawing.Point(12, 538);
+            this.rtbLog.Location = new System.Drawing.Point(2, 534);
             this.rtbLog.Name = "rtbLog";
             this.rtbLog.ReadOnly = true;
             this.rtbLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbLog.Size = new System.Drawing.Size(964, 18);
+            this.rtbLog.Size = new System.Drawing.Size(953, 18);
             this.rtbLog.TabIndex = 119;
             this.rtbLog.Text = "v 1.0";
             // 
@@ -702,7 +761,7 @@
             this.groupBox2.Controls.Add(this.lblWorkAreaName);
             this.groupBox2.Controls.Add(this.label19);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(504, 30);
+            this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(472, 105);
             this.groupBox2.TabIndex = 159;
@@ -720,9 +779,9 @@
             this.groupBox4.Controls.Add(this.label27);
             this.groupBox4.Controls.Add(this.lblAkaDescription);
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(10, 355);
+            this.groupBox4.Location = new System.Drawing.Point(3, 314);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(472, 127);
+            this.groupBox4.Size = new System.Drawing.Size(445, 127);
             this.groupBox4.TabIndex = 161;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "AKA";
@@ -732,7 +791,7 @@
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label32.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label32.Location = new System.Drawing.Point(217, 43);
+            this.label32.Location = new System.Drawing.Point(197, 43);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(39, 13);
             this.label32.TabIndex = 130;
@@ -742,7 +801,7 @@
             // 
             this.lblAkaCustomer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblAkaCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAkaCustomer.Location = new System.Drawing.Point(28, 59);
+            this.lblAkaCustomer.Location = new System.Drawing.Point(10, 59);
             this.lblAkaCustomer.Name = "lblAkaCustomer";
             this.lblAkaCustomer.Size = new System.Drawing.Size(417, 15);
             this.lblAkaCustomer.TabIndex = 129;
@@ -752,7 +811,7 @@
             // 
             this.lblAkaOrder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblAkaOrder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAkaOrder.Location = new System.Drawing.Point(30, 26);
+            this.lblAkaOrder.Location = new System.Drawing.Point(10, 26);
             this.lblAkaOrder.Name = "lblAkaOrder";
             this.lblAkaOrder.Size = new System.Drawing.Size(187, 15);
             this.lblAkaOrder.TabIndex = 6;
@@ -763,7 +822,7 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label10.Location = new System.Drawing.Point(105, 12);
+            this.label10.Location = new System.Drawing.Point(85, 12);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(36, 13);
             this.label10.TabIndex = 4;
@@ -775,7 +834,7 @@
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label23.Location = new System.Drawing.Point(329, 12);
+            this.label23.Location = new System.Drawing.Point(309, 12);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(50, 13);
             this.label23.TabIndex = 23;
@@ -786,7 +845,7 @@
             // 
             this.lblAkaItem.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblAkaItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAkaItem.Location = new System.Drawing.Point(261, 26);
+            this.lblAkaItem.Location = new System.Drawing.Point(241, 26);
             this.lblAkaItem.Name = "lblAkaItem";
             this.lblAkaItem.Size = new System.Drawing.Size(187, 15);
             this.lblAkaItem.TabIndex = 24;
@@ -797,7 +856,7 @@
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label27.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label27.Location = new System.Drawing.Point(212, 77);
+            this.label27.Location = new System.Drawing.Point(192, 77);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(60, 13);
             this.label27.TabIndex = 123;
@@ -808,7 +867,7 @@
             // 
             this.lblAkaDescription.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblAkaDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAkaDescription.Location = new System.Drawing.Point(30, 93);
+            this.lblAkaDescription.Location = new System.Drawing.Point(10, 93);
             this.lblAkaDescription.Name = "lblAkaDescription";
             this.lblAkaDescription.Size = new System.Drawing.Size(418, 15);
             this.lblAkaDescription.TabIndex = 122;
@@ -818,9 +877,9 @@
             // 
             this.lblUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUserName.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblUserName.Location = new System.Drawing.Point(31, 11);
+            this.lblUserName.Location = new System.Drawing.Point(27, 7);
             this.lblUserName.Name = "lblUserName";
-            this.lblUserName.Size = new System.Drawing.Size(440, 13);
+            this.lblUserName.Size = new System.Drawing.Size(363, 13);
             this.lblUserName.TabIndex = 132;
             this.lblUserName.Text = "user.name";
             this.lblUserName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -828,107 +887,88 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::WOW_Fusion.Properties.Resources.user;
-            this.pictureBox1.Location = new System.Drawing.Point(10, 5);
+            this.pictureBox1.Location = new System.Drawing.Point(5, 2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(24, 18);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 132;
             this.pictureBox1.TabStop = false;
             // 
-            // btnCloseReprint
-            // 
-            this.btnCloseReprint.BackColor = System.Drawing.Color.Transparent;
-            this.btnCloseReprint.BackgroundImage = global::WOW_Fusion.Properties.Resources.close_outline;
-            this.btnCloseReprint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnCloseReprint.FlatAppearance.BorderSize = 0;
-            this.btnCloseReprint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCloseReprint.Location = new System.Drawing.Point(456, 8);
-            this.btnCloseReprint.Name = "btnCloseReprint";
-            this.btnCloseReprint.Size = new System.Drawing.Size(15, 15);
-            this.btnCloseReprint.TabIndex = 162;
-            this.btnCloseReprint.UseVisualStyleBackColor = false;
-            this.btnCloseReprint.Click += new System.EventHandler(this.btnCloseReprint_Click);
-            // 
             // btnReprint
             // 
+            this.btnReprint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnReprint.BackColor = System.Drawing.Color.Transparent;
             this.btnReprint.BackgroundImage = global::WOW_Fusion.Properties.Resources.reprint;
             this.btnReprint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnReprint.FlatAppearance.BorderSize = 0;
             this.btnReprint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReprint.Location = new System.Drawing.Point(905, 6);
+            this.btnReprint.Location = new System.Drawing.Point(889, 2);
             this.btnReprint.Name = "btnReprint";
             this.btnReprint.Size = new System.Drawing.Size(27, 27);
             this.btnReprint.TabIndex = 121;
             this.btnReprint.UseVisualStyleBackColor = false;
             this.btnReprint.Click += new System.EventHandler(this.btnReprint_Click);
             // 
-            // picLabel
-            // 
-            this.picLabel.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.picLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picLabel.Location = new System.Drawing.Point(14, 49);
-            this.picLabel.Name = "picLabel";
-            this.picLabel.Size = new System.Drawing.Size(440, 220);
-            this.picLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picLabel.TabIndex = 31;
-            this.picLabel.TabStop = false;
-            // 
-            // picBoxWaitWC
-            // 
-            this.picBoxWaitWC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picBoxWaitWC.Image = global::WOW_Fusion.Properties.Resources.preloader;
-            this.picBoxWaitWC.Location = new System.Drawing.Point(427, 28);
-            this.picBoxWaitWC.Name = "picBoxWaitWC";
-            this.picBoxWaitWC.Padding = new System.Windows.Forms.Padding(10);
-            this.picBoxWaitWC.Size = new System.Drawing.Size(45, 45);
-            this.picBoxWaitWC.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBoxWaitWC.TabIndex = 120;
-            this.picBoxWaitWC.TabStop = false;
-            this.picBoxWaitWC.Visible = false;
-            // 
-            // picBoxWaitWO
-            // 
-            this.picBoxWaitWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picBoxWaitWO.Image = global::WOW_Fusion.Properties.Resources.preloader;
-            this.picBoxWaitWO.Location = new System.Drawing.Point(210, 28);
-            this.picBoxWaitWO.Name = "picBoxWaitWO";
-            this.picBoxWaitWO.Padding = new System.Windows.Forms.Padding(10);
-            this.picBoxWaitWO.Size = new System.Drawing.Size(45, 45);
-            this.picBoxWaitWO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBoxWaitWO.TabIndex = 119;
-            this.picBoxWaitWO.TabStop = false;
-            this.picBoxWaitWO.Visible = false;
-            // 
             // btnSettings
             // 
+            this.btnSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSettings.BackColor = System.Drawing.Color.Transparent;
             this.btnSettings.BackgroundImage = global::WOW_Fusion.Properties.Resources._lock;
             this.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSettings.FlatAppearance.BorderSize = 0;
             this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSettings.Location = new System.Drawing.Point(949, 6);
+            this.btnSettings.Location = new System.Drawing.Point(922, 2);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(25, 25);
             this.btnSettings.TabIndex = 120;
             this.btnSettings.UseVisualStyleBackColor = false;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.groupBox1);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox4);
+            this.flowLayoutPanel1.Controls.Add(this.groupBoxReprint);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(465, 504);
+            this.flowLayoutPanel1.TabIndex = 162;
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel2.Controls.Add(this.groupBox2);
+            this.flowLayoutPanel2.Controls.Add(this.groupBox3);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(474, 3);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(485, 504);
+            this.flowLayoutPanel2.TabIndex = 163;
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel3.AutoScroll = true;
+            this.flowLayoutPanel3.Controls.Add(this.flowLayoutPanel1);
+            this.flowLayoutPanel3.Controls.Add(this.flowLayoutPanel2);
+            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(2, 23);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(966, 522);
+            this.flowLayoutPanel3.TabIndex = 164;
+            // 
             // frmLabelP1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(987, 568);
-            this.Controls.Add(this.btnSettings);
-            this.Controls.Add(this.btnReprint);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.lblUserName);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.groupBoxReprint);
-            this.Controls.Add(this.groupBox2);
+            this.ClientSize = new System.Drawing.Size(969, 557);
             this.Controls.Add(this.rtbLog);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.btnReprint);
+            this.Controls.Add(this.btnSettings);
+            this.Controls.Add(this.flowLayoutPanel3);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.lblUserName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmLabelP1";
             this.Text = "WOW Label";
@@ -936,18 +976,21 @@
             this.Load += new System.EventHandler(this.frmLabelP1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).EndInit();
             this.groupBoxReprint.ResumeLayout(false);
             this.groupBoxReprint.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLabel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).EndInit();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1021,6 +1064,9 @@
         private System.Windows.Forms.Label lblUserName;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnCloseReprint;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
     }
 }
 

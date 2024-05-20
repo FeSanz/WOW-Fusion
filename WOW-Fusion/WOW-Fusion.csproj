@@ -7,13 +7,13 @@
     <ProjectGuid>{68B5FA7F-6410-4DBE-92E9-D9C64B01CE02}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>WOW_Fusion</RootNamespace>
-    <AssemblyName>PL2 Labels</AssemblyName>
+    <AssemblyName>PL1 Labels</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>D:\WoW\Apps\PL2\</PublishUrl>
+    <PublishUrl>D:\WoW\Apps\PL1\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -23,7 +23,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>

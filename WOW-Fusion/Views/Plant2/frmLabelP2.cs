@@ -54,6 +54,7 @@ namespace WOW_Fusion
         private int _rollByPallet = 0;
         private int _palletCount = 0;
         private bool _isPalletStart = false;
+        private bool _endWeight = false;
 
         //JObjets response
         private dynamic shifts = null;
@@ -568,7 +569,7 @@ namespace WOW_Fusion
                             //Agregar pesos a datagrid
                             string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), rollNetKg.ToString("F2"),rollGrossKg.ToString("F2"),
                                                                         rollNetLbs.ToString("F2"), rollGrossLbs.ToString("F2") };
-                            
+
 
                             dgRolls.Rows.Add(row);
 
@@ -707,10 +708,11 @@ namespace WOW_Fusion
 
         private void btnEndProcess_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("¿Seguro que desea terminar la orden?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("¿Seguro que desea terminar de pesar la orden?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
+                _endWeight = true;
                 AddPallet();
             }
         }
@@ -824,7 +826,7 @@ namespace WOW_Fusion
         //Modificaciones visuales del DataGrid
         private void dgWeight_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            /*if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
 
             //Combinar celdas repetidas
@@ -838,7 +840,7 @@ namespace WOW_Fusion
             else
             {
                 e.AdvancedBorderStyle.Top = dgRolls.AdvancedCellBorderStyle.Top;
-            }
+            }*/
         }
 
         //Click derecho sobre fila
@@ -872,14 +874,14 @@ namespace WOW_Fusion
                 }
             }
 
-            //Combinar celdas (Quitar valor repetido)
+            /*//Combinar celdas (Quitar valor repetido)
             if (e.RowIndex == 0)
                 return;
             if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
             {
                 e.Value = "";
                 e.FormattingApplied = true;
-            }
+            }*/
         }
 
         private async void dgRolls_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -905,7 +907,7 @@ namespace WOW_Fusion
             CreateRollApex(_rollCount, float.Parse(dgRolls.Rows[e.RowIndex].Cells["R_NetKg"].Value.ToString()));
 
             //Activar boton para terminar orden
-            btnEndProcess.Visible = lblPalletNumber.Text.Equals(lblPalletTotal.Text) ? true : false;
+            btnEndProcess.Visible = _rollCount > 0 ? true : false;
         }
 
         //Eliminar ultima fila de la lista de pesos
@@ -992,7 +994,7 @@ namespace WOW_Fusion
                             //Agregar pesos a datagrid
                             string[] rowRoll = new string[] { _palletCount.ToString(), _rollCount.ToString(), rollNetKg.ToString("F2"),rollGrossKg.ToString("F2"),
                                                                         rollNetLbs.ToString("F2"), rollGrossLbs.ToString("F2") };
-                            
+
                             //Actualizar rollo
                             dgRolls.Rows[_rowSelected].SetValues(rowRoll);
 
@@ -1048,7 +1050,7 @@ namespace WOW_Fusion
         #endregion
 
         #region DataGrid Pallets
-        private void AddPallet()
+        private async void AddPallet()
         {
             if (_isPalletStart)
             {
@@ -1072,7 +1074,12 @@ namespace WOW_Fusion
             }
             else
             {
-                NotifierController.Warning("Aún no cuenta con datos de pesaje del nuevo palet");
+                //NotifierController.Warning("Aún no cuenta con datos de pesaje del nuevo palet");
+                if(_endWeight)
+                {
+                    await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP2);
+                    ClearAll();
+                }
             }
         }
 
@@ -1114,7 +1121,7 @@ namespace WOW_Fusion
                                           float.Parse(dgPallets.Rows[e.RowIndex].Cells["P_NetKg"].Value.ToString()));
 
             //TERMINA PROCESO DE PESAJE PARA LA ORDEN SELECCIONADA
-            if (palletAdded == int.Parse(lblPalletTotal.Text))
+            if (palletAdded == int.Parse(lblPalletTotal.Text) || _endWeight)
             {
                 await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP2);
                 ClearAll();
@@ -1283,6 +1290,7 @@ namespace WOW_Fusion
             dgPallets.Refresh();
             picLabelPallet.Image = null;
 
+            _endWeight = false;
             btnEndProcess.Visible = false;
 
             //Orden inicio a pesar
@@ -1317,9 +1325,17 @@ namespace WOW_Fusion
                     }
                     else
                     {
-                        int advance = Convert.ToInt32((completed * 100) / float.Parse(lblPrimaryProductQuantity.Text));
-                        progressBarWO.Value = advance;
-                        lblAdvance.Text = advance + "%";
+                        int advance = Convert.ToInt32(Math.Round((completed * 100) / float.Parse(lblPrimaryProductQuantity.Text)));
+                        if (advance > 100)
+                        {
+                            progressBarWO.Value = 100;
+                            lblAdvance.Text = "100%";
+                        }
+                        else
+                        {
+                            progressBarWO.Value = advance;
+                            lblAdvance.Text = advance + "%";
+                        }
                     }
                 }
             }
@@ -1359,7 +1375,7 @@ namespace WOW_Fusion
 
             string jsonSerialized = JsonConvert.SerializeObject(jsonPallet, Formatting.Indented);
 
-            Task<string> postWeightPallet = APIService.PostApexAsync(String.Format(EndPoints.WeightPallets, "WO", "Pallet"), jsonSerialized);
+            Task<string> postWeightPallet = APIService.PostApexAsync(String.Format(EndPoints.WeightPallets, "WO", "Pallet", Constants.Plant2Id), jsonSerialized);
             string response = await postWeightPallet;
 
             if (!string.IsNullOrEmpty(response))
@@ -1382,7 +1398,7 @@ namespace WOW_Fusion
 
             string jsonSerialized = JsonConvert.SerializeObject(jsonPallet, Formatting.Indented);
 
-            Task<string> putWeightPallet = APIService.PutApexAsync(String.Format(EndPoints.WeightPallets, cmbWorkOrders.Text, pallet), jsonSerialized);
+            Task<string> putWeightPallet = APIService.PutApexAsync(String.Format(EndPoints.WeightPallets, cmbWorkOrders.Text, pallet, Constants.Plant2Id), jsonSerialized);
             string response = await putWeightPallet;
 
             if (!string.IsNullOrEmpty(response))
@@ -1407,7 +1423,7 @@ namespace WOW_Fusion
 
             string jsonSerialized = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
 
-            Task<string> postWeightRoll = APIService.PostApexAsync(String.Format(EndPoints.WeightRolls, "WO", "Roll"), jsonSerialized);
+            Task<string> postWeightRoll = APIService.PostApexAsync(String.Format(EndPoints.WeightRolls, "WO", "Roll", Constants.Plant2Id), jsonSerialized);
             string response = await postWeightRoll;
 
             if (!string.IsNullOrEmpty(response))
@@ -1430,7 +1446,7 @@ namespace WOW_Fusion
 
             string jsonSerialized = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
 
-            Task<string> putWeightRoll = APIService.PutApexAsync(String.Format(EndPoints.WeightRolls, cmbWorkOrders.Text, roll), jsonSerialized);
+            Task<string> putWeightRoll = APIService.PutApexAsync(String.Format(EndPoints.WeightRolls, cmbWorkOrders.Text, roll, Constants.Plant2Id), jsonSerialized);
             string response = await putWeightRoll;
 
             if (!string.IsNullOrEmpty(response))
@@ -1443,8 +1459,23 @@ namespace WOW_Fusion
                 Console.WriteLine($"Sin respuesta al actualizar rollo [{DateService.Today()}]", Color.Red);
             }
         }
+
         #endregion
 
+        private void flowLayoutMain_SizeChanged(object sender, EventArgs e)
+        {
+            if (flowLayoutMain.Size.Height > 700)
+            {
+                int boxes = groupBoxProd.Size.Height + groupBoxAka.Size.Height + groupBoxWeight.Size.Height;
+                int total = (flowLayoutMain.Size.Height - boxes) - 20;
+                int divide = total / 3;
+                groupBoxProd.Height = groupBoxProd.Size.Height + divide;
+                groupBoxAka.Height = groupBoxAka.Size.Height + divide;
+                groupBoxWeight.Height = groupBoxWeight.Size.Height + divide;
+            }
 
+            flowLayoutMain.HorizontalScroll.Maximum = 0;
+            flowLayoutMain.HorizontalScroll.Enabled = false;
+        }
     }
 }
