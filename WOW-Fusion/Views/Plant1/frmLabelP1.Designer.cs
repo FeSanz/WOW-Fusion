@@ -973,6 +973,7 @@
             this.Name = "frmLabelP1";
             this.Text = "WOW Label";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmLabelP1_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmLabelP1_FormClosed);
             this.Load += new System.EventHandler(this.frmLabelP1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

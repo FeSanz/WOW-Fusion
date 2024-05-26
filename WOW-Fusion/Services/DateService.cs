@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,13 +67,13 @@ namespace WOW_Fusion.Services
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"{Today()} -> Error lectura de turno: {ex.Message}");
+                        Console.WriteLine($"Error lectura de turno: {ex.Message} [{Today()}]", Color.Red);
                     }
                 }
             }
             else
             {
-                NotifierController.Warning("No se encontraron datos del turno");
+                Console.WriteLine($"No se encontraron datos del turno [{Today()}]", Color.Red);
             }
             return shiftWC;
         }

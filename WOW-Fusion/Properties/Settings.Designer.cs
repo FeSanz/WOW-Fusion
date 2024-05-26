@@ -158,12 +158,12 @@ namespace WOW_Fusion.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("300000003822457")]
-        public string ResourceId {
+        public string ResourceId2 {
             get {
-                return ((string)(this["ResourceId"]));
+                return ((string)(this["ResourceId2"]));
             }
             set {
-                this["ResourceId"] = value;
+                this["ResourceId2"] = value;
             }
         }
         
@@ -176,6 +176,42 @@ namespace WOW_Fusion.Properties {
             }
             set {
                 this["Environment"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300000003969053")]
+        public string ResourceId3 {
+            get {
+                return ((string)(this["ResourceId3"]));
+            }
+            set {
+                this["ResourceId3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int BagToPrint {
+            get {
+                return ((int)(this["BagToPrint"]));
+            }
+            set {
+                this["BagToPrint"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int WeightStdP3 {
+            get {
+                return ((int)(this["WeightStdP3"]));
+            }
+            set {
+                this["WeightStdP3"] = value;
             }
         }
     }

@@ -188,18 +188,6 @@
     <Compile Include="Views\frmLoading.Designer.cs">
       <DependentUpon>frmLoading.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Plant3\frmPetP3.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Plant3\frmPetP3.Designer.cs">
-      <DependentUpon>frmPetP3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Plant3\frmSackP3.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Plant3\frmSackP3.Designer.cs">
-      <DependentUpon>frmSackP3.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\PopController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -209,6 +197,24 @@
     <Compile Include="Services\Plant1Service.cs" />
     <Compile Include="Services\Plant3Service.cs" />
     <Compile Include="Services\TranslateService.cs" />
+    <Compile Include="Views\Plant3\frmLabelP3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Plant3\frmLabelP3.Designer.cs">
+      <DependentUpon>frmLabelP3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Plant3\frmLoginP3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Plant3\frmLoginP3.Designer.cs">
+      <DependentUpon>frmLoginP3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Plant3\frmSettingsP3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Plant3\frmSettingsP3.Designer.cs">
+      <DependentUpon>frmSettingsP3.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Views\Plant1\frmLabelP1.resx">
       <DependentUpon>frmLabelP1.cs</DependentUpon>
     </EmbeddedResource>
@@ -226,12 +232,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Plant2\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Plant3\frmPetP3.resx">
-      <DependentUpon>frmPetP3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Plant3\frmSackP3.resx">
-      <DependentUpon>frmSackP3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Plant1\frmSettingsP1.resx">
       <DependentUpon>frmSettingsP1.cs</DependentUpon>
@@ -251,6 +251,15 @@
       <DesignTime>True</DesignTime>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <EmbeddedResource Include="Views\Plant3\frmLabelP3.resx">
+      <DependentUpon>frmLabelP3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Plant3\frmLoginP3.resx">
+      <DependentUpon>frmLoginP3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Plant3\frmSettingsP3.resx">
+      <DependentUpon>frmSettingsP3.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -376,6 +385,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ico_wow.ico" />
+    <None Include="Resources\sack_empty.png" />
+    <None Include="Resources\sack.png" />
+    <None Include="Resources\sack_yellow.png" />
+    <None Include="Resources\sack_red.png" />
+    <None Include="Resources\sack_green.png" />
     <None Include="Resources\reprint.png" />
     <None Include="Resources\lock.png" />
     <None Include="Resources\close_outline.png" />

@@ -33,8 +33,8 @@ namespace WOW_Fusion.Views.Plant1
             txtUser.Clear();
             txtPassword.Clear();
 
-            //txtUser.Text = "PRINT.TEST";
-            //txtPassword.Text = "GWow2024";    
+            txtUser.Text = "PRINT.TEST";
+            txtPassword.Text = "GWow2024";    
         }
 
         private void lblExit_Click(object sender, EventArgs e)

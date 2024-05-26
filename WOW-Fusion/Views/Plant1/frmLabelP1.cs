@@ -32,11 +32,10 @@ namespace WOW_Fusion
         private string workCenterIdSelected = string.Empty;
         private List<string> workCentersNew = new List<string>();
 
-        private int workOrderId = 0;
+        private Int64 workOrderId = 0;
         private string itemId = string.Empty;
 
         private string _akaCustomer = "DEFAULT";
-
 
         public frmLabelP1()
         {
@@ -195,25 +194,36 @@ namespace WOW_Fusion
 
         private async void WorkOrderUIFill(string workOrder)
         {
+            cmbWorkCenters.Enabled = false; 
+            cmbWorkOrders.Enabled = false;
             pop.Show(this);
             try
             {
                 //♥ Consultar WORKORDER ♥
                 Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessDetailP1, workOrder, Constants.Plant1Id));
                 string response = await tskWorkOrdersData;
-                if (string.IsNullOrEmpty(response)) { pop.Close(); return; }
 
+                if (string.IsNullOrEmpty(response)) 
+                {
+                    pop.Close();
+                    cmbWorkCenters.Enabled = true;
+                    cmbWorkOrders.Enabled = true;
+                    return; 
+                }
+                
                 JObject objWorkOrder = JObject.Parse(response);
                 if ((int)objWorkOrder["count"] == 0)
                 {
                     pop.Close();
                     NotifierController.Warning("Datos de orden no encotrada");
+                    cmbWorkCenters.Enabled = true;
+                    cmbWorkOrders.Enabled = true;
                     return;
                 }
+                
 
                 dynamic wo = objWorkOrder["items"][0]; //Objeto WORKORDER
                 workOrderId = wo.WorkOrderId;
-
 
                 lblOutputQuantity.Text = wo.PrimaryProductQuantity.ToString();
                 lblUoM.Text = wo.PrimaryProductUOMCode.ToString();
@@ -318,7 +328,7 @@ namespace WOW_Fusion
                     FillLabel();
                 }
 
-                //Validar activacion de boton de pesaje
+                //Validar activacion de boton de impresion
                 if (!string.IsNullOrEmpty(cmbWorkOrders.Text) && !string.IsNullOrEmpty(lblResourceName.Text) && !string.IsNullOrEmpty(lblLabelName.Text))
                 {
                     if (lblAkaOrder.Text.Equals("NA") && _akaCustomer.Equals("DEFAULT"))
@@ -338,9 +348,13 @@ namespace WOW_Fusion
             catch (Exception ex)
             {
                 pop.Close();
+                cmbWorkCenters.Enabled = true;
+                cmbWorkOrders.Enabled = true;
                 MessageBox.Show("Error. " + ex.Message, "Error [WorkOrderSelected]", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             pop.Close();
+            cmbWorkCenters.Enabled = true;
+            cmbWorkOrders.Enabled = true;
         }
 
         private void CleanAll()
@@ -556,7 +570,6 @@ namespace WOW_Fusion
         private async void RegisterPrintApex()
         {
             dynamic jsonPrint = JObject.Parse(Payloads.printHistory);
-
             jsonPrint.DateMark = DateService.EpochTime();
             jsonPrint.WorkOrderId = workOrderId;
             jsonPrint.UserId = Constants.UserId;
@@ -628,6 +641,11 @@ namespace WOW_Fusion
                     }
                 }
             }
+        }
+
+        private void frmLabelP1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

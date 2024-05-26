@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,9 +13,9 @@ using WOW_Fusion.Models;
 using WOW_Fusion.Properties;
 using WOW_Fusion.Services;
 
-namespace WOW_Fusion
+namespace WOW_Fusion.Views.Plant3
 {
-    public partial class frmSettingsP2 : Form
+    public partial class frmSettingsP3 : Form
     {
         private JObject resourcesMfg = null;
         private string resourceId = string.Empty;
@@ -25,8 +24,8 @@ namespace WOW_Fusion
         private string environment = string.Empty;
         private string environmentChanged = string.Empty;
 
-        public frmSettingsP2()
-        { 
+        public frmSettingsP3()
+        {
             InitializeComponent();
             InitializeFusionData();
         }
@@ -34,7 +33,7 @@ namespace WOW_Fusion
         public async void InitializeFusionData()
         {
             //Obtener datos de la máquina
-            dynamic resource = await CommonService.OneItem(String.Format(EndPoints.ResourceById, Settings.Default.ResourceId2));
+            dynamic resource = await CommonService.OneItem(String.Format(EndPoints.ResourceById, Settings.Default.ResourceId3));
 
             if (resource != null)
             {
@@ -42,7 +41,7 @@ namespace WOW_Fusion
                 cmbResources.Items.Add(resource.ResourceName.ToString());
                 cmbResources.SelectedIndex = 0;
 
-                dynamic wc = await CommonService.OneItem(String.Format(EndPoints.WorkCenterByResourceId, Settings.Default.ResourceId2));
+                dynamic wc = await CommonService.OneItem(String.Format(EndPoints.WorkCenterByResourceId, Settings.Default.ResourceId3));
 
                 if (wc != null)
                 {
@@ -59,11 +58,11 @@ namespace WOW_Fusion
             }
         }
 
-        private void frmSettingsP2_Load(object sender, EventArgs e)
+        private void frmSettingsP3_Load(object sender, EventArgs e)
         {
             Console.WriteLine($"Acceso a configuración [{DateService.Today()}]", Color.Black);
 
-            resourceId = Settings.Default.ResourceId2;
+            resourceId = Settings.Default.ResourceId3;
             workCenterId = Settings.Default.WorkCenterId;
 
             txtBoxIpWeighing.Text = Settings.Default.WeighingIP;
@@ -72,8 +71,8 @@ namespace WOW_Fusion
             txtBoxIpPrinter.Text = Settings.Default.PrinterIP;
             txtBoxPortPrinter.Text = Settings.Default.PrinterPort.ToString();
 
-            txtRoll.Text = Settings.Default.RollToPrint.ToString();
-            txtPallet.Text = Settings.Default.PalletToPrint.ToString();
+            txtBagToPrint.Text = Settings.Default.BagToPrint.ToString();
+            txtWeightStd.Text = Settings.Default.WeightStdP3.ToString();
 
             if (Settings.Default.FusionUrl.Contains("-test"))
             {
@@ -91,16 +90,17 @@ namespace WOW_Fusion
             }
         }
 
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             lblStatus.Text = "Verificando datos...";
-    
-            if(!string.IsNullOrEmpty(cmbResources.Text) && !string.IsNullOrEmpty(txtBoxWorkCenter.Text) &&
+
+            if (!string.IsNullOrEmpty(cmbResources.Text) && !string.IsNullOrEmpty(txtBoxWorkCenter.Text) &&
                 !string.IsNullOrEmpty(txtBoxIpWeighing.Text) && !string.IsNullOrEmpty(txtBoxPortWeighing.Text) &&
                 !string.IsNullOrEmpty(txtBoxIpPrinter.Text) && !string.IsNullOrEmpty(txtBoxPortPrinter.Text) &&
-                !string.IsNullOrEmpty(txtRoll.Text) && !string.IsNullOrEmpty(txtPallet.Text))
+                !string.IsNullOrEmpty(txtBagToPrint.Text) && !string.IsNullOrEmpty(txtWeightStd.Text))
             {
-                Settings.Default.ResourceId2 = resourceId;
+                Settings.Default.ResourceId3 = resourceId;
                 Settings.Default.WorkCenterId = workCenterId;
 
                 Settings.Default.WeighingIP = txtBoxIpWeighing.Text;
@@ -109,16 +109,16 @@ namespace WOW_Fusion
                 Settings.Default.PrinterIP = txtBoxIpPrinter.Text;
                 Settings.Default.PrinterPort = int.Parse(txtBoxPortPrinter.Text);
 
-                Settings.Default.RollToPrint = int.Parse(txtRoll.Text);
-                Settings.Default.PalletToPrint = int.Parse(txtPallet.Text);
+                Settings.Default.BagToPrint = int.Parse(txtBagToPrint.Text);
+                Settings.Default.WeightStdP3 = int.Parse(txtWeightStd.Text);
 
-                Settings.Default.FusionUrl = rdbProd.Checked ? "https://iapxqy.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05" : 
+                Settings.Default.FusionUrl = rdbProd.Checked ? "https://iapxqy.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05" :
                                                                "https://iapxqy-test.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05";
 
                 Settings.Default.Save();
                 NotifierController.Success("Datos actualizados");
 
-                if(!environment.Equals(environmentChanged))
+                if (!environment.Equals(environmentChanged))
                 {
                     MessageBox.Show("Es necesario reiniciar la aplicación al cambiar de ambiente, la aplicación se cerrará automáticamente", "Reinicar", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Application.Exit();
@@ -143,7 +143,7 @@ namespace WOW_Fusion
             cmbResources.Items.Clear();
             picBoxWaitWC.Visible = true;
 
-            resourcesMfg = await CommonService.ResourcesTypeMachine(Constants.Plant2Id);
+            resourcesMfg = await CommonService.ResourcesTypeMachine(Constants.Plant3Id);
             picBoxWaitWC.Visible = false;
 
             if (resourcesMfg == null) return;
@@ -162,7 +162,7 @@ namespace WOW_Fusion
 
             if (resourcesMfg == null) { return; }
 
-            dynamic resource = resourcesMfg["items"][index]; 
+            dynamic resource = resourcesMfg["items"][index];
 
             resourceId = resource.ResourceId.ToString();
 
@@ -207,43 +207,43 @@ namespace WOW_Fusion
             }
         }
 
-        private void txtRoll_TextChanged(object sender, EventArgs e)
+        private void txtBagtoPrint_TextChanged(object sender, EventArgs e)
         {
-            if (int.TryParse(txtRoll.Text, out _))
+            if (int.TryParse(txtBagToPrint.Text, out _))
             {
-                txtRoll.BackColor = Color.White;
+                txtBagToPrint.BackColor = Color.White;
                 lblStatus.Text = string.Empty;
             }
             else
             {
-                txtRoll.BackColor = Color.LightSalmon;
-                lblStatus.Text = "Ingrese únicamente números";
+                txtBagToPrint.BackColor = Color.LightSalmon;
+                lblStatus.Text = "Ingrese únicamente números enteros";
             }
         }
 
-        private void txtPallet_TextChanged(object sender, EventArgs e)
+        private void txtWeightStd_TextChanged(object sender, EventArgs e)
         {
-            if (int.TryParse(txtPallet.Text, out _))
+            if (int.TryParse(txtWeightStd.Text, out _))
             {
-                txtPallet.BackColor = Color.White;
+                txtWeightStd.BackColor = Color.White;
                 lblStatus.Text = string.Empty;
             }
             else
             {
-                txtPallet.BackColor = Color.LightSalmon;
-                lblStatus.Text = "Ingrese únicamente números";
+                txtWeightStd.BackColor = Color.LightSalmon;
+                lblStatus.Text = "Ingrese únicamente números enteros";
             }
         }
 
         public event EventHandler FormClosedEvent;
-        private void frmSettingsP2_FormClosed(object sender, FormClosedEventArgs e)
+        private void frmSettingsP3_FormClosed(object sender, FormClosedEventArgs e)
         {
             FormClosedEvent?.Invoke(this, EventArgs.Empty);
 
-            frmLabelP2 frmLabelP2 = Application.OpenForms.OfType<frmLabelP2>().FirstOrDefault();
-            if (frmLabelP2 != null)
+            frmLabelP3 frmLabelP3 = Application.OpenForms.OfType<frmLabelP3>().FirstOrDefault();
+            if (frmLabelP3 != null)
             {
-                frmLabelP2.InitializeFusionData();
+                frmLabelP3.InitializeFusionData();
             }
         }
 
@@ -256,5 +256,7 @@ namespace WOW_Fusion
         {
             environmentChanged = "TEST";
         }
+
+        
     }
 }

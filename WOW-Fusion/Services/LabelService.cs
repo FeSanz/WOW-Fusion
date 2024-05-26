@@ -45,7 +45,8 @@ namespace WOW_Fusion.Services
             {
                 try
                 {
-                    string zpl = labelType.Equals("ROLL") ? ReplaceZplRoll(item) : labelType.Equals("BOX") ? ReplaceZplBox(item) : ReplaceZplPallet(item);
+                    string zpl = labelType.Equals("ROLL") ? ReplaceZplRoll(item) : labelType.Equals("BOX") ? ReplaceZplBox(item) : 
+                                 labelType.Equals("SACK") ? ReplaceZplSack(item) : ReplaceZplPallet(item);
                     if (!string.IsNullOrEmpty(zpl))
                     {
                         WebRequest request = WebRequest.Create(String.Format(Constants.LaberalyUrl, zpl));
@@ -222,6 +223,21 @@ namespace WOW_Fusion.Services
                 if (!string.IsNullOrEmpty(item.Value.ToString()))
                 {
                     strLabel = item.Key.Equals("PALLET") ? strLabel.Replace(item.Key, "P" + pallet.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
+                }
+            }
+            return strLabel;
+        }
+
+        private static string ReplaceZplSack(int sack)
+        {
+            string strLabel = zplTemplate; //Template sin reemplazos
+
+            JObject label = new JObject(JObject.Parse(Constants.LabelJson));
+            foreach (var item in label)
+            {
+                if (!string.IsNullOrEmpty(item.Value.ToString()))
+                {
+                    strLabel = item.Key.Equals("SACK") ? strLabel.Replace(item.Key, sack.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
                 }
             }
             return strLabel;

@@ -77,6 +77,10 @@ namespace WOW_Fusion.Models
                                                     "ProcessWorkOrderDFF:pedidoDeVenta" +
                                                     "&q=WorkOrderNumber='{0}' and OrganizationId={1}";
 
+        public static string WOProcessDataP3 = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
+                                                    "&fields=WorkOrderId,ItemNumber,Description,UOMCode,PrimaryProductQuantity,CompletedQuantity,PlannedStartDate,PlannedCompletionDate" +
+                                                    "&q=WorkOrderNumber='{0}' and OrganizationId={1}";
+
         public static string WOProcessDetailP1 = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
                                                     "&fields=WorkOrderId,PrimaryProductId,ItemNumber,Description,PrimaryProductQuantity,CompletedQuantity,PrimaryProductUOMCode,PlannedStartDate,PlannedCompletionDate;" +
                                                     "ProcessWorkOrderResource:ResourceId,ResourceCode,ResourceName;" +

@@ -35,11 +35,20 @@
     <Setting Name="PalletToPrint" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>
     </Setting>
-    <Setting Name="ResourceId" Type="System.String" Scope="User">
+    <Setting Name="ResourceId2" Type="System.String" Scope="User">
       <Value Profile="(Default)">300000003822457</Value>
     </Setting>
     <Setting Name="Environment" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ResourceId3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">300000003969053</Value>
+    </Setting>
+    <Setting Name="BagToPrint" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="WeightStdP3" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
     </Setting>
   </Settings>
 </SettingsFile>

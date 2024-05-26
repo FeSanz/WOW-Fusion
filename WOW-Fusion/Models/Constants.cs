@@ -47,6 +47,7 @@ namespace WOW_Fusion
                                                 ""SHIFT"": """",
                                                 ""BOX"": """",
                                                 ""ROLL"": """",
+                                                ""SACK"": """",
                                                 ""PALET"": """",
                                                 ""LOTNUMBER"": """",
                                                 ""WNETKG"": """",
