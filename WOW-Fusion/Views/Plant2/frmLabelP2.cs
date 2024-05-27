@@ -1376,7 +1376,7 @@ namespace WOW_Fusion
             jsonPallet.WorkOrderNumber = cmbWorkOrders.Text;
             jsonPallet.ItemNumber = lblItemNumber.Text;
             jsonPallet.PalletNumber = pallet;
-            jsonPallet.PalletRolls = int.Parse(lblRollOnPallet.Text);
+            jsonPallet.Content = int.Parse(lblRollOnPallet.Text);
             jsonPallet.Tare = float.Parse(lblTare.Text);
             jsonPallet.Weight = weight;
             jsonPallet.Shift = lblShift.Text;
@@ -1426,7 +1426,7 @@ namespace WOW_Fusion
             string rollId = DateService.EpochTime();
             jsonRoll.DateMark = rollId;
             jsonRoll.PalletId = lblPalletId.Text;
-            jsonRoll.RollNumber = roll;
+            jsonRoll.RSNumber = roll;
             jsonRoll.Weight = weight;
 
             string jsonSerialized = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);

@@ -374,7 +374,8 @@ namespace WOW_Fusion.Views.Plant3
 
                             //Registrar pallet en DB APEX
                             lblPalletId.Text = DateService.EpochTime();
-                            CreatePalletApex(_sackCount, 0.0f);
+                            ApexService.CreatePallet(Constants.Plant3Id, lblPalletId.Text, _sackCount, cmbWorkOrders.Text, lblItemNumber.Text,
+                                                     float.Parse(lblTare.Text), 0.0f, lblShift.Text, _sackByPallet);
                         }
                         else
                         {
@@ -580,8 +581,6 @@ namespace WOW_Fusion.Views.Plant3
                     tabLayoutPallet.RowCount = 1;
                 }
 
-                //tabLayoutPallet.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-
                 int cells = tabLayoutPallet.RowCount * tabLayoutPallet.ColumnCount;
 
                 for (int row = 0; row < tabLayoutPallet.RowCount; row++)
@@ -651,32 +650,6 @@ namespace WOW_Fusion.Views.Plant3
             return cell1.Value.ToString() == cell2.Value.ToString();
         }
 
-        //Modificaciones visuales del DataGrid
-        private void dgWeight_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            /*if (e.RowIndex < 0 || e.ColumnIndex < 0)
-                return;
-
-            //Combinar celdas repetidas
-            e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
-            if (e.RowIndex < 1 || e.ColumnIndex < 0)
-                return;
-            if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
-            {
-                e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
-            }
-            else
-            {
-                e.AdvancedBorderStyle.Top = dgRolls.AdvancedCellBorderStyle.Top;
-            }*/
-        }
-
-        //Click derecho sobre fila
-        private void dgWeights_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         //Cambio de color de filas (Max-Min)
         private void dgWeights_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -722,8 +695,9 @@ namespace WOW_Fusion.Views.Plant3
 
             await LabelService.PrintP2(_sackCount, "SACK"); //Imprimir etiqueta
 
-            CreateRollApex(_sackCount, float.Parse(dgSacks.Rows[e.RowIndex].Cells["S_Net"].Value.ToString()));
-            UpdatePalletApex(_sackCount, float.Parse(dgSacks.Rows[e.RowIndex].Cells["S_Tare"].Value.ToString()), float.Parse(dgSacks.Rows[e.RowIndex].Cells["S_Net"].Value.ToString()));
+            ApexService.CreateWeightItem(_sackCount, float.Parse(dgSacks.Rows[e.RowIndex].Cells["S_Net"].Value.ToString()), lblPalletId.Text, Constants.Plant3Id);
+            ApexService.UpdatePallet(_sackCount, float.Parse(dgSacks.Rows[e.RowIndex].Cells["S_Tare"].Value.ToString()), 
+                                     float.Parse(dgSacks.Rows[e.RowIndex].Cells["S_Net"].Value.ToString()), cmbWorkOrders.Text);
 
             //Activar boton para terminar orden
             btnEndProcess.Visible = _sackCount > 0 ? true : false;
@@ -830,8 +804,8 @@ namespace WOW_Fusion.Views.Plant3
                             TableLayoutPalletControl(1, _sackByPallet);
                             FillLabelSack(rowRoll);
 
-                            await LabelService.PrintP2(_sackCount, "SACK"); //Imprimir etiqeuta
-                            UpdateRollApex(_sackCount, _sackCount, rollNetKg);
+                            await LabelService.PrintP2(_sackCount, "SACK"); //Imprimir etiqueta
+                            ApexService.UpdateWeightItem(_sackCount, _sackCount, rollNetKg, cmbWorkOrders.Text, Constants.Plant2Id);
 
                             //Reserver peso neto acomulado para sacar peso de rollo
                             _previousWeight = _weightFromWeighing;
@@ -987,110 +961,6 @@ namespace WOW_Fusion.Views.Plant3
                 }
             }
         }
-        #endregion
-
-        #region APEX
-        private async void CreatePalletApex(int pallet, float weight)
-        {
-            dynamic jsonPallet = JObject.Parse(Payloads.weightPallet);
-
-            jsonPallet.DateMark = lblPalletId.Text;
-            jsonPallet.OrganizationId = Constants.Plant3Id;
-            jsonPallet.WorkOrderNumber = cmbWorkOrders.Text;
-            jsonPallet.ItemNumber = lblItemNumber.Text;
-            jsonPallet.PalletNumber = pallet;
-            jsonPallet.PalletRolls = 1;
-            jsonPallet.Tare = float.Parse(lblTare.Text);
-            jsonPallet.Weight = weight;
-            jsonPallet.Shift = lblShift.Text;
-
-            string jsonSerialized = JsonConvert.SerializeObject(jsonPallet, Formatting.Indented);
-
-            Task<string> postWeightPallet = APIService.PostApexAsync(String.Format(EndPoints.WeightPallets, "WO", "Sack", Constants.Plant3Id), jsonSerialized);
-            string response = await postWeightPallet;
-
-            if (!string.IsNullOrEmpty(response))
-            {
-                dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
-                Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
-            }
-            else
-            {
-                Console.WriteLine($"Sin respuesta al registrar palet [{DateService.Today()}]", Color.Red);
-            }
-        }
-
-        private async void UpdatePalletApex(int pallet, float tare, float weight)
-        {
-            dynamic jsonPallet = JObject.Parse(Payloads.weightPallet);
-
-            jsonPallet.Tare = tare;
-            jsonPallet.Weight = weight;
-
-            string jsonSerialized = JsonConvert.SerializeObject(jsonPallet, Formatting.Indented);
-
-            Task<string> putWeightPallet = APIService.PutApexAsync(String.Format(EndPoints.WeightPallets, cmbWorkOrders.Text, pallet, Constants.Plant3Id), jsonSerialized);
-            string response = await putWeightPallet;
-
-            if (!string.IsNullOrEmpty(response))
-            {
-                dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
-                Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
-            }
-            else
-            {
-                Console.WriteLine($"Sin respuesta al actualizar palet [{DateService.Today()}]", Color.Red);
-            }
-        }
-
-        private async void CreateRollApex(int roll, float weight)
-        {
-            dynamic jsonRoll = JObject.Parse(Payloads.weightRoll);
-            string rollId = DateService.EpochTime();
-            jsonRoll.DateMark = rollId;
-            jsonRoll.PalletId = lblPalletId.Text;
-            jsonRoll.RollNumber = roll;
-            jsonRoll.Weight = weight;
-
-            string jsonSerialized = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
-
-            Task<string> postWeightRoll = APIService.PostApexAsync(String.Format(EndPoints.WeightRolls, "WO", "Sack", Constants.Plant3Id), jsonSerialized);
-            string response = await postWeightRoll;
-
-            if (!string.IsNullOrEmpty(response))
-            {
-                dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
-                Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
-            }
-            else
-            {
-                Console.WriteLine($"Sin respuesta al registrar rollo [{DateService.Today()}]", Color.Red);
-            }
-        }
-
-        private async void UpdateRollApex(int pallet, float roll, float weight)
-        {
-            dynamic jsonRoll = JObject.Parse(Payloads.weightRollUpdate);
-
-            jsonRoll.Pallet = pallet;
-            jsonRoll.Weight = weight;
-
-            string jsonSerialized = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
-
-            Task<string> putWeightRoll = APIService.PutApexAsync(String.Format(EndPoints.WeightRolls, cmbWorkOrders.Text, roll, Constants.Plant3Id), jsonSerialized);
-            string response = await putWeightRoll;
-
-            if (!string.IsNullOrEmpty(response))
-            {
-                dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
-                Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
-            }
-            else
-            {
-                Console.WriteLine($"Sin respuesta al actualizar rollo [{DateService.Today()}]", Color.Red);
-            }
-        }
-
         #endregion
 
         private void flowLayoutMain_SizeChanged(object sender, EventArgs e)

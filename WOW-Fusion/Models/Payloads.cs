@@ -16,7 +16,7 @@ namespace WOW_Fusion.Models
                                                 ""WorkOrderNumber"": ""0000"",
                                                 ""ItemNumber"": ""XXXX"",
                                                 ""PalletNumber"": 0,
-                                                ""PalletRolls"": 0,
+                                                ""Content"": 0,
                                                 ""Tare"": 0.0,
                                                 ""Weight"": 0.0,
                                                 ""Shift"": ""XX""
@@ -25,7 +25,7 @@ namespace WOW_Fusion.Models
         public static string weightRoll = @"{
                                                 ""DateMark"":""0000000000"",
                                                 ""PalletId"": ""0000000000"",
-                                                ""RollNumber"": 0,
+                                                ""RSNumber"": 0,
                                                 ""Weight"": 0.0
                                             }";
 

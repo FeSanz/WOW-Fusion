@@ -134,6 +134,7 @@
     <Compile Include="Models\Batchs.cs" />
     <Compile Include="Models\Payloads.cs" />
     <Compile Include="Models\WorkOrderShedule.cs" />
+    <Compile Include="Services\ApexService.cs" />
     <Compile Include="Views\Plant1\frmLoginP1.cs">
       <SubType>Form</SubType>
     </Compile>

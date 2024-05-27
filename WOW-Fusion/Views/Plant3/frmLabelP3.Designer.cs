@@ -644,9 +644,7 @@
             this.dgSacks.RowTemplate.Height = 25;
             this.dgSacks.Size = new System.Drawing.Size(383, 325);
             this.dgSacks.TabIndex = 66;
-            this.dgSacks.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgWeights_CellClick);
             this.dgSacks.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgWeights_CellFormatting);
-            this.dgSacks.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgWeight_CellPainting);
             this.dgSacks.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgRolls_RowsAdded);
             // 
             // S_Sack
