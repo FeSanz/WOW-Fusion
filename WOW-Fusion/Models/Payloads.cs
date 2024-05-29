@@ -53,11 +53,12 @@ namespace WOW_Fusion.Models
                                                     ""LastPage"": 0
                                                }";
 
-        public static string reprint = @"{
-                                            ""WorkOrderId"": 0,
-                                            ""UserId"": 0,
-                                            ""ReprintCount"": ""0-0""
-                                        }";
+        public static string labelsReprinted = @"{
+                                                    ""DateMark"":""0000000000"",
+                                                    ""WorkOrder"": ""0"",
+                                                    ""UserId"": 0,
+                                                    ""Pages"": ""0-0""
+                                                 }";
 
         //************************************* Payloads Planta 3 ************************************
         public static string receivingReceiptRequests = @"{

@@ -139,25 +139,32 @@ namespace WOW_Fusion
             List<string> workOrderNumbers = workCenterIdSelected.Equals("300000003822431") ? //EXTRUSION
                 await CommonService.WOByCenterAndOperation(Constants.Plant1Id, workCenterIdSelected, "50") : 
                 await CommonService.WOProcessByWorkCenter(Constants.Plant1Id, workCenterIdSelected);
-
+            //-------------------------- Ordenar --------------------
+            List<int> workOrderNumberSort = new List<int>();
+            foreach (string order in workOrderNumbers)
+            {
+                if (int.TryParse(order, out int orderNumber)) { workOrderNumberSort.Add(orderNumber); }
+            }
+            workOrderNumberSort.Sort();
+            //-------------------------- Ordenado -------------------
             picBoxWaitWO.Visible = false;
 
             if (workOrderNumbers == null) return;
 
             List<string> ordersPrinted = FileController.ContentFile(Constants.OrdersPrintedP1);
-            foreach (string order in workOrderNumbers)
+            foreach (int order in workOrderNumberSort)
             {
                 //Reimpresión activada
                 if (checkBoxReprint.Checked)
                 {
-                    if (FileController.IsOrderPrinted(ordersPrinted, order))
+                    if (FileController.IsOrderPrinted(ordersPrinted, order.ToString()))
                     {
-                        cmbWorkOrders.Items.Add(order);
+                        cmbWorkOrders.Items.Add(order.ToString());
                     }
                 }
                 else
                 {
-                    cmbWorkOrders.Items.Add(order);
+                    cmbWorkOrders.Items.Add(order.ToString());
                 }
             }
             /*List<string> ordersPrinted = FileController.ContentFile(Constants.OrdersPrintedP1);
@@ -364,10 +371,10 @@ namespace WOW_Fusion
                      lastPagePrinted < int.Parse(lbLabelQuantity.Text))
                 {
                     txtTotalPrint.Enabled = string.IsNullOrEmpty(lblOutputQuantity.Text) ? false : true;
-
+                    
                     if (lblAkaOrder.Text.Equals("NA") && _akaCustomer.Equals("DEFAULT"))
                     {
-                        txtTotalPrint.Enabled = true;
+                        txtTotalPrint.Enabled = checkBoxReprint.Checked ? false : true;
                         btnPrint.Enabled = true;
                     }
                     else
@@ -381,6 +388,7 @@ namespace WOW_Fusion
                     if(checkBoxReprint.Checked && lastPagePrinted > 0) 
                     {
                         btnPrint.Enabled= true;
+                        txtTotalPrint.Enabled = false;
                     }
                     else
                     {
@@ -388,6 +396,8 @@ namespace WOW_Fusion
                         btnPrint.Enabled = false;
                     }
                 }
+
+                
             }
             catch (Exception ex)
             {
@@ -463,11 +473,13 @@ namespace WOW_Fusion
                             {
                                 if (int.Parse(txtBoxEnd.Text) >= int.Parse(txtBoxStart.Text))
                                 {
+                                    cmbWorkCenters.Enabled = false;
+                                    cmbWorkOrders.Enabled = false;
                                     Constants.pop = "Imprimiendo...";
                                     pop.Show(this);
                                     if (await LabelService.PrintP1(int.Parse(txtBoxStart.Text), int.Parse(txtBoxEnd.Text)))
                                     {
-                                        //ReprintApex();
+                                        RegisterReprintApex();
                                         groupBoxReprint.Visible = false;
                                         CleanAll();
 
@@ -479,6 +491,8 @@ namespace WOW_Fusion
                                         lblStatus.Text = "Error de impresión";
                                     }
                                     pop.Close();
+                                    cmbWorkCenters.Enabled = true;
+                                    cmbWorkOrders.Enabled = true;
                                 }
                                 else
                                 {
@@ -510,6 +524,8 @@ namespace WOW_Fusion
                             {
                                 if (int.Parse(txtTotalPrint.Text) >= int.Parse(txtStartPage.Text))
                                 {
+                                    cmbWorkCenters.Enabled = false;
+                                    cmbWorkOrders.Enabled = false;
                                     Constants.pop = "Imprimiendo...";
                                     pop.Show(this);
                                     if (await LabelService.PrintP1(int.Parse(txtStartPage.Text), int.Parse(txtTotalPrint.Text)))
@@ -527,13 +543,14 @@ namespace WOW_Fusion
                                         }
 
                                         CleanAll();
-                                        pop.Close();
                                     }
                                     else
                                     {
-                                        pop.Close();
                                         NotifierController.Error("Error al imprimir");
                                     }
+                                    pop.Close();
+                                    cmbWorkCenters.Enabled = true;
+                                    cmbWorkOrders.Enabled = true;
                                 }
                                 else
                                 {
@@ -698,21 +715,22 @@ namespace WOW_Fusion
             }
         }
 
-        private async void ReprintApex()
+        private async void RegisterReprintApex()
         {
             //Guardar orden reimpresa
-            await FileController.Write(cmbWorkOrders.Text.ToString(), Constants.OrdersReprintedP1);
+            //await FileController.Write(cmbWorkOrders.Text.ToString(), Constants.OrdersReprintedP1);
 
-            dynamic jsonReprint = JObject.Parse(Payloads.reprint);
+            dynamic jsonReprint = JObject.Parse(Payloads.labelsReprinted);
 
-            jsonReprint.WorkOrderId = workOrderId;
+            jsonReprint.DateMark = DateService.EpochTime();
+            jsonReprint.WorkOrder = cmbWorkOrders.Text;
             jsonReprint.UserId = Constants.UserId;
-            jsonReprint.ReprintCount = txtBoxStart.Text + "-" + txtBoxEnd.Text;
+            jsonReprint.Pages = txtBoxStart.Text + "-" + txtBoxEnd.Text;
 
             string jsonSerialized = JsonConvert.SerializeObject(jsonReprint, Formatting.Indented);
 
-            Task<string> putReprint = APIService.PutApexAsync(EndPoints.LabelsPrinted, jsonSerialized);
-            string response = await putReprint;
+            Task<string> postReprint = APIService.PostApexAsync(EndPoints.LabelsReprinted, jsonSerialized);
+            string response = await postReprint;
 
             if (!string.IsNullOrEmpty(response))
             {
@@ -721,7 +739,7 @@ namespace WOW_Fusion
             }
             else
             {
-                Console.WriteLine($"Sin respuesta al actualizar orden reimpresa [{DateService.Today()}]", Color.Red);
+                Console.WriteLine($"Sin respuesta al registrar reimpresión [{DateService.Today()}]", Color.Red);
             }
         }
         #endregion

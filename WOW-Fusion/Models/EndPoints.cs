@@ -104,6 +104,7 @@ namespace WOW_Fusion.Models
         public static string WeightPallets = Settings.Default.ApexUrl + "/weightPallets/{0}/{1}/{2}";
         public static string WeightRolls = Settings.Default.ApexUrl + "/weightRolls/{0}/{1}/{2}";
         public static string LabelsPrinted = Settings.Default.ApexUrl + "/labelsPrinted/{0}";
+        public static string LabelsReprinted = Settings.Default.ApexUrl + "/labelsReprinted";
         public static string Auth = Settings.Default.ApexUrl + "/labelUsers/{0}";
 
         //Endpoints Planta 1

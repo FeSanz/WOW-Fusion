@@ -34,7 +34,7 @@ namespace WOW_Fusion
         public static string OrdersReprintedP1 = @"C:\Fusion\P1Reprinted.txt";
         public static string OrdersPrintedP2 = @"C:\Fusion\P2Labels.txt";
 
-        public static string UPCPrefix = "7506383";
+        public static string UPCPrefix = "75063839";
 
         //Etiquetas KEYS
         public static string LabelJson = @"{
