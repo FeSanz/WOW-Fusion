@@ -17,6 +17,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Reflection;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 using WOW_Fusion.Views.Plant2;
+using System.Text;
 
 namespace WOW_Fusion
 {
@@ -36,6 +37,7 @@ namespace WOW_Fusion
         private string itemId = string.Empty;
 
         private string _akaCustomer = "DEFAULT";
+        private int lastPagePrinted = -1;
 
         public frmLabelP1()
         {
@@ -100,17 +102,6 @@ namespace WOW_Fusion
             }
         }
 
-        private void cmbWorkCenters_DropDownClosed(object sender, EventArgs e)
-        {
-            if (cmbWorkCenters.SelectedIndex == -1 && workCenterSelected != -1)
-            {
-                /*cmbWorkCenters.Items.Clear();
-                cmbWorkCenters.Items.Add(workCenters["items"][workCenterSelected]["WorkCenterName"].ToString());
-                //workCenterUnselected = true;
-                cmbWorkCenters.SelectedIndex = 0;  */  
-            }
-        }
-
         private void SelectedIndexChangedWorkCenters(object sender, EventArgs e)
         {
             if (cmbWorkCenters.SelectedIndex != -1)
@@ -154,6 +145,22 @@ namespace WOW_Fusion
             if (workOrderNumbers == null) return;
 
             List<string> ordersPrinted = FileController.ContentFile(Constants.OrdersPrintedP1);
+            foreach (string order in workOrderNumbers)
+            {
+                //Reimpresión activada
+                if (checkBoxReprint.Checked)
+                {
+                    if (FileController.IsOrderPrinted(ordersPrinted, order))
+                    {
+                        cmbWorkOrders.Items.Add(order);
+                    }
+                }
+                else
+                {
+                    cmbWorkOrders.Items.Add(order);
+                }
+            }
+            /*List<string> ordersPrinted = FileController.ContentFile(Constants.OrdersPrintedP1);
             List<string> ordersReprinted = FileController.ContentFile(Constants.OrdersReprintedP1);
             foreach (string order in workOrderNumbers)
             {
@@ -177,7 +184,7 @@ namespace WOW_Fusion
                         cmbWorkOrders.Items.Add(order);
                     }
                 }
-            }
+            }*/
         }
 
         private void SelectedIndexChangedWorkOrders(object sender, EventArgs e)
@@ -234,13 +241,37 @@ namespace WOW_Fusion
                 lblPlannedStartDate.Text = wo.PlannedStartDate.ToString();
                 lblPlannedCompletionDate.Text = wo.PlannedCompletionDate.ToString();
 
-                lblStartPage.Text = string.IsNullOrEmpty(lblOutputQuantity.Text) ? 0.ToString() : 1.ToString();
-
                 //Porcentaje adicional
                 float additionalLabels = (Settings.Default.Aditional * int.Parse(lblOutputQuantity.Text)) / 100;
-                lblAditional.Text = $"(+{Convert.ToInt32(Math.Round(additionalLabels))})";
-                lblTotalPrint.Text = (float.Parse(lblOutputQuantity.Text) + additionalLabels).ToString();
-                lbLabelQuantity.Text = lblOutputQuantity.Text;
+                lblAditional.Text = $"Total (+{Convert.ToInt32(Math.Round(additionalLabels))}):";
+                lbLabelQuantity.Text = (float.Parse(lblOutputQuantity.Text) + additionalLabels).ToString();
+
+                //Obtener última página de etiqueta impresa
+                Task<string> tskLastPage = APIService.GetApexAsync(String.Format(EndPoints.LabelsPrinted, cmbWorkOrders.Text));
+                string responseLP = await tskLastPage;
+
+                if (!string.IsNullOrEmpty(responseLP))
+                {
+                    txtStartPage.Enabled = false;
+                    dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(responseLP);
+                    
+                    lastPagePrinted = string.IsNullOrEmpty(responsePayload.LastPage.ToString()) ? 0 : int.Parse(responsePayload.LastPage.ToString());
+                    if(lbLabelQuantity.Text.Equals(responsePayload.LastPage.ToString()))
+                    {
+                        txtStartPage.Text = responsePayload.LastPage.ToString();
+                        if(!checkBoxReprint.Checked)
+                            NotifierController.Warning("Se han impreso todas las etiquetas de esta orden");
+                    }
+                    else
+                    {
+                        txtStartPage.Text = checkBoxReprint.Checked ? responsePayload.LastPage.ToString() : (lastPagePrinted + 1).ToString();
+                    }  
+                }
+                else
+                {
+                    txtStartPage.Text = "1";
+                    txtStartPage.Enabled = true;
+                }
 
                 //Obtener datos de máquina
                 int countResources = (int)wo.ProcessWorkOrderResource.count;
@@ -328,21 +359,34 @@ namespace WOW_Fusion
                     FillLabel();
                 }
 
-                //Validar activacion de boton de impresion
-                if (!string.IsNullOrEmpty(cmbWorkOrders.Text) && !string.IsNullOrEmpty(lblResourceName.Text) && !string.IsNullOrEmpty(lblLabelName.Text))
+                //Validar activación de boton de impresion
+                if (!string.IsNullOrEmpty(cmbWorkOrders.Text) && !string.IsNullOrEmpty(lblResourceName.Text) && !string.IsNullOrEmpty(lblLabelName.Text) &&
+                     lastPagePrinted < int.Parse(lbLabelQuantity.Text))
                 {
+                    txtTotalPrint.Enabled = string.IsNullOrEmpty(lblOutputQuantity.Text) ? false : true;
+
                     if (lblAkaOrder.Text.Equals("NA") && _akaCustomer.Equals("DEFAULT"))
                     {
+                        txtTotalPrint.Enabled = true;
                         btnPrint.Enabled = true;
                     }
                     else
                     {
                         btnPrint.Enabled = string.IsNullOrEmpty(lblAkaItem.Text) ? false : true;
+                        txtTotalPrint.Enabled = string.IsNullOrEmpty(lblAkaItem.Text) ? false : true;
                     }
                 }
                 else
                 {
-                    btnPrint.Enabled = false;
+                    if(checkBoxReprint.Checked && lastPagePrinted > 0) 
+                    {
+                        btnPrint.Enabled= true;
+                    }
+                    else
+                    {
+                        txtTotalPrint.Enabled = false;
+                        btnPrint.Enabled = false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -379,18 +423,25 @@ namespace WOW_Fusion
             lblAkaCustomer.Text = string.Empty;
             lblAkaDescription.Text = string.Empty;
             //Reprint Section
-            groupBoxReprint.Visible = false;
+            //-------------------groupBoxReprint.Visible = false;
             txtBoxStart.Text = string.Empty;
+            txtBoxStart.BackColor = Color.White;
             txtBoxEnd.Text = string.Empty;
+            txtBoxEnd.BackColor = Color.White;
             lblStatus.Text = string.Empty;
             //Label Preview Section
             lblLabelName.Text = string.Empty;
             lbLabelQuantity.Text = string.Empty;
-            lblAditional.Text = "(+0)";
-            lblStartPage.Text = string.Empty;
-            lblTotalPrint.Text = string.Empty;
+            lblAditional.Text = "Total (+0):";
+            txtStartPage.Text = string.Empty;
+            txtStartPage.BackColor = Color.White;
+            txtStartPage.Enabled = false;
+            txtTotalPrint.Text = string.Empty;
+            txtTotalPrint.BackColor = Color.White;
+            txtTotalPrint.Enabled = false;
             picLabel.Image = null;
             btnPrint.Enabled = false;
+            lblStatusPrint.Text = string.Empty;
         }
 
         private async void btnPrint_Click(object sender, EventArgs e)
@@ -401,14 +452,14 @@ namespace WOW_Fusion
             }
             else
             {
-                //Reimpresión activada
+                // * Reimpresión activada *
                 if (checkBoxReprint.Checked)
                 {
                     if (!string.IsNullOrEmpty(txtBoxStart.Text) && !string.IsNullOrEmpty(txtBoxEnd.Text))
                     {
                         if (int.TryParse(txtBoxStart.Text, out _) && int.TryParse(txtBoxEnd.Text, out _))
                         {
-                            if (int.Parse(txtBoxStart.Text) > 0 && int.Parse(txtBoxEnd.Text) <= int.Parse(lblTotalPrint.Text))
+                            if (int.Parse(txtBoxStart.Text) > 0 && int.Parse(txtBoxEnd.Text) <= int.Parse(txtStartPage.Text))
                             {
                                 if (int.Parse(txtBoxEnd.Text) >= int.Parse(txtBoxStart.Text))
                                 {
@@ -416,7 +467,8 @@ namespace WOW_Fusion
                                     pop.Show(this);
                                     if (await LabelService.PrintP1(int.Parse(txtBoxStart.Text), int.Parse(txtBoxEnd.Text)))
                                     {
-                                        ReprintApex();
+                                        //ReprintApex();
+                                        groupBoxReprint.Visible = false;
                                         CleanAll();
 
                                         checkBoxReprint.Checked = false;
@@ -448,22 +500,59 @@ namespace WOW_Fusion
                         lblStatus.Text = "Llene todos los campos";
                     }
                 }
-                else
+                else // * Impresion normal *
                 {
-                    Constants.pop = "Imprimiendo...";
-                    pop.Show(this);
-                    if (await LabelService.PrintP1(int.Parse(lblStartPage.Text), int.Parse(lblTotalPrint.Text)))
+                    if (!string.IsNullOrEmpty(txtStartPage.Text) && !string.IsNullOrEmpty(txtTotalPrint.Text))
                     {
-                        //Guardar orden impresa
-                        await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP1);
-                        RegisterPrintApex();
-                        CleanAll();
-                        pop.Close();
+                        if (int.TryParse(txtStartPage.Text, out _) && int.TryParse(txtTotalPrint.Text, out _))
+                        {
+                            if (int.Parse(txtStartPage.Text) > 0 && int.Parse(txtTotalPrint.Text) <= int.Parse(lbLabelQuantity.Text))
+                            {
+                                if (int.Parse(txtTotalPrint.Text) >= int.Parse(txtStartPage.Text))
+                                {
+                                    Constants.pop = "Imprimiendo...";
+                                    pop.Show(this);
+                                    if (await LabelService.PrintP1(int.Parse(txtStartPage.Text), int.Parse(txtTotalPrint.Text)))
+                                    {
+                                        List<string> ordersPrinted = FileController.ContentFile(Constants.OrdersPrintedP1);
+
+                                        if (!FileController.IsOrderPrinted(ordersPrinted, cmbWorkOrders.Text))
+                                        {
+                                            //Guardar orden en archivo y DB
+                                            await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP1);
+                                            RegisterPrintApex();
+                                        }
+                                        {
+                                            UpdatePrintApex();
+                                        }
+
+                                        CleanAll();
+                                        pop.Close();
+                                    }
+                                    else
+                                    {
+                                        pop.Close();
+                                        NotifierController.Error("Error al imprimir");
+                                    }
+                                }
+                                else
+                                {
+                                    lblStatusPrint.Text = "Cantidad final no puede ser menor a la inicial";
+                                }
+                            }
+                            else
+                            {
+                                lblStatusPrint.Text = "Cantidades fuera del rango permitido";
+                            }
+                        }
+                        else
+                        {
+                            lblStatusPrint.Text = "Ingrese únicamente números enteros";
+                        }
                     }
                     else
                     {
-                        pop.Close();
-                        NotifierController.Error("Error al imprimir");
+                        lblStatusPrint.Text = "Llene todos los campos";
                     }
                 }
                 
@@ -488,7 +577,6 @@ namespace WOW_Fusion
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
 
                 picLabel.Image = Image.FromStream(await LabelService.UpdateLabelLabelary(1, "BOX"));
-                btnPrint.Enabled = true;
             }
         }
 
@@ -522,10 +610,10 @@ namespace WOW_Fusion
         {
             if (int.TryParse(txtBoxStart.Text, out _))
             {
-                if(int.Parse(txtBoxStart.Text) > int.Parse(lblTotalPrint.Text))
+                if(int.Parse(txtBoxStart.Text) > int.Parse(txtStartPage.Text))
                 {
                     txtBoxStart.BackColor = Color.LightSalmon;
-                    lblStatus.Text = "Valor no puede ser mayor a la cantidad permitida";
+                    lblStatus.Text = $"Valor no puede ser mayor a la cantidad de etiquetas impresas ({txtStartPage.Text})";
                 }
                 else
                 {
@@ -544,10 +632,10 @@ namespace WOW_Fusion
         {
             if (int.TryParse(txtBoxEnd.Text, out _))
             {
-                if (int.Parse(txtBoxEnd.Text) > int.Parse(lblTotalPrint.Text))
+                if (int.Parse(txtBoxEnd.Text) > int.Parse(txtStartPage.Text))
                 {
                     txtBoxEnd.BackColor = Color.LightSalmon;
-                    lblStatus.Text = "Valor no puede ser mayor a la cantidad permitida";
+                    lblStatus.Text = $"Valor no puede ser mayor a la cantidad de etiquetas impresas ({txtStartPage.Text})";
                 }
                 else
                 {
@@ -562,22 +650,19 @@ namespace WOW_Fusion
             }
         }
 
-        private void cmbWorkOrders_TextChanged(object sender, EventArgs e)
-        {
-        }
-
         #region APEX
         private async void RegisterPrintApex()
         {
-            dynamic jsonPrint = JObject.Parse(Payloads.printHistory);
+            dynamic jsonPrint = JObject.Parse(Payloads.labelsPrinted);
             jsonPrint.DateMark = DateService.EpochTime();
-            jsonPrint.WorkOrderId = workOrderId;
+            jsonPrint.WorkOrder = cmbWorkOrders.Text;
             jsonPrint.UserId = Constants.UserId;
-            jsonPrint.PrintCount = int.Parse(lblTotalPrint.Text);
+            jsonPrint.LastPage = int.Parse(txtTotalPrint.Text);
+            jsonPrint.LimitPrint = int.Parse(lbLabelQuantity.Text);
 
             string jsonSerialized = JsonConvert.SerializeObject(jsonPrint, Formatting.Indented);
 
-            Task<string> postPrint = APIService.PostApexAsync(EndPoints.PrintHistory, jsonSerialized);
+            Task<string> postPrint = APIService.PostApexAsync(String.Format(EndPoints.LabelsPrinted, cmbWorkOrders.Text), jsonSerialized);
             string response = await postPrint;
 
             if (!string.IsNullOrEmpty(response))
@@ -587,7 +672,29 @@ namespace WOW_Fusion
             }
             else
             {
-                Console.WriteLine($"Sin respuesta al impresión [{DateService.Today()}]", Color.Red);
+                Console.WriteLine($"Sin respuesta al registrar impresión [{DateService.Today()}]", Color.Red);
+            }
+        }
+
+        private async void UpdatePrintApex()
+        {
+            dynamic jsonPrint = JObject.Parse(Payloads.labelsPrintedUpdate);
+            jsonPrint.UserId = Constants.UserId;
+            jsonPrint.LastPage = int.Parse(txtTotalPrint.Text);
+
+            string jsonSerialized = JsonConvert.SerializeObject(jsonPrint, Formatting.Indented);
+
+            Task<string> putPrint = APIService.PutApexAsync(String.Format(EndPoints.LabelsPrinted, cmbWorkOrders.Text), jsonSerialized);
+            string response = await putPrint;
+
+            if (!string.IsNullOrEmpty(response))
+            {
+                dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
+                Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
+            }
+            else
+            {
+                Console.WriteLine($"Sin respuesta al actualizar impresión [{DateService.Today()}]", Color.Red);
             }
         }
 
@@ -604,7 +711,7 @@ namespace WOW_Fusion
 
             string jsonSerialized = JsonConvert.SerializeObject(jsonReprint, Formatting.Indented);
 
-            Task<string> putReprint = APIService.PutApexAsync(EndPoints.PrintHistory, jsonSerialized);
+            Task<string> putReprint = APIService.PutApexAsync(EndPoints.LabelsPrinted, jsonSerialized);
             string response = await putReprint;
 
             if (!string.IsNullOrEmpty(response))
@@ -646,6 +753,50 @@ namespace WOW_Fusion
         private void frmLabelP1_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void txtTotalPrint_TextChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtTotalPrint.Text, out _))
+            {
+                if (int.Parse(txtTotalPrint.Text) > int.Parse(lbLabelQuantity.Text))
+                {
+                    txtTotalPrint.BackColor = Color.LightSalmon;
+                    lblStatusPrint.Text = "Valor no puede ser mayor a la cantidad permitida";
+                }
+                else
+                {
+                    txtTotalPrint.BackColor = Color.White;
+                    lblStatusPrint.Text = string.Empty;
+                }
+            }
+            else
+            {
+                txtTotalPrint.BackColor = Color.LightSalmon;
+                lblStatusPrint.Text = "Ingrese únicamente números enteros";
+            }
+        }
+
+        private void txtStartPage_TextChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtStartPage.Text, out _))
+            {
+                if (int.Parse(txtStartPage.Text) > int.Parse(lbLabelQuantity.Text))
+                {
+                    txtStartPage.BackColor = Color.LightSalmon;
+                    lblStatusPrint.Text = "Valor no puede ser mayor a la cantidad permitida";
+                }
+                else
+                {
+                    txtStartPage.BackColor = Color.White;
+                    lblStatusPrint.Text = string.Empty;
+                }
+            }
+            else
+            {
+                txtStartPage.BackColor = Color.LightSalmon;
+                lblStatusPrint.Text = "Ingrese únicamente números enteros";
+            }
         }
     }
 }

@@ -16,17 +16,10 @@ namespace WOW_Fusion.Models
                                                 ""WorkOrderNumber"": ""0000"",
                                                 ""ItemNumber"": ""XXXX"",
                                                 ""PalletNumber"": 0,
-                                                ""Content"": 0,
+                                                ""ContentRolls"": 0,
                                                 ""Tare"": 0.0,
                                                 ""Weight"": 0.0,
                                                 ""Shift"": ""XX""
-                                            }";
-
-        public static string weightRoll = @"{
-                                                ""DateMark"":""0000000000"",
-                                                ""PalletId"": ""0000000000"",
-                                                ""RSNumber"": 0,
-                                                ""Weight"": 0.0
                                             }";
 
         public static string weightPalletUpdate = @"{
@@ -34,17 +27,32 @@ namespace WOW_Fusion.Models
                                                         ""Weight"": 0.0
                                                     }";
 
+        public static string weightRoll = @"{
+                                                ""DateMark"":""0000000000"",
+                                                ""PalletId"": ""0000000000"",
+                                                ""Roll"": 0,
+                                                ""Weight"": 0.0
+                                            }";
+
+
         public static string weightRollUpdate = @"{
                                                       ""Pallet"": 0,
                                                       ""Weight"": 0.0
                                                   }";
 
-        public static string printHistory = @"{
+        public static string labelsPrinted = @"{
                                                     ""DateMark"":""0000000000"",
-                                                    ""WorkOrderId"": 0,
+                                                    ""WorkOrder"": ""0"",
                                                     ""UserId"": 0,
-                                                    ""PrintCount"": 0
+                                                    ""LastPage"": 0,
+                                                    ""LimitPrint"": 0
                                                }";
+
+        public static string labelsPrintedUpdate = @"{
+                                                    ""UserId"": 0,
+                                                    ""LastPage"": 0
+                                               }";
+
         public static string reprint = @"{
                                             ""WorkOrderId"": 0,
                                             ""UserId"": 0,
