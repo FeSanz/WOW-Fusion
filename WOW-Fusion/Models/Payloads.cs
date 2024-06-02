@@ -12,7 +12,7 @@ namespace WOW_Fusion.Models
         //*********************************** Payloads para APEX ***********************************
         public static string weightPallet = @"{
                                                 ""DateMark"":""0000000000"",
-                                                ""OrganizationId"": ""300000002650049"",
+                                                ""OrganizationId"": 0,
                                                 ""WorkOrderNumber"": ""0000"",
                                                 ""ItemNumber"": ""XXXX"",
                                                 ""PalletNumber"": 0,
@@ -30,7 +30,7 @@ namespace WOW_Fusion.Models
         public static string weightRoll = @"{
                                                 ""DateMark"":""0000000000"",
                                                 ""PalletId"": ""0000000000"",
-                                                ""Roll"": 0,
+                                                ""RollNumber"": 0,
                                                 ""Weight"": 0.0
                                             }";
 

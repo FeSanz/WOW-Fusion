@@ -182,9 +182,11 @@
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "frmSettingsLogP1";
             this.Text = "frmSettingsLogP1";
             this.Load += new System.EventHandler(this.frmSettingsLogP1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmSettingsLogP1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

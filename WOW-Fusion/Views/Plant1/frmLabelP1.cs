@@ -94,7 +94,7 @@ namespace WOW_Fusion
             //List<dynamic> ordersPosition = new List<dynamic>();
             foreach (var item in items)
             {
-                if (item.WorkCenterId.ToString() != "300000003225523" && item.WorkCenterId.ToString() != "300000003225522" && item.WorkCenterId.ToString() != "300000003822433")
+                if (item.WorkCenterId.ToString() != "300000003225523" && item.WorkCenterId.ToString() != "300000003225522")
                 {
                     //ordersPosition.Add(new List<dynamic> { item.WorkCenterId.ToString(), item.WorkCenterName.ToString() });
                     cmbWorkCenters.Items.Add(item.WorkCenterName.ToString());
@@ -593,7 +593,7 @@ namespace WOW_Fusion
 
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
 
-                picLabel.Image = Image.FromStream(await LabelService.UpdateLabelLabelary(1, "BOX"));
+                picLabel.Image = Image.FromStream(await LabelService.UpdateLabelLabelary(int.Parse(txtStartPage.Text), "BOX"));
             }
         }
 
@@ -814,6 +814,14 @@ namespace WOW_Fusion
             {
                 txtStartPage.BackColor = Color.LightSalmon;
                 lblStatusPrint.Text = "Ingrese únicamente números enteros";
+            }
+        }
+
+        private void frmLabelP1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnPrint.PerformClick();
             }
         }
     }

@@ -34,7 +34,6 @@
             this.lblItemDescriptionEnglish = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.lblUoM = new System.Windows.Forms.Label();
             this.lblOutputQuantity = new System.Windows.Forms.Label();
             this.cmbWorkCenters = new System.Windows.Forms.ComboBox();
             this.lblItemNumber = new System.Windows.Forms.Label();
@@ -53,6 +52,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
+            this.lblUoM = new System.Windows.Forms.Label();
             this.groupBoxReprint = new System.Windows.Forms.GroupBox();
             this.btnCloseReprint = new System.Windows.Forms.Button();
             this.txtBoxEnd = new System.Windows.Forms.TextBox();
@@ -128,7 +128,6 @@
             this.groupBox1.Controls.Add(this.lblItemDescriptionEnglish);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.lblUoM);
             this.groupBox1.Controls.Add(this.lblOutputQuantity);
             this.groupBox1.Controls.Add(this.lblItemDescription);
             this.groupBox1.Controls.Add(this.cmbWorkCenters);
@@ -148,6 +147,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label17);
+            this.groupBox1.Controls.Add(this.lblUoM);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
@@ -189,16 +189,6 @@
             this.label5.TabIndex = 124;
             this.label5.Text = "Nombre Recurso";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblUoM
-            // 
-            this.lblUoM.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUoM.Location = new System.Drawing.Point(411, 94);
-            this.lblUoM.Name = "lblUoM";
-            this.lblUoM.Size = new System.Drawing.Size(34, 13);
-            this.lblUoM.TabIndex = 21;
-            this.lblUoM.Text = "--";
-            this.lblUoM.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblOutputQuantity
             // 
@@ -405,6 +395,16 @@
             this.label17.Text = "Producto";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // lblUoM
+            // 
+            this.lblUoM.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUoM.Location = new System.Drawing.Point(407, 94);
+            this.lblUoM.Name = "lblUoM";
+            this.lblUoM.Size = new System.Drawing.Size(29, 13);
+            this.lblUoM.TabIndex = 21;
+            this.lblUoM.Text = "--";
+            this.lblUoM.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // groupBoxReprint
             // 
             this.groupBoxReprint.Controls.Add(this.btnCloseReprint);
@@ -576,9 +576,10 @@
             // 
             // btnPrint
             // 
-            this.btnPrint.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnPrint.BackColor = System.Drawing.Color.Green;
             this.btnPrint.Enabled = false;
             this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrint.ForeColor = System.Drawing.Color.White;
             this.btnPrint.Location = new System.Drawing.Point(345, 301);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(109, 35);
@@ -741,11 +742,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbLog.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbLog.Location = new System.Drawing.Point(8, 534);
+            this.rtbLog.Location = new System.Drawing.Point(8, 536);
             this.rtbLog.Name = "rtbLog";
             this.rtbLog.ReadOnly = true;
             this.rtbLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbLog.Size = new System.Drawing.Size(947, 18);
+            this.rtbLog.Size = new System.Drawing.Size(947, 16);
             this.rtbLog.TabIndex = 119;
             this.rtbLog.Text = "v 1.0";
             // 
@@ -969,11 +970,13 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblUserName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "frmLabelP1";
             this.Text = "WOW Label";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmLabelP1_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmLabelP1_FormClosed);
             this.Load += new System.EventHandler(this.frmLabelP1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmLabelP1_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).EndInit();

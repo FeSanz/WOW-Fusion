@@ -99,5 +99,13 @@ namespace WOW_Fusion.Views.Plant2
                 }
             }
         }
+
+        private void frmLogin_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnLogin.PerformClick();
+            }
+        }
     }
 }

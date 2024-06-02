@@ -55,6 +55,7 @@ namespace WOW_Fusion
         private int _palletCount = 0;
         private bool _isPalletStart = false;
         private bool _endWeight = false;
+        private bool _completedHistory = false;
 
         //JObjets response
         private dynamic shifts = null;
@@ -155,7 +156,7 @@ namespace WOW_Fusion
             {
                 List<WorkOrderShedule> schedule = CommonService.OrderByPriority(ordersForSchedule, "PlannedStartDate");
 
-                List<string> ordersPrinted = FileController.ContentFile(Constants.OrdersPrintedP2);
+                /*List<string> ordersPrinted = FileController.ContentFile(Constants.OrdersPrintedP2);
 
                 for (int i = 0; i < schedule.Count; i++)
                 {
@@ -165,7 +166,7 @@ namespace WOW_Fusion
                         schedule.RemoveAt(i);
                         i--;
                     }
-                }
+                }*/
                 
                 /*if (cmbWorkOrders.Text != schedule[0].WorkOrderNumber)
                 {
@@ -247,19 +248,27 @@ namespace WOW_Fusion
             picBoxWaitWO.Visible = true;
 
             List<string> workOrderNumbers = await CommonService.WOProcessByResource(Constants.Plant2Id, Settings.Default.ResourceId2); //Obtener OT
+
+            //-------------------------- Ordenar --------------------
+            List<int> workOrderNumberSort = new List<int>();
+            foreach (string order in workOrderNumbers)
+            {
+                if (int.TryParse(order, out int orderNumber)) { workOrderNumberSort.Add(orderNumber); }
+            }
+            workOrderNumberSort.Sort();
+            //-------------------------- Ordenado -------------------
+
             picBoxWaitWO.Visible = false;
 
             if (workOrderNumbers == null) return;
 
-            List<string> ordersPrinted = FileController.ContentFile(Constants.OrdersPrintedP2);
+            //List<string> ordersPrinted = FileController.ContentFile(Constants.OrdersPrintedP2);
 
-            foreach (string order in workOrderNumbers)
+            foreach (int order in workOrderNumberSort)
             {
-                //Ordenes sin imprimir
-                if (!FileController.IsOrderPrinted(ordersPrinted, order))
-                {
-                    cmbWorkOrders.Items.Add(order);
-                }
+                cmbWorkOrders.Items.Add(order.ToString());
+                //if (!FileController.IsOrderPrinted(ordersPrinted, order.ToString())) { cmbWorkOrders.Items.Add(order.ToString()); }
+
             }
 
             /*foreach (var item in workOrderNumbers)
@@ -278,6 +287,7 @@ namespace WOW_Fusion
         {
             cmbWorkOrders.Enabled = false;
             pop.Show(this);
+
             try
             {
                 //♥ Consultar WORKORDER ♥
@@ -286,8 +296,8 @@ namespace WOW_Fusion
                 
                 if (string.IsNullOrEmpty(response)) 
                 { 
-                    pop.Close(); 
-                    cmbWorkOrders.Enabled = true; 
+                    pop.Close();
+                    cmbWorkOrders.Enabled = lblMode.Text.Equals("Auto.") ? false : true;
                     return; 
                 }
 
@@ -296,18 +306,18 @@ namespace WOW_Fusion
                 {
                     pop.Close();
                     NotifierController.Warning("Datos de orden no encotrada");
-                    cmbWorkOrders.Enabled = true;
+                    cmbWorkOrders.Enabled = lblMode.Text.Equals("Auto.") ? false : true;
                     return;
                 }
                 dynamic wo = objWorkOrder["items"][0]; //Objeto WORKORDER
-                lblPrimaryProductQuantity.Text = wo.PrimaryProductQuantity.ToString();
-                lblCompletedQuantity.Text = wo.CompletedQuantity.ToString();
-                if (!string.IsNullOrEmpty(lblCompletedQuantity.Text))
+                lblPrimaryProductQuantity.Text = string.IsNullOrEmpty(wo.PrimaryProductQuantity.ToString()) ? 0 : wo.PrimaryProductQuantity.ToString();
+                //lblCompletedQuantity.Text = wo.CompletedQuantity.ToString();
+                lblUoM.Text = wo.UOMCode.ToString();
+                if (!string.IsNullOrEmpty(wo.CompletedQuantity.ToString()))
                 {
                     pop.Close();
-                    NotifierController.Warning("Orden con cantidad completa registrada, verifique antes de pesar");
+                    NotifierController.Warning($"Orden con despacho registrado [{wo.CompletedQuantity.ToString()} {lblUoM.Text}], verifique antes de pesar");
                 }
-                lblUoM.Text = wo.UOMCode.ToString();
 
                 lblItemNumber.Text = wo.ItemNumber.ToString();
                 lblItemDescription.Text = wo.Description.ToString();
@@ -401,26 +411,60 @@ namespace WOW_Fusion
                     lblLabelName.Text = labelApex.LabelName.ToString();
                 }
 
+                //Verificar Historial Pesaje----------------------------
+                Task<string> tskHistory = APIService.GetApexAsync(String.Format(EndPoints.WeightRollHistory, cmbWorkOrders.Text));
+                string responseHistory = await tskHistory;
+
+                dgRolls.Rows.Clear();
+                dgRolls.Refresh();
+
+                dgPallets.Rows.Clear();
+                dgPallets.Refresh();
+
+                lblPalletNumber.Text = string.Empty;
+
+                if (!string.IsNullOrEmpty(responseHistory))
+                {
+                    dynamic weightHistory = JsonConvert.DeserializeObject<dynamic>(responseHistory);
+                    lblCompletedQuantity.Text = weightHistory.Completed.ToString();
+                    if(weightHistory.Completed > 0)
+                    {
+                        _completedHistory = true;
+                        FillDatagridsFromHistory(weightHistory);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Sin respuesta del historial de pesaje [{DateService.Today()}]", Color.Red);
+                }
+
                 //Validar activacion de boton de pesaje
                 if (!string.IsNullOrEmpty(cmbWorkOrders.Text) && !string.IsNullOrEmpty(lblResourceName.Text) && !string.IsNullOrEmpty(lblLabelName.Text) &&
                    !string.IsNullOrEmpty(lblStdRoll.Text) && !string.IsNullOrEmpty(lblStdPallet.Text))
                 {
                     btnGetWeight.Enabled = lblAkaOrder.Text.Equals("NA") && _akaCustomer.Equals("DEFAULT") ? true : 
-                                           btnGetWeight.Enabled = string.IsNullOrEmpty(lblAkaItem.Text) ? false : true; ;
+                                           btnGetWeight.Enabled = string.IsNullOrEmpty(lblAkaItem.Text) ? false : true;
                 }
                 else
                 {
+                    btnGetWeight.Enabled = false;
+                }
+
+                //Order completada
+                if (float.Parse(lblCompletedQuantity.Text) >= float.Parse(lblPrimaryProductQuantity.Text))
+                {
+                    NotifierController.Warning("Orden completada");
                     btnGetWeight.Enabled = false;
                 }
             }
             catch (Exception ex)
             {
                 pop.Close();
-                cmbWorkOrders.Enabled = true;
+                cmbWorkOrders.Enabled = lblMode.Text.Equals("Auto.") ? false : true;
                 MessageBox.Show("Error. " + ex.Message, "Error al seleccionar orden", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             pop.Close();
-            cmbWorkOrders.Enabled = true;
+            cmbWorkOrders.Enabled = lblMode.Text.Equals("Auto.") ? false : true;
         }
 
         //Obtener espesor y ancho
@@ -452,6 +496,41 @@ namespace WOW_Fusion
             }
         }
 
+        //Llenar tabla con pesajes
+        private void FillDatagridsFromHistory(dynamic weightHistory)
+        {
+            dynamic pallets = weightHistory.Pallets;
+            foreach (dynamic p in pallets)
+            {
+                float gross = p.Tare + p.Weight;
+                float netLbs = p.Weight * _lbs;
+                float grossLbs = gross * _lbs; 
+                string[] palletData = new string[] { p.Pallet.ToString(), p.Tare.ToString(), p.Weight.ToString(),
+                                                    gross.ToString(), netLbs.ToString(), grossLbs.ToString() };
+                dgPallets.Rows.Add(palletData);
+
+                dynamic rolls = p.Rolls;
+                foreach (dynamic r in rolls)
+                {
+                    gross = p.Tare + r.Weight;
+                    netLbs = r.Weight * _lbs;
+                    grossLbs = gross * _lbs;
+                    string[] rollData = new string[] { p.Pallet.ToString(), r.Roll.ToString(), r.Weight.ToString(),
+                                                       gross.ToString(), netLbs.ToString(), grossLbs.ToString() };
+
+                    dgRolls.Rows.Add(rollData);
+                }
+            }
+
+            _completedHistory = false;
+            _palletCount = dgPallets.Rows.Count;
+            _rollCount = dgRolls.Rows.Count;
+
+            //dgRolls.Sort(dgRolls.Columns[1], ListSortDirection.Ascending);
+
+            lblPalletNumber.Text = _palletCount.ToString();
+        }
+
         #endregion
 
         #region Buttons Actions
@@ -471,7 +550,7 @@ namespace WOW_Fusion
                         //Inicia a pesar
                         if (!_startOrder)
                         {
-                            ProductionScheduling(this, EventArgs.Empty);
+                            //ProductionScheduling(this, EventArgs.Empty);
                             _startOrder = true;
                         }
                         else
@@ -503,6 +582,7 @@ namespace WOW_Fusion
                             //Registrar pallet en DB APEX
                             lblPalletId.Text = DateService.EpochTime();
                             CreatePalletApex(_palletCount, 0.0f);
+                            cmbWorkOrders.Enabled = false;
                         }
                         else
                         {
@@ -894,6 +974,7 @@ namespace WOW_Fusion
 
         private async void dgRolls_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
+            if (_completedHistory) { return; }
             _rollByPallet++;
             _isPalletStart = true;
             if (lblMode.Text.Equals("Auto.")) { timerSchedule.Stop(); }
@@ -1085,7 +1166,7 @@ namespace WOW_Fusion
                 //NotifierController.Warning("Aún no cuenta con datos de pesaje del nuevo palet");
                 if(_endWeight)
                 {
-                    await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP2);
+                    //await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP2);
                     ClearAll();
                 }
             }
@@ -1113,6 +1194,7 @@ namespace WOW_Fusion
 
         private async void dgPallets_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
+            if(_completedHistory) { return; }
             int palletAdded = int.Parse(dgPallets.Rows[e.RowIndex].Cells["P_Pallet"].Value.ToString());
             string rollWeights = WeightsPallet(palletAdded);
 
@@ -1131,7 +1213,7 @@ namespace WOW_Fusion
             //TERMINA PROCESO DE PESAJE PARA LA ORDEN SELECCIONADA
             if (palletAdded == int.Parse(lblPalletTotal.Text) || _endWeight)
             {
-                await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP2);
+                //await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP2);
                 ClearAll();
             }
         }
@@ -1266,6 +1348,7 @@ namespace WOW_Fusion
             //Pallet Anim Section
             _rollByPallet = 0;
             _isPalletStart = false;
+            _completedHistory = false;
             tabLayoutPallet.BackgroundImage = Resources.pallet_empty;
             TableLayoutPalletControl(0, 0);
 
@@ -1426,7 +1509,7 @@ namespace WOW_Fusion
             string rollId = DateService.EpochTime();
             jsonRoll.DateMark = rollId;
             jsonRoll.PalletId = lblPalletId.Text;
-            jsonRoll.Roll = roll;
+            jsonRoll.RollNumber = roll;
             jsonRoll.Weight = weight;
 
             string jsonSerialized = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);

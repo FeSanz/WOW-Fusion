@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WOW-Fusion", "WOW-Fusion\WO
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WOW Labels", "WOW Labels\WOW Labels.vdproj", "{40C1C273-E1FA-4461-A0C8-8E350E14E097}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WOW Scales", "WOW Scales\WOW Scales.vdproj", "{5BBBCA66-BABC-4705-8262-EF5D14771C29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,8 @@ Global
 		{68B5FA7F-6410-4DBE-92E9-D9C64B01CE02}.Release|Any CPU.Build.0 = Release|Any CPU
 		{40C1C273-E1FA-4461-A0C8-8E350E14E097}.Debug|Any CPU.ActiveCfg = Debug
 		{40C1C273-E1FA-4461-A0C8-8E350E14E097}.Release|Any CPU.ActiveCfg = Release
+		{5BBBCA66-BABC-4705-8262-EF5D14771C29}.Debug|Any CPU.ActiveCfg = Debug
+		{5BBBCA66-BABC-4705-8262-EF5D14771C29}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
