@@ -415,6 +415,12 @@ namespace WOW_Fusion
                 Task<string> tskHistory = APIService.GetApexAsync(String.Format(EndPoints.WeightRollHistory, cmbWorkOrders.Text));
                 string responseHistory = await tskHistory;
 
+                progressBarWO.Value = 0;
+                lblAdvance.Text = "0%";
+
+                _palletCount = 0;
+                _rollCount = 0;
+
                 dgRolls.Rows.Clear();
                 dgRolls.Refresh();
 
@@ -430,6 +436,8 @@ namespace WOW_Fusion
                     if(weightHistory.Completed > 0)
                     {
                         _completedHistory = true;
+                        lblCompletedQuantity.Text = weightHistory.Completed.ToString();
+                        CalculateAdvace(float.Parse(lblCompletedQuantity.Text));
                         FillDatagridsFromHistory(weightHistory);
                     }
                 }
@@ -507,7 +515,8 @@ namespace WOW_Fusion
                 float grossLbs = gross * _lbs; 
                 string[] palletData = new string[] { p.Pallet.ToString(), p.Tare.ToString(), p.Weight.ToString(),
                                                     gross.ToString(), netLbs.ToString(), grossLbs.ToString() };
-                dgPallets.Rows.Add(palletData);
+                int indexNewPallet = dgPallets.Rows.Add(palletData);
+                dgPallets.FirstDisplayedScrollingRowIndex = indexNewPallet;
 
                 dynamic rolls = p.Rolls;
                 foreach (dynamic r in rolls)
@@ -518,15 +527,24 @@ namespace WOW_Fusion
                     string[] rollData = new string[] { p.Pallet.ToString(), r.Roll.ToString(), r.Weight.ToString(),
                                                        gross.ToString(), netLbs.ToString(), grossLbs.ToString() };
 
-                    dgRolls.Rows.Add(rollData);
+                    //table.Rows.Add(p.Pallet, r.Roll, r.Weight.ToString(), gross.ToString(), netLbs.ToString(), grossLbs.ToString());
+                    int indexNewRoll = dgRolls.Rows.Add(rollData);
+                    dgRolls.FirstDisplayedScrollingRowIndex = indexNewRoll;
                 }
             }
 
             _completedHistory = false;
+
             _palletCount = dgPallets.Rows.Count;
             _rollCount = dgRolls.Rows.Count;
 
-            //dgRolls.Sort(dgRolls.Columns[1], ListSortDirection.Ascending);
+            // Asegurarse de que las columnas permiten la ordenación
+            /*foreach (DataGridViewColumn column in dgRolls.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+            dgRolls.Columns[1].SortMode = DataGridViewColumnSortMode.Automatic;*/
+            //dgRolls.Sort(dgRolls.Columns["R_Roll"], ListSortDirection.Ascending);
 
             lblPalletNumber.Text = _palletCount.ToString();
         }
@@ -659,7 +677,8 @@ namespace WOW_Fusion
                                                                         rollNetLbs.ToString("F2"), rollGrossLbs.ToString("F2") };
 
 
-                            dgRolls.Rows.Add(row);
+                            int indexNewRoll = dgRolls.Rows.Add(row);
+                            dgRolls.FirstDisplayedScrollingRowIndex = indexNewRoll;
 
                             //Reserver peso neto acomulado para sacar peso de rollo
                             _previousWeight = _weightFromWeighing;
@@ -1139,13 +1158,14 @@ namespace WOW_Fusion
         #endregion
 
         #region DataGrid Pallets
-        private async void AddPallet()
+        private void AddPallet()
         {
             if (_isPalletStart)
             {
                 string[] rowPallet = new string[] { _palletCount.ToString(), _tareWeight.ToString(), lblPalletNetKg.Text,
                                                     lblPalletGrossKg.Text, lblPalletNetLbs.Text, lblPalletGrossLbs.Text };
-                dgPallets.Rows.Add(rowPallet);
+                int indexNewPallet = dgPallets.Rows.Add(rowPallet);
+                dgPallets.FirstDisplayedScrollingRowIndex = indexNewPallet;
 
                 //Limpiar datos para pallet nuevo
                 _rollByPallet = 0;
