@@ -62,6 +62,7 @@ namespace WOW_Fusion
 
         private async void InitializeFusionData()
         {
+            lblEnvironment.Text = Settings.Default.ApexUrl.ToString().Equals("http://129.146.124.5:8080/ords/wow/wo") ? "PROD" : "TEST";
             //Obtener datos de Organizacion
             dynamic org = await CommonService.OneItem(String.Format(EndPoints.InventoryOrganizations, Constants.Plant1Id));
 

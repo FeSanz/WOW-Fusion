@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLoading));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.pcbIcon = new System.Windows.Forms.PictureBox();
             this.lblLoading = new System.Windows.Forms.Label();
+            this.pcbIcon = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pcbIcon)).BeginInit();
             this.SuspendLayout();
@@ -46,6 +47,16 @@
             this.panel1.Size = new System.Drawing.Size(289, 108);
             this.panel1.TabIndex = 0;
             // 
+            // lblLoading
+            // 
+            this.lblLoading.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoading.Location = new System.Drawing.Point(95, 8);
+            this.lblLoading.Name = "lblLoading";
+            this.lblLoading.Size = new System.Drawing.Size(189, 90);
+            this.lblLoading.TabIndex = 1;
+            this.lblLoading.Text = "Procesando ...";
+            this.lblLoading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // pcbIcon
             // 
             this.pcbIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
@@ -59,16 +70,6 @@
             this.pcbIcon.TabIndex = 3;
             this.pcbIcon.TabStop = false;
             // 
-            // lblLoading
-            // 
-            this.lblLoading.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLoading.Location = new System.Drawing.Point(95, 8);
-            this.lblLoading.Name = "lblLoading";
-            this.lblLoading.Size = new System.Drawing.Size(189, 90);
-            this.lblLoading.TabIndex = 1;
-            this.lblLoading.Text = "Procesando ...";
-            this.lblLoading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // frmLoading
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -77,6 +78,7 @@
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmLoading";
             this.Text = "frmLoading";
             this.TopMost = true;

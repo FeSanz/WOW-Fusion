@@ -439,5 +439,30 @@ namespace WOW_Fusion.Services
             return ordersList.OrderBy(obj => propInfo.GetValue(obj, null)).ToList(); //OR OrderByDescending
         }
 
+        public static async Task<bool> Authenticated(string environment, string plantId, string credentials)
+        {
+            Task<string> tskItem = APIService.GetAuthAsync(String.Format(EndPoints.AuthFusion, environment, plantId), credentials);
+            string response = await tskItem;
+            if (string.IsNullOrEmpty(response))
+            {
+                NotifierController.Error(Constants.Exception);
+                return false;
+            }
+            else
+            {
+                JObject objResponse = JObject.Parse(response);
+
+                if ((int)objResponse["count"] == 0)
+                {
+                    NotifierController.Error("Sin los permisos necesarios");
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
     }
 }

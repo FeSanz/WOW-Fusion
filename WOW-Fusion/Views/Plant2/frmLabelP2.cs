@@ -73,6 +73,7 @@ namespace WOW_Fusion
 
         private void frmLabelP2_Load(object sender, EventArgs e)
         {
+            lblEnvironment.Text = Settings.Default.FusionUrl.Contains("-test") ? "TEST" : "PROD";
             pop = new PopController();
 
             richTextConsole.Clear();
@@ -91,6 +92,7 @@ namespace WOW_Fusion
         public async void InitializeFusionData()
         {
             timerShift.Stop();
+            lblEnvironment.Text = Settings.Default.FusionUrl.Contains("-test") ? "TEST" : "PROD";
 
             List<string> endPoints = new List<string>
             {
@@ -1004,7 +1006,8 @@ namespace WOW_Fusion
             lblCompletedQuantity.Text = palletNetSum.ToString();
             CalculateAdvace(palletNetSum);
 
-            await LabelService.PrintP2(_rollCount, "ROLL"); //Imprimir rollo
+            if(int.Parse(lblRollOnPallet.Text) > 1)
+                await LabelService.PrintP2(_rollCount, "ROLL"); //Imprimir rollo
 
             //PALLET TERMINADO AGREGAR NUEVO
             if (_rollByPallet == int.Parse(lblRollOnPallet.Text))

@@ -56,6 +56,7 @@
             this.groupBoxProd = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.progressBarWO = new System.Windows.Forms.ProgressBar();
+            this.btnEndProcess = new System.Windows.Forms.Button();
             this.lblItemDescriptionEnglish = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -144,7 +145,6 @@
             this.lblMode = new System.Windows.Forms.Label();
             this.timerShift = new System.Windows.Forms.Timer(this.components);
             this.timerSchedule = new System.Windows.Forms.Timer(this.components);
-            this.btnEndProcess = new System.Windows.Forms.Button();
             this.btnSwapMode = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
             this.pbYellow = new System.Windows.Forms.PictureBox();
@@ -162,6 +162,7 @@
             this.R_NetLbs = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.R_GrossLbs = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flowLayoutMain = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblEnvironment = new System.Windows.Forms.Label();
             this.groupBoxProd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBoxRoll.SuspendLayout();
@@ -276,6 +277,21 @@
             this.progressBarWO.Name = "progressBarWO";
             this.progressBarWO.Size = new System.Drawing.Size(399, 17);
             this.progressBarWO.TabIndex = 136;
+            // 
+            // btnEndProcess
+            // 
+            this.btnEndProcess.BackColor = System.Drawing.Color.Transparent;
+            this.btnEndProcess.BackgroundImage = global::WOW_Fusion.Properties.Resources.logout;
+            this.btnEndProcess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnEndProcess.FlatAppearance.BorderSize = 0;
+            this.btnEndProcess.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEndProcess.Location = new System.Drawing.Point(384, 241);
+            this.btnEndProcess.Name = "btnEndProcess";
+            this.btnEndProcess.Size = new System.Drawing.Size(30, 28);
+            this.btnEndProcess.TabIndex = 169;
+            this.btnEndProcess.UseVisualStyleBackColor = false;
+            this.btnEndProcess.Visible = false;
+            this.btnEndProcess.Click += new System.EventHandler(this.btnEndProcess_Click);
             // 
             // lblItemDescriptionEnglish
             // 
@@ -1354,21 +1370,6 @@
             // 
             this.timerSchedule.Interval = 300000;
             // 
-            // btnEndProcess
-            // 
-            this.btnEndProcess.BackColor = System.Drawing.Color.Transparent;
-            this.btnEndProcess.BackgroundImage = global::WOW_Fusion.Properties.Resources.logout;
-            this.btnEndProcess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnEndProcess.FlatAppearance.BorderSize = 0;
-            this.btnEndProcess.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEndProcess.Location = new System.Drawing.Point(384, 241);
-            this.btnEndProcess.Name = "btnEndProcess";
-            this.btnEndProcess.Size = new System.Drawing.Size(30, 28);
-            this.btnEndProcess.TabIndex = 169;
-            this.btnEndProcess.UseVisualStyleBackColor = false;
-            this.btnEndProcess.Visible = false;
-            this.btnEndProcess.Click += new System.EventHandler(this.btnEndProcess_Click);
-            // 
             // btnSwapMode
             // 
             this.btnSwapMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1634,11 +1635,23 @@
             this.flowLayoutMain.TabIndex = 174;
             this.flowLayoutMain.SizeChanged += new System.EventHandler(this.flowLayoutMain_SizeChanged);
             // 
+            // lblEnvironment
+            // 
+            this.lblEnvironment.AutoSize = true;
+            this.lblEnvironment.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEnvironment.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblEnvironment.Location = new System.Drawing.Point(33, 6);
+            this.lblEnvironment.Name = "lblEnvironment";
+            this.lblEnvironment.Size = new System.Drawing.Size(29, 16);
+            this.lblEnvironment.TabIndex = 175;
+            this.lblEnvironment.Text = "TEST";
+            // 
             // frmLabelP2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 818);
+            this.Controls.Add(this.lblEnvironment);
             this.Controls.Add(this.flowLayoutMain);
             this.Controls.Add(this.tableLayoutPanel3);
             this.Controls.Add(this.tableLayoutPanel2);
@@ -1678,6 +1691,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgRolls)).EndInit();
             this.flowLayoutMain.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1795,5 +1809,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn R_GrossKg;
         private System.Windows.Forms.DataGridViewTextBoxColumn R_NetLbs;
         private System.Windows.Forms.DataGridViewTextBoxColumn R_GrossLbs;
+        private System.Windows.Forms.Label lblEnvironment;
     }
 }

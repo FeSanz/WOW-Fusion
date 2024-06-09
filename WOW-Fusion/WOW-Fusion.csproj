@@ -216,6 +216,12 @@
     <Compile Include="Views\Plant3\frmSettingsP3.Designer.cs">
       <DependentUpon>frmSettingsP3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Plant3\frmTare.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Plant3\frmTare.Designer.cs">
+      <DependentUpon>frmTare.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Views\Plant1\frmLabelP1.resx">
       <DependentUpon>frmLabelP1.cs</DependentUpon>
     </EmbeddedResource>
@@ -260,6 +266,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Plant3\frmSettingsP3.resx">
       <DependentUpon>frmSettingsP3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Plant3\frmTare.resx">
+      <DependentUpon>frmTare.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -386,6 +395,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ico_wow.ico" />
+    <None Include="Resources\wowgroup.png" />
+    <None Include="Resources\zero.png" />
     <None Include="Resources\sack_empty.png" />
     <None Include="Resources\sack.png" />
     <None Include="Resources\sack_yellow.png" />

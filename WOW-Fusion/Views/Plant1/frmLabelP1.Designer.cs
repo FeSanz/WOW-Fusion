@@ -99,6 +99,7 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblEnvironment = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
@@ -603,7 +604,7 @@
             this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Controls.Add(this.lblAditional);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(3, 114);
+            this.groupBox3.Location = new System.Drawing.Point(3, 122);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(472, 341);
             this.groupBox3.TabIndex = 118;
@@ -752,6 +753,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.lblEnvironment);
             this.groupBox2.Controls.Add(this.lblOrganizationCode);
             this.groupBox2.Controls.Add(this.label26);
             this.groupBox2.Controls.Add(this.label14);
@@ -763,7 +765,7 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(472, 105);
+            this.groupBox2.Size = new System.Drawing.Size(472, 113);
             this.groupBox2.TabIndex = 159;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Unidad de negocio";
@@ -958,6 +960,17 @@
             this.flowLayoutPanel3.Size = new System.Drawing.Size(966, 522);
             this.flowLayoutPanel3.TabIndex = 164;
             // 
+            // lblEnvironment
+            // 
+            this.lblEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblEnvironment.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEnvironment.Location = new System.Drawing.Point(261, 91);
+            this.lblEnvironment.Name = "lblEnvironment";
+            this.lblEnvironment.Size = new System.Drawing.Size(187, 16);
+            this.lblEnvironment.TabIndex = 165;
+            this.lblEnvironment.Text = "TEST";
+            this.lblEnvironment.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // frmLabelP1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1070,6 +1083,7 @@
         private System.Windows.Forms.TextBox txtTotalPrint;
         private System.Windows.Forms.TextBox txtStartPage;
         private System.Windows.Forms.Label lblStatusPrint;
+        private System.Windows.Forms.Label lblEnvironment;
     }
 }
 

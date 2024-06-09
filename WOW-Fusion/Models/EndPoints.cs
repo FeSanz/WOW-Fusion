@@ -13,6 +13,10 @@ namespace WOW_Fusion.Models
                                                     "&fields=OrganizationId,OrganizationCode,OrganizationName,LocationCode,ManagementBusinessUnitId,ManagementBusinessUnitName" +
                                                     "&q=OrganizationId={0}";
 
+        public static string AuthFusion = "{0}/inventoryOrganizations?" + Constants.ParamsGet +
+                                                    "&fields=OrganizationId,OrganizationCode,OrganizationName,LocationCode,ManagementBusinessUnitId,ManagementBusinessUnitName" +
+                                                    "&q=OrganizationId={1}";
+
         public static string ResourcesTypeMachine = Settings.Default.FusionUrl + "/productionResources?" + Constants.ParamsGet +
                                                   "&fields=ResourceId,ResourceCode,ResourceName" +
                                                   "&q=OrganizationId={0} and ResourceType='EQUIPMENT' and ResourceCode like '%MF-%'";

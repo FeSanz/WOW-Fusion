@@ -20,6 +20,8 @@ namespace WOW_Fusion
         public static string UserName = "user.name";
         public static int UserId = 0;
 
+        public static bool loginMode = true;
+
         //frmLoading
         public static string pop = "Procesando...";
         public static string Exception = "Error de excepción";

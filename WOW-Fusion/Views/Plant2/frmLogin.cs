@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WOW_Fusion.Controllers;
@@ -32,6 +33,7 @@ namespace WOW_Fusion.Views.Plant2
             txtPassword.Clear();
         }
 
+        public event EventHandler FormClosedEvent;
         private void lblExit_Click(object sender, EventArgs e)
         {
             Close();
@@ -53,15 +55,11 @@ namespace WOW_Fusion.Views.Plant2
                 {
                     pop.Close();
                     lblStatus.Text = string.Empty;
-                    Settings.Default.Credentials = credentials;
-                    Settings.Default.Save();
 
                     Hide();
-                    Close();
-
                     frmSettingsP2 frmSettingsP2 = new frmSettingsP2();
                     frmSettingsP2.StartPosition = FormStartPosition.CenterParent;
-                    frmSettingsP2.ShowDialog(); 
+                    if (frmSettingsP2.ShowDialog() == DialogResult.OK) { Close(); }
                 }
                 else
                 {

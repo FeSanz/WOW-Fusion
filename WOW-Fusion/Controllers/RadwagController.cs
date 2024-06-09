@@ -42,7 +42,7 @@ namespace WOW_Fusion
                     response = await ReadDataUntilCR(_stream, 6000); //->6000
                     string readLine = response;
 
-                    if (command.Equals("T") || command.Equals("S"))
+                    if (command.Equals("T") || command.Equals("S") || command.Equals("Z"))
                     {
                         switch (readLine.Substring(2, 1))
                         {
@@ -99,6 +99,9 @@ namespace WOW_Fusion
                     break;
                 case "v":
                     response = "Comando entendido, pero se ha superado el rango de tara";
+                    break;
+                case "^":
+                    response = "Comando entendido, pero se ha superado el rango de puesta a cero.";
                     break;
                 case "E":
                     response = "Límite de tiempo superado en espera del resultado estable";

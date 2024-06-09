@@ -55,6 +55,7 @@ namespace WOW_Fusion
                 Settings.Default.Aditional = trackBarAdtional.Value;
                 Settings.Default.FusionUrl = rdbProd.Checked ? "https://iapxqy.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05" :
                                                                "https://iapxqy-test.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05";
+                Settings.Default.ApexUrl = rdbProd.Checked ? "http://129.146.124.5:8080/ords/wow/wo" : "http://129.146.133.180:8080/ords/wow/wo";
                 Settings.Default.Save();
 
                 NotifierController.Success("Datos actualizados");

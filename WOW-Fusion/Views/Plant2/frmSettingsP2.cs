@@ -13,6 +13,7 @@ using WOW_Fusion.Controllers;
 using WOW_Fusion.Models;
 using WOW_Fusion.Properties;
 using WOW_Fusion.Services;
+using WOW_Fusion.Views.Plant2;
 
 namespace WOW_Fusion
 {
@@ -24,6 +25,9 @@ namespace WOW_Fusion
 
         private string environment = string.Empty;
         private string environmentChanged = string.Empty;
+
+        private bool flagStart = false;
+        private string tempFusionUrl = string.Empty;
 
         public frmSettingsP2()
         { 
@@ -75,6 +79,10 @@ namespace WOW_Fusion
             txtRoll.Text = Settings.Default.RollToPrint.ToString();
             txtPallet.Text = Settings.Default.PalletToPrint.ToString();
 
+            string decodedCredentials = Encoding.GetEncoding("ISO-8859-1").GetString(Convert.FromBase64String(Settings.Default.Credentials.ToString()));
+            txtUser.Text = decodedCredentials.Split(':')[0];
+            txtPassword.Text = decodedCredentials.Split(':')[1];
+
             if (Settings.Default.FusionUrl.Contains("-test"))
             {
                 rdbTest.Checked = true;
@@ -89,42 +97,57 @@ namespace WOW_Fusion
                 environment = "PROD";
                 environmentChanged = "PROD";
             }
+            flagStart = true;
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private async void btnSave_Click(object sender, EventArgs e)
         {
             lblStatus.Text = "Verificando datos...";
     
             if(!string.IsNullOrEmpty(cmbResources.Text) && !string.IsNullOrEmpty(txtBoxWorkCenter.Text) &&
                 !string.IsNullOrEmpty(txtBoxIpWeighing.Text) && !string.IsNullOrEmpty(txtBoxPortWeighing.Text) &&
                 !string.IsNullOrEmpty(txtBoxIpPrinter.Text) && !string.IsNullOrEmpty(txtBoxPortPrinter.Text) &&
-                !string.IsNullOrEmpty(txtRoll.Text) && !string.IsNullOrEmpty(txtPallet.Text))
+                !string.IsNullOrEmpty(txtRoll.Text) && !string.IsNullOrEmpty(txtPallet.Text) &&
+                !string.IsNullOrEmpty(txtUser.Text) && !string.IsNullOrEmpty(txtPassword.Text))
             {
-                Settings.Default.ResourceId2 = resourceId;
-                Settings.Default.WorkCenterId = workCenterId;
-
-                Settings.Default.WeighingIP = txtBoxIpWeighing.Text;
-                Settings.Default.WeighingPort = int.Parse(txtBoxPortWeighing.Text);
-
-                Settings.Default.PrinterIP = txtBoxIpPrinter.Text;
-                Settings.Default.PrinterPort = int.Parse(txtBoxPortPrinter.Text);
-
-                Settings.Default.RollToPrint = int.Parse(txtRoll.Text);
-                Settings.Default.PalletToPrint = int.Parse(txtPallet.Text);
-
-                Settings.Default.FusionUrl = rdbProd.Checked ? "https://iapxqy.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05" : 
-                                                               "https://iapxqy-test.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05";
-
-                Settings.Default.Save();
-                NotifierController.Success("Datos actualizados");
-
-                if(!environment.Equals(environmentChanged))
+                string credentials = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(txtUser.Text + ":" + txtPassword.Text));
+                if (await CommonService.Authenticated(tempFusionUrl, Constants.Plant2Id, credentials))
                 {
-                    MessageBox.Show("Es necesario reiniciar la aplicación al cambiar de ambiente, la aplicación se cerrará automáticamente", "Reinicar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Application.Exit();
+                    Settings.Default.ResourceId2 = resourceId;
+                    Settings.Default.WorkCenterId = workCenterId;
+
+                    Settings.Default.WeighingIP = txtBoxIpWeighing.Text;
+                    Settings.Default.WeighingPort = int.Parse(txtBoxPortWeighing.Text);
+
+                    Settings.Default.PrinterIP = txtBoxIpPrinter.Text;
+                    Settings.Default.PrinterPort = int.Parse(txtBoxPortPrinter.Text);
+
+                    Settings.Default.RollToPrint = int.Parse(txtRoll.Text);
+                    Settings.Default.PalletToPrint = int.Parse(txtPallet.Text);
+
+                    Settings.Default.FusionUrl = rdbProd.Checked ? "https://iapxqy.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05" :
+                                  "https://iapxqy-test.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05";
+                    Settings.Default.ApexUrl = rdbProd.Checked ? "http://129.146.124.5:8080/ords/wow/wo" : "http://129.146.133.180:8080/ords/wow/wo";
+
+                    
+                    Settings.Default.Credentials = credentials;
+
+                    Settings.Default.Save();
+                    NotifierController.Success("Datos actualizados");
+
+                    if(!environment.Equals(environmentChanged))
+                    {
+                        MessageBox.Show("Es necesario reiniciar la aplicación al cambiar de ambiente, la aplicación se cerrará automáticamente", "Reinicar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Application.Exit();
+                    }
+
+                    Close();
+                }
+                else
+                {
+                    lblStatus.Text = "Acceso no autorizado, verifique credenciales";
                 }
 
-                Close();
             }
             else
             {
@@ -250,11 +273,26 @@ namespace WOW_Fusion
         private void rdbProd_CheckedChanged(object sender, EventArgs e)
         {
             environmentChanged = "PROD";
+            tempFusionUrl = "https://iapxqy.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05";
+
+            if(flagStart)
+            {
+                txtUser.Text = string.Empty;
+                txtPassword.Text = string.Empty;
+            }
         }
 
         private void rdbTest_CheckedChanged(object sender, EventArgs e)
         {
             environmentChanged = "TEST";
+            tempFusionUrl = "https://iapxqy-test.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05";
+
+            if (flagStart)
+            {
+                txtUser.Text = string.Empty;
+                txtPassword.Text = string.Empty;
+            }
         }
+
     }
 }
