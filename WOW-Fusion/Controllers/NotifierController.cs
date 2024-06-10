@@ -18,7 +18,7 @@ namespace WOW_Fusion.Controllers
             pop.TitleText = "";
             pop.ContentText = content;
             pop.ContentColor = Color.Black;
-            pop.ContentFont = new Font("Arial", 12);
+            pop.ContentFont = content.Length > 26 ? new Font("Arial", 9) : new Font("Arial", 12);
             pop.ContentPadding = new Padding(10, 15, 10, 5);
             pop.ShowGrip = false;
             pop.HeaderHeight = 1;
@@ -35,7 +35,7 @@ namespace WOW_Fusion.Controllers
             pop.TitleText = "";
             pop.ContentText = content;
             pop.ContentColor = Color.Black;
-            pop.ContentFont = new Font("Arial", 12);
+            pop.ContentFont = content.Length > 26 ? new Font("Arial", 9) : new Font("Arial", 12);
             pop.ContentPadding = new Padding(10, 15, 10, 5);
             pop.ShowGrip = false;
             pop.HeaderHeight = 1;
@@ -52,7 +52,7 @@ namespace WOW_Fusion.Controllers
             pop.TitleText = "";
             pop.ContentText = content;
             pop.ContentColor = Color.Black;
-            pop.ContentFont = new Font("Arial", 12);
+            pop.ContentFont = new Font("Arial", 9);
             pop.ContentPadding = new Padding(10, 15, 10, 5);
             pop.ShowGrip = false;
             pop.HeaderHeight = 1;

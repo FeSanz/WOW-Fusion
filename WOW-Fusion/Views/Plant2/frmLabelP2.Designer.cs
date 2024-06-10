@@ -1367,7 +1367,7 @@
             // 
             // timerSchedule
             // 
-            this.timerSchedule.Interval = 10000;
+            this.timerSchedule.Interval = 300000;
             // 
             // btnSwapMode
             // 

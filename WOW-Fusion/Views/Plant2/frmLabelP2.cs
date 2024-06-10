@@ -1033,8 +1033,7 @@ namespace WOW_Fusion
             lblCompletedQuantity.Text = palletNetSum.ToString();
             CalculateAdvace(palletNetSum);
 
-            if(int.Parse(lblRollOnPallet.Text) > 1)
-                await LabelService.PrintP2(_rollCount, "ROLL"); //Imprimir rollo
+            if (int.Parse(lblRollOnPallet.Text) > 1) { await LabelService.PrintP2(_rollCount, "ROLL"); }
 
             //PALLET TERMINADO AGREGAR NUEVO
             if (_rollByPallet == int.Parse(lblRollOnPallet.Text))
@@ -1309,7 +1308,7 @@ namespace WOW_Fusion
             if (!string.IsNullOrEmpty(lblResourceCode.Text))
             {
                 dynamic label = JObject.Parse(Constants.LabelJson);
-                
+                //WO Info
                 label.WORKORDER = string.IsNullOrEmpty(cmbWorkOrders.Text) ? " " : cmbWorkOrders.Text/*.Substring(7)*/;
                 label.ITEMNUMBER = string.IsNullOrEmpty(lblItemNumber.Text) ? " " : lblItemNumber.Text;
                 label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;
@@ -1317,8 +1316,8 @@ namespace WOW_Fusion
                 label.EQU = string.IsNullOrEmpty(lblResourceCode.Text) ? " " : lblResourceCode.Text;
                 label.DATE = DateService.Now();
                 label.SHIFT = string.IsNullOrEmpty(lblShift.Text) ? " " : lblShift.Text;
+                //Roll Info
                 label.ROLL = string.IsNullOrEmpty(weights[1]) ? " " : "R" + weights[1].PadLeft(4, '0');
-                label.LOTNUMBER = "";
                 label.WNETKG = string.IsNullOrEmpty(weights[2]) ? " " : weights[2];
                 label.WGROSSKG = string.IsNullOrEmpty(weights[3]) ? " " : weights[3];
                 label.WNETLBS = string.IsNullOrEmpty(weights[4]) ? " " : weights[4];
@@ -1329,8 +1328,7 @@ namespace WOW_Fusion
                 label.AKADESCRIPTION = string.IsNullOrEmpty(lblAkaDescription.Text) ? "NE" : lblAkaDescription.Text;
                 label.LEGALENTITY = string.IsNullOrEmpty(lblAkaCustomer.Text) ? "NE" : lblAkaCustomer.Text;
                 label.PURCHASEORDER = string.IsNullOrEmpty(lblAkaOrder.Text) ? " " : lblAkaOrder.Text;
-                label.ADDRESS = "";
-                label.EMAIL = "";
+
                 
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
                 picLabelRoll.Image = System.Drawing.Image.FromStream(await LabelService.UpdateLabelLabelary(_rollCount, "ROLL"));
@@ -1342,7 +1340,20 @@ namespace WOW_Fusion
             if (!string.IsNullOrEmpty(lblResourceCode.Text))
             {
                 dynamic label = JObject.Parse(Constants.LabelJson);
-
+                //WO Info
+                label.WORKORDER = string.IsNullOrEmpty(cmbWorkOrders.Text) ? " " : cmbWorkOrders.Text/*.Substring(7)*/;
+                label.ITEMNUMBER = string.IsNullOrEmpty(lblItemNumber.Text) ? " " : lblItemNumber.Text;
+                label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;
+                label.ENGLISHDESCRIPTION = string.IsNullOrEmpty(lblItemDescriptionEnglish.Text) || lblItemDescriptionEnglish.Text.Equals(lblItemDescription.Text) ? " " : lblItemDescriptionEnglish.Text;
+                label.EQU = string.IsNullOrEmpty(lblResourceCode.Text) ? " " : lblResourceCode.Text;
+                label.DATE = DateService.Now();
+                label.SHIFT = string.IsNullOrEmpty(lblShift.Text) ? " " : lblShift.Text;
+                //AKA Info
+                label.AKAITEM = string.IsNullOrEmpty(lblAkaItem.Text) ? "NE" : lblAkaItem.Text;
+                label.AKADESCRIPTION = string.IsNullOrEmpty(lblAkaDescription.Text) ? "NE" : lblAkaDescription.Text;
+                label.LEGALENTITY = string.IsNullOrEmpty(lblAkaCustomer.Text) ? "NE" : lblAkaCustomer.Text;
+                label.PURCHASEORDER = string.IsNullOrEmpty(lblAkaOrder.Text) ? " " : lblAkaOrder.Text;
+                //Pallet Info
                 label.PALET = "P" + _palletCount.ToString().PadLeft(4, '0');
                 label.WNETKG = string.IsNullOrEmpty(palletWeight[2]) ? " " : palletWeight[2];
                 label.WGROSSKG = string.IsNullOrEmpty(palletWeight[3]) ? " " : palletWeight[3];
@@ -1520,7 +1531,7 @@ namespace WOW_Fusion
                         if(_tareWeight > 0)
                         {
                             e.Cancel = true;
-                            NotifierController.Warning("No se permite cerrar la aplicación cuando se inicio a tarar con orden");
+                            NotifierController.Warning("No se permite cerrar la aplicación cuando se inicio a pesar");
                         }
                         else
                         {
