@@ -28,11 +28,24 @@ using static System.Net.Mime.MediaTypeNames;
 using Google.Api.Gax;
 using System.Data.SqlClient;
 using static Google.Apis.Requests.BatchRequest;
+using System.Runtime.InteropServices;
 
 namespace WOW_Fusion
 {
     public partial class frmLabelP2 : Form
     {
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
+
+        private const uint SC_CLOSE = 0xF060;
+        private const uint MF_BYCOMMAND = 0x00000000;
+        private const uint MF_GRAYED = 0x00000001;
+        private const uint MF_ENABLED = 0x00000000;
+        private const uint MF_DISABLED = 0x00000002;
+
         Random rnd = new Random();
         //Timer timerShift = new Timer();
 
@@ -63,6 +76,7 @@ namespace WOW_Fusion
         //Scheduling
         List<WorkOrderShedule> ordersForSchedule;
         private bool _startOrder = false;
+        private bool _startThreadSchedule = false;
 
         #region Start
         public frmLabelP2()
@@ -152,6 +166,7 @@ namespace WOW_Fusion
         private async void ProductionScheduling(object sender, EventArgs e)
         {
             lblWOStatus.Visible = false;
+            pop.Close();
             ordersForSchedule = await CommonService.WOProcessSchedule(Constants.Plant2Id, Settings.Default.ResourceId2); //Obtener OT Schedule
            
             if (ordersForSchedule.Count > 0)
@@ -181,10 +196,22 @@ namespace WOW_Fusion
                 {
                     if (DateService.IsBetweenDates(wo.PlannedStartDate, wo.PlannedCompletionDate))
                     {
-                        cmbWorkOrders.Items.Clear();
+                        if (cmbWorkOrders.Text.Equals(wo.WorkOrderNumber.ToString()))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            cmbWorkOrders.Items.Clear();
+                            cmbWorkOrders.Items.Add(wo.WorkOrderNumber.ToString());
+                            cmbWorkOrders.Text = wo.WorkOrderNumber.ToString();
+                            break;
+                        }
+
+                        /*cmbWorkOrders.Items.Clear();
                         cmbWorkOrders.Items.Add(wo.WorkOrderNumber.ToString());
                         cmbWorkOrders.Text = wo.WorkOrderNumber.ToString();
-                        break;
+                        break;*/
                     }
                 }
             }
@@ -195,12 +222,12 @@ namespace WOW_Fusion
 
             lblWOStatus.Visible = true;
 
-            if (lblMode.Text.Equals("Auto."))
+            if (lblMode.Text.Equals("Auto.") && !timerSchedule.Enabled)
             {
                 timerSchedule.Tick += new EventHandler(ProductionScheduling);
                 timerSchedule.Start();
             }
-            else
+            else if (lblMode.Text.Equals("Manual") && timerSchedule.Enabled)
             {
                 timerSchedule.Stop();   
             }
@@ -281,6 +308,7 @@ namespace WOW_Fusion
 
         private void SelectedIndexChangedWorkOrders(object sender, EventArgs e)
         {
+            pop.Close();
             WorkOrderUIFill(cmbWorkOrders.SelectedItem.ToString());
         }
 
@@ -568,7 +596,7 @@ namespace WOW_Fusion
                     if (!requestTareWeight.Equals("EX"))
                     {
                         //Inicia a pesar
-                        if (!_startOrder)
+                        /*if (!_startOrder)
                         {
                             //ProductionScheduling(this, EventArgs.Empty);
                             _startOrder = true;
@@ -576,7 +604,7 @@ namespace WOW_Fusion
                         else
                         {
                             timerSchedule.Stop();
-                        }
+                        }*/
 
                         //TARAR
                         _tareWeight = float.Parse(requestTareWeight);
@@ -602,6 +630,11 @@ namespace WOW_Fusion
                             //Registrar pallet en DB APEX
                             lblPalletId.Text = DateService.EpochTime();
                             CreatePalletApex(_palletCount, 0.0f);
+
+                            //Desactivar todo opcion para salir para evitar palets incompletos
+                            DisableCloseButton();
+                            btnSwapMode.Enabled = false;
+                            timerSchedule.Stop();
                             cmbWorkOrders.Enabled = false;
                         }
                         else
@@ -830,7 +863,7 @@ namespace WOW_Fusion
         #region DataGrid Rollos
         private void TableLayoutPalletControl(int rollOnPallet, int rollNumber)
         {
-            lblRollCount.Text = $"+ {rollOnPallet}";
+            lblRollCount.Text = $"{rollOnPallet}";
 
             if (rollOnPallet <= 12)
             {
@@ -952,12 +985,6 @@ namespace WOW_Fusion
             }*/
         }
 
-        //Click derecho sobre fila
-        private void dgWeights_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            
-        }
-
         //Cambio de color de filas (Max-Min)
         private void dgWeights_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -1021,16 +1048,23 @@ namespace WOW_Fusion
             btnEndProcess.Visible = _rollCount > 0 ? true : false;
         }
 
-        //Eliminar ultima fila de la lista de pesos
+        //Click derecho sobre fila
         private void dgWeights_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right && e.RowIndex == dgRolls.Rows.Count - 1)
+            if (_rollByPallet > 0)
             {
-                dgRolls.Rows[e.RowIndex].Selected = true;
-                _rowSelected = e.RowIndex;
-                dgRolls.CurrentCell = dgRolls.Rows[e.RowIndex].Cells["R_NetKg"];
-                MenuShipWeight.Show(dgRolls, e.Location);
-                MenuShipWeight.Show(Cursor.Position);
+                if (e.Button == MouseButtons.Right && e.RowIndex == dgRolls.Rows.Count - 1)
+                {
+                    dgRolls.Rows[e.RowIndex].Selected = true;
+                    _rowSelected = e.RowIndex;
+                    dgRolls.CurrentCell = dgRolls.Rows[e.RowIndex].Cells["R_NetKg"];
+                    MenuShipWeight.Show(dgRolls, e.Location);
+                    MenuShipWeight.Show(Cursor.Position);
+                }
+            }
+            else
+            {
+                NotifierController.Warning("Acción no permitica");
             }
         }
 
@@ -1218,6 +1252,7 @@ namespace WOW_Fusion
         private async void dgPallets_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             if(_completedHistory) { return; }
+            EnableCloseButton();
             int palletAdded = int.Parse(dgPallets.Rows[e.RowIndex].Cells["P_Pallet"].Value.ToString());
             string rollWeights = WeightsPallet(palletAdded);
 
@@ -1239,12 +1274,6 @@ namespace WOW_Fusion
                 //await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP2);
                 ClearAll();
             }
-        }
-
-        //Click derecho sobre fila
-        private void dgWeightsPallets_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            
         }
 
         //Cambio de color de filas (Max-Min)
@@ -1409,6 +1438,9 @@ namespace WOW_Fusion
 
             //Orden inicio a pesar
             _startOrder = false;
+            btnSwapMode.Enabled = true;
+
+            _tareWeight = 0;
 
             if (lblMode.Text.Equals("Auto."))
             {
@@ -1455,6 +1487,22 @@ namespace WOW_Fusion
             }
         }
 
+        private void flowLayoutMain_SizeChanged(object sender, EventArgs e)
+        {
+            if (flowLayoutMain.Size.Height > 700)
+            {
+                int boxes = groupBoxProd.Size.Height + groupBoxAka.Size.Height + groupBoxWeight.Size.Height;
+                int total = (flowLayoutMain.Size.Height - boxes) - 20;
+                int divide = total / 3;
+                groupBoxProd.Height = groupBoxProd.Size.Height + divide;
+                groupBoxAka.Height = groupBoxAka.Size.Height + divide;
+                groupBoxWeight.Height = groupBoxWeight.Size.Height + divide;
+            }
+
+            flowLayoutMain.HorizontalScroll.Maximum = 0;
+            flowLayoutMain.HorizontalScroll.Enabled = false;
+        }
+
         private void frmLabelP2_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -1467,8 +1515,40 @@ namespace WOW_Fusion
                     {
                         e.Cancel = true;
                     }
+                    else if(result == DialogResult.Yes)
+                    { 
+                        if(_tareWeight > 0)
+                        {
+                            e.Cancel = true;
+                            NotifierController.Warning("No se permite cerrar la aplicación cuando se inicio a tarar con orden");
+                        }
+                        else
+                        {
+                            e.Cancel = false;
+                        }
+                        /*if (_rollByPallet > 1)
+                        {
+                            _endWeight = true;
+                            AddPallet();
+                            NotifierController.Success("Palet registrado");
+                            Thread.Sleep(2000);
+                            e.Cancel = false;
+                        }*/
+                    }
                 }
             }
+        }
+
+        private void DisableCloseButton()
+        {
+            IntPtr hMenu = GetSystemMenu(this.Handle, false);
+            EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED | MF_DISABLED);
+        }
+
+        private void EnableCloseButton()
+        {
+            IntPtr hMenu = GetSystemMenu(this.Handle, false);
+            EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_ENABLED);
         }
         #endregion
 
@@ -1576,20 +1656,5 @@ namespace WOW_Fusion
 
         #endregion
 
-        private void flowLayoutMain_SizeChanged(object sender, EventArgs e)
-        {
-            if (flowLayoutMain.Size.Height > 700)
-            {
-                int boxes = groupBoxProd.Size.Height + groupBoxAka.Size.Height + groupBoxWeight.Size.Height;
-                int total = (flowLayoutMain.Size.Height - boxes) - 20;
-                int divide = total / 3;
-                groupBoxProd.Height = groupBoxProd.Size.Height + divide;
-                groupBoxAka.Height = groupBoxAka.Size.Height + divide;
-                groupBoxWeight.Height = groupBoxWeight.Size.Height + divide;
-            }
-
-            flowLayoutMain.HorizontalScroll.Maximum = 0;
-            flowLayoutMain.HorizontalScroll.Enabled = false;
-        }
     }
 }

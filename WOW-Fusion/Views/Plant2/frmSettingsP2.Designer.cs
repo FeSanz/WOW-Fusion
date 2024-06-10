@@ -442,7 +442,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSettingsP2";
-            this.Text = "frmSettingsP2";
+            this.Text = "Configuración";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmSettingsP2_FormClosed);
             this.Load += new System.EventHandler(this.frmSettingsP2_Load);
             this.groupBox1.ResumeLayout(false);

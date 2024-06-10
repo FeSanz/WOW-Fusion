@@ -100,7 +100,7 @@ namespace WOW_Fusion.Services
             //DateTime today = DateTime.UtcNow.Date;
             //DateTime today = DateTime.Today;
             DateTimeOffset today = DateTimeOffset.Now;
-            return today.ToString("dd-MM-yyyy");
+            return today.ToString("dd/MM/yyyy");
         }
 
         public static string Today()

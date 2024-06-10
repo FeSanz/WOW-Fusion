@@ -1218,7 +1218,6 @@
             this.dgPallets.RowTemplate.Height = 25;
             this.dgPallets.Size = new System.Drawing.Size(354, 478);
             this.dgPallets.TabIndex = 136;
-            this.dgPallets.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgWeightsPallets_CellClick);
             this.dgPallets.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgPallets_CellFormatting);
             this.dgPallets.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgPallets_RowsAdded);
             // 
@@ -1364,11 +1363,11 @@
             // 
             // timerShift
             // 
-            this.timerShift.Interval = 5000;
+            this.timerShift.Interval = 60000;
             // 
             // timerSchedule
             // 
-            this.timerSchedule.Interval = 300000;
+            this.timerSchedule.Interval = 10000;
             // 
             // btnSwapMode
             // 
@@ -1563,7 +1562,6 @@
             this.dgRolls.RowTemplate.Height = 25;
             this.dgRolls.Size = new System.Drawing.Size(353, 478);
             this.dgRolls.TabIndex = 66;
-            this.dgRolls.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgWeights_CellClick);
             this.dgRolls.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgWeights_CellFormatting);
             this.dgRolls.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgWeights_CellMouseUp);
             this.dgRolls.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgWeight_CellPainting);
