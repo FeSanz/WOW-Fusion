@@ -584,6 +584,7 @@ namespace WOW_Fusion
         #region Buttons Actions
         private async void btnGetWeight_Click(object sender, EventArgs e)
         {
+            btnGetWeight.Enabled = false;
             txtBoxWeight.Text = string.Empty;
             pop.Show(this);
             if (string.IsNullOrEmpty(lblTare.Text))
@@ -650,7 +651,7 @@ namespace WOW_Fusion
                 else
                 {
                     pop.Close();
-                    string res = responseTare.Equals("EX") ? "Error de comunicación a basculas" : responseTare;
+                    string res = responseTare.Equals("EX") ? "Error de comunicación a báscula" : responseTare;
                     NotifierController.Error(res);
                 }
             }
@@ -666,67 +667,75 @@ namespace WOW_Fusion
                 else
                 {
                     //La bascula solo acomula el peso neto (SIN TARA)
-                    _weightFromWeighing = float.Parse(responseWeighing);
-
-                    if (_weightFromWeighing > 0)
-                    {
-                        if(_weightFromWeighing == _previousWeight)
+                    if (float.TryParse(responseWeighing, out float _weightFromWeighing))
+                    { 
+                        if (_weightFromWeighing > 0)
                         {
-                            MessageBox.Show("Pesaje no ha cambiado, verifique." +
-                                           "EL PESO NO SE AGRAGARA A LA LISTA",
-                                           "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                        else if (_weightFromWeighing < _previousWeight)
-                        {
-                            pop.Close();
-                            MessageBox.Show("Se detecto menor peso al obtenido anteriormente, " +
-                                            "verifique el producto colocado, " +
-                                            "EL PESO NO SE AGRAGARA A LA LISTA",
-                                            "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                        else
-                        {
-                            pop.Close();
-                            //Llenar campos de pallet (NET siempre sera el peso acomulado de la bascula)
-                            lblPalletNetKg.Text = _weightFromWeighing.ToString("F2");
-                            lblPalletGrossKg.Text = (_weightFromWeighing + _tareWeight).ToString("F2");
+                            if (_weightFromWeighing == _previousWeight)
+                            {
+                                pop.Close();
+                                MessageBox.Show("Pesaje no ha cambiado, verifique." +
+                                               "EL PESO NO SE AGRAGARA A LA LISTA",
+                                               "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            else if (_weightFromWeighing < _previousWeight)
+                            {
+                                pop.Close();
+                                MessageBox.Show("Se detecto menor peso al obtenido anteriormente, " +
+                                                "verifique el producto colocado, " +
+                                                "EL PESO NO SE AGRAGARA A LA LISTA",
+                                                "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            else
+                            {
+                                pop.Close();
+                                //Llenar campos de pallet (NET siempre sera el peso acomulado de la bascula)
+                                lblPalletNetKg.Text = _weightFromWeighing.ToString("F2");
+                                lblPalletGrossKg.Text = (_weightFromWeighing + _tareWeight).ToString("F2");
 
-                            lblPalletNetLbs.Text = (_weightFromWeighing * _lbs).ToString("F2");
-                            lblPalletGrossLbs.Text = ((_weightFromWeighing + _tareWeight) * _lbs).ToString("F2");
+                                lblPalletNetLbs.Text = (_weightFromWeighing * _lbs).ToString("F2");
+                                lblPalletGrossLbs.Text = ((_weightFromWeighing + _tareWeight) * _lbs).ToString("F2");
 
-                            //Calcular pero neto de cada rollo (SIN TARA)
-                            float rollNetKg = _weightFromWeighing - _previousWeight;
-                            txtBoxWeight.Text = rollNetKg.ToString("F2");
+                                //Calcular pero neto de cada rollo (SIN TARA)
+                                float rollNetKg = _weightFromWeighing - _previousWeight;
+                                txtBoxWeight.Text = rollNetKg.ToString("F2");
 
-                            float rollNetLbs = rollNetKg * _lbs;
-                            btnReloadTare.Visible = false;
+                                float rollNetLbs = rollNetKg * _lbs;
+                                btnReloadTare.Visible = false;
 
-                            //Calcular pero bruto de cada rollo (con tara)
-                            float rollGrossKg = rollNetKg + _tareWeight;
-                            float rollGrossLbs = rollGrossKg * _lbs;
+                                //Calcular pero bruto de cada rollo (con tara)
+                                float rollGrossKg = rollNetKg + _tareWeight;
+                                float rollGrossLbs = rollGrossKg * _lbs;
 
-                            _rollCount++;
+                                _rollCount++;
 
-                            //Agregar pesos a datagrid
-                            string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), rollNetKg.ToString("F2"),rollGrossKg.ToString("F2"),
+                                //Agregar pesos a datagrid
+                                string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), rollNetKg.ToString("F2"),rollGrossKg.ToString("F2"),
                                                                         rollNetLbs.ToString("F2"), rollGrossLbs.ToString("F2") };
 
 
-                            int indexNewRoll = dgRolls.Rows.Add(row);
-                            dgRolls.FirstDisplayedScrollingRowIndex = indexNewRoll;
+                                int indexNewRoll = dgRolls.Rows.Add(row);
+                                dgRolls.FirstDisplayedScrollingRowIndex = indexNewRoll;
 
-                            //Reserver peso neto acomulado para sacar peso de rollo
-                            _previousWeight = _weightFromWeighing;
-                            
-                            FillLabelRoll(row);
+                                //Reserver peso neto acomulado para sacar peso de rollo
+                                _previousWeight = _weightFromWeighing;
+
+                                FillLabelRoll(row);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F2")} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                     else
                     {
-                        MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F2")} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Console.WriteLine("Valor invalido obtenido de la báscula", Color.Red);
+                        NotifierController.Warning($"{responseWeighing}");
                     }
                 }
             }
+            btnGetWeight.Enabled = true;
             pop.Close();
         }
 

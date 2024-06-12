@@ -107,6 +107,7 @@
             this.pbRed = new System.Windows.Forms.PictureBox();
             this.btnSwapMode = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
+            this.lblEnvironment = new System.Windows.Forms.Label();
             this.flowLayoutMain.SuspendLayout();
             this.groupBoxProd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
@@ -158,6 +159,7 @@
             // 
             // groupBoxProd
             // 
+            this.groupBoxProd.Controls.Add(this.lblEnvironment);
             this.groupBoxProd.Controls.Add(this.label4);
             this.groupBoxProd.Controls.Add(this.progressBarWO);
             this.groupBoxProd.Controls.Add(this.btnEndProcess);
@@ -999,6 +1001,16 @@
             this.btnSettings.UseVisualStyleBackColor = false;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
+            // lblEnvironment
+            // 
+            this.lblEnvironment.AutoSize = true;
+            this.lblEnvironment.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEnvironment.Location = new System.Drawing.Point(13, 214);
+            this.lblEnvironment.Name = "lblEnvironment";
+            this.lblEnvironment.Size = new System.Drawing.Size(28, 16);
+            this.lblEnvironment.TabIndex = 170;
+            this.lblEnvironment.Text = "ENV";
+            // 
             // frmLabelP3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1111,5 +1123,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn S_Tare;
         private System.Windows.Forms.DataGridViewTextBoxColumn S_Net;
         private System.Windows.Forms.DataGridViewTextBoxColumn S_Gross;
+        private System.Windows.Forms.Label lblEnvironment;
     }
 }

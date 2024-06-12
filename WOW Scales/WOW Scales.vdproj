@@ -482,6 +482,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -506,6 +514,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -1181,15 +1197,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WOW Scales"
-        "ProductCode" = "8:{E48DC770-F03F-4305-A3FC-C6B6B11840A8}"
-        "PackageCode" = "8:{465EFD91-71E0-4501-8D45-98A15AA145C9}"
+        "ProductCode" = "8:{4EB841EF-1FAD-4C98-A8CF-4CAD2ED23792}"
+        "PackageCode" = "8:{218BD86F-BDA6-4B46-81B3-0A42A8FD8276}"
         "UpgradeCode" = "8:{3A7FECE7-4583-4340-90DB-24C304029372}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.5.0"
+        "ProductVersion" = "8:1.5.1"
         "Manufacturer" = "8:Condor"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

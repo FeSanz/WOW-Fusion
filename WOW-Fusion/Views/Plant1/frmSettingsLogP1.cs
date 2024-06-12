@@ -52,8 +52,8 @@ namespace WOW_Fusion.Views.Plant1
                 {
                     pop.Close();
                     lblStatus.Text = string.Empty;
-                    Settings.Default.Credentials = credentials;
-                    Settings.Default.Save();
+                    /*Settings.Default.Credentials = credentials;
+                    Settings.Default.Save();*/
 
                     Hide();
                     Close();

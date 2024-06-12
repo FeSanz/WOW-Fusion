@@ -85,7 +85,7 @@ namespace WOW_Fusion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://129.146.124.5:8080/ords/wow/wo")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://129.146.133.180:8080/ords/wow/wo")]
         public string ApexUrl {
             get {
                 return ((string)(this["ApexUrl"]));

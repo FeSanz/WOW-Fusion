@@ -83,6 +83,7 @@
             this.lblAditional = new System.Windows.Forms.Label();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblEnvironment = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label32 = new System.Windows.Forms.Label();
             this.lblAkaCustomer = new System.Windows.Forms.Label();
@@ -99,7 +100,6 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblEnvironment = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
@@ -770,6 +770,18 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Unidad de negocio";
             // 
+            // lblEnvironment
+            // 
+            this.lblEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblEnvironment.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEnvironment.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblEnvironment.Location = new System.Drawing.Point(261, 91);
+            this.lblEnvironment.Name = "lblEnvironment";
+            this.lblEnvironment.Size = new System.Drawing.Size(187, 16);
+            this.lblEnvironment.TabIndex = 165;
+            this.lblEnvironment.Text = "TEST";
+            this.lblEnvironment.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.label32);
@@ -959,17 +971,6 @@
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(966, 522);
             this.flowLayoutPanel3.TabIndex = 164;
-            // 
-            // lblEnvironment
-            // 
-            this.lblEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblEnvironment.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEnvironment.Location = new System.Drawing.Point(261, 91);
-            this.lblEnvironment.Name = "lblEnvironment";
-            this.lblEnvironment.Size = new System.Drawing.Size(187, 16);
-            this.lblEnvironment.TabIndex = 165;
-            this.lblEnvironment.Text = "TEST";
-            this.lblEnvironment.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // frmLabelP1
             // 
