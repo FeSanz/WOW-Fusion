@@ -121,7 +121,7 @@ namespace WOW_Fusion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("300000003822435")]
+        [global::System.Configuration.DefaultSettingValueAttribute("300000003822436")]
         public string WorkCenterId {
             get {
                 return ((string)(this["WorkCenterId"]));

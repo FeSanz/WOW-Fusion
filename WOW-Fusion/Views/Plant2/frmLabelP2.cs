@@ -543,8 +543,8 @@ namespace WOW_Fusion
                 float gross = p.Tare + p.Weight;
                 float netLbs = p.Weight * _lbs;
                 float grossLbs = gross * _lbs; 
-                string[] palletData = new string[] { p.Pallet.ToString(), p.Tare.ToString(), p.Weight.ToString(),
-                                                    gross.ToString(), netLbs.ToString(), grossLbs.ToString() };
+                string[] palletData = new string[] { p.Pallet.ToString(), p.Tare.ToString("F1"), p.Weight.ToString("F1"),
+                                                    gross.ToString("F1"), netLbs.ToString("F1"), grossLbs.ToString("F1") };
                 int indexNewPallet = dgPallets.Rows.Add(palletData);
                 dgPallets.FirstDisplayedScrollingRowIndex = indexNewPallet;
 
@@ -554,8 +554,8 @@ namespace WOW_Fusion
                     gross = p.Tare + r.Weight;
                     netLbs = r.Weight * _lbs;
                     grossLbs = gross * _lbs;
-                    string[] rollData = new string[] { p.Pallet.ToString(), r.Roll.ToString(), r.Weight.ToString(),
-                                                       gross.ToString(), netLbs.ToString(), grossLbs.ToString() };
+                    string[] rollData = new string[] { p.Pallet.ToString(), r.Roll.ToString(), r.Weight.ToString("F1"),
+                                                       gross.ToString("F1"), netLbs.ToString("F1"), grossLbs.ToString("F1") };
 
                     //table.Rows.Add(p.Pallet, r.Roll, r.Weight.ToString(), gross.ToString(), netLbs.ToString(), grossLbs.ToString());
                     int indexNewRoll = dgRolls.Rows.Add(rollData);
@@ -611,8 +611,8 @@ namespace WOW_Fusion
                         _tareWeight = float.Parse(requestTareWeight);
                         if (_tareWeight > 0)
                         {
-                            lblTare.Text = float.Parse(requestTareWeight).ToString("F2");
-                            txtBoxWeight.Text = float.Parse(requestTareWeight).ToString("F2");
+                            lblTare.Text = float.Parse(requestTareWeight).ToString("F1");
+                            txtBoxWeight.Text = float.Parse(requestTareWeight).ToString("F1");
                             btnGetWeight.Text = "PESAR";
                             btnGetWeight.BackColor = Color.LimeGreen;
                             btnReloadTare.Visible = true;
@@ -640,7 +640,7 @@ namespace WOW_Fusion
                         }
                         else
                         {
-                            NotifierController.Warning($"Peso de tara invalido [{_tareWeight.ToString("F2")} kg]");
+                            NotifierController.Warning($"Peso de tara invalido [{_tareWeight.ToString("F1")} kg]");
                         }
                     }
                     else
@@ -659,6 +659,7 @@ namespace WOW_Fusion
             {
                 //Obtiene peso acomulado (sin tara)
                 string responseWeighing = await RadwagController.SocketWeighing("S");
+                Console.WriteLine(responseWeighing, Color.DarkGray);
 
                 if (responseWeighing == "EX")
                 {
@@ -690,15 +691,15 @@ namespace WOW_Fusion
                             {
                                 pop.Close();
                                 //Llenar campos de pallet (NET siempre sera el peso acomulado de la bascula)
-                                lblPalletNetKg.Text = _weightFromWeighing.ToString("F2");
-                                lblPalletGrossKg.Text = (_weightFromWeighing + _tareWeight).ToString("F2");
+                                lblPalletNetKg.Text = _weightFromWeighing.ToString("F1");
+                                lblPalletGrossKg.Text = (_weightFromWeighing + _tareWeight).ToString("F1");
 
-                                lblPalletNetLbs.Text = (_weightFromWeighing * _lbs).ToString("F2");
-                                lblPalletGrossLbs.Text = ((_weightFromWeighing + _tareWeight) * _lbs).ToString("F2");
+                                lblPalletNetLbs.Text = (_weightFromWeighing * _lbs).ToString("F1");
+                                lblPalletGrossLbs.Text = ((_weightFromWeighing + _tareWeight) * _lbs).ToString("F1");
 
                                 //Calcular pero neto de cada rollo (SIN TARA)
                                 float rollNetKg = _weightFromWeighing - _previousWeight;
-                                txtBoxWeight.Text = rollNetKg.ToString("F2");
+                                txtBoxWeight.Text = rollNetKg.ToString("F1");
 
                                 float rollNetLbs = rollNetKg * _lbs;
                                 btnReloadTare.Visible = false;
@@ -710,8 +711,8 @@ namespace WOW_Fusion
                                 _rollCount++;
 
                                 //Agregar pesos a datagrid
-                                string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), rollNetKg.ToString("F2"),rollGrossKg.ToString("F2"),
-                                                                        rollNetLbs.ToString("F2"), rollGrossLbs.ToString("F2") };
+                                string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), rollNetKg.ToString("F1"),rollGrossKg.ToString("F1"),
+                                                                        rollNetLbs.ToString("F1"), rollGrossLbs.ToString("F1") };
 
 
                                 int indexNewRoll = dgRolls.Rows.Add(row);
@@ -725,7 +726,7 @@ namespace WOW_Fusion
                         }
                         else
                         {
-                            MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F2")} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                     else
@@ -750,8 +751,8 @@ namespace WOW_Fusion
                 {
                     //TARAR
                     _tareWeight = float.Parse(requestTareWeight);
-                    lblTare.Text = float.Parse(requestTareWeight).ToString("F2");
-                    txtBoxWeight.Text = float.Parse(requestTareWeight).ToString("F2");
+                    lblTare.Text = float.Parse(requestTareWeight).ToString("F1");
+                    txtBoxWeight.Text = float.Parse(requestTareWeight).ToString("F1");
                 }
                 else
                 {
@@ -1072,7 +1073,7 @@ namespace WOW_Fusion
             }
             else
             {
-                NotifierController.Warning("Acción no permitica");
+                NotifierController.Warning("Acción no permitida");
             }
         }
 
@@ -1083,7 +1084,7 @@ namespace WOW_Fusion
                 //Restar peso eliminado en PESO PREVIO peara evitar inconsistencias
                 _previousWeight -= float.Parse(dgRolls.CurrentRow.Cells["R_NetKg"].Value.ToString());
                 dgRolls.Rows.RemoveAt(_rowSelected);
-                lblPalletNetKg.Text = _previousWeight.ToString("F2");
+                lblPalletNetKg.Text = _previousWeight.ToString("F1");
                 //Restar 1 a la cantidad de rollos
                 _rollCount -= 1;
                 _rollByPallet -= 1;
@@ -1100,7 +1101,7 @@ namespace WOW_Fusion
                 //Restar peso a recalcular en PESO PREVIO peara evitar inconsistencias
                 _previousWeight -= float.Parse(dgRolls.CurrentRow.Cells["R_NetKg"].Value.ToString());
                
-                lblPalletNetKg.Text = _previousWeight.ToString("F2");
+                lblPalletNetKg.Text = _previousWeight.ToString("F1");
 
                 //Obtiene peso acomulado (sin tara)
                 string responseWeighing = await RadwagController.SocketWeighing("S");
@@ -1126,15 +1127,15 @@ namespace WOW_Fusion
                         {
                             pop.Close();
                             //Llenar campos de pallet (NET siempre sera el peso acomulado de la bascula)
-                            lblPalletNetKg.Text = _weightFromWeighing.ToString("F2");
-                            lblPalletGrossKg.Text = (_weightFromWeighing + _tareWeight).ToString("F2");
+                            lblPalletNetKg.Text = _weightFromWeighing.ToString("F1");
+                            lblPalletGrossKg.Text = (_weightFromWeighing + _tareWeight).ToString("F1");
 
-                            lblPalletNetLbs.Text = (_weightFromWeighing * _lbs).ToString("F2");
-                            lblPalletGrossLbs.Text = ((_weightFromWeighing + _tareWeight) * _lbs).ToString("F2");
+                            lblPalletNetLbs.Text = (_weightFromWeighing * _lbs).ToString("F1");
+                            lblPalletGrossLbs.Text = ((_weightFromWeighing + _tareWeight) * _lbs).ToString("F1");
 
                             //Calcular pero neto de cada rollo (SIN TARA)
                             float rollNetKg = _weightFromWeighing - _previousWeight;
-                            txtBoxWeight.Text = rollNetKg.ToString("F2");
+                            txtBoxWeight.Text = rollNetKg.ToString("F1");
 
                             float rollNetLbs = rollNetKg * _lbs;
                             btnReloadTare.Visible = false;
@@ -1145,8 +1146,8 @@ namespace WOW_Fusion
 
 
                             //Agregar pesos a datagrid
-                            string[] rowRoll = new string[] { _palletCount.ToString(), _rollCount.ToString(), rollNetKg.ToString("F2"),rollGrossKg.ToString("F2"),
-                                                                        rollNetLbs.ToString("F2"), rollGrossLbs.ToString("F2") };
+                            string[] rowRoll = new string[] { _palletCount.ToString(), _rollCount.ToString(), rollNetKg.ToString("F1"),rollGrossKg.ToString("F1"),
+                                                                        rollNetLbs.ToString("F1"), rollGrossLbs.ToString("F1") };
 
                             //Actualizar rollo
                             dgRolls.Rows[_rowSelected].SetValues(rowRoll);
@@ -1195,7 +1196,7 @@ namespace WOW_Fusion
                     }
                     else
                     {
-                        MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F2")} kg], vuelva a intentar", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg], vuelva a intentar", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }

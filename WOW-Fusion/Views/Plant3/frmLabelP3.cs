@@ -105,7 +105,7 @@ namespace WOW_Fusion.Views.Plant3
                     lblLocationCode.Text = org.LocationCode.ToString();
                     lblResourceCode.Text = rs.ResourceCode.ToString();
                     lblResourceName.Text = rs.ResourceName.ToString();
-                    lblWorkCenterName.Text = wc.WorkCenterName.ToString();
+                    //lblWorkCenterName.Text = wc.WorkCenterName.ToString();
 
                     //Verificar e iniciar hilo de TURNO 
                     lblShift.Text = (shifts == null) ? string.Empty : DateService.CurrentShift(shifts, Settings.Default.ResourceId3);

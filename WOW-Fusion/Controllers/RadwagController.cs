@@ -111,7 +111,7 @@ namespace WOW_Fusion
                     break;
                 case " ":
                     //Peso bascula
-                    response = secondLineResponse.Substring(6, 8).Trim();
+                    response = secondLineResponse.Substring(6, 9).Trim();
                     break;
                 default:
                     response = "[2] " + secondLineResponse;

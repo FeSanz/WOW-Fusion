@@ -27,7 +27,7 @@
       <Value Profile="(Default)">192.168.12.2</Value>
     </Setting>
     <Setting Name="WorkCenterId" Type="System.String" Scope="User">
-      <Value Profile="(Default)">300000003822435</Value>
+      <Value Profile="(Default)">300000003822436</Value>
     </Setting>
     <Setting Name="RollToPrint" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">2</Value>

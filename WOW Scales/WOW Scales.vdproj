@@ -1197,15 +1197,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WOW Scales"
-        "ProductCode" = "8:{4EB841EF-1FAD-4C98-A8CF-4CAD2ED23792}"
-        "PackageCode" = "8:{218BD86F-BDA6-4B46-81B3-0A42A8FD8276}"
+        "ProductCode" = "8:{2276E14C-D9EB-4402-81FB-00D65ECA342D}"
+        "PackageCode" = "8:{9DE2E058-83B5-4C1F-82B2-5B6906635793}"
         "UpgradeCode" = "8:{3A7FECE7-4583-4340-90DB-24C304029372}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.5.1"
+        "ProductVersion" = "8:1.5.2"
         "Manufacturer" = "8:Condor"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1747,7 +1747,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_0BFAA887122F4F2AAE58479DAB6DBC98"
             {
-            "SourcePath" = "8:..\\WOW-Fusion\\obj\\Release\\PL1 Labels.exe"
+            "SourcePath" = "8:..\\WOW-Fusion\\obj\\Release\\WOW Fusion.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_DDFE362F7E1D43D2B32A366796D2E7ED"
