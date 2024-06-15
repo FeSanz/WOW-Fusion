@@ -18,6 +18,7 @@ using System.Reflection;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 using WOW_Fusion.Views.Plant2;
 using System.Text;
+using System.Threading;
 
 namespace WOW_Fusion
 {
@@ -480,7 +481,7 @@ namespace WOW_Fusion
                                     pop.Show(this);
                                     if (await LabelService.PrintP1(int.Parse(txtBoxStart.Text), int.Parse(txtBoxEnd.Text)))
                                     {
-                                        RegisterReprintApex();
+                                        RegisterPrintRecordsApex("reprint");
                                         groupBoxReprint.Visible = false;
                                         CleanAll();
 
@@ -542,6 +543,8 @@ namespace WOW_Fusion
                                         {
                                             UpdatePrintApex();
                                         }
+                                        Thread.Sleep(500);
+                                        RegisterPrintRecordsApex("print");
 
                                         CleanAll();
                                     }
@@ -716,22 +719,21 @@ namespace WOW_Fusion
             }
         }
 
-        private async void RegisterReprintApex()
+        private async void RegisterPrintRecordsApex(string operation)
         {
-            //Guardar orden reimpresa
-            //await FileController.Write(cmbWorkOrders.Text.ToString(), Constants.OrdersReprintedP1);
+            dynamic jsonPR = JObject.Parse(Payloads.labelsRecords);
 
-            dynamic jsonReprint = JObject.Parse(Payloads.labelsReprinted);
+            jsonPR.DateMark = DateService.EpochTime();
+            jsonPR.WorkOrder = cmbWorkOrders.Text;
+            jsonPR.UserId = Constants.UserId;
+            jsonPR.StartPage = operation.Equals("print") ? int.Parse(txtStartPage.Text) : int.Parse(txtBoxStart.Text);
+            jsonPR.EndPage = operation.Equals("print") ? int.Parse(txtTotalPrint.Text) : int.Parse(txtBoxEnd.Text);
+            jsonPR.Operation = operation;
 
-            jsonReprint.DateMark = DateService.EpochTime();
-            jsonReprint.WorkOrder = cmbWorkOrders.Text;
-            jsonReprint.UserId = Constants.UserId;
-            jsonReprint.Pages = txtBoxStart.Text + "-" + txtBoxEnd.Text;
+            string jsonSerialized = JsonConvert.SerializeObject(jsonPR, Formatting.Indented);
 
-            string jsonSerialized = JsonConvert.SerializeObject(jsonReprint, Formatting.Indented);
-
-            Task<string> postReprint = APIService.PostApexAsync(EndPoints.LabelsReprinted, jsonSerialized);
-            string response = await postReprint;
+            Task<string> postPR = APIService.PostApexAsync(EndPoints.LabelsRecords, jsonSerialized);
+            string response = await postPR;
 
             if (!string.IsNullOrEmpty(response))
             {
@@ -740,7 +742,7 @@ namespace WOW_Fusion
             }
             else
             {
-                Console.WriteLine($"Sin respuesta al registrar reimpresión [{DateService.Today()}]", Color.Red);
+                Console.WriteLine($"Sin respuesta al registrar impresión [{DateService.Today()}]", Color.Red);
             }
         }
         #endregion

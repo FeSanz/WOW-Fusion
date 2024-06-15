@@ -53,11 +53,13 @@ namespace WOW_Fusion.Models
                                                     ""LastPage"": 0
                                                }";
 
-        public static string labelsReprinted = @"{
+        public static string labelsRecords = @"{
                                                     ""DateMark"":""0000000000"",
                                                     ""WorkOrder"": ""0"",
                                                     ""UserId"": 0,
-                                                    ""Pages"": ""0-0""
+                                                    ""StartPage"": 0,
+                                                    ""EndPage"": 0,
+                                                    ""Operation"": """"
                                                  }";
 
         //************************************* Payloads Planta 3 ************************************

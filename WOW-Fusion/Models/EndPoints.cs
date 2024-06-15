@@ -109,7 +109,7 @@ namespace WOW_Fusion.Models
         public static string WeightRolls = Settings.Default.ApexUrl + "/weightRolls/{0}/{1}/{2}";
         public static string WeightRollHistory = Settings.Default.ApexUrl + "/weightRollHistory/{0}";
         public static string LabelsPrinted = Settings.Default.ApexUrl + "/labelsPrinted/{0}";
-        public static string LabelsReprinted = Settings.Default.ApexUrl + "/labelsReprinted";
+        public static string LabelsRecords = Settings.Default.ApexUrl + "/labelsRecords";
         public static string Auth = Settings.Default.ApexUrl + "/labelUsers/{0}";
 
         //Endpoints Planta 1
