@@ -103,11 +103,11 @@
             this.recalcularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblResourceName = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.cmbResources = new System.Windows.Forms.ComboBox();
             this.pbYellow = new System.Windows.Forms.PictureBox();
             this.pbRed = new System.Windows.Forms.PictureBox();
             this.btnSwapMode = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
-            this.cmbResources = new System.Windows.Forms.ComboBox();
             this.flowLayoutMain.SuspendLayout();
             this.groupBoxProd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
@@ -869,7 +869,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextConsole.BackColor = System.Drawing.SystemColors.Control;
             this.richTextConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextConsole.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextConsole.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextConsole.Location = new System.Drawing.Point(8, 708);
             this.richTextConsole.Name = "richTextConsole";
             this.richTextConsole.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
@@ -948,6 +948,16 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(335, 79);
             this.tableLayoutPanel2.TabIndex = 185;
             // 
+            // cmbResources
+            // 
+            this.cmbResources.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbResources.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbResources.FormattingEnabled = true;
+            this.cmbResources.Location = new System.Drawing.Point(128, 58);
+            this.cmbResources.Name = "cmbResources";
+            this.cmbResources.Size = new System.Drawing.Size(204, 21);
+            this.cmbResources.TabIndex = 186;
+            // 
             // pbYellow
             // 
             this.pbYellow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -998,16 +1008,6 @@
             this.btnSettings.TabIndex = 175;
             this.btnSettings.UseVisualStyleBackColor = false;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
-            // 
-            // cmbResources
-            // 
-            this.cmbResources.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbResources.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbResources.FormattingEnabled = true;
-            this.cmbResources.Location = new System.Drawing.Point(128, 58);
-            this.cmbResources.Name = "cmbResources";
-            this.cmbResources.Size = new System.Drawing.Size(204, 21);
-            this.cmbResources.TabIndex = 186;
             // 
             // frmLabelP3
             // 

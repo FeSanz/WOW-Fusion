@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +36,31 @@ namespace WOW_Fusion.Controllers
             }
 
             return hashStringBuilder.ToString();
+        }
+
+        public static bool CheckInternetConnection()
+        {
+            try
+            {
+                using (Ping ping = new Ping())
+                {
+                    PingReply reply = ping.Send("www.google.com", 3000); // Timeout de 3000 ms
+                    if (reply.Status == IPStatus.Success)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (PingException)
+            {
+                // Ignorar cualquier excepción de ping y devolver false
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}", Color.Red);
+            }
+
+            return false;
         }
     }
 }

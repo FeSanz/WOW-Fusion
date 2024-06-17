@@ -104,45 +104,48 @@ namespace WOW_Fusion.Services
         public static async Task<bool> PrintP1(int start, int end)
         {
             bool status = false;
+
             for (int pag = start; pag <= end; pag++)
             {
                 try
                 {
-                    _client = new TcpClient();
-                    await _client.ConnectAsync(Settings.Default.PrinterIP, Settings.Default.PrinterPort);
-                    //_client.Connect(ipPrinter, portPrinter);
-                    _stream = _client.GetStream();
-
-                    if (_client.Connected)
+                    using (TcpClient client = new TcpClient())
                     {
-                        string zpl = ReplaceZplBox(pag);
-                        Thread.Sleep(500);
-                        byte[] data = Encoding.UTF8.GetBytes(zpl);
+                        await client.ConnectAsync(Settings.Default.PrinterIP, Settings.Default.PrinterPort);
 
-                        // Enviar datos al servidor de forma asíncrona
-                        await _stream.WriteAsync(data, 0, data.Length);
-                        //_stream.Write(data, 0, data.Length);
-                        await _stream.FlushAsync();
-                        _stream.Close();
-                        _client.Close();
-                        //Constants.pop = $"Imprimiento ({pag + 1} de {end})";
-                        status = true;
-                    }
-                    else
-                    {
-                        status = false;
-                        break;
+                        if (client.Connected)
+                        {
+                            using (NetworkStream stream = client.GetStream())
+                            {
+                                string zpl = ReplaceZplBox(pag);
+                                await Task.Delay(500);
+
+                                byte[] data = Encoding.UTF8.GetBytes(zpl);
+
+                                await stream.WriteAsync(data, 0, data.Length);
+                                await stream.FlushAsync();
+
+                                frmLabelP1.SetLabelStatusPrint($"Imprimiendo {pag} de {end}");
+                                Constants.LastPrint = pag;
+                            }
+
+                            status = true;
+                        }
+                        else
+                        {
+                            status = false;
+                            break;
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    _client.Close();
                     NotifierController.DetailError("Error al imprimir", ex.Message);
                     status = false;
                     break;
-                    //break;
                 }
             }
+
             return status;
         }
 

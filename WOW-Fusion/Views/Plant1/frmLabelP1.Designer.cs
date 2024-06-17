@@ -100,6 +100,7 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.pbWaitPrint = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
@@ -112,6 +113,7 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWaitPrint)).BeginInit();
             this.SuspendLayout();
             // 
             // lblItemDescription
@@ -439,7 +441,7 @@
             // 
             // txtBoxEnd
             // 
-            this.txtBoxEnd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtBoxEnd.Enabled = false;
             this.txtBoxEnd.Location = new System.Drawing.Point(296, 10);
             this.txtBoxEnd.Name = "txtBoxEnd";
             this.txtBoxEnd.Size = new System.Drawing.Size(75, 20);
@@ -448,6 +450,7 @@
             // 
             // txtBoxStart
             // 
+            this.txtBoxStart.Enabled = false;
             this.txtBoxStart.Location = new System.Drawing.Point(107, 12);
             this.txtBoxStart.Name = "txtBoxStart";
             this.txtBoxStart.Size = new System.Drawing.Size(75, 20);
@@ -478,8 +481,8 @@
             // 
             // lblStatus
             // 
-            this.lblStatus.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatus.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblStatus.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.ForeColor = System.Drawing.Color.Black;
             this.lblStatus.Location = new System.Drawing.Point(10, 30);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(415, 15);
@@ -581,9 +584,9 @@
             this.btnPrint.Enabled = false;
             this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPrint.ForeColor = System.Drawing.Color.White;
-            this.btnPrint.Location = new System.Drawing.Point(345, 301);
+            this.btnPrint.Location = new System.Drawing.Point(368, 301);
             this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Size = new System.Drawing.Size(109, 35);
+            this.btnPrint.Size = new System.Drawing.Size(97, 35);
             this.btnPrint.TabIndex = 117;
             this.btnPrint.Text = "IMPRIMIR";
             this.btnPrint.UseVisualStyleBackColor = false;
@@ -603,30 +606,30 @@
             this.groupBox3.Controls.Add(this.picLabel);
             this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Controls.Add(this.lblAditional);
+            this.groupBox3.Controls.Add(this.pbWaitPrint);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(3, 122);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(472, 341);
+            this.groupBox3.Size = new System.Drawing.Size(485, 341);
             this.groupBox3.TabIndex = 118;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Etiqueta";
             // 
             // lblStatusPrint
             // 
-            this.lblStatusPrint.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatusPrint.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblStatusPrint.Location = new System.Drawing.Point(14, 301);
+            this.lblStatusPrint.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatusPrint.ForeColor = System.Drawing.Color.Black;
+            this.lblStatusPrint.Location = new System.Drawing.Point(30, 301);
             this.lblStatusPrint.Name = "lblStatusPrint";
-            this.lblStatusPrint.Size = new System.Drawing.Size(325, 35);
+            this.lblStatusPrint.Size = new System.Drawing.Size(332, 35);
             this.lblStatusPrint.TabIndex = 165;
             this.lblStatusPrint.Text = "...";
             this.lblStatusPrint.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtStartPage
             // 
-            this.txtStartPage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtStartPage.Enabled = false;
-            this.txtStartPage.Location = new System.Drawing.Point(283, 275);
+            this.txtStartPage.Location = new System.Drawing.Point(294, 275);
             this.txtStartPage.Name = "txtStartPage";
             this.txtStartPage.Size = new System.Drawing.Size(75, 20);
             this.txtStartPage.TabIndex = 163;
@@ -635,9 +638,8 @@
             // 
             // txtTotalPrint
             // 
-            this.txtTotalPrint.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtTotalPrint.Enabled = false;
-            this.txtTotalPrint.Location = new System.Drawing.Point(379, 275);
+            this.txtTotalPrint.Location = new System.Drawing.Point(390, 275);
             this.txtTotalPrint.Name = "txtTotalPrint";
             this.txtTotalPrint.Size = new System.Drawing.Size(75, 20);
             this.txtTotalPrint.TabIndex = 162;
@@ -650,7 +652,7 @@
             this.checkBoxReprint.Enabled = false;
             this.checkBoxReprint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxReprint.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.checkBoxReprint.Location = new System.Drawing.Point(14, 275);
+            this.checkBoxReprint.Location = new System.Drawing.Point(25, 275);
             this.checkBoxReprint.Name = "checkBoxReprint";
             this.checkBoxReprint.Size = new System.Drawing.Size(84, 17);
             this.checkBoxReprint.TabIndex = 138;
@@ -662,7 +664,7 @@
             this.lblLabelName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblLabelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLabelName.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblLabelName.Location = new System.Drawing.Point(61, 26);
+            this.lblLabelName.Location = new System.Drawing.Point(72, 26);
             this.lblLabelName.Name = "lblLabelName";
             this.lblLabelName.Size = new System.Drawing.Size(156, 15);
             this.lblLabelName.TabIndex = 130;
@@ -673,7 +675,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label16.Location = new System.Drawing.Point(11, 27);
+            this.label16.Location = new System.Drawing.Point(22, 27);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(50, 13);
             this.label16.TabIndex = 127;
@@ -684,7 +686,7 @@
             // 
             this.lbLabelQuantity.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbLabelQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbLabelQuantity.Location = new System.Drawing.Point(400, 25);
+            this.lbLabelQuantity.Location = new System.Drawing.Point(411, 25);
             this.lbLabelQuantity.Name = "lbLabelQuantity";
             this.lbLabelQuantity.Size = new System.Drawing.Size(54, 15);
             this.lbLabelQuantity.TabIndex = 120;
@@ -696,7 +698,7 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label12.Location = new System.Drawing.Point(364, 278);
+            this.label12.Location = new System.Drawing.Point(375, 278);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(13, 13);
             this.label12.TabIndex = 119;
@@ -707,7 +709,7 @@
             // 
             this.picLabel.BackColor = System.Drawing.Color.WhiteSmoke;
             this.picLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picLabel.Location = new System.Drawing.Point(14, 49);
+            this.picLabel.Location = new System.Drawing.Point(25, 49);
             this.picLabel.Name = "picLabel";
             this.picLabel.Size = new System.Drawing.Size(440, 220);
             this.picLabel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -719,7 +721,7 @@
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label15.Location = new System.Drawing.Point(248, 279);
+            this.label15.Location = new System.Drawing.Point(259, 279);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(29, 13);
             this.label15.TabIndex = 122;
@@ -730,7 +732,7 @@
             // 
             this.lblAditional.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAditional.ForeColor = System.Drawing.Color.DimGray;
-            this.lblAditional.Location = new System.Drawing.Point(234, 26);
+            this.lblAditional.Location = new System.Drawing.Point(245, 26);
             this.lblAditional.Name = "lblAditional";
             this.lblAditional.Size = new System.Drawing.Size(168, 13);
             this.lblAditional.TabIndex = 129;
@@ -742,12 +744,12 @@
             this.rtbLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbLog.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbLog.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbLog.Location = new System.Drawing.Point(8, 536);
             this.rtbLog.Name = "rtbLog";
             this.rtbLog.ReadOnly = true;
             this.rtbLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbLog.Size = new System.Drawing.Size(947, 16);
+            this.rtbLog.Size = new System.Drawing.Size(964, 16);
             this.rtbLog.TabIndex = 119;
             this.rtbLog.Text = "v 1.0";
             // 
@@ -765,7 +767,7 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(472, 113);
+            this.groupBox2.Size = new System.Drawing.Size(485, 113);
             this.groupBox2.TabIndex = 159;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Unidad de negocio";
@@ -775,7 +777,7 @@
             this.lblEnvironment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEnvironment.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEnvironment.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblEnvironment.Location = new System.Drawing.Point(261, 91);
+            this.lblEnvironment.Location = new System.Drawing.Point(274, 91);
             this.lblEnvironment.Name = "lblEnvironment";
             this.lblEnvironment.Size = new System.Drawing.Size(187, 16);
             this.lblEnvironment.TabIndex = 165;
@@ -916,7 +918,7 @@
             this.btnReprint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnReprint.FlatAppearance.BorderSize = 0;
             this.btnReprint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReprint.Location = new System.Drawing.Point(889, 2);
+            this.btnReprint.Location = new System.Drawing.Point(906, 2);
             this.btnReprint.Name = "btnReprint";
             this.btnReprint.Size = new System.Drawing.Size(27, 27);
             this.btnReprint.TabIndex = 121;
@@ -931,7 +933,7 @@
             this.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSettings.FlatAppearance.BorderSize = 0;
             this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSettings.Location = new System.Drawing.Point(922, 2);
+            this.btnSettings.Location = new System.Drawing.Point(939, 2);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(25, 25);
             this.btnSettings.TabIndex = 120;
@@ -955,7 +957,7 @@
             this.flowLayoutPanel2.Controls.Add(this.groupBox3);
             this.flowLayoutPanel2.Location = new System.Drawing.Point(474, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(485, 504);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(504, 504);
             this.flowLayoutPanel2.TabIndex = 163;
             // 
             // flowLayoutPanel3
@@ -969,14 +971,28 @@
             this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel3.Location = new System.Drawing.Point(2, 23);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(966, 522);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(983, 522);
             this.flowLayoutPanel3.TabIndex = 164;
+            // 
+            // pbWaitPrint
+            // 
+            this.pbWaitPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pbWaitPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbWaitPrint.Image = global::WOW_Fusion.Properties.Resources.preloader;
+            this.pbWaitPrint.Location = new System.Drawing.Point(3, 306);
+            this.pbWaitPrint.Name = "pbWaitPrint";
+            this.pbWaitPrint.Padding = new System.Windows.Forms.Padding(10);
+            this.pbWaitPrint.Size = new System.Drawing.Size(28, 28);
+            this.pbWaitPrint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbWaitPrint.TabIndex = 128;
+            this.pbWaitPrint.TabStop = false;
+            this.pbWaitPrint.Visible = false;
             // 
             // frmLabelP1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(969, 557);
+            this.ClientSize = new System.Drawing.Size(986, 557);
             this.Controls.Add(this.rtbLog);
             this.Controls.Add(this.btnReprint);
             this.Controls.Add(this.btnSettings);
@@ -1008,6 +1024,7 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbWaitPrint)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1085,6 +1102,7 @@
         private System.Windows.Forms.TextBox txtStartPage;
         private System.Windows.Forms.Label lblStatusPrint;
         private System.Windows.Forms.Label lblEnvironment;
+        private System.Windows.Forms.PictureBox pbWaitPrint;
     }
 }
 

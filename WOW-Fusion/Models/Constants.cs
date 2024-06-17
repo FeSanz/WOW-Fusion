@@ -25,6 +25,7 @@ namespace WOW_Fusion
         //frmLoading
         public static string pop = "Procesando...";
         public static string Exception = "Error de excepción";
+        public static int LastPrint = 0;
 
         //Endpoints fusion
         public static readonly string ParamsGet = "limit=500&totalResults=true&onlyData=true";

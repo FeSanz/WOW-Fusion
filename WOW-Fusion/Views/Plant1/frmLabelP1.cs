@@ -19,11 +19,25 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 using WOW_Fusion.Views.Plant2;
 using System.Text;
 using System.Threading;
+using System.Runtime.InteropServices;
+using Google.Api.Gax;
 
 namespace WOW_Fusion
 {
     public partial class frmLabelP1 : Form
     {
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
+
+        private const uint SC_CLOSE = 0xF060;
+        private const uint MF_BYCOMMAND = 0x00000000;
+        private const uint MF_GRAYED = 0x00000001;
+        private const uint MF_ENABLED = 0x00000000;
+        private const uint MF_DISABLED = 0x00000002;
+
         PopController pop;
 
         //JObjets response
@@ -40,9 +54,13 @@ namespace WOW_Fusion
         private string _akaCustomer = "DEFAULT";
         private int lastPagePrinted = -1;
 
+        private static frmLabelP1 instance;
+        private bool _isPrint = false;
+
         public frmLabelP1()
         {
             InitializeComponent();
+            instance = this;
             InitializeFusionData();
         }
 
@@ -391,11 +409,17 @@ namespace WOW_Fusion
                     {
                         btnPrint.Enabled= true;
                         txtTotalPrint.Enabled = false;
+
+                        txtBoxStart.Enabled = true;
+                        txtBoxEnd.Enabled = true;
                     }
                     else
                     {
                         txtTotalPrint.Enabled = false;
                         btnPrint.Enabled = false;
+
+                        txtBoxStart.Enabled = false;
+                        txtBoxEnd.Enabled = false;
                     }
                 }
 
@@ -477,11 +501,21 @@ namespace WOW_Fusion
                                 {
                                     cmbWorkCenters.Enabled = false;
                                     cmbWorkOrders.Enabled = false;
-                                    Constants.pop = "Imprimiendo...";
-                                    pop.Show(this);
+                                    DisableCloseButton();
+
+                                    pbWaitPrint.Visible = true;
+                                    lblStatusPrint.Font = new Font(Label.DefaultFont, FontStyle.Bold);
+                                    lblStatusPrint.Text = "Imprimiendo...";
+                                    btnPrint.Enabled = false;
+                                    _isPrint = true;
+
+                                    txtBoxStart.Enabled = false;
+                                    txtBoxEnd.Enabled = false;
+
                                     if (await LabelService.PrintP1(int.Parse(txtBoxStart.Text), int.Parse(txtBoxEnd.Text)))
                                     {
-                                        RegisterPrintRecordsApex("reprint");
+                                        //RegisterPrintRecordsApex("reprint");
+                                        CheckInternetToRegister("record");
                                         groupBoxReprint.Visible = false;
                                         CleanAll();
 
@@ -490,11 +524,21 @@ namespace WOW_Fusion
                                     }
                                     else
                                     {
+                                        txtBoxStart.Enabled = true;
+                                        txtBoxEnd.Enabled = true;
+
                                         lblStatus.Text = "Error de impresión";
                                     }
-                                    pop.Close();
+
                                     cmbWorkCenters.Enabled = true;
                                     cmbWorkOrders.Enabled = true;
+                                    EnableCloseButton();
+
+                                    pbWaitPrint.Visible = false;
+                                    lblStatusPrint.Font = new Font(Label.DefaultFont, FontStyle.Regular);
+                                    lblStatusPrint.Text = string.Empty;
+                                    btnPrint.Enabled = true;
+                                    _isPrint = false;
                                 }
                                 else
                                 {
@@ -528,33 +572,47 @@ namespace WOW_Fusion
                                 {
                                     cmbWorkCenters.Enabled = false;
                                     cmbWorkOrders.Enabled = false;
-                                    Constants.pop = "Imprimiendo...";
-                                    pop.Show(this);
+                                    txtTotalPrint.Enabled = false;
+                                    DisableCloseButton();
+
+                                    pbWaitPrint.Visible = true;
+                                    lblStatusPrint.Font = new Font(Label.DefaultFont, FontStyle.Bold);
+                                    lblStatusPrint.Text = "Imprimiendo...";
+                                    btnPrint.Enabled = false;
+                                    _isPrint = true;
+
                                     if (await LabelService.PrintP1(int.Parse(txtStartPage.Text), int.Parse(txtTotalPrint.Text)))
                                     {
-                                        List<string> ordersPrinted = FileController.ContentFile(Constants.OrdersPrintedP1);
-
-                                        if (!FileController.IsOrderPrinted(ordersPrinted, cmbWorkOrders.Text))
-                                        {
-                                            //Guardar orden en archivo y DB
-                                            await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP1);
-                                            RegisterPrintApex();
-                                        }
-                                        {
-                                            UpdatePrintApex();
-                                        }
-                                        Thread.Sleep(500);
-                                        RegisterPrintRecordsApex("print");
-
-                                        CleanAll();
+                                        await CheckAndRegister();
                                     }
                                     else
                                     {
-                                        NotifierController.Error("Error al imprimir");
+                                        if (Constants.LastPrint > 0)
+                                        {
+                                            NotifierController.Error($"Error al imprimir, última etiqueta {Constants.LastPrint}");
+                                            txtTotalPrint.Text = Constants.LastPrint.ToString();
+
+                                            await CheckAndRegister();
+                                        }
+                                        else
+                                        {
+                                            NotifierController.Error("Error al imprimir");
+                                        }
                                     }
-                                    pop.Close();
+
+                                    
                                     cmbWorkCenters.Enabled = true;
                                     cmbWorkOrders.Enabled = true;
+                                    txtTotalPrint.Enabled = false;
+                                    EnableCloseButton();
+
+                                    pbWaitPrint.Visible = false;
+                                    lblStatusPrint.Font = new Font(Label.DefaultFont, FontStyle.Regular);
+                                    lblStatusPrint.Text = string.Empty;
+                                    btnPrint.Enabled = true;
+                                    _isPrint = false;
+
+                                    Constants.LastPrint = 0;
                                 }
                                 else
                                 {
@@ -577,6 +635,69 @@ namespace WOW_Fusion
                     }
                 }
                 
+            }
+        }
+
+        private async Task CheckAndRegister()
+        {
+            List<string> ordersPrinted = FileController.ContentFile(Constants.OrdersPrintedP1);
+
+            if (!FileController.IsOrderPrinted(ordersPrinted, cmbWorkOrders.Text))
+            {
+                //Guardar orden en archivo y DB
+                await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP1);
+                CheckInternetToRegister("new");
+            }
+            {
+                CheckInternetToRegister("update");
+            }
+
+            await Task.Delay(500);
+            CheckInternetToRegister("record");
+
+            CleanAll();
+        }
+
+        private void CheckInternetToRegister(string method)
+        {
+            if (AppController.CheckInternetConnection())
+            {
+                switch(method)
+                {
+                    case "new":
+                        RegisterPrintApex();
+                        break;
+                    case "update":
+                        UpdatePrintApex();
+                        break;
+                    case "record":
+                        RegisterPrintRecordsApex(btnPrint.Text);
+                        break;
+                   default:
+                        break;
+                }    
+            }
+            else
+            {
+                NotifierController.Warning("Sin conexión a internet");
+                DialogResult result = MessageBox.Show("Verificar la conexión internet", "Sin Internet", MessageBoxButtons.OK, MessageBoxIcon.Question);
+
+                if (result == DialogResult.OK)
+                {
+                    CheckInternetToRegister(method);
+                }
+                else
+                {
+                    CheckInternetToRegister(method);
+                }
+            }
+        }
+
+        public static void SetLabelStatusPrint(string text)
+        {
+            if (instance != null && instance.lblStatusPrint != null)
+            {
+                instance.lblStatusPrint.Text = text;
             }
         }
 
@@ -726,9 +847,9 @@ namespace WOW_Fusion
             jsonPR.DateMark = DateService.EpochTime();
             jsonPR.WorkOrder = cmbWorkOrders.Text;
             jsonPR.UserId = Constants.UserId;
-            jsonPR.StartPage = operation.Equals("print") ? int.Parse(txtStartPage.Text) : int.Parse(txtBoxStart.Text);
-            jsonPR.EndPage = operation.Equals("print") ? int.Parse(txtTotalPrint.Text) : int.Parse(txtBoxEnd.Text);
-            jsonPR.Operation = operation;
+            jsonPR.StartPage = operation.Equals("IMPRIMIR") ? int.Parse(txtStartPage.Text) : int.Parse(txtBoxStart.Text);
+            jsonPR.EndPage = operation.Equals("IMPRIMIR") ? int.Parse(txtTotalPrint.Text) : int.Parse(txtBoxEnd.Text);
+            jsonPR.Operation = operation.Equals("IMPRIMIR") ? "print" : "reprint";
 
             string jsonSerialized = JsonConvert.SerializeObject(jsonPR, Formatting.Indented);
 
@@ -750,6 +871,9 @@ namespace WOW_Fusion
         private void btnCloseReprint_Click(object sender, EventArgs e)
         {
             CleanAll();
+            txtBoxStart.Enabled = false;
+            txtBoxEnd.Enabled = false;
+
             checkBoxReprint.Checked = false;
             groupBoxReprint.Visible = false;
             btnPrint.Text = "IMPRIMIR";
@@ -766,6 +890,18 @@ namespace WOW_Fusion
                     if (result == DialogResult.No)
                     {
                         e.Cancel = true;
+                    }
+                    else if (result == DialogResult.Yes)
+                    {
+                        if (_isPrint)
+                        {
+                            e.Cancel = true;
+                            NotifierController.Warning("No se permite cerrar la aplicación durante una impresión");
+                        }
+                        else
+                        {
+                            e.Cancel = false;
+                        }
                     }
                 }
             }
@@ -826,6 +962,18 @@ namespace WOW_Fusion
             {
                 btnPrint.PerformClick();
             }
+        }
+
+        private void DisableCloseButton()
+        {
+            IntPtr hMenu = GetSystemMenu(this.Handle, false);
+            EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED | MF_DISABLED);
+        }
+
+        private void EnableCloseButton()
+        {
+            IntPtr hMenu = GetSystemMenu(this.Handle, false);
+            EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_ENABLED);
         }
     }
 }
