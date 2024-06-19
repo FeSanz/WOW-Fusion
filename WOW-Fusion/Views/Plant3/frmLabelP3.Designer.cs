@@ -710,7 +710,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 62.12377F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 37.87623F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(397, 625);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(389, 625);
             this.tableLayoutPanel3.TabIndex = 183;
             // 
             // gbLabelSack
@@ -720,7 +720,7 @@
             this.gbLabelSack.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbLabelSack.Location = new System.Drawing.Point(3, 391);
             this.gbLabelSack.Name = "gbLabelSack";
-            this.gbLabelSack.Size = new System.Drawing.Size(391, 231);
+            this.gbLabelSack.Size = new System.Drawing.Size(383, 231);
             this.gbLabelSack.TabIndex = 65;
             this.gbLabelSack.TabStop = false;
             this.gbLabelSack.Text = "Etiqueta";
@@ -732,7 +732,7 @@
             this.picLabelSack.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picLabelSack.Location = new System.Drawing.Point(3, 16);
             this.picLabelSack.Name = "picLabelSack";
-            this.picLabelSack.Size = new System.Drawing.Size(385, 212);
+            this.picLabelSack.Size = new System.Drawing.Size(377, 212);
             this.picLabelSack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picLabelSack.TabIndex = 32;
             this.picLabelSack.TabStop = false;
@@ -873,7 +873,7 @@
             this.richTextConsole.Location = new System.Drawing.Point(8, 708);
             this.richTextConsole.Name = "richTextConsole";
             this.richTextConsole.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextConsole.Size = new System.Drawing.Size(848, 19);
+            this.richTextConsole.Size = new System.Drawing.Size(840, 19);
             this.richTextConsole.TabIndex = 180;
             this.richTextConsole.Text = "v 1.0";
             // 
@@ -890,7 +890,7 @@
             this.lblMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMode.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.lblMode.Location = new System.Drawing.Point(808, 6);
+            this.lblMode.Location = new System.Drawing.Point(800, 6);
             this.lblMode.Name = "lblMode";
             this.lblMode.Size = new System.Drawing.Size(42, 13);
             this.lblMode.TabIndex = 177;
@@ -938,7 +938,7 @@
             this.tableLayoutPanel2.Controls.Add(this.lblResourceCode, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.label7, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.label2, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(467, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(459, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 4;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.72728F));
@@ -963,7 +963,7 @@
             this.pbYellow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pbYellow.BackColor = System.Drawing.Color.Yellow;
             this.pbYellow.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbYellow.Location = new System.Drawing.Point(837, 67);
+            this.pbYellow.Location = new System.Drawing.Point(829, 67);
             this.pbYellow.Name = "pbYellow";
             this.pbYellow.Size = new System.Drawing.Size(15, 15);
             this.pbYellow.TabIndex = 179;
@@ -974,7 +974,7 @@
             this.pbRed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pbRed.BackColor = System.Drawing.Color.Red;
             this.pbRed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbRed.Location = new System.Drawing.Point(816, 67);
+            this.pbRed.Location = new System.Drawing.Point(808, 67);
             this.pbRed.Name = "pbRed";
             this.pbRed.Size = new System.Drawing.Size(15, 15);
             this.pbRed.TabIndex = 178;
@@ -988,7 +988,7 @@
             this.btnSwapMode.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSwapMode.FlatAppearance.BorderSize = 0;
             this.btnSwapMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSwapMode.Location = new System.Drawing.Point(815, 20);
+            this.btnSwapMode.Location = new System.Drawing.Point(807, 20);
             this.btnSwapMode.Name = "btnSwapMode";
             this.btnSwapMode.Size = new System.Drawing.Size(36, 37);
             this.btnSwapMode.TabIndex = 176;
@@ -1013,7 +1013,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(865, 730);
+            this.ClientSize = new System.Drawing.Size(857, 730);
             this.Controls.Add(this.lblLocationCode);
             this.Controls.Add(this.flowLayoutMain);
             this.Controls.Add(this.tableLayoutPanel3);

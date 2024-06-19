@@ -33,7 +33,7 @@ namespace WOW_Fusion.Views.Plant2
             txtPassword.Clear();
         }
 
-        public event EventHandler FormClosedEvent;
+        //public event EventHandler FormClosedEvent;
         private void lblExit_Click(object sender, EventArgs e)
         {
             Close();

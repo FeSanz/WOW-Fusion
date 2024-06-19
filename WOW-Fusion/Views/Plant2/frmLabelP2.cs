@@ -49,11 +49,12 @@ namespace WOW_Fusion
         Random rnd = new Random();
         //Timer timerShift = new Timer();
 
-        PopController pop;
+        //PopController pop;
 
         //Pesos params
         private float _tareWeight = 0.0f;
         private float _weightFromWeighing = 0.0f;
+        private float _netPallet = 0.0f;
         private float _previousWeight = 0.0f;
         private float _lbs = 2.205f;
         //Ancho y espesor
@@ -88,7 +89,8 @@ namespace WOW_Fusion
         private void frmLabelP2_Load(object sender, EventArgs e)
         {
             lblEnvironment.Text = Settings.Default.FusionUrl.Contains("-test") ? "TEST" : "PROD";
-            pop = new PopController();
+            lblStatusProcess.Text = string.Empty;
+            //pop = new PopController();
 
             richTextConsole.Clear();
             Console.SetOut(new ConsoleController(richTextConsole));
@@ -166,7 +168,7 @@ namespace WOW_Fusion
         private async void ProductionScheduling(object sender, EventArgs e)
         {
             lblWOStatus.Visible = false;
-            pop.Close();
+            ShowWait(false);
             ordersForSchedule = await CommonService.WOProcessSchedule(Constants.Plant2Id, Settings.Default.ResourceId2); //Obtener OT Schedule
            
             if (ordersForSchedule.Count > 0)
@@ -308,7 +310,7 @@ namespace WOW_Fusion
 
         private void SelectedIndexChangedWorkOrders(object sender, EventArgs e)
         {
-            pop.Close();
+            ShowWait(false);
             WorkOrderUIFill(cmbWorkOrders.SelectedItem.ToString());
         }
 
@@ -316,7 +318,7 @@ namespace WOW_Fusion
         private async void WorkOrderUIFill(string workOrder)
         {
             cmbWorkOrders.Enabled = false;
-            pop.Show(this);
+            ShowWait(true, "Cargando datos ...");
 
             try
             {
@@ -325,8 +327,8 @@ namespace WOW_Fusion
                 string response = await tskWorkOrdersData;
                 
                 if (string.IsNullOrEmpty(response)) 
-                { 
-                    pop.Close();
+                {
+                    ShowWait(false);
                     cmbWorkOrders.Enabled = lblMode.Text.Equals("Auto.") ? false : true;
                     return; 
                 }
@@ -334,7 +336,7 @@ namespace WOW_Fusion
                 JObject objWorkOrder = JObject.Parse(response);
                 if ((int)objWorkOrder["count"] == 0)
                 {
-                    pop.Close();
+                    ShowWait(false);
                     NotifierController.Warning("Datos de orden no encotrada");
                     cmbWorkOrders.Enabled = lblMode.Text.Equals("Auto.") ? false : true;
                     return;
@@ -345,7 +347,6 @@ namespace WOW_Fusion
                 lblUoM.Text = wo.UOMCode.ToString();
                 if (!string.IsNullOrEmpty(wo.CompletedQuantity.ToString()))
                 {
-                    pop.Close();
                     NotifierController.Warning($"Orden con despacho registrado [{wo.CompletedQuantity.ToString()} {lblUoM.Text}], verifique antes de pesar");
                 }
 
@@ -368,7 +369,6 @@ namespace WOW_Fusion
                 {
                     if (string.IsNullOrEmpty(itemsV2.UnitWeightQuantity.ToString()) || string.IsNullOrEmpty(itemsV2.MaximumLoadWeight.ToString()))
                     {
-                        pop.Close();
                         MessageBox.Show("Peso estándar no definido", "Verificar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                     else
@@ -433,7 +433,6 @@ namespace WOW_Fusion
                 dynamic labelApex = await LabelService.LabelInfo(Constants.Plant2Id, _akaCustomer, lblItemNumber.Text);
                 if (labelApex.LabelName.ToString().Equals("null"))
                 {
-                    pop.Close();
                     MessageBox.Show("Etiqueta de cliente/producto no encontrada", "Verificar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
@@ -442,7 +441,7 @@ namespace WOW_Fusion
                 }
 
                 //Verificar Historial Pesaje----------------------------
-                Task<string> tskHistory = APIService.GetApexAsync(String.Format(EndPoints.WeightRollHistory, cmbWorkOrders.Text));
+                /*Task<string> tskHistory = APIService.GetApexAsync(String.Format(EndPoints.WeightRollHistory, cmbWorkOrders.Text));
                 string responseHistory = await tskHistory;
 
                 progressBarWO.Value = 0;
@@ -474,7 +473,7 @@ namespace WOW_Fusion
                 else
                 {
                     Console.WriteLine($"Sin respuesta del historial de pesaje [{DateService.Today()}]", Color.Red);
-                }
+                }*/
 
                 //Validar activacion de boton de pesaje
                 if (!string.IsNullOrEmpty(cmbWorkOrders.Text) && !string.IsNullOrEmpty(lblResourceName.Text) && !string.IsNullOrEmpty(lblLabelName.Text) &&
@@ -489,19 +488,21 @@ namespace WOW_Fusion
                 }
 
                 //Order completada
-                if (float.Parse(lblCompletedQuantity.Text) >= float.Parse(lblPrimaryProductQuantity.Text))
+                /*if (float.Parse(lblCompletedQuantity.Text) >= float.Parse(lblPrimaryProductQuantity.Text))
                 {
                     NotifierController.Warning("Orden completada");
                     btnGetWeight.Enabled = false;
-                }
+                }*/
+
             }
             catch (Exception ex)
             {
-                pop.Close();
                 cmbWorkOrders.Enabled = lblMode.Text.Equals("Auto.") ? false : true;
                 MessageBox.Show("Error. " + ex.Message, "Error al seleccionar orden", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            pop.Close();
+            ShowWait(false);
+            lblStatusProcess.Text = btnGetWeight.Enabled ? "¡Coloque y pese TARA!" : string.Empty;
+            lblStatusProcess.ForeColor = btnGetWeight.Enabled ? Color.Red : Color.Black;
             cmbWorkOrders.Enabled = lblMode.Text.Equals("Auto.") ? false : true;
         }
 
@@ -585,61 +586,43 @@ namespace WOW_Fusion
         private async void btnGetWeight_Click(object sender, EventArgs e)
         {
             btnGetWeight.Enabled = false;
-            txtBoxWeight.Text = string.Empty;
-            pop.Show(this);
-            if (string.IsNullOrEmpty(lblTare.Text))
+            if (btnGetWeight.Text.Equals("TARAR"))
             {
-                //Solicitar peso tara
+                ShowWait(true, "Pesando tara ...");
+
                 string responseTare = await RadwagController.SocketWeighing("T");
                 if (responseTare.Equals("OK"))
                 {
                     string requestTareWeight = await RadwagController.SocketWeighing("OT");
                     if (!requestTareWeight.Equals("EX"))
                     {
-                        //Inicia a pesar
-                        /*if (!_startOrder)
-                        {
-                            //ProductionScheduling(this, EventArgs.Empty);
-                            _startOrder = true;
-                        }
-                        else
-                        {
-                            timerSchedule.Stop();
-                        }*/
-
-                        //TARAR
+                        //----------------- TARAR ---------------
                         _tareWeight = float.Parse(requestTareWeight);
                         if (_tareWeight > 0)
                         {
+                            timerSchedule.Stop();
+
+                            lblWeight.Text = float.Parse(requestTareWeight).ToString("F1");
                             lblTare.Text = float.Parse(requestTareWeight).ToString("F1");
-                            txtBoxWeight.Text = float.Parse(requestTareWeight).ToString("F1");
-                            btnGetWeight.Text = "PESAR";
-                            btnGetWeight.BackColor = Color.LimeGreen;
+
+                            btnGetWeight.Text = "CORE";
+                            btnGetWeight.BackColor = Color.DarkOrange;
+                            btnGetWeight.ForeColor = Color.Black;
                             btnReloadTare.Visible = true;
-                            //_rollCount = 0;
+
                             _rollByPallet = 0;
+                            _netPallet = 0;
                             _palletCount += 1;
                             _previousWeight = 0;
-
 
                             tabLayoutPallet.BackgroundImage = Resources.pallet_filled;
                             TableLayoutPalletControl(int.Parse(lblRollOnPallet.Text), 0);
 
                             lblPalletNumber.Text = _palletCount.ToString();
-                            cmbWorkOrders.Enabled = false; // Deshabilitar combo de Ordenes
-
-                            //Registrar pallet en DB APEX
-                            lblPalletId.Text = DateService.EpochTime();
-                            CreatePalletApex(_palletCount, 0.0f);
-
-                            //Desactivar todo opcion para salir para evitar palets incompletos
-                            DisableCloseButton();
-                            btnSwapMode.Enabled = false;
-                            timerSchedule.Stop();
-                            cmbWorkOrders.Enabled = false;
                         }
                         else
                         {
+                            lblWeight.Text = _tareWeight.ToString("F1");
                             NotifierController.Warning($"Peso de tara invalido [{_tareWeight.ToString("F1")} kg]");
                         }
                     }
@@ -650,16 +633,17 @@ namespace WOW_Fusion
                 }
                 else
                 {
-                    pop.Close();
                     string res = responseTare.Equals("EX") ? "Error de comunicación a báscula" : responseTare;
                     NotifierController.Error(res);
                 }
             }
             else
             {
-                //Obtiene peso acomulado (sin tara)
+                //----------------- PESAR ---------------
+                string messageWait = btnGetWeight.Text.Equals("CORE") ? "Pesando core ..." : btnGetWeight.Text.Equals("PESAR") ? "Pesando rollo ..." : "Pesando ...";
+                ShowWait(true, messageWait);
+
                 string responseWeighing = await RadwagController.SocketWeighing("S");
-                Console.WriteLine(responseWeighing, Color.DarkGray);
 
                 if (responseWeighing == "EX")
                 {
@@ -667,61 +651,88 @@ namespace WOW_Fusion
                 }
                 else
                 {
-                    //La bascula solo acomula el peso neto (SIN TARA)
                     if (float.TryParse(responseWeighing, out float _weightFromWeighing))
                     { 
                         if (_weightFromWeighing > 0)
                         {
                             if (_weightFromWeighing == _previousWeight)
                             {
-                                pop.Close();
-                                MessageBox.Show("Pesaje no ha cambiado, verifique." +
-                                               "EL PESO NO SE AGRAGARA A LA LISTA",
-                                               "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show("Pesaje no ha cambiado, verifique.", "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else if (_weightFromWeighing < _previousWeight)
                             {
-                                pop.Close();
-                                MessageBox.Show("Se detecto menor peso al obtenido anteriormente, " +
-                                                "verifique el producto colocado, " +
-                                                "EL PESO NO SE AGRAGARA A LA LISTA",
-                                                "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show("Peso menor al obtenido anteriormente, verifique.", "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else
                             {
-                                pop.Close();
-                                //Llenar campos de pallet (NET siempre sera el peso acomulado de la bascula)
-                                lblPalletNetKg.Text = _weightFromWeighing.ToString("F1");
-                                lblPalletGrossKg.Text = (_weightFromWeighing + _tareWeight).ToString("F1");
+                                if (btnGetWeight.Text.Equals("CORE"))
+                                {
+                                    float coreWeight = _weightFromWeighing - _previousWeight;
+                                    _previousWeight = _weightFromWeighing;
 
-                                lblPalletNetLbs.Text = (_weightFromWeighing * _lbs).ToString("F1");
-                                lblPalletGrossLbs.Text = ((_weightFromWeighing + _tareWeight) * _lbs).ToString("F1");
+                                    lblWeight.Text = coreWeight.ToString("F1");
+                                    lblCore.Text = coreWeight.ToString("F1");
+                                    btnGetWeight.Text = "PESAR";
+                                    btnGetWeight.BackColor = Color.LimeGreen;
+                                    btnReloadTare.Visible = true;
 
-                                //Calcular pero neto de cada rollo (SIN TARA)
-                                float rollNetKg = _weightFromWeighing - _previousWeight;
-                                txtBoxWeight.Text = rollNetKg.ToString("F1");
+                                    //Registrar pallet en DB APEX
+                                    /*lblPalletId.Text = DateService.EpochTime();
+                                    CreatePalletApex(_palletCount, 0.0f);
 
-                                float rollNetLbs = rollNetKg * _lbs;
-                                btnReloadTare.Visible = false;
+                                    DisableCloseButton();
+                                    btnSwapMode.Enabled = false;
+                                    timerSchedule.Stop();
+                                    cmbWorkOrders.Enabled = false;*/
 
-                                //Calcular pero bruto de cada rollo (con tara)
-                                float rollGrossKg = rollNetKg + _tareWeight;
-                                float rollGrossLbs = rollGrossKg * _lbs;
+                                }
+                                else if (btnGetWeight.Text.Equals("PESAR"))
+                                {
+                                    float rollNet = _weightFromWeighing - _previousWeight;
+                                    float rollGross = float.Parse(lblCore.Text) + rollNet; //Core + rollo
+                                    _previousWeight = _weightFromWeighing; //Reserver peso
+                                    _netPallet += rollNet;
 
-                                _rollCount++;
+                                    lblWeight.Text = rollNet.ToString("F1");
+                                    lblPalletNet.Text = _netPallet.ToString("F1");
+                                    btnReloadTare.Visible = false;
 
-                                //Agregar pesos a datagrid
-                                string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), rollNetKg.ToString("F1"),rollGrossKg.ToString("F1"),
-                                                                        rollNetLbs.ToString("F1"), rollGrossLbs.ToString("F1") };
+                                    //Llenar campos de pallet (NET siempre sera el peso acomulado de la bascula)
+                                    /*lblPalletNetKg.Text = _weightFromWeighing.ToString("F1");
+                                    lblPalletGrossKg.Text = (_weightFromWeighing + _tareWeight).ToString("F1");
 
+                                    lblPalletNetLbs.Text = (_weightFromWeighing * _lbs).ToString("F1");
+                                    lblPalletGrossLbs.Text = ((_weightFromWeighing + _tareWeight) * _lbs).ToString("F1");
 
-                                int indexNewRoll = dgRolls.Rows.Add(row);
-                                dgRolls.FirstDisplayedScrollingRowIndex = indexNewRoll;
+                                    //Calcular pero neto de cada rollo (SIN TARA)
+                                    float rollNetKg = _weightFromWeighing - _previousWeight;
+                                    txtBoxWeight.Text = rollNetKg.ToString("F1");
 
-                                //Reserver peso neto acomulado para sacar peso de rollo
-                                _previousWeight = _weightFromWeighing;
+                                    float rollNetLbs = rollNetKg * _lbs;
+                                    btnReloadTare.Visible = false;
 
-                                FillLabelRoll(row);
+                                    //Calcular pero bruto de cada rollo (con tara)
+                                    float rollGrossKg = rollNetKg + _tareWeight;
+                                    float rollGrossLbs = rollGrossKg * _lbs; */
+
+                                    _rollCount++;
+
+                                    //Agregar pesos a datagrid
+                                    string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), lblCore.Text, rollNet.ToString("F1"), rollGross.ToString("F1") };
+                                    int indexNewRoll = dgRolls.Rows.Add(row);
+                                    dgRolls.FirstDisplayedScrollingRowIndex = indexNewRoll;
+
+                                    FillLabelRoll(row);
+
+                                    if (int.Parse(lblRollOnPallet.Text) > 1)
+                                    {
+                                        btnGetWeight.Text = "CORE";
+                                        btnGetWeight.BackColor = Color.DarkOrange;
+                                        btnGetWeight.ForeColor = Color.Black;
+
+                                        lblCore.Text = string.Empty;
+                                    }
+                                }
                             }
                         }
                         else
@@ -737,12 +748,14 @@ namespace WOW_Fusion
                 }
             }
             btnGetWeight.Enabled = true;
-            pop.Close();
+            ShowWait(false);
+            lblStatusProcess.Text = btnGetWeight.Text.Equals("CORE") ?"¡Coloque y pese CORE!" : btnGetWeight.Text.Equals("PESAR") ? "¡Coloque y pese ROLLO!" : btnGetWeight.Text.Equals("TARAR") ? "¡Coloque y pese TARA!" : string.Empty;
+            lblStatusProcess.ForeColor = string.IsNullOrEmpty(lblStatusProcess.Text) ? Color.Black : Color.Red;
         }
 
         private async void btnReloadTare_Click(object sender, EventArgs e)
         {
-            pop.Show(this);
+            ShowWait(true, "Recalculando tara ...");
             string responseTare = await RadwagController.SocketWeighing("T");
             if (responseTare.Equals("OK"))
             {
@@ -752,49 +765,14 @@ namespace WOW_Fusion
                     //TARAR
                     _tareWeight = float.Parse(requestTareWeight);
                     lblTare.Text = float.Parse(requestTareWeight).ToString("F1");
-                    txtBoxWeight.Text = float.Parse(requestTareWeight).ToString("F1");
+                    //txtBoxWeight.Text = float.Parse(requestTareWeight).ToString("F1");
                 }
                 else
                 {
                     NotifierController.Warning("Tiempo de espera agotado, vuelva a  intentar");
                 }
             }
-            pop.Close();
-        }
-
-        private void btnAddPallet_Click(object sender, EventArgs e)
-        {
-            /*if (_isPalletStart)
-            {
-                DialogResult dialogResult = MessageBox.Show($"¿Desea agregar nuevo palet?", "Agregar palet", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    string[] rowPallet = new string[] { _palletCount.ToString(), _tareWeight.ToString(), lblPalletNetKg.Text,lblPalletGrossKg.Text,
-                                                                        lblPalletNetLbs.Text, lblPalletGrossLbs.Text};
-                    dgPallets.Rows.Add(rowPallet);
-
-                    //Limpiar datos para pallet nuevo
-                    _rollByPallet = 0;
-                    _isPalletStart = false;
-                    tabLayoutPallet.BackgroundImage = Resources.pallet_empty;
-                    TableLayoutPalletControl(int.Parse(lblRollOnPallet.Text),_rollByPallet);
-                    btnGetWeight.Text = "TARA";
-
-                    lblPalletNetKg.Text = string.Empty;
-                    lblPalletGrossKg.Text = string.Empty;
-                    lblPalletNetLbs.Text = string.Empty;
-                    lblPalletGrossLbs.Text = string.Empty;
-                    lblTare.Text = string.Empty;
-                }
-                else if (dialogResult == DialogResult.No)
-                {
-                    return;
-                }
-            }
-            else
-            {
-                NotifierController.Warning("Aún no cuenta con datos de pesaje del nuevo palet");
-            }*/
+            ShowWait(false);
         }
 
         private void btnSwapMode_Click(object sender, EventArgs e)
@@ -913,7 +891,7 @@ namespace WOW_Fusion
                         {
                             IEnumerable<string> columnWeigthsNetKg = dgRolls.Rows.Cast<DataGridViewRow>()
                                                                     .Where(fila => fila.Cells["R_Pallet"].Value.ToString().Equals(lblPalletNumber.Text))
-                                                                    .Select(fila => fila.Cells["R_NetKg"].Value.ToString());
+                                                                    .Select(fila => fila.Cells["R_Net"].Value.ToString());
 
                             string[] weigthRoll = columnWeigthsNetKg.ToArray();
 
@@ -1001,7 +979,7 @@ namespace WOW_Fusion
             //Cambiar color
             foreach (DataGridViewRow row in dgRolls.Rows)
             {
-                float rollNetKg = float.Parse(row.Cells["R_NetKg"].Value.ToString());
+                float rollNetKg = float.Parse(row.Cells["R_Net"].Value.ToString());
                 if (!string.IsNullOrEmpty(lblStdRoll.Text))
                 {
                     float _stdRollWeight = float.Parse(lblStdRoll.Text);
@@ -1035,11 +1013,12 @@ namespace WOW_Fusion
             if (_completedHistory) { return; }
             _rollByPallet++;
             _isPalletStart = true;
+
             if (lblMode.Text.Equals("Auto.")) { timerSchedule.Stop(); }
             TableLayoutPalletControl(int.Parse(lblRollOnPallet.Text), _rollByPallet);
 
             //Llenar campos de pallet (SUMA)
-            float palletNetSum = dgRolls.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_NetKg"].Value.ToString()));
+            float palletNetSum = dgRolls.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_Net"].Value.ToString()));
             lblCompletedQuantity.Text = palletNetSum.ToString();
             CalculateAdvace(palletNetSum);
 
@@ -1051,7 +1030,7 @@ namespace WOW_Fusion
                 AddPallet();
             }
             
-            CreateRollApex(_rollCount, float.Parse(dgRolls.Rows[e.RowIndex].Cells["R_NetKg"].Value.ToString()));
+            //----------------CreateRollApex(_rollCount, float.Parse(dgRolls.Rows[e.RowIndex].Cells["R_Net"].Value.ToString()));
 
             //Activar boton para terminar orden
             btnEndProcess.Visible = _rollCount > 0 ? true : false;
@@ -1066,7 +1045,7 @@ namespace WOW_Fusion
                 {
                     dgRolls.Rows[e.RowIndex].Selected = true;
                     _rowSelected = e.RowIndex;
-                    dgRolls.CurrentCell = dgRolls.Rows[e.RowIndex].Cells["R_NetKg"];
+                    dgRolls.CurrentCell = dgRolls.Rows[e.RowIndex].Cells["R_Net"];
                     MenuShipWeight.Show(dgRolls, e.Location);
                     MenuShipWeight.Show(Cursor.Position);
                 }
@@ -1082,9 +1061,9 @@ namespace WOW_Fusion
             if (!dgRolls.Rows[_rowSelected].IsNewRow)
             {
                 //Restar peso eliminado en PESO PREVIO peara evitar inconsistencias
-                _previousWeight -= float.Parse(dgRolls.CurrentRow.Cells["R_NetKg"].Value.ToString());
+                _previousWeight -= float.Parse(dgRolls.CurrentRow.Cells["R_Net"].Value.ToString());
                 dgRolls.Rows.RemoveAt(_rowSelected);
-                lblPalletNetKg.Text = _previousWeight.ToString("F1");
+                //lblPalletNetKg.Text = _previousWeight.ToString("F1");
                 //Restar 1 a la cantidad de rollos
                 _rollCount -= 1;
                 _rollByPallet -= 1;
@@ -1093,15 +1072,15 @@ namespace WOW_Fusion
 
         private async void ReWeightMenuItem_Click(object sender, EventArgs e)
         {
+            ShowWait(true, "Pesando rollo nuevamente ...");
             if (!dgRolls.Rows[_rowSelected].IsNewRow)
             {
-                txtBoxWeight.Text = string.Empty;
-                pop.Show(this);
+                //txtBoxWeight.Text = string.Empty;
 
                 //Restar peso a recalcular en PESO PREVIO peara evitar inconsistencias
-                _previousWeight -= float.Parse(dgRolls.CurrentRow.Cells["R_NetKg"].Value.ToString());
+                _previousWeight -= float.Parse(dgRolls.CurrentRow.Cells["R_Net"].Value.ToString());
                
-                lblPalletNetKg.Text = _previousWeight.ToString("F1");
+                //------------lblPalletNetKg.Text = _previousWeight.ToString("F1");
 
                 //Obtiene peso acomulado (sin tara)
                 string responseWeighing = await RadwagController.SocketWeighing("S");
@@ -1118,24 +1097,22 @@ namespace WOW_Fusion
                     if (_weightFromWeighing > 0)
                     {
                         if (_weightFromWeighing < _previousWeight)
-                        {
-                            pop.Close();
+                        {;
                             MessageBox.Show("Se detecto menor peso al obtenido anteriormente, verifique el producto colocado, " +
                                             "EL PESO NO SE AGRAGARÁ A LA LISTA", "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         else
                         {
-                            pop.Close();
                             //Llenar campos de pallet (NET siempre sera el peso acomulado de la bascula)
-                            lblPalletNetKg.Text = _weightFromWeighing.ToString("F1");
+                            /*lblPalletNetKg.Text = _weightFromWeighing.ToString("F1");
                             lblPalletGrossKg.Text = (_weightFromWeighing + _tareWeight).ToString("F1");
 
                             lblPalletNetLbs.Text = (_weightFromWeighing * _lbs).ToString("F1");
-                            lblPalletGrossLbs.Text = ((_weightFromWeighing + _tareWeight) * _lbs).ToString("F1");
+                            lblPalletGrossLbs.Text = ((_weightFromWeighing + _tareWeight) * _lbs).ToString("F1");*/
 
                             //Calcular pero neto de cada rollo (SIN TARA)
                             float rollNetKg = _weightFromWeighing - _previousWeight;
-                            txtBoxWeight.Text = rollNetKg.ToString("F1");
+                            //txtBoxWeight.Text = rollNetKg.ToString("F1");
 
                             float rollNetLbs = rollNetKg * _lbs;
                             btnReloadTare.Visible = false;
@@ -1152,7 +1129,7 @@ namespace WOW_Fusion
                             //Actualizar rollo
                             dgRolls.Rows[_rowSelected].SetValues(rowRoll);
 
-                            float palletNetSum = dgRolls.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_NetKg"].Value.ToString()));
+                            float palletNetSum = dgRolls.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_Net"].Value.ToString()));
                             lblCompletedQuantity.Text = palletNetSum.ToString();
                             CalculateAdvace(palletNetSum);
 
@@ -1167,8 +1144,8 @@ namespace WOW_Fusion
 
                             if (rollPerPallet == int.Parse(lblRollOnPallet.Text) && btnGetWeight.Text.Equals("TARAR"))
                             {
-                                string[] rowPallet = new string[] { _palletCount.ToString(), _tareWeight.ToString(), lblPalletNetKg.Text,
-                                                    lblPalletGrossKg.Text, lblPalletNetLbs.Text, lblPalletGrossLbs.Text };
+                                string[] rowPallet = new string[] { _palletCount.ToString(), _tareWeight.ToString(), /*lblPalletNetKg.Text,
+                                                    lblPalletGrossKg.Text, lblPalletNetLbs.Text, lblPalletGrossLbs.Text*/ };
 
                                 //Actualizar pallet
                                 int latestIndexPallet = dgPallets.Rows.Count - 1;
@@ -1176,8 +1153,8 @@ namespace WOW_Fusion
 
                                 string rollWeights = WeightsPallet(latestIndexPallet + 1);
 
-                                string[] palletWeight = new string[6];
-                                for (int i = 0; i < 6; i++)
+                                string[] palletWeight = new string[4];
+                                for (int i = 0; i < 4; i++)
                                 {
                                     palletWeight[i] = dgPallets.Rows[latestIndexPallet].Cells[i].Value.ToString();
                                 }
@@ -1187,7 +1164,7 @@ namespace WOW_Fusion
                                 TableLayoutPalletControl(0, _rollByPallet);
 
                                 UpdatePalletApex(latestIndexPallet + 1, float.Parse(dgPallets.Rows[latestIndexPallet].Cells["P_Tare"].Value.ToString()),
-                                                              float.Parse(dgPallets.Rows[latestIndexPallet].Cells["P_NetKg"].Value.ToString()));
+                                                              float.Parse(dgPallets.Rows[latestIndexPallet].Cells["P_Net"].Value.ToString()));
                             }
                             //Reserver peso neto acomulado para sacar peso de rollo
                             _previousWeight = _weightFromWeighing;
@@ -1200,6 +1177,7 @@ namespace WOW_Fusion
                     }
                 }
             }
+            ShowWait(false);
         }
         #endregion
 
@@ -1208,8 +1186,16 @@ namespace WOW_Fusion
         {
             if (_isPalletStart)
             {
-                string[] rowPallet = new string[] { _palletCount.ToString(), _tareWeight.ToString(), lblPalletNetKg.Text,
-                                                    lblPalletGrossKg.Text, lblPalletNetLbs.Text, lblPalletGrossLbs.Text };
+                float totalCore = dgRolls.Rows.Cast<DataGridViewRow>().Where(t => t.Cells["R_Pallet"].Value.ToString().Equals(_palletCount.ToString()))
+                .Sum(t => {
+                    float value;
+                    return float.TryParse(t.Cells["R_Core"].Value?.ToString(), out value) ? value : 0;
+                });
+
+                float totalTare = totalCore + _tareWeight;
+                float grosPalletKG = float.Parse(lblPalletNet.Text) + totalCore;
+
+                string[] rowPallet = new string[] { _palletCount.ToString(), totalTare.ToString(), lblPalletNet.Text, grosPalletKG.ToString("F1") };
                 int indexNewPallet = dgPallets.Rows.Add(rowPallet);
                 dgPallets.FirstDisplayedScrollingRowIndex = indexNewPallet;
 
@@ -1218,13 +1204,13 @@ namespace WOW_Fusion
                 _isPalletStart = false;
                 tabLayoutPallet.BackgroundImage = Resources.pallet_empty;
                 TableLayoutPalletControl(0, _rollByPallet);
-                btnGetWeight.Text = "TARAR";
-                btnGetWeight.BackColor = Color.DarkOrange;
 
-                lblPalletNetKg.Text = string.Empty;
-                lblPalletGrossKg.Text = string.Empty;
-                lblPalletNetLbs.Text = string.Empty;
-                lblPalletGrossLbs.Text = string.Empty;
+                btnGetWeight.Text = "TARAR";
+                btnGetWeight.BackColor = Color.Red;
+                btnGetWeight.ForeColor = Color.White;
+
+                lblPalletNet.Text = string.Empty;
+                lblCore.Text = string.Empty;
                 lblTare.Text = string.Empty;
             }
             else
@@ -1241,7 +1227,7 @@ namespace WOW_Fusion
         private string WeightsPallet(int palletSelected)
         {
             IEnumerable<string> columnWeigthsNetKg = dgRolls.Rows.Cast<DataGridViewRow>().Where(row => row.Cells["R_Pallet"].Value.ToString().Equals(palletSelected.ToString()))
-                                                                                            .Select(row => row.Cells["R_NetKg"].Value.ToString());
+                                                                                            .Select(row => row.Cells["R_Net"].Value.ToString());
             IEnumerable<string> columnRollNumber = dgRolls.Rows.Cast<DataGridViewRow>().Where(row => row.Cells["R_Pallet"].Value.ToString().Equals(palletSelected.ToString()))
                                                                                             .Select(row => row.Cells["R_Roll"].Value.ToString());
 
@@ -1265,8 +1251,8 @@ namespace WOW_Fusion
             int palletAdded = int.Parse(dgPallets.Rows[e.RowIndex].Cells["P_Pallet"].Value.ToString());
             string rollWeights = WeightsPallet(palletAdded);
 
-            string[] palletWeight = new string[6];
-            for (int i = 0; i < 6; i++)
+            string[] palletWeight = new string[4];
+            for (int i = 0; i < 4; i++)
             {
                 palletWeight[i] = dgPallets.Rows[e.RowIndex].Cells[i].Value.ToString();
             }
@@ -1274,8 +1260,8 @@ namespace WOW_Fusion
             FillLabelPallet(palletWeight, rollWeights);
             await LabelService.PrintP2(palletAdded, "PALLET");
 
-            UpdatePalletApex(palletAdded, float.Parse(dgPallets.Rows[e.RowIndex].Cells["P_Tare"].Value.ToString()),
-                                          float.Parse(dgPallets.Rows[e.RowIndex].Cells["P_NetKg"].Value.ToString()));
+            /*UpdatePalletApex(palletAdded, float.Parse(dgPallets.Rows[e.RowIndex].Cells["P_Tare"].Value.ToString()),
+                                          float.Parse(dgPallets.Rows[e.RowIndex].Cells["P_Net"].Value.ToString()));*/
 
             //TERMINA PROCESO DE PESAJE PARA LA ORDEN SELECCIONADA
             if (palletAdded == int.Parse(lblPalletTotal.Text) || _endWeight)
@@ -1291,7 +1277,7 @@ namespace WOW_Fusion
             //Cambiar color
             foreach (DataGridViewRow row in dgPallets.Rows)
             {
-                float palletNetKg = float.Parse(row.Cells["P_NetKg"].Value.ToString());
+                float palletNetKg = float.Parse(row.Cells["P_Net"].Value.ToString());
                 if (!string.IsNullOrEmpty(lblStdPallet.Text))
                 {
                     float _stdPalletWeight = float.Parse(lblStdPallet.Text);
@@ -1318,6 +1304,7 @@ namespace WOW_Fusion
             if (!string.IsNullOrEmpty(lblResourceCode.Text))
             {
                 dynamic label = JObject.Parse(Constants.LabelJson);
+
                 //WO Info
                 label.WORKORDER = string.IsNullOrEmpty(cmbWorkOrders.Text) ? " " : cmbWorkOrders.Text/*.Substring(7)*/;
                 label.ITEMNUMBER = string.IsNullOrEmpty(lblItemNumber.Text) ? " " : lblItemNumber.Text;
@@ -1328,10 +1315,10 @@ namespace WOW_Fusion
                 label.SHIFT = string.IsNullOrEmpty(lblShift.Text) ? " " : lblShift.Text;
                 //Roll Info
                 label.ROLL = string.IsNullOrEmpty(weights[1]) ? " " : "R" + weights[1].PadLeft(4, '0');
-                label.WNETKG = string.IsNullOrEmpty(weights[2]) ? " " : weights[2];
-                label.WGROSSKG = string.IsNullOrEmpty(weights[3]) ? " " : weights[3];
-                label.WNETLBS = string.IsNullOrEmpty(weights[4]) ? " " : weights[4];
-                label.WGROSSLBS = string.IsNullOrEmpty(weights[5]) ? " " : weights[5];
+                label.WNETKG = string.IsNullOrEmpty(weights[3]) ? " " : weights[3];
+                label.WGROSSKG = string.IsNullOrEmpty(weights[4]) ? " " : weights[4]; //Core + rollo
+                label.WNETLBS = string.IsNullOrEmpty(weights[3]) ? " " : (float.Parse(weights[3]) * _lbs).ToString("F1");
+                label.WGROSSLBS = string.IsNullOrEmpty(weights[4]) ? " " : (float.Parse(weights[4]) * _lbs).ToString("F1");
                 label.WIDTHTHICKNESS = string.IsNullOrEmpty(strWithThickness) ? " " : strWithThickness;
                 //AKA Info
                 label.AKAITEM = string.IsNullOrEmpty(lblAkaItem.Text) ? "NE" : lblAkaItem.Text;
@@ -1367,8 +1354,8 @@ namespace WOW_Fusion
                 label.PALET = "P" + _palletCount.ToString().PadLeft(4, '0');
                 label.WNETKG = string.IsNullOrEmpty(palletWeight[2]) ? " " : palletWeight[2];
                 label.WGROSSKG = string.IsNullOrEmpty(palletWeight[3]) ? " " : palletWeight[3];
-                label.WNETLBS = string.IsNullOrEmpty(palletWeight[4]) ? " " : palletWeight[4];
-                label.WGROSSLBS = string.IsNullOrEmpty(palletWeight[5]) ? " " : palletWeight[5];
+                label.WNETLBS = string.IsNullOrEmpty(palletWeight[2]) ? " " : (float.Parse(palletWeight[2]) * _lbs).ToString("F1");
+                label.WGROSSLBS = string.IsNullOrEmpty(palletWeight[3]) ? " " : (float.Parse(palletWeight[3]) * _lbs).ToString("F1");
                 label.WEIGHTS = string.IsNullOrEmpty(rollWeights) ? " " : rollWeights;
 
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
@@ -1379,13 +1366,24 @@ namespace WOW_Fusion
 
         #region Controls
 
+        private void ShowWait(bool show, string message = "")
+        {
+            lblStatusProcess.ForeColor = Color.Black;
+            lblStatusProcess.Text = message;
+            pbWaitProcess.Visible = show;
+        }
+
         private void ClearAll()
         {
             //Weight Section
-            txtBoxWeight.Text = string.Empty;
+            lblTare.Text = string.Empty;
+            lblCore.Text = string.Empty;
+            lblWeight.Text = string.Empty;
+
             btnGetWeight.Enabled = false;
             btnGetWeight.Text = "TARAR";
-            btnGetWeight.BackColor = Color.DarkOrange;
+            btnGetWeight.BackColor = Color.Red;
+            btnGetWeight.ForeColor = Color.White;
 
             //Shift Section
             timerShift.Stop();
@@ -1434,10 +1432,11 @@ namespace WOW_Fusion
             lblRollOnPallet.Text = string.Empty;
             lblPalletTotal.Text = string.Empty;
 
-            lblPalletNetKg.Text = string.Empty;
+            /*lblPalletNetKg.Text = string.Empty;
             lblPalletGrossKg.Text = string.Empty;
             lblPalletNetLbs.Text = string.Empty;
-            lblPalletGrossLbs.Text = string.Empty;
+            lblPalletGrossLbs.Text = string.Empty;*/
+
             lblTare.Text = string.Empty;
             lblPalletNumber.Text = string.Empty;
 
