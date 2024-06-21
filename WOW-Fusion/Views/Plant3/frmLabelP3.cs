@@ -374,8 +374,6 @@ namespace WOW_Fusion.Views.Plant3
 
                             //Registrar pallet en DB APEX
                             lblPalletId.Text = DateService.EpochTime();
-                            ApexService.CreatePallet(Constants.Plant3Id, lblPalletId.Text, _sackCount, cmbWorkOrders.Text, lblItemNumber.Text,
-                                                     float.Parse(lblTare.Text), 0.0f, lblShift.Text, _sackByPallet);
                         }
                         else
                         {
@@ -695,9 +693,9 @@ namespace WOW_Fusion.Views.Plant3
 
             await LabelService.PrintP2(_sackCount, "SACK"); //Imprimir etiqueta
 
-            ApexService.CreateWeightItem(_sackCount, float.Parse(dgSacks.Rows[e.RowIndex].Cells["S_Net"].Value.ToString()), lblPalletId.Text, Constants.Plant3Id);
-            ApexService.UpdatePallet(_sackCount, float.Parse(dgSacks.Rows[e.RowIndex].Cells["S_Tare"].Value.ToString()), 
-                                     float.Parse(dgSacks.Rows[e.RowIndex].Cells["S_Net"].Value.ToString()), cmbWorkOrders.Text);
+            //ApexService.CreateWeightItem(_sackCount, float.Parse(dgSacks.Rows[e.RowIndex].Cells["S_Net"].Value.ToString()), lblPalletId.Text, Constants.Plant3Id);
+            //ApexService.UpdatePallet(_sackCount, float.Parse(dgSacks.Rows[e.RowIndex].Cells["S_Tare"].Value.ToString()), 
+            //                         float.Parse(dgSacks.Rows[e.RowIndex].Cells["S_Net"].Value.ToString()), cmbWorkOrders.Text);
 
             //Activar boton para terminar orden
             btnEndProcess.Visible = _sackCount > 0 ? true : false;
@@ -805,7 +803,7 @@ namespace WOW_Fusion.Views.Plant3
                             FillLabelSack(rowRoll);
 
                             await LabelService.PrintP2(_sackCount, "SACK"); //Imprimir etiqueta
-                            ApexService.UpdateWeightItem(_sackCount, _sackCount, rollNetKg, cmbWorkOrders.Text, Constants.Plant2Id);
+                            //ApexService.UpdateWeightItem(_sackCount, _sackCount, rollNetKg, cmbWorkOrders.Text, Constants.Plant2Id);
 
                             //Reserver peso neto acomulado para sacar peso de rollo
                             _previousWeight = _weightFromWeighing;

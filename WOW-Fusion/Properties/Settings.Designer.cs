@@ -205,13 +205,49 @@ namespace WOW_Fusion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
         public int WeightStdP3 {
             get {
                 return ((int)(this["WeightStdP3"]));
             }
             set {
                 this["WeightStdP3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("9")]
+        public float CoreMaxWeight {
+            get {
+                return ((float)(this["CoreMaxWeight"]));
+            }
+            set {
+                this["CoreMaxWeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("26")]
+        public float TareMaxWeight {
+            get {
+                return ((float)(this["TareMaxWeight"]));
+            }
+            set {
+                this["TareMaxWeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("11")]
+        public float TareMinWeight {
+            get {
+                return ((float)(this["TareMinWeight"]));
+            }
+            set {
+                this["TareMinWeight"] = value;
             }
         }
     }

@@ -6,15 +6,10 @@ namespace WOW_Fusion
 {
     internal static class Constants
     {
-        //ID Organizaciones TEST
+        //ID Organizaciones
         public const string Plant1Id = "300000003173662";
         public const string Plant2Id = "300000003173674";
         public const string Plant3Id = "300000003173686";
-
-         //ID Organizaciones PRODUCCION
-        /*public const string Plant1Id = "300000003173662";
-        public const string Plant2Id = "300000003173674";
-        public const string Plant3Id = "300000003173686";*/
 
         public static string BusinessUnitId = "000000000000000";
         public static string UserName = "user.name";

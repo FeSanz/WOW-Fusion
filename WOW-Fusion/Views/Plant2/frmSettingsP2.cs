@@ -79,6 +79,10 @@ namespace WOW_Fusion
             txtRoll.Text = Settings.Default.RollToPrint.ToString();
             txtPallet.Text = Settings.Default.PalletToPrint.ToString();
 
+            txtCoreMax.Text = Settings.Default.CoreMaxWeight.ToString();
+            txtTareMin.Text = Settings.Default.TareMinWeight.ToString();
+            txtTareMax.Text = Settings.Default.TareMaxWeight.ToString();
+
             string decodedCredentials = Encoding.GetEncoding("ISO-8859-1").GetString(Convert.FromBase64String(Settings.Default.Credentials.ToString()));
             txtUser.Text = decodedCredentials.Split(':')[0];
             txtPassword.Text = decodedCredentials.Split(':')[1];
@@ -108,6 +112,7 @@ namespace WOW_Fusion
                 !string.IsNullOrEmpty(txtBoxIpWeighing.Text) && !string.IsNullOrEmpty(txtBoxPortWeighing.Text) &&
                 !string.IsNullOrEmpty(txtBoxIpPrinter.Text) && !string.IsNullOrEmpty(txtBoxPortPrinter.Text) &&
                 !string.IsNullOrEmpty(txtRoll.Text) && !string.IsNullOrEmpty(txtPallet.Text) &&
+                !string.IsNullOrEmpty(txtCoreMax.Text) && !string.IsNullOrEmpty(txtTareMin.Text) && !string.IsNullOrEmpty(txtTareMax.Text) &&
                 !string.IsNullOrEmpty(txtUser.Text) && !string.IsNullOrEmpty(txtPassword.Text))
             {
                 string credentials = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(txtUser.Text + ":" + txtPassword.Text));
@@ -124,6 +129,10 @@ namespace WOW_Fusion
 
                     Settings.Default.RollToPrint = int.Parse(txtRoll.Text);
                     Settings.Default.PalletToPrint = int.Parse(txtPallet.Text);
+
+                    Settings.Default.CoreMaxWeight = float.Parse(txtCoreMax.Text);
+                    Settings.Default.TareMinWeight = float.Parse(txtTareMin.Text);
+                    Settings.Default.TareMaxWeight = float.Parse(txtTareMax.Text);
 
                     Settings.Default.FusionUrl = rdbProd.Checked ? "https://iapxqy.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05" :
                                   "https://iapxqy-test.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05";
@@ -294,5 +303,46 @@ namespace WOW_Fusion
             }
         }
 
+        private void txtCoreMax_TextChanged(object sender, EventArgs e)
+        {
+            if (float.TryParse(txtCoreMax.Text, out _))
+            {
+                txtCoreMax.BackColor = Color.White;
+                lblStatus.Text = string.Empty;
+            }
+            else
+            {
+                txtCoreMax.BackColor = Color.LightSalmon;
+                lblStatus.Text = "Ingrese únicamente números";
+            }
+        }
+
+        private void txtTareMin_TextChanged(object sender, EventArgs e)
+        {
+            if (float.TryParse(txtCoreMax.Text, out _))
+            {
+                txtTareMin.BackColor = Color.White;
+                lblStatus.Text = string.Empty;
+            }
+            else
+            {
+                txtTareMin.BackColor = Color.LightSalmon;
+                lblStatus.Text = "Ingrese únicamente números";
+            }
+        }
+
+        private void txtTareMax_TextChanged(object sender, EventArgs e)
+        {
+            if (float.TryParse(txtTareMax.Text, out _))
+            {
+                txtTareMax.BackColor = Color.White;
+                lblStatus.Text = string.Empty;
+            }
+            else
+            {
+                txtTareMax.BackColor = Color.LightSalmon;
+                lblStatus.Text = "Ingrese únicamente números";
+            }
+        }
     }
 }

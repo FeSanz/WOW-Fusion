@@ -48,7 +48,16 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="WeightStdP3" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">100</Value>
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="CoreMaxWeight" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">9</Value>
+    </Setting>
+    <Setting Name="TareMaxWeight" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">26</Value>
+    </Setting>
+    <Setting Name="TareMinWeight" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">11</Value>
     </Setting>
   </Settings>
 </SettingsFile>

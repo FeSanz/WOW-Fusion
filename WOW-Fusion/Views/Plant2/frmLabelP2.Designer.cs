@@ -31,21 +31,22 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLabelP2));
             this.lblResourceName = new System.Windows.Forms.Label();
             this.lblResourceCode = new System.Windows.Forms.Label();
@@ -104,8 +105,12 @@
             this.lblAkaCustomer = new System.Windows.Forms.Label();
             this.lblAkaOrder = new System.Windows.Forms.Label();
             this.groupBoxWeight = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.lblPalletId = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.lblPalletNet = new System.Windows.Forms.Label();
+            this.lblCore = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.tabLayoutPallet = new System.Windows.Forms.TableLayoutPanel();
             this.label28 = new System.Windows.Forms.Label();
@@ -117,6 +122,7 @@
             this.dgPallets = new System.Windows.Forms.DataGridView();
             this.P_Pallet = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.P_Tare = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.P_Cores = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.P_Net = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.P_Gross = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBoxPallet = new System.Windows.Forms.GroupBox();
@@ -134,8 +140,6 @@
             this.pbRed = new System.Windows.Forms.PictureBox();
             this.richTextConsole = new System.Windows.Forms.RichTextBox();
             this.TipStatusWO = new System.Windows.Forms.ToolTip(this.components);
-            this.label29 = new System.Windows.Forms.Label();
-            this.lblCore = new System.Windows.Forms.Label();
             this.lblWeight = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -151,10 +155,7 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.lblStatusProcess = new System.Windows.Forms.Label();
             this.pbWaitProcess = new System.Windows.Forms.PictureBox();
-            this.lblPalletNet = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.btnReloadCore = new System.Windows.Forms.Button();
             this.groupBoxProd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBoxRoll.SuspendLayout();
@@ -840,13 +841,12 @@
             // 
             this.groupBoxWeight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxWeight.Controls.Add(this.btnReloadCore);
             this.groupBoxWeight.Controls.Add(this.label11);
             this.groupBoxWeight.Controls.Add(this.label29);
             this.groupBoxWeight.Controls.Add(this.lblPalletNet);
             this.groupBoxWeight.Controls.Add(this.label5);
             this.groupBoxWeight.Controls.Add(this.lblTare);
-            this.groupBoxWeight.Controls.Add(this.label6);
-            this.groupBoxWeight.Controls.Add(this.lblPalletId);
             this.groupBoxWeight.Controls.Add(this.lblCore);
             this.groupBoxWeight.Controls.Add(this.label37);
             this.groupBoxWeight.Controls.Add(this.label34);
@@ -873,27 +873,73 @@
             this.groupBoxWeight.TabStop = false;
             this.groupBoxWeight.Text = "Palet";
             // 
-            // label6
+            // label11
             // 
-            this.label6.Font = new System.Drawing.Font("Century Gothic", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label6.Location = new System.Drawing.Point(182, 13);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(77, 13);
-            this.label6.TabIndex = 175;
-            this.label6.Text = "ID:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label11.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label11.Location = new System.Drawing.Point(28, 256);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(97, 13);
+            this.label11.TabIndex = 178;
+            this.label11.Text = "Peso Neto";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblPalletId
+            // label29
             // 
-            this.lblPalletId.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPalletId.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.lblPalletId.Location = new System.Drawing.Point(171, 25);
-            this.lblPalletId.Name = "lblPalletId";
-            this.lblPalletId.Size = new System.Drawing.Size(99, 13);
-            this.lblPalletId.TabIndex = 176;
-            this.lblPalletId.Text = "**************";
-            this.lblPalletId.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label29.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label29.Location = new System.Drawing.Point(34, 60);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(85, 17);
+            this.label29.TabIndex = 181;
+            this.label29.Text = "Core";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblPalletNet
+            // 
+            this.lblPalletNet.BackColor = System.Drawing.Color.White;
+            this.lblPalletNet.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblPalletNet.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPalletNet.ForeColor = System.Drawing.Color.Green;
+            this.lblPalletNet.Location = new System.Drawing.Point(46, 233);
+            this.lblPalletNet.Name = "lblPalletNet";
+            this.lblPalletNet.Size = new System.Drawing.Size(60, 24);
+            this.lblPalletNet.TabIndex = 177;
+            this.lblPalletNet.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblCore
+            // 
+            this.lblCore.BackColor = System.Drawing.Color.White;
+            this.lblCore.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblCore.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCore.ForeColor = System.Drawing.Color.ForestGreen;
+            this.lblCore.Location = new System.Drawing.Point(34, 77);
+            this.lblCore.Name = "lblCore";
+            this.lblCore.Size = new System.Drawing.Size(85, 24);
+            this.lblCore.TabIndex = 113;
+            this.lblCore.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label37
+            // 
+            this.label37.Font = new System.Drawing.Font("Century Gothic", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label37.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.label37.Location = new System.Drawing.Point(11, 173);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(131, 13);
+            this.label37.TabIndex = 173;
+            this.label37.Text = "DATOS DE PALET";
+            this.label37.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label34
+            // 
+            this.label34.Font = new System.Drawing.Font("Century Gothic", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label34.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.label34.Location = new System.Drawing.Point(11, 112);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(131, 13);
+            this.label34.TabIndex = 169;
+            this.label34.Text = "PESO ESTÁNDAR";
+            this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label30
             // 
@@ -917,11 +963,11 @@
             this.tabLayoutPallet.Name = "tabLayoutPallet";
             this.tabLayoutPallet.RowCount = 1;
             this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 225F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 225F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 225F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 225F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 225F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 231F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 231F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 231F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 231F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 231F));
             this.tabLayoutPallet.Size = new System.Drawing.Size(246, 231);
             this.tabLayoutPallet.TabIndex = 143;
             // 
@@ -1020,16 +1066,17 @@
             this.dgPallets.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.P_Pallet,
             this.P_Tare,
+            this.P_Cores,
             this.P_Net,
             this.P_Gross});
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgPallets.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgPallets.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgPallets.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgPallets.EnableHeadersVisualStyles = false;
             this.dgPallets.GridColor = System.Drawing.SystemColors.ControlLight;
@@ -1037,21 +1084,21 @@
             this.dgPallets.Name = "dgPallets";
             this.dgPallets.ReadOnly = true;
             this.dgPallets.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgPallets.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
-            this.dgPallets.RowHeadersVisible = false;
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
-            this.dgPallets.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgPallets.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.dgPallets.RowHeadersVisible = false;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgPallets.RowsDefaultCellStyle = dataGridViewCellStyle10;
             this.dgPallets.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgPallets.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgPallets.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Control;
@@ -1082,10 +1129,18 @@
             this.P_Tare.ReadOnly = true;
             this.P_Tare.Width = 60;
             // 
-            // P_Net
+            // P_Cores
             // 
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.P_Net.DefaultCellStyle = dataGridViewCellStyle5;
+            this.P_Cores.DefaultCellStyle = dataGridViewCellStyle5;
+            this.P_Cores.HeaderText = "Cores";
+            this.P_Cores.Name = "P_Cores";
+            this.P_Cores.ReadOnly = true;
+            // 
+            // P_Net
+            // 
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.P_Net.DefaultCellStyle = dataGridViewCellStyle6;
             this.P_Net.FillWeight = 97.99383F;
             this.P_Net.HeaderText = "Neto";
             this.P_Net.Name = "P_Net";
@@ -1093,8 +1148,8 @@
             // 
             // P_Gross
             // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.P_Gross.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.P_Gross.DefaultCellStyle = dataGridViewCellStyle7;
             this.P_Gross.FillWeight = 97.99383F;
             this.P_Gross.HeaderText = "Bruto";
             this.P_Gross.Name = "P_Gross";
@@ -1256,35 +1311,12 @@
             this.richTextConsole.TabIndex = 170;
             this.richTextConsole.Text = "v 1.0";
             // 
-            // label29
-            // 
-            this.label29.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label29.Location = new System.Drawing.Point(34, 60);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(85, 17);
-            this.label29.TabIndex = 181;
-            this.label29.Text = "Core";
-            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblCore
-            // 
-            this.lblCore.BackColor = System.Drawing.Color.White;
-            this.lblCore.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblCore.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCore.ForeColor = System.Drawing.Color.ForestGreen;
-            this.lblCore.Location = new System.Drawing.Point(34, 77);
-            this.lblCore.Name = "lblCore";
-            this.lblCore.Size = new System.Drawing.Size(85, 24);
-            this.lblCore.TabIndex = 113;
-            this.lblCore.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // lblWeight
             // 
             this.lblWeight.BackColor = System.Drawing.Color.White;
             this.lblWeight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWeight.ForeColor = System.Drawing.Color.ForestGreen;
+            this.lblWeight.ForeColor = System.Drawing.Color.Black;
             this.lblWeight.Location = new System.Drawing.Point(9, 28);
             this.lblWeight.Name = "lblWeight";
             this.lblWeight.Padding = new System.Windows.Forms.Padding(5);
@@ -1347,21 +1379,21 @@
             // 
             this.dgRolls.AllowUserToAddRows = false;
             this.dgRolls.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgRolls.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgRolls.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
             this.dgRolls.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgRolls.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dgRolls.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgRolls.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.Menu;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgRolls.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.Menu;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgRolls.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.dgRolls.ColumnHeadersHeight = 25;
             this.dgRolls.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgRolls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -1370,14 +1402,14 @@
             this.R_Core,
             this.R_Net,
             this.R_Gross});
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgRolls.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgRolls.DefaultCellStyle = dataGridViewCellStyle16;
             this.dgRolls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgRolls.EnableHeadersVisualStyles = false;
             this.dgRolls.GridColor = System.Drawing.SystemColors.ControlLight;
@@ -1385,21 +1417,21 @@
             this.dgRolls.Name = "dgRolls";
             this.dgRolls.ReadOnly = true;
             this.dgRolls.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgRolls.RowHeadersDefaultCellStyle = dataGridViewCellStyle16;
-            this.dgRolls.RowHeadersVisible = false;
             dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.Black;
-            this.dgRolls.RowsDefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgRolls.RowHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            this.dgRolls.RowHeadersVisible = false;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgRolls.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.dgRolls.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgRolls.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgRolls.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Control;
@@ -1423,8 +1455,8 @@
             // R_Roll
             // 
             this.R_Roll.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.R_Roll.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.R_Roll.DefaultCellStyle = dataGridViewCellStyle13;
             this.R_Roll.FillWeight = 101.7259F;
             this.R_Roll.HeaderText = "Rollo";
             this.R_Roll.Name = "R_Roll";
@@ -1440,8 +1472,8 @@
             // 
             // R_Net
             // 
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.R_Net.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.R_Net.DefaultCellStyle = dataGridViewCellStyle14;
             this.R_Net.FillWeight = 101.7259F;
             this.R_Net.HeaderText = "Neto";
             this.R_Net.Name = "R_Net";
@@ -1449,8 +1481,8 @@
             // 
             // R_Gross
             // 
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.R_Gross.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.R_Gross.DefaultCellStyle = dataGridViewCellStyle15;
             this.R_Gross.FillWeight = 101.7259F;
             this.R_Gross.HeaderText = "Bruto";
             this.R_Gross.Name = "R_Gross";
@@ -1534,50 +1566,20 @@
             this.pbWaitProcess.TabStop = false;
             this.pbWaitProcess.Visible = false;
             // 
-            // lblPalletNet
+            // btnReloadCore
             // 
-            this.lblPalletNet.BackColor = System.Drawing.Color.White;
-            this.lblPalletNet.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblPalletNet.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPalletNet.ForeColor = System.Drawing.Color.Green;
-            this.lblPalletNet.Location = new System.Drawing.Point(46, 233);
-            this.lblPalletNet.Name = "lblPalletNet";
-            this.lblPalletNet.Size = new System.Drawing.Size(60, 24);
-            this.lblPalletNet.TabIndex = 177;
-            this.lblPalletNet.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label37
-            // 
-            this.label37.Font = new System.Drawing.Font("Century Gothic", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label37.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label37.Location = new System.Drawing.Point(11, 173);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(131, 13);
-            this.label37.TabIndex = 173;
-            this.label37.Text = "DATOS DE PALET";
-            this.label37.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label34
-            // 
-            this.label34.Font = new System.Drawing.Font("Century Gothic", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label34.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label34.Location = new System.Drawing.Point(11, 112);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(131, 13);
-            this.label34.TabIndex = 169;
-            this.label34.Text = "PESO ESTÁNDAR";
-            this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label11
-            // 
-            this.label11.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label11.Location = new System.Drawing.Point(28, 256);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(97, 13);
-            this.label11.TabIndex = 178;
-            this.label11.Text = "Peso Neto";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnReloadCore.BackColor = System.Drawing.Color.Transparent;
+            this.btnReloadCore.BackgroundImage = global::WOW_Fusion.Properties.Resources.upload_filled;
+            this.btnReloadCore.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnReloadCore.FlatAppearance.BorderSize = 0;
+            this.btnReloadCore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReloadCore.Location = new System.Drawing.Point(121, 74);
+            this.btnReloadCore.Name = "btnReloadCore";
+            this.btnReloadCore.Size = new System.Drawing.Size(30, 28);
+            this.btnReloadCore.TabIndex = 182;
+            this.btnReloadCore.UseVisualStyleBackColor = false;
+            this.btnReloadCore.Visible = false;
+            this.btnReloadCore.Click += new System.EventHandler(this.btnReloadCore_Click);
             // 
             // frmLabelP2
             // 
@@ -1702,8 +1704,6 @@
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Button btnEndProcess;
         private System.Windows.Forms.Label lblWeightUOMRoll;
-        private System.Windows.Forms.Label lblPalletId;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ToolStripMenuItem recalcularToolStripMenuItem;
         private System.Windows.Forms.PictureBox pbYellow;
         private System.Windows.Forms.PictureBox pbRed;
@@ -1721,10 +1721,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn P_Pallet;
-        private System.Windows.Forms.DataGridViewTextBoxColumn P_Tare;
-        private System.Windows.Forms.DataGridViewTextBoxColumn P_Net;
-        private System.Windows.Forms.DataGridViewTextBoxColumn P_Gross;
         private System.Windows.Forms.DataGridViewTextBoxColumn R_Pallet;
         private System.Windows.Forms.DataGridViewTextBoxColumn R_Roll;
         private System.Windows.Forms.DataGridViewTextBoxColumn R_Core;
@@ -1739,5 +1735,11 @@
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn P_Pallet;
+        private System.Windows.Forms.DataGridViewTextBoxColumn P_Tare;
+        private System.Windows.Forms.DataGridViewTextBoxColumn P_Cores;
+        private System.Windows.Forms.DataGridViewTextBoxColumn P_Net;
+        private System.Windows.Forms.DataGridViewTextBoxColumn P_Gross;
+        private System.Windows.Forms.Button btnReloadCore;
     }
 }

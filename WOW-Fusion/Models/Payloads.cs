@@ -27,11 +27,25 @@ namespace WOW_Fusion.Models
                                                         ""Weight"": 0.0
                                                     }";
 
-        public static string weightRoll = @"{
+        /*public static string weightRoll = @"{
                                                 ""DateMark"":""0000000000"",
                                                 ""PalletId"": ""0000000000"",
                                                 ""RollNumber"": 0,
                                                 ""Weight"": 0.0
+                                            }";*/
+
+        public static string weightRolls = @"{
+                                                ""DateMark"":""0000000000"",
+                                                ""OrganizationId"": 0,
+                                                ""WorkOrderId"": 0,
+                                                ""WorkOrder"": ""000"",
+                                                ""ItemNumber"": ""X"",
+                                                ""Pallet"": 0,
+                                                ""Roll"": 0,
+                                                ""Tare"": 0.0,
+                                                ""Core"": 0.0,
+                                                ""Net"": 0.0,
+                                                ""Shift"": ""XX""
                                             }";
 
 

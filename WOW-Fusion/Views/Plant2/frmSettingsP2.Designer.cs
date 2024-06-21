@@ -57,6 +57,13 @@
             this.rdbProd = new System.Windows.Forms.RadioButton();
             this.rdbTest = new System.Windows.Forms.RadioButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtTareMax = new System.Windows.Forms.TextBox();
+            this.txtTareMin = new System.Windows.Forms.TextBox();
+            this.txtCoreMax = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtUser = new System.Windows.Forms.TextBox();
@@ -69,6 +76,7 @@
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,7 +85,7 @@
             this.btnCancel.BackColor = System.Drawing.Color.IndianRed;
             this.btnCancel.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnCancel.Location = new System.Drawing.Point(140, 614);
+            this.btnCancel.Location = new System.Drawing.Point(140, 633);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(97, 32);
             this.btnCancel.TabIndex = 124;
@@ -90,7 +98,7 @@
             this.btnSave.BackColor = System.Drawing.Color.LimeGreen;
             this.btnSave.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnSave.Location = new System.Drawing.Point(243, 614);
+            this.btnSave.Location = new System.Drawing.Point(243, 633);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(97, 32);
             this.btnSave.TabIndex = 123;
@@ -152,7 +160,7 @@
             // 
             this.lblStatus.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblStatus.Location = new System.Drawing.Point(10, 594);
+            this.lblStatus.Location = new System.Drawing.Point(10, 613);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(330, 17);
             this.lblStatus.TabIndex = 126;
@@ -287,41 +295,41 @@
             this.groupBox4.ForeColor = System.Drawing.SystemColors.Control;
             this.groupBox4.Location = new System.Drawing.Point(13, 319);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(327, 102);
+            this.groupBox4.Size = new System.Drawing.Size(327, 45);
             this.groupBox4.TabIndex = 127;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "No. Impresiones";
             // 
             // txtPallet
             // 
-            this.txtPallet.Location = new System.Drawing.Point(61, 60);
+            this.txtPallet.Location = new System.Drawing.Point(232, 15);
             this.txtPallet.Name = "txtPallet";
-            this.txtPallet.Size = new System.Drawing.Size(235, 21);
+            this.txtPallet.Size = new System.Drawing.Size(64, 21);
             this.txtPallet.TabIndex = 121;
             this.txtPallet.TextChanged += new System.EventHandler(this.txtPallet_TextChanged);
             // 
             // txtRoll
             // 
-            this.txtRoll.Location = new System.Drawing.Point(61, 25);
+            this.txtRoll.Location = new System.Drawing.Point(61, 16);
             this.txtRoll.Name = "txtRoll";
-            this.txtRoll.Size = new System.Drawing.Size(235, 21);
+            this.txtRoll.Size = new System.Drawing.Size(64, 21);
             this.txtRoll.TabIndex = 120;
             this.txtRoll.TextChanged += new System.EventHandler(this.txtRoll_TextChanged);
             // 
             // label7
             // 
             this.label7.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(6, 60);
+            this.label7.Location = new System.Drawing.Point(179, 17);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(49, 21);
+            this.label7.Size = new System.Drawing.Size(45, 21);
             this.label7.TabIndex = 124;
             this.label7.Text = "Palet:";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label8
             // 
             this.label8.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(6, 25);
+            this.label8.Location = new System.Drawing.Point(6, 17);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(49, 21);
             this.label8.TabIndex = 123;
@@ -334,7 +342,7 @@
             this.groupBox5.Controls.Add(this.rdbTest);
             this.groupBox5.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox5.ForeColor = System.Drawing.SystemColors.Control;
-            this.groupBox5.Location = new System.Drawing.Point(13, 427);
+            this.groupBox5.Location = new System.Drawing.Point(13, 446);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(327, 56);
             this.groupBox5.TabIndex = 128;
@@ -371,6 +379,7 @@
             this.flowLayoutPanel1.Controls.Add(this.groupBox2);
             this.flowLayoutPanel1.Controls.Add(this.groupBox1);
             this.flowLayoutPanel1.Controls.Add(this.groupBox4);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox7);
             this.flowLayoutPanel1.Controls.Add(this.groupBox5);
             this.flowLayoutPanel1.Controls.Add(this.groupBox6);
             this.flowLayoutPanel1.Controls.Add(this.lblStatus);
@@ -379,8 +388,79 @@
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 5);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(343, 667);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(343, 676);
             this.flowLayoutPanel1.TabIndex = 129;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.label13);
+            this.groupBox7.Controls.Add(this.txtTareMax);
+            this.groupBox7.Controls.Add(this.txtTareMin);
+            this.groupBox7.Controls.Add(this.txtCoreMax);
+            this.groupBox7.Controls.Add(this.label11);
+            this.groupBox7.Controls.Add(this.label12);
+            this.groupBox7.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox7.ForeColor = System.Drawing.SystemColors.Control;
+            this.groupBox7.Location = new System.Drawing.Point(13, 370);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(327, 70);
+            this.groupBox7.TabIndex = 130;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Pesos Esándar";
+            // 
+            // label13
+            // 
+            this.label13.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(230, 44);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(66, 21);
+            this.label13.TabIndex = 126;
+            this.label13.Text = "Tara Máx";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtTareMax
+            // 
+            this.txtTareMax.Location = new System.Drawing.Point(232, 20);
+            this.txtTareMax.Name = "txtTareMax";
+            this.txtTareMax.Size = new System.Drawing.Size(64, 21);
+            this.txtTareMax.TabIndex = 125;
+            this.txtTareMax.TextChanged += new System.EventHandler(this.txtTareMax_TextChanged);
+            // 
+            // txtTareMin
+            // 
+            this.txtTareMin.Location = new System.Drawing.Point(144, 21);
+            this.txtTareMin.Name = "txtTareMin";
+            this.txtTareMin.Size = new System.Drawing.Size(64, 21);
+            this.txtTareMin.TabIndex = 121;
+            this.txtTareMin.TextChanged += new System.EventHandler(this.txtTareMin_TextChanged);
+            // 
+            // txtCoreMax
+            // 
+            this.txtCoreMax.Location = new System.Drawing.Point(61, 21);
+            this.txtCoreMax.Name = "txtCoreMax";
+            this.txtCoreMax.Size = new System.Drawing.Size(64, 21);
+            this.txtCoreMax.TabIndex = 120;
+            this.txtCoreMax.TextChanged += new System.EventHandler(this.txtCoreMax_TextChanged);
+            // 
+            // label11
+            // 
+            this.label11.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(144, 44);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(64, 21);
+            this.label11.TabIndex = 124;
+            this.label11.Text = "Tara Mín";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label12
+            // 
+            this.label12.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(58, 44);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(67, 21);
+            this.label12.TabIndex = 123;
+            this.label12.Text = "Core Máx";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox6
             // 
@@ -390,7 +470,7 @@
             this.groupBox6.Controls.Add(this.label10);
             this.groupBox6.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox6.ForeColor = System.Drawing.SystemColors.Control;
-            this.groupBox6.Location = new System.Drawing.Point(13, 489);
+            this.groupBox6.Location = new System.Drawing.Point(13, 508);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(327, 102);
             this.groupBox6.TabIndex = 129;
@@ -437,7 +517,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(66)))), ((int)(((byte)(82)))));
-            this.ClientSize = new System.Drawing.Size(370, 680);
+            this.ClientSize = new System.Drawing.Size(370, 690);
             this.Controls.Add(this.flowLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -457,6 +537,8 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
@@ -498,5 +580,12 @@
         private System.Windows.Forms.TextBox txtUser;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txtTareMax;
+        private System.Windows.Forms.TextBox txtTareMin;
+        private System.Windows.Forms.TextBox txtCoreMax;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
     }
 }
