@@ -21,7 +21,7 @@
       <Value Profile="(Default)">http://129.146.133.180:8080/ords/wow/wo</Value>
     </Setting>
     <Setting Name="Credentials" Type="System.String" Scope="User">
-      <Value Profile="(Default)">QVBFWCBJT1Q6Q29uZG9yMjAyNA==</Value>
+      <Value Profile="(Default)">YXBleC5pb3RAd293Z3JvdXAuY29tOklvVFdvdy0yMDI0</Value>
     </Setting>
     <Setting Name="WeighingIP" Type="System.String" Scope="User">
       <Value Profile="(Default)">192.168.12.2</Value>

@@ -97,7 +97,7 @@ namespace WOW_Fusion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("QVBFWCBJT1Q6Q29uZG9yMjAyNA==")]
+        [global::System.Configuration.DefaultSettingValueAttribute("YXBleC5pb3RAd293Z3JvdXAuY29tOklvVFdvdy0yMDI0")]
         public string Credentials {
             get {
                 return ((string)(this["Credentials"]));

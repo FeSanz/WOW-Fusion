@@ -34,6 +34,7 @@ namespace WOW_Fusion
 {
     public partial class frmLabelP2 : Form
     {
+        #region Variables Close
         [DllImport("user32.dll", SetLastError = true)]
         private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
 
@@ -45,6 +46,7 @@ namespace WOW_Fusion
         private const uint MF_GRAYED = 0x00000001;
         private const uint MF_ENABLED = 0x00000000;
         private const uint MF_DISABLED = 0x00000002;
+        #endregion
 
         Random rnd = new Random();
 
@@ -80,6 +82,7 @@ namespace WOW_Fusion
         private bool _startOrder = false;
         private bool _startThreadSchedule = false;
 
+        /*------------------------------ INITIALIZE ----------------------------------*/
         #region Start
         public frmLabelP2()
         {
@@ -101,6 +104,7 @@ namespace WOW_Fusion
             AppController.ToolTip(pbYellow, "Peso encima del estándar");
 
             AppController.ToolTip(btnEndProcess, "Terminar de pesar orden");
+            AppController.ToolTip(btnSwapMode, "Cambiar modo");
 
             AppController.ToolTip(btnReloadTare, "Volver a pesar tara");
             AppController.ToolTip(btnReloadCore, "Volver a pesar core");
@@ -278,6 +282,7 @@ namespace WOW_Fusion
         }
         #endregion
 
+        /*------------------------------ WORKORDERS ----------------------------------*/
         #region WorkOrders
         private async void DropDownWorkOrders(object sender, EventArgs e)
         {
@@ -628,9 +633,9 @@ namespace WOW_Fusion
                 }
             }
         }
-
         #endregion
 
+        /*-------------------------------- BUTTONS -----------------------------------*/
         #region Buttons Actions
         private async void btnGetWeight_Click(object sender, EventArgs e)
         {
@@ -854,10 +859,10 @@ namespace WOW_Fusion
                         }
                         else
                         {
-                            _previousWeight -= float.Parse(lblCore.Text);
-                            float coreWeight = _weightFromWeighing - _previousWeight;
+                            float coreWeight = _weightFromWeighing - (_previousWeight - float.Parse(lblCore.Text));
                             if (coreWeight <= Settings.Default.CoreMaxWeight)
                             {
+                                _previousWeight -= float.Parse(lblCore.Text); //Quitar peso anterior de CORE al acomulado
                                 _previousWeight = _weightFromWeighing;
 
                                 lblWeight.Text = coreWeight.ToString("F1");
@@ -885,6 +890,114 @@ namespace WOW_Fusion
             ShowWait(false);
             lblStatusProcess.Text = "¡Coloque y pese ROLLO!";
             lblStatusProcess.ForeColor = Color.Red;
+        }
+
+        private async void ReWeightMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowWait(true, "Pesando rollo nuevamente ...");
+            int lastRow = dgRolls.Rows.Count - 1;
+            if (!dgRolls.Rows[lastRow].IsNewRow)
+            {
+                string responseWeighing = await RadwagController.SocketWeighing("S");
+
+                if (responseWeighing == "EX")
+                {
+                    NotifierController.Warning("Tiempo de espera agotado, vuelva a  intentar");
+                }
+                else
+                {
+                    if (float.TryParse(responseWeighing, out float _weightFromWeighing))
+                    {
+                        if (_weightFromWeighing > 0)
+                        {
+                            float dgNet = float.Parse(dgRolls.Rows[lastRow].Cells["R_Net"].Value.ToString());
+                            if (_weightFromWeighing < (_previousWeight - dgNet))
+                            {
+                                MessageBox.Show("Se detecto menor peso al obtenido anteriormente, verifique el producto colocado", "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            else
+                            {
+                                _previousWeight -= dgNet;
+                                int dgPallet = int.Parse(dgRolls.Rows[lastRow].Cells["R_Pallet"].Value.ToString());
+                                int dgRoll = int.Parse(dgRolls.Rows[lastRow].Cells["R_Roll"].Value.ToString());
+                                float dgCore = float.Parse(dgRolls.Rows[lastRow].Cells["R_Core"].Value.ToString());
+                                
+
+                                float rollNet = _weightFromWeighing - _previousWeight;//Calcular peso rollo
+                                float rollGross = dgCore + rollNet;
+
+                                _previousWeight = _weightFromWeighing; //Reserver peso
+                                _netPallet -= dgNet; //Descontar del neto acomulado
+                                _netPallet += rollNet; //Aumentar con nuevo neto
+
+                                lblWeight.Text = rollNet.ToString("F1");
+                                lblPalletNet.Text = _netPallet.ToString("F1");
+
+                                //Actualizar fila de ROLLO
+                                string[] rowRoll = new string[] { dgPallet.ToString(), dgRoll.ToString(), dgCore.ToString("F1"), rollNet.ToString("F1"), rollGross.ToString("F1") };
+                                dgRolls.Rows[lastRow].SetValues(rowRoll);
+
+                                float palletNetSum = dgRolls.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_Net"].Value.ToString()));
+                                lblCompletedQuantity.Text = palletNetSum.ToString();
+                                CalculateAdvace(palletNetSum);
+
+                                TableLayoutPalletControl(int.Parse(lblRollOnPallet.Text), _rollByPallet, lblPalletNumber.Text);
+
+                                if (int.Parse(lblRollOnPallet.Text) > 1)
+                                {
+                                    FillLabelRoll(rowRoll);
+                                    await LabelService.PrintP2(dgRoll, "ROLL"); //Imprimir etiqueta rollo
+                                }
+
+                                //Verificar si es el ultimo rollo del pallet
+                                if (_rollByPallet == 0 && _rollCount > 0)
+                                {
+                                    int lastPallet = dgPallets.Rows.Count - 1;
+
+                                    float dgTare = float.Parse(dgPallets.Rows[lastPallet].Cells["P_Tare"].Value.ToString());
+                                    float dgCoresPallet = float.Parse(dgPallets.Rows[lastPallet].Cells["P_Cores"].Value.ToString());
+
+                                    //Sumar neto de rollos
+                                    float newNet = dgRolls.Rows.Cast<DataGridViewRow>().Where(t => t.Cells["R_Pallet"].Value.ToString().Equals(dgPallet.ToString()))
+                                    .Sum(t => {
+                                        float value;
+                                        return float.TryParse(t.Cells["R_Net"].Value?.ToString(), out value) ? value : 0;
+                                    });
+                                    float grossPallet = dgTare + dgCoresPallet + newNet;
+
+                                    //Actualizar fila de PALLET
+                                    string[] rowPallet = new string[] { dgPallet.ToString(), dgTare.ToString("F1"), dgCoresPallet.ToString("F1"), newNet.ToString("F1"), grossPallet.ToString("F1") };
+                                    dgPallets.Rows[lastPallet].SetValues(rowPallet);
+
+                                    string rollWeights = WeightsPallet(dgPallets.Rows.Count);
+
+                                    string[] palletWeight = new string[5];
+                                    for (int i = 0; i < 5; i++)
+                                    {
+                                        palletWeight[i] = dgPallets.Rows[lastPallet].Cells[i].Value.ToString();
+                                    }
+
+                                    FillLabelPallet(palletWeight, rollWeights);
+                                    await LabelService.PrintP2(dgPallets.Rows.Count, "PALLET");
+                                    TableLayoutPalletControl(0, _rollByPallet, lblPalletNumber.Text);
+                                }
+
+                                UpdateRollApex(dgRoll, rollNet);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg], vuelva a intentar", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Valor invalido obtenido de la báscula", Color.Red);
+                        NotifierController.Warning($"{responseWeighing}");
+                    }
+                }
+            }
+            ShowWait(false);
         }
 
         private void btnSwapMode_Click(object sender, EventArgs e)
@@ -960,38 +1073,73 @@ namespace WOW_Fusion
         }
         #endregion
 
+        /*-------------------------------- ROLLOS ------------------------------------*/
         #region DataGrid Rollos
         private void TableLayoutPalletControl(int rollOnPallet, int rollNumber, string palletNumber)
         {
-            lblRollCount.Text = $"{rollOnPallet}";
-
-            if (rollOnPallet <= 12)
+            if (rollOnPallet <= 25)
             {
-                lblRollCount.Visible = false;
                 int count = 0;
 
                 tabLayoutPallet.Controls.Clear();
                 tabLayoutPallet.RowStyles.Clear();
                 tabLayoutPallet.ColumnStyles.Clear();
 
-                tabLayoutPallet.ColumnCount = rollOnPallet > 4 ? 4 : rollOnPallet;
-
-                if (rollOnPallet >= 9)
+                //Definir FILAS Y COLUMNAS
+                switch(rollOnPallet)
                 {
-                    tabLayoutPallet.RowCount = 3;
+                    case 3:
+                        tabLayoutPallet.ColumnCount = 2;
+                        tabLayoutPallet.RowCount = 2;
+                        break;
+                    case 4:
+                        tabLayoutPallet.ColumnCount = 2;
+                        tabLayoutPallet.RowCount = 2;
+                        break;
+                    case 5: 
+                    case 6:
+                        tabLayoutPallet.ColumnCount = 2;
+                        tabLayoutPallet.RowCount = 3;
+                        break;
+                    case 7: 
+                    case 8: 
+                    case 9:
+                        tabLayoutPallet.ColumnCount = 3;
+                        tabLayoutPallet.RowCount = 3;
+                        break;
+                    case 10:
+                    case 11 :
+                    case 12:
+                        tabLayoutPallet.ColumnCount = 3;
+                        tabLayoutPallet.RowCount = 4;
+                        break;
+                    case 13: 
+                    case 14: 
+                    case 15: 
+                    case 16:
+                        tabLayoutPallet.ColumnCount = 4;
+                        tabLayoutPallet.RowCount = 4;
+                        break;
+                    case 17: 
+                    case 18: 
+                    case 19: 
+                    case 20:
+                        tabLayoutPallet.ColumnCount = 4;
+                        tabLayoutPallet.RowCount = 5;
+                        break;
+                    case 21: 
+                    case 22: 
+                    case 23: 
+                    case 24:
+                    case 25:
+                        tabLayoutPallet.ColumnCount = 5;
+                        tabLayoutPallet.RowCount = 5;
+                        break;
+                    default: // 1 o 2 rollos
+                        tabLayoutPallet.ColumnCount = rollOnPallet;
+                        tabLayoutPallet.RowCount = 1;
+                        break;
                 }
-                else if (rollOnPallet >= 5 && rollOnPallet <= 8)
-                {
-                    tabLayoutPallet.RowCount = 2;
-                }
-                else
-                {
-                    tabLayoutPallet.RowCount = 1;
-                }
-
-                //tabLayoutPallet.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-
-                int cells = tabLayoutPallet.RowCount * tabLayoutPallet.ColumnCount;
 
                 for (int row = 0; row < tabLayoutPallet.RowCount; row++)
                 {
@@ -1001,8 +1149,7 @@ namespace WOW_Fusion
                         PictureBox picRoll = new PictureBox();
                         if (count < rollNumber)
                         {
-                            IEnumerable<string> columnWeigthsNetKg = dgRolls.Rows.Cast<DataGridViewRow>()
-                                                                    .Where(fila => fila.Cells["R_Pallet"].Value.ToString().Equals(palletNumber))
+                            IEnumerable<string> columnWeigthsNetKg = dgRolls.Rows.Cast<DataGridViewRow>().Where(fila => fila.Cells["R_Pallet"].Value.ToString().Equals(palletNumber))
                                                                     .Select(fila => fila.Cells["R_Net"].Value.ToString());
 
                             string[] weigthRoll = columnWeigthsNetKg.ToArray();
@@ -1019,12 +1166,7 @@ namespace WOW_Fusion
                             {
                                 picRoll.Image = Resources.roll_red;
                             }
-                            else
-                            {
-                                continue;
-                            }
 
-                            //picRoll.Image = Resources.roll;
                             AppController.ToolTip(picRoll, weigthRoll[count].ToString() + " kg");
                         }
                         else
@@ -1036,13 +1178,72 @@ namespace WOW_Fusion
                         picRoll.SizeMode = PictureBoxSizeMode.Zoom;
                         picRoll.Dock = DockStyle.Fill;
 
-                        
-
                         count++;
 
                         if (count <= rollOnPallet)
                         {
                             tabLayoutPallet.Controls.Add(picRoll, col, row);
+
+                            if(rollOnPallet == 3 && count == 3)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
+                            }
+                            else if (rollOnPallet == 5 && count == 5)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
+                            }
+                            else if (rollOnPallet == 7 && count == 7)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 3);
+                            }
+                            else if (rollOnPallet == 10 && count == 10)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 3);
+                            }
+                            else if (rollOnPallet == 11 && count == 10)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
+                            }
+                            else if (rollOnPallet == 13 && count == 13)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 4);
+                            }
+                            else if (rollOnPallet == 14 && count == 13)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
+                            }
+                            else if (rollOnPallet == 14 && count == 14)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
+                            }
+                            else if (rollOnPallet == 14 && count == 14)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
+                            }
+                            else if (rollOnPallet == 17 && count == 17)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 4);
+                            }
+                            else if (rollOnPallet == 18 && count == 17)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
+                            }
+                            else if (rollOnPallet == 19 && count == 18)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
+                            }
+                            else if (rollOnPallet == 21 && count == 21)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 5);
+                            }
+                            else if (rollOnPallet == 22 && count == 21)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 3);
+                            }
+                            else if (rollOnPallet == 23 && count == 21)
+                            {
+                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
+                            }
                         }
                         tabLayoutPallet.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1));
                     }
@@ -1050,7 +1251,7 @@ namespace WOW_Fusion
             }
             else
             {
-                lblRollCount.Visible = true;
+                NotifierController.Warning($"{rollOnPallet} rollos rebasan el estándar de un palet");
             }
         }
 
@@ -1149,6 +1350,7 @@ namespace WOW_Fusion
 
             //Activar boton para terminar orden
             btnEndProcess.Visible = _rollCount > 0 ? true : false;
+            btnSwapMode.Enabled = false;
         }
 
         //Click derecho sobre fila
@@ -1170,117 +1372,9 @@ namespace WOW_Fusion
                 NotifierController.Warning("Acción no permitida");
             }*/
         }
-
-        private async void ReWeightMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowWait(true, "Pesando rollo nuevamente ...");
-            int lastRow = dgRolls.Rows.Count - 1;
-            if (!dgRolls.Rows[lastRow].IsNewRow)
-            {
-                string responseWeighing = await RadwagController.SocketWeighing("S");
-
-                if (responseWeighing == "EX")
-                {
-                    NotifierController.Warning("Tiempo de espera agotado, vuelva a  intentar");
-                }
-                else
-                {
-                    if (float.TryParse(responseWeighing, out float _weightFromWeighing))
-                    {
-                        if (_weightFromWeighing > 0)
-                        {
-                            _previousWeight -= float.Parse(dgRolls.CurrentRow.Cells["R_Net"].Value.ToString());
-
-                            if (_weightFromWeighing < _previousWeight)
-                            {
-                                MessageBox.Show("Se detecto menor peso al obtenido anteriormente, verifique el producto colocado", "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
-                            else
-                            {
-                                int dgPallet = int.Parse(dgRolls.Rows[lastRow].Cells["R_Pallet"].Value.ToString());
-                                int dgRoll = int.Parse(dgRolls.Rows[lastRow].Cells["R_Roll"].Value.ToString());
-                                float dgCore = float.Parse(dgRolls.Rows[lastRow].Cells["R_Core"].Value.ToString());
-                                float dgNet = float.Parse(dgRolls.Rows[lastRow].Cells["R_Net"].Value.ToString());
-                                
-                                float rollNet = _weightFromWeighing - _previousWeight;//Calcular peso rollo
-                                float rollGross = dgCore + rollNet;
-
-                                _previousWeight = _weightFromWeighing; //Reserver peso
-                                _netPallet -= dgNet; //Descontar del neto acomulado
-                                _netPallet += rollNet; //Aumentar con nuevo neto
-
-                                lblWeight.Text = rollNet.ToString("F1");
-                                lblPalletNet.Text = _netPallet.ToString("F1");
-
-                                //Actualizar fila de ROLLO
-                                string[] rowRoll = new string[] { dgPallet.ToString(), dgRoll.ToString(), dgCore.ToString("F1"), rollNet.ToString("F1"), rollGross.ToString("F1") };
-                                dgRolls.Rows[lastRow].SetValues(rowRoll);
-
-                                float palletNetSum = dgRolls.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_Net"].Value.ToString()));
-                                lblCompletedQuantity.Text = palletNetSum.ToString();
-                                CalculateAdvace(palletNetSum);
-
-                                TableLayoutPalletControl(int.Parse(lblRollOnPallet.Text), _rollByPallet, lblPalletNumber.Text);
-
-                                if (int.Parse(lblRollOnPallet.Text) > 1)
-                                {
-                                    FillLabelRoll(rowRoll);
-                                    await LabelService.PrintP2(dgRoll, "ROLL"); //Imprimir etiqueta rollo
-                                }
-
-                                //Verificar si es el ultimo rollo del pallet
-                                if (_rollByPallet == 0 && _rollCount > 0) 
-                                {
-                                    int lastPallet = dgPallets.Rows.Count - 1;
-
-                                    float dgTare = float.Parse(dgPallets.Rows[lastPallet].Cells["P_Tare"].Value.ToString());
-                                    float dgCoresPallet = float.Parse(dgPallets.Rows[lastPallet].Cells["P_Cores"].Value.ToString());
-
-                                    //Sumar neto de rollos
-                                    float newNet = dgRolls.Rows.Cast<DataGridViewRow>().Where(t => t.Cells["R_Pallet"].Value.ToString().Equals(dgPallet.ToString()))
-                                    .Sum(t => {
-                                        float value;
-                                        return float.TryParse(t.Cells["R_Net"].Value?.ToString(), out value) ? value : 0;
-                                    });
-                                    float grossPallet = dgTare + dgCoresPallet + newNet;
-
-                                    //Actualizar fila de PALLET
-                                    string[] rowPallet = new string[] { dgPallet.ToString(), dgTare.ToString("F1"), dgCoresPallet.ToString("F1"), newNet.ToString("F1"), grossPallet.ToString("F1")};
-                                    dgPallets.Rows[lastPallet].SetValues(rowPallet);
-
-                                    string rollWeights = WeightsPallet(dgPallets.Rows.Count);
-
-                                    string[] palletWeight = new string[5];
-                                    for (int i = 0; i < 5; i++)
-                                    {
-                                        palletWeight[i] = dgPallets.Rows[lastPallet].Cells[i].Value.ToString();
-                                    }
-
-                                    FillLabelPallet(palletWeight, rollWeights);
-                                    await LabelService.PrintP2(dgPallets.Rows.Count, "PALLET");
-                                    TableLayoutPalletControl(0, _rollByPallet, lblPalletNumber.Text);
-                                }
-
-                                NotifierController.Success("Rollo actualizado");
-                                //--------UpdateRollApex(_palletCount, _rollCount, rollNetKg);
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg], vuelva a intentar", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Valor invalido obtenido de la báscula", Color.Red);
-                        NotifierController.Warning($"{responseWeighing}");
-                    }
-                }
-            }
-            ShowWait(false);
-        }
         #endregion
 
+        /*-------------------------------- PALLETS -----------------------------------*/
         #region DataGrid Pallets
         private void AddPallet()
         {
@@ -1399,6 +1493,7 @@ namespace WOW_Fusion
         }
         #endregion
 
+        /*-------------------------------- LABELS ------------------------------------*/
         #region Labels Fill
         private async void FillLabelRoll(string[] weights)
         {
@@ -1465,15 +1560,8 @@ namespace WOW_Fusion
         }
         #endregion
 
+        /*------------------------------- CONTROLS -----------------------------------*/
         #region Controls
-
-        private void ShowWait(bool show, string message = "")
-        {
-            lblStatusProcess.ForeColor = Color.Black;
-            lblStatusProcess.Text = message;
-            pbWaitProcess.Visible = show;
-        }
-
         private void ClearAll()
         {
             //Weight Section
@@ -1566,6 +1654,12 @@ namespace WOW_Fusion
             {
                 ProductionScheduling(this, EventArgs.Empty);
             }
+        }
+        private void ShowWait(bool show, string message = "")
+        {
+            lblStatusProcess.ForeColor = Color.Black;
+            lblStatusProcess.Text = message;
+            pbWaitProcess.Visible = show;
         }
 
         private void CalculateAdvace(float completed)
@@ -1673,65 +1767,98 @@ namespace WOW_Fusion
         }
         #endregion
 
+        /*--------------------------------- APEX -------------------------------------*/
         #region APEX
-
         private async void CreateRollApex()
         {
-            dynamic jsonRoll = JObject.Parse(Payloads.weightRolls);
-            jsonRoll.DateMark = DateService.EpochTime();
-            jsonRoll.OrganizationId = Int64.Parse(Constants.Plant2Id);
-            jsonRoll.WorkOrderId = _workOrderId;
-            jsonRoll.WorkOrder = cmbWorkOrders.Text;
-            jsonRoll.ItemNumber = lblItemNumber.Text;
-            jsonRoll.Pallet = lblPalletNumber.Text;
-            jsonRoll.Roll = _rollCount.ToString();
-            jsonRoll.Tare = lblTare.Text;
-            jsonRoll.Core = lblCore.Text;
-            jsonRoll.Net = lblWeight.Text;
-            jsonRoll.Shift = lblShift.Text;
-
-            string jsonSerialized = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
-
-            Task<string> postWeightRoll = APIService.PostApexAsync(EndPoints.WeightRolls, jsonSerialized);
-            string response = await postWeightRoll;
-
-            if (!string.IsNullOrEmpty(response))
+            if (AppController.CheckInternetConnection())
             {
-                dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
-                Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);           
+                dynamic jsonRoll = JObject.Parse(Payloads.weightRolls);
+                jsonRoll.DateMark = DateService.EpochTime();
+                jsonRoll.OrganizationId = Int64.Parse(Constants.Plant2Id);
+                jsonRoll.WorkOrderId = _workOrderId;
+                jsonRoll.WorkOrder = cmbWorkOrders.Text;
+                jsonRoll.ItemNumber = lblItemNumber.Text;
+                jsonRoll.Pallet = lblPalletNumber.Text;
+                jsonRoll.Roll = _rollCount.ToString();
+                jsonRoll.Tare = lblTare.Text;
+                jsonRoll.Core = lblCore.Text;
+                jsonRoll.Net = lblWeight.Text;
+                jsonRoll.Shift = lblShift.Text;
+
+                string jsonSerialized = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
+
+                Task<string> postWeightRoll = APIService.PostApexAsync(EndPoints.WeightRolls, jsonSerialized);
+                string response = await postWeightRoll;
+
+                if (!string.IsNullOrEmpty(response))
+                {
+                    dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
+                    Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
+                }
+                else
+                {
+                    Console.WriteLine($"Sin respuesta al registrar rollo [{DateService.Today()}]", Color.Red);
+                }
             }
             else
             {
-                Console.WriteLine($"Sin respuesta al registrar rollo [{DateService.Today()}]", Color.Red);
+                NotifierController.Warning("Sin conexión a internet");
+                DialogResult result = MessageBox.Show("Verificar la conexión internet", "Sin Internet", MessageBoxButtons.OK, MessageBoxIcon.Question);
+
+                if (result == DialogResult.OK)
+                {
+                    CreateRollApex();
+                }
+                else
+                {
+                    CreateRollApex();
+                }
             }
         }
 
         private async void UpdateRollApex(int roll, float net)
         {
-            dynamic jsonRoll = JObject.Parse(Payloads.weightRollUpdate);
-
-            jsonRoll.OrganizationId = Int64.Parse(Constants.Plant2Id); ;
-            jsonRoll.WorkOrder = cmbWorkOrders.Text; ;
-            jsonRoll.Roll = roll;
-            jsonRoll.Net = net;
-
-
-            string jsonSerialized = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
-
-            Task<string> putWeightRoll = APIService.PutApexAsync(String.Format(EndPoints.WeightRolls, cmbWorkOrders.Text, roll, Constants.Plant2Id), jsonSerialized);
-            string response = await putWeightRoll;
-
-            if (!string.IsNullOrEmpty(response))
+            if (AppController.CheckInternetConnection())
             {
-                dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
-                Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);           
+                dynamic jsonRoll = JObject.Parse(Payloads.weightRollUpdate);
+
+                jsonRoll.OrganizationId = Int64.Parse(Constants.Plant2Id); ;
+                jsonRoll.WorkOrder = cmbWorkOrders.Text; ;
+                jsonRoll.Roll = roll;
+                jsonRoll.Net = net;
+
+
+                string jsonSerialized = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
+
+                Task<string> putWeightRoll = APIService.PutApexAsync(String.Format(EndPoints.WeightRolls, cmbWorkOrders.Text, roll, Constants.Plant2Id), jsonSerialized);
+                string response = await putWeightRoll;
+
+                if (!string.IsNullOrEmpty(response))
+                {
+                    dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
+                    Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
+                }
+                else
+                {
+                    Console.WriteLine($"Sin respuesta al actualizar rollo [{DateService.Today()}]", Color.Red);
+                }
             }
             else
             {
-                Console.WriteLine($"Sin respuesta al actualizar rollo [{DateService.Today()}]", Color.Red);
+                NotifierController.Warning("Sin conexión a internet");
+                DialogResult result = MessageBox.Show("Verificar la conexión internet", "Sin Internet", MessageBoxButtons.OK, MessageBoxIcon.Question);
+
+                if (result == DialogResult.OK)
+                {
+                    UpdateRollApex(roll, net);
+                }
+                else
+                {
+                    UpdateRollApex(roll, net);
+                }
             }
         }
-
         #endregion
     }
 }
