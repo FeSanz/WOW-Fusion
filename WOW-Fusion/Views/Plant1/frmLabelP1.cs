@@ -386,41 +386,51 @@ namespace WOW_Fusion
                     FillLabel();
                 }
 
+                txtTotalPrint.Enabled = string.IsNullOrEmpty(lblOutputQuantity.Text) ? false : true;
+
                 //Validar activación de boton de impresion
-                if (!string.IsNullOrEmpty(cmbWorkOrders.Text) && !string.IsNullOrEmpty(lblResourceName.Text) && !string.IsNullOrEmpty(lblLabelName.Text) &&
-                     lastPagePrinted < int.Parse(lbLabelQuantity.Text))
+                if (!string.IsNullOrEmpty(cmbWorkOrders.Text) && !string.IsNullOrEmpty(lblResourceName.Text) && !string.IsNullOrEmpty(lblLabelName.Text))
                 {
-                    txtTotalPrint.Enabled = string.IsNullOrEmpty(lblOutputQuantity.Text) ? false : true;
-                    
-                    if (lblAkaOrder.Text.Equals("NA") && _akaCustomer.Equals("DEFAULT"))
+                    if (checkBoxReprint.Checked) //REIMPRIMIR
                     {
-                        txtTotalPrint.Enabled = checkBoxReprint.Checked ? false : true;
-                        btnPrint.Enabled = true;
+                        txtTotalPrint.Enabled = false; // Simpre bloquear en reimpresion
+                        if (lastPagePrinted > 0)
+                        {
+                            txtBoxStart.Enabled = true;
+                            txtBoxEnd.Enabled = true;
+                            btnPrint.Enabled = true;
+                        }
+                        else
+                        {
+                            txtBoxStart.Enabled = false;
+                            txtBoxEnd.Enabled = false;
+                            btnPrint.Enabled = false;
+                        }
                     }
-                    else
+                    else //IMPRIMIR
                     {
-                        btnPrint.Enabled = string.IsNullOrEmpty(lblAkaItem.Text) ? false : true;
-                        txtTotalPrint.Enabled = string.IsNullOrEmpty(lblAkaItem.Text) ? false : true;
+                        txtBoxStart.Enabled = false;
+                        txtBoxEnd.Enabled = false; //Siempre bloquerar en impresion
+
+                        if(lastPagePrinted < int.Parse(lbLabelQuantity.Text))
+                        {
+                            txtTotalPrint.Enabled = true;
+                            btnPrint.Enabled = true;
+                        }
+                        else
+                        {
+                            txtTotalPrint.Enabled = false;
+                            btnPrint.Enabled = false;
+                        }
                     }
                 }
                 else
                 {
-                    if(checkBoxReprint.Checked && lastPagePrinted > 0) 
-                    {
-                        btnPrint.Enabled= true;
-                        txtTotalPrint.Enabled = false;
+                    txtTotalPrint.Enabled = false;
+                    txtBoxStart.Enabled = false;
+                    txtBoxEnd.Enabled = false;
 
-                        txtBoxStart.Enabled = true;
-                        txtBoxEnd.Enabled = true;
-                    }
-                    else
-                    {
-                        txtTotalPrint.Enabled = false;
-                        btnPrint.Enabled = false;
-
-                        txtBoxStart.Enabled = false;
-                        txtBoxEnd.Enabled = false;
-                    }
+                    btnPrint.Enabled = false;
                 }
 
                 
@@ -501,6 +511,9 @@ namespace WOW_Fusion
                                 {
                                     cmbWorkCenters.Enabled = false;
                                     cmbWorkOrders.Enabled = false;
+                                    btnReprint.Enabled = false;
+                                    btnSettings.Enabled = false;
+                                    btnCloseReprint.Enabled = false;
                                     DisableCloseButton();
 
                                     pbWaitPrint.Visible = true;
@@ -526,18 +539,22 @@ namespace WOW_Fusion
                                     {
                                         txtBoxStart.Enabled = true;
                                         txtBoxEnd.Enabled = true;
+                                        btnPrint.Enabled = true;
 
                                         lblStatus.Text = "Error de impresión";
                                     }
 
                                     cmbWorkCenters.Enabled = true;
                                     cmbWorkOrders.Enabled = true;
+                                    btnReprint.Enabled = true;
+                                    btnSettings.Enabled = true;
+                                    btnCloseReprint.Enabled = true;
                                     EnableCloseButton();
 
                                     pbWaitPrint.Visible = false;
                                     lblStatusPrint.Font = new Font(Label.DefaultFont, FontStyle.Regular);
                                     lblStatusPrint.Text = string.Empty;
-                                    btnPrint.Enabled = true;
+                                    //btnPrint.Enabled = true;
                                     _isPrint = false;
                                 }
                                 else
@@ -573,6 +590,8 @@ namespace WOW_Fusion
                                     cmbWorkCenters.Enabled = false;
                                     cmbWorkOrders.Enabled = false;
                                     txtTotalPrint.Enabled = false;
+                                    btnReprint.Enabled = false;
+                                    btnSettings.Enabled = false;
                                     DisableCloseButton();
 
                                     pbWaitPrint.Visible = true;
@@ -596,6 +615,7 @@ namespace WOW_Fusion
                                         }
                                         else
                                         {
+                                            btnPrint.Enabled = true;
                                             NotifierController.Error("Error al imprimir");
                                         }
                                     }
@@ -604,12 +624,14 @@ namespace WOW_Fusion
                                     cmbWorkCenters.Enabled = true;
                                     cmbWorkOrders.Enabled = true;
                                     txtTotalPrint.Enabled = false;
+                                    btnReprint.Enabled = true;
+                                    btnSettings.Enabled = true;
                                     EnableCloseButton();
 
                                     pbWaitPrint.Visible = false;
                                     lblStatusPrint.Font = new Font(Label.DefaultFont, FontStyle.Regular);
                                     lblStatusPrint.Text = string.Empty;
-                                    btnPrint.Enabled = true;
+                                    //btnPrint.Enabled = true;
                                     _isPrint = false;
 
                                     Constants.LastPrint = 0;

@@ -30,7 +30,7 @@ namespace WOW_Fusion
                 }
                 else
                 {
-                    MessageBox.Show("Esta aplicacion ya esta abierta", "Aplicación en ejecución", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Esta aplicación ya esta abierta", "Aplicación en ejecución", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }

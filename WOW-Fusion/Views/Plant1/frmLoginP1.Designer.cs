@@ -185,7 +185,7 @@
             this.KeyPreview = true;
             this.Name = "frmLoginP1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmLoginP1";
+            this.Text = "Login";
             this.Load += new System.EventHandler(this.frmLoginP1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmLoginP1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();

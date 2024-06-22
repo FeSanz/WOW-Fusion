@@ -81,6 +81,7 @@
             this.picLabel = new System.Windows.Forms.PictureBox();
             this.label15 = new System.Windows.Forms.Label();
             this.lblAditional = new System.Windows.Forms.Label();
+            this.pbWaitPrint = new System.Windows.Forms.PictureBox();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblEnvironment = new System.Windows.Forms.Label();
@@ -100,20 +101,19 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.pbWaitPrint = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBoxReprint.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLabel)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWaitPrint)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWaitPrint)).BeginInit();
             this.SuspendLayout();
             // 
             // lblItemDescription
@@ -739,6 +739,20 @@
             this.lblAditional.Text = "Total (+0):";
             this.lblAditional.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // pbWaitPrint
+            // 
+            this.pbWaitPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pbWaitPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbWaitPrint.Image = global::WOW_Fusion.Properties.Resources.preloader;
+            this.pbWaitPrint.Location = new System.Drawing.Point(3, 306);
+            this.pbWaitPrint.Name = "pbWaitPrint";
+            this.pbWaitPrint.Padding = new System.Windows.Forms.Padding(10);
+            this.pbWaitPrint.Size = new System.Drawing.Size(28, 28);
+            this.pbWaitPrint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbWaitPrint.TabIndex = 128;
+            this.pbWaitPrint.TabStop = false;
+            this.pbWaitPrint.Visible = false;
+            // 
             // rtbLog
             // 
             this.rtbLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -974,20 +988,6 @@
             this.flowLayoutPanel3.Size = new System.Drawing.Size(983, 522);
             this.flowLayoutPanel3.TabIndex = 164;
             // 
-            // pbWaitPrint
-            // 
-            this.pbWaitPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pbWaitPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pbWaitPrint.Image = global::WOW_Fusion.Properties.Resources.preloader;
-            this.pbWaitPrint.Location = new System.Drawing.Point(3, 306);
-            this.pbWaitPrint.Name = "pbWaitPrint";
-            this.pbWaitPrint.Padding = new System.Windows.Forms.Padding(10);
-            this.pbWaitPrint.Size = new System.Drawing.Size(28, 28);
-            this.pbWaitPrint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbWaitPrint.TabIndex = 128;
-            this.pbWaitPrint.TabStop = false;
-            this.pbWaitPrint.Visible = false;
-            // 
             // frmLabelP1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1002,7 +1002,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "frmLabelP1";
-            this.Text = "WOW Label";
+            this.Text = "WOW Labels";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmLabelP1_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmLabelP1_FormClosed);
             this.Load += new System.EventHandler(this.frmLabelP1_Load);
@@ -1016,6 +1016,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLabel)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWaitPrint)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -1024,7 +1025,6 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbWaitPrint)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -287,7 +287,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmSettingsP1";
-            this.Text = "frmSettingsP1";
+            this.Text = "Configuración";
             this.Load += new System.EventHandler(this.frmSettingsP1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

@@ -700,7 +700,7 @@ namespace WOW_Fusion
                                 {
                                     btnReloadTare.Visible = false;
                                     btnReloadCore.Visible = false;
-                                    float rollNet = _weightFromWeighing - _previousWeight;
+                                    float rollNet = _weightFromWeighing - _previousWeight; // 
                                     float rollGross = float.Parse(lblCore.Text) + rollNet; //Core + rollo
                                     _previousWeight = _weightFromWeighing; //Reserver peso
                                     _netPallet += rollNet;
@@ -1146,8 +1146,6 @@ namespace WOW_Fusion
             {
                 AddPallet();
             }
-            
-            //----------------CreateRollApex(_rollCount, float.Parse(dgRolls.Rows[e.RowIndex].Cells["R_Net"].Value.ToString()));
 
             //Activar boton para terminar orden
             btnEndProcess.Visible = _rollCount > 0 ? true : false;
@@ -1156,8 +1154,8 @@ namespace WOW_Fusion
         //Click derecho sobre fila
         private void dgWeights_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (_rollByPallet > 0)
-            {
+            //if (_rollByPallet > 0)
+            //{
                 if (e.Button == MouseButtons.Right && e.RowIndex == dgRolls.Rows.Count - 1)
                 {
                     dgRolls.Rows[e.RowIndex].Selected = true;
@@ -1166,26 +1164,19 @@ namespace WOW_Fusion
                     MenuShipWeight.Show(dgRolls, e.Location);
                     MenuShipWeight.Show(Cursor.Position);
                 }
-            }
+            /*}
             else
             {
                 NotifierController.Warning("Acción no permitida");
-            }
+            }*/
         }
 
         private async void ReWeightMenuItem_Click(object sender, EventArgs e)
         {
             ShowWait(true, "Pesando rollo nuevamente ...");
-            if (!dgRolls.Rows[_rowSelected].IsNewRow)
+            int lastRow = dgRolls.Rows.Count - 1;
+            if (!dgRolls.Rows[lastRow].IsNewRow)
             {
-                //txtBoxWeight.Text = string.Empty;
-
-                //Restar peso a recalcular en PESO PREVIO peara evitar inconsistencias
-                _previousWeight -= float.Parse(dgRolls.CurrentRow.Cells["R_Net"].Value.ToString());
-               
-                //------------lblPalletNetKg.Text = _previousWeight.ToString("F1");
-
-                //Obtiene peso acomulado (sin tara)
                 string responseWeighing = await RadwagController.SocketWeighing("S");
 
                 if (responseWeighing == "EX")
@@ -1194,89 +1185,95 @@ namespace WOW_Fusion
                 }
                 else
                 {
-                    //La bascula solo acomula el peso neto (SIN TARA)
-                    _weightFromWeighing = float.Parse(responseWeighing);
-
-                    if (_weightFromWeighing > 0)
+                    if (float.TryParse(responseWeighing, out float _weightFromWeighing))
                     {
-                        if (_weightFromWeighing < _previousWeight)
-                        {;
-                            MessageBox.Show("Se detecto menor peso al obtenido anteriormente, verifique el producto colocado, " +
-                                            "EL PESO NO SE AGRAGARÁ A LA LISTA", "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        if (_weightFromWeighing > 0)
+                        {
+                            _previousWeight -= float.Parse(dgRolls.CurrentRow.Cells["R_Net"].Value.ToString());
+
+                            if (_weightFromWeighing < _previousWeight)
+                            {
+                                MessageBox.Show("Se detecto menor peso al obtenido anteriormente, verifique el producto colocado", "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            else
+                            {
+                                int dgPallet = int.Parse(dgRolls.Rows[lastRow].Cells["R_Pallet"].Value.ToString());
+                                int dgRoll = int.Parse(dgRolls.Rows[lastRow].Cells["R_Roll"].Value.ToString());
+                                float dgCore = float.Parse(dgRolls.Rows[lastRow].Cells["R_Core"].Value.ToString());
+                                float dgNet = float.Parse(dgRolls.Rows[lastRow].Cells["R_Net"].Value.ToString());
+                                
+                                float rollNet = _weightFromWeighing - _previousWeight;//Calcular peso rollo
+                                float rollGross = dgCore + rollNet;
+
+                                _previousWeight = _weightFromWeighing; //Reserver peso
+                                _netPallet -= dgNet; //Descontar del neto acomulado
+                                _netPallet += rollNet; //Aumentar con nuevo neto
+
+                                lblWeight.Text = rollNet.ToString("F1");
+                                lblPalletNet.Text = _netPallet.ToString("F1");
+
+                                //Actualizar fila de ROLLO
+                                string[] rowRoll = new string[] { dgPallet.ToString(), dgRoll.ToString(), dgCore.ToString("F1"), rollNet.ToString("F1"), rollGross.ToString("F1") };
+                                dgRolls.Rows[lastRow].SetValues(rowRoll);
+
+                                float palletNetSum = dgRolls.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_Net"].Value.ToString()));
+                                lblCompletedQuantity.Text = palletNetSum.ToString();
+                                CalculateAdvace(palletNetSum);
+
+                                TableLayoutPalletControl(int.Parse(lblRollOnPallet.Text), _rollByPallet, lblPalletNumber.Text);
+
+                                if (int.Parse(lblRollOnPallet.Text) > 1)
+                                {
+                                    FillLabelRoll(rowRoll);
+                                    await LabelService.PrintP2(dgRoll, "ROLL"); //Imprimir etiqueta rollo
+                                }
+
+                                //Verificar si es el ultimo rollo del pallet
+                                if (_rollByPallet == 0 && _rollCount > 0) 
+                                {
+                                    int lastPallet = dgPallets.Rows.Count - 1;
+
+                                    float dgTare = float.Parse(dgPallets.Rows[lastPallet].Cells["P_Tare"].Value.ToString());
+                                    float dgCoresPallet = float.Parse(dgPallets.Rows[lastPallet].Cells["P_Cores"].Value.ToString());
+
+                                    //Sumar neto de rollos
+                                    float newNet = dgRolls.Rows.Cast<DataGridViewRow>().Where(t => t.Cells["R_Pallet"].Value.ToString().Equals(dgPallet.ToString()))
+                                    .Sum(t => {
+                                        float value;
+                                        return float.TryParse(t.Cells["R_Net"].Value?.ToString(), out value) ? value : 0;
+                                    });
+                                    float grossPallet = dgTare + dgCoresPallet + newNet;
+
+                                    //Actualizar fila de PALLET
+                                    string[] rowPallet = new string[] { dgPallet.ToString(), dgTare.ToString("F1"), dgCoresPallet.ToString("F1"), newNet.ToString("F1"), grossPallet.ToString("F1")};
+                                    dgPallets.Rows[lastPallet].SetValues(rowPallet);
+
+                                    string rollWeights = WeightsPallet(dgPallets.Rows.Count);
+
+                                    string[] palletWeight = new string[5];
+                                    for (int i = 0; i < 5; i++)
+                                    {
+                                        palletWeight[i] = dgPallets.Rows[lastPallet].Cells[i].Value.ToString();
+                                    }
+
+                                    FillLabelPallet(palletWeight, rollWeights);
+                                    await LabelService.PrintP2(dgPallets.Rows.Count, "PALLET");
+                                    TableLayoutPalletControl(0, _rollByPallet, lblPalletNumber.Text);
+                                }
+
+                                NotifierController.Success("Rollo actualizado");
+                                //--------UpdateRollApex(_palletCount, _rollCount, rollNetKg);
+                            }
                         }
                         else
                         {
-                            //Llenar campos de pallet (NET siempre sera el peso acomulado de la bascula)
-                            /*lblPalletNetKg.Text = _weightFromWeighing.ToString("F1");
-                            lblPalletGrossKg.Text = (_weightFromWeighing + _tareWeight).ToString("F1");
-
-                            lblPalletNetLbs.Text = (_weightFromWeighing * _lbs).ToString("F1");
-                            lblPalletGrossLbs.Text = ((_weightFromWeighing + _tareWeight) * _lbs).ToString("F1");*/
-
-                            //Calcular pero neto de cada rollo (SIN TARA)
-                            float rollNetKg = _weightFromWeighing - _previousWeight;
-                            //txtBoxWeight.Text = rollNetKg.ToString("F1");
-
-                            float rollNetLbs = rollNetKg * _lbs;
-                            btnReloadTare.Visible = false;
-
-                            //Calcular pero bruto de cada rollo (con tara)
-                            float rollGrossKg = rollNetKg + _tareWeight;
-                            float rollGrossLbs = rollGrossKg * _lbs;
-
-
-                            //Agregar pesos a datagrid
-                            string[] rowRoll = new string[] { _palletCount.ToString(), _rollCount.ToString(), rollNetKg.ToString("F1"),rollGrossKg.ToString("F1"),
-                                                                        rollNetLbs.ToString("F1"), rollGrossLbs.ToString("F1") };
-
-                            //Actualizar rollo
-                            dgRolls.Rows[_rowSelected].SetValues(rowRoll);
-
-                            float palletNetSum = dgRolls.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_Net"].Value.ToString()));
-                            lblCompletedQuantity.Text = palletNetSum.ToString();
-                            CalculateAdvace(palletNetSum);
-
-                            TableLayoutPalletControl(int.Parse(lblRollOnPallet.Text), _rollByPallet, lblPalletNumber.Text);
-                            FillLabelRoll(rowRoll);
-
-                            await LabelService.PrintP2(_rollCount, "ROLL"); //Imprimir rollo
-                            UpdateRollApex(_palletCount, _rollCount, rollNetKg);
-
-                            //Verificar si es el ultimo rollo del pallet
-                            float rollPerPallet = _rollCount / _palletCount;
-
-                            if (rollPerPallet == int.Parse(lblRollOnPallet.Text) && btnGetWeight.Text.Equals("TARAR"))
-                            {
-                                string[] rowPallet = new string[] { _palletCount.ToString(), _tareWeight.ToString(), /*lblPalletNetKg.Text,
-                                                    lblPalletGrossKg.Text, lblPalletNetLbs.Text, lblPalletGrossLbs.Text*/ };
-
-                                //Actualizar pallet
-                                int latestIndexPallet = dgPallets.Rows.Count - 1;
-                                dgPallets.Rows[latestIndexPallet].SetValues(rowPallet);
-
-                                string rollWeights = WeightsPallet(latestIndexPallet + 1);
-
-                                string[] palletWeight = new string[4];
-                                for (int i = 0; i < 4; i++)
-                                {
-                                    palletWeight[i] = dgPallets.Rows[latestIndexPallet].Cells[i].Value.ToString();
-                                }
-
-                                FillLabelPallet(palletWeight, rollWeights);
-                                await LabelService.PrintP2(dgPallets.Rows.Count, "PALLET");
-                                TableLayoutPalletControl(0, _rollByPallet, lblPalletNumber.Text);
-
-                                /*UpdatePalletApex(latestIndexPallet + 1, float.Parse(dgPallets.Rows[latestIndexPallet].Cells["P_Tare"].Value.ToString()),
-                                                              float.Parse(dgPallets.Rows[latestIndexPallet].Cells["P_Net"].Value.ToString()));*/
-                            }
-                            //Reserver peso neto acomulado para sacar peso de rollo
-                            _previousWeight = _weightFromWeighing;
-                            
+                            MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg], vuelva a intentar", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                     else
                     {
-                        MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg], vuelva a intentar", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Console.WriteLine("Valor invalido obtenido de la báscula", Color.Red);
+                        NotifierController.Warning($"{responseWeighing}");
                     }
                 }
             }
@@ -1709,12 +1706,15 @@ namespace WOW_Fusion
             }
         }
 
-        private async void UpdateRollApex(int pallet, float roll, float weight)
+        private async void UpdateRollApex(int roll, float net)
         {
             dynamic jsonRoll = JObject.Parse(Payloads.weightRollUpdate);
 
-            jsonRoll.Pallet = pallet;
-            jsonRoll.Weight = weight;
+            jsonRoll.OrganizationId = Int64.Parse(Constants.Plant2Id); ;
+            jsonRoll.WorkOrder = cmbWorkOrders.Text; ;
+            jsonRoll.Roll = roll;
+            jsonRoll.Net = net;
+
 
             string jsonSerialized = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
 

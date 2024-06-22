@@ -27,12 +27,6 @@ namespace WOW_Fusion.Models
                                                         ""Weight"": 0.0
                                                     }";
 
-        /*public static string weightRoll = @"{
-                                                ""DateMark"":""0000000000"",
-                                                ""PalletId"": ""0000000000"",
-                                                ""RollNumber"": 0,
-                                                ""Weight"": 0.0
-                                            }";*/
 
         public static string weightRolls = @"{
                                                 ""DateMark"":""0000000000"",
@@ -50,9 +44,11 @@ namespace WOW_Fusion.Models
 
 
         public static string weightRollUpdate = @"{
-                                                      ""Pallet"": 0,
-                                                      ""Weight"": 0.0
-                                                  }";
+                                                    ""OrganizationId"": 0,
+                                                    ""WorkOrder"": ""000"",
+                                                    ""Roll"": 0,
+                                                    ""Net"": 0.0
+                                                }";
 
         public static string labelsPrinted = @"{
                                                     ""DateMark"":""0000000000"",
