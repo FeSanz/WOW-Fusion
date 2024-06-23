@@ -57,10 +57,10 @@ namespace WOW_Fusion
         private float _weightFromWeighing = 0.0f;
         private float _netPallet = 0.0f;
         private float _previousWeight = 0.0f;
-        private float _lbs = 2.205f;
         //Ancho y espesor
         private string strWithThickness = string.Empty;
         private string _akaCustomer = "DEFAULT";
+        private string _tradingPartnerName = " ";
 
         private int _rowSelected = 0;
 
@@ -94,7 +94,6 @@ namespace WOW_Fusion
         {
             lblEnvironment.Text = Settings.Default.FusionUrl.Contains("-test") ? "TEST" : "PROD";
             lblStatusProcess.Text = string.Empty;
-            //pop = new PopController();
 
             richTextConsole.Clear();
             Console.SetOut(new ConsoleController(richTextConsole));
@@ -427,11 +426,13 @@ namespace WOW_Fusion
                         {
                             lblAkaItem.Text = aka.TradingPartnerItemNumber.ToString();
                             lblAkaDescription.Text = aka.RelationshipDescription.ToString();
+                            _tradingPartnerName = aka.TradingPartnerName.ToString();
                         }
                         else
                         {
                             lblAkaItem.Text = string.Empty;
                             lblAkaDescription.Text = string.Empty;
+                            _tradingPartnerName = string.Empty;
                             NotifierController.Warning($"Producto no relacionado con el cliente AKA");
                         }
                     }
@@ -660,7 +661,7 @@ namespace WOW_Fusion
                 else
                 {
                     if (float.TryParse(responseWeighing, out float _weightFromWeighing))
-                    { 
+                    {
                         if (_weightFromWeighing > 0)
                         {
                             if (_weightFromWeighing == _previousWeight)
@@ -680,8 +681,8 @@ namespace WOW_Fusion
                                     {
                                         _previousWeight = _weightFromWeighing;
 
-                                        lblWeight.Text = coreWeight.ToString("F1");
-                                        lblCore.Text = coreWeight.ToString("F1");
+                                        lblWeight.Text = UnRound(coreWeight);
+                                        lblCore.Text = UnRound(coreWeight);
                                         btnGetWeight.Text = "PESAR";
                                         btnGetWeight.BackColor = Color.LimeGreen;
                                         btnReloadCore.Visible = true;
@@ -710,14 +711,14 @@ namespace WOW_Fusion
                                     _previousWeight = _weightFromWeighing; //Reserver peso
                                     _netPallet += rollNet;
 
-                                    lblWeight.Text = rollNet.ToString("F1");
-                                    lblPalletNet.Text = _netPallet.ToString("F1");
+                                    lblWeight.Text = UnRound(rollNet);
+                                    lblPalletNet.Text = UnRound(_netPallet);
                                     btnReloadTare.Visible = false;
 
                                     _rollCount++;
 
                                     //Agregar pesos a datagrid
-                                    string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), lblCore.Text, rollNet.ToString("F1"), rollGross.ToString("F1") };
+                                    string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), lblCore.Text, UnRound(rollNet), UnRound(rollGross) };
                                     int indexNewRoll = dgRolls.Rows.Add(row);
                                     dgRolls.FirstDisplayedScrollingRowIndex = indexNewRoll;
 
@@ -734,7 +735,7 @@ namespace WOW_Fusion
                         }
                         else
                         {
-                            MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show($"Peso invalido [{UnRound(_weightFromWeighing)} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                     else
@@ -767,8 +768,8 @@ namespace WOW_Fusion
                         {
                             timerSchedule.Stop();
 
-                            lblWeight.Text = float.Parse(requestTareWeight).ToString("F1");
-                            lblTare.Text = float.Parse(requestTareWeight).ToString("F1");
+                            lblWeight.Text = UnRound(float.Parse(requestTareWeight));
+                            lblTare.Text = UnRound(float.Parse(requestTareWeight));
 
                             if (!_reloadTare) // SINO presiono volver a calcular 
                             {
@@ -792,25 +793,25 @@ namespace WOW_Fusion
                         {
                             if (_tareWeight > Settings.Default.TareMaxWeight)
                             {
-                                lblWeight.Text = _tareWeight.ToString("F1");
+                                lblWeight.Text = UnRound(_tareWeight);
                                 MessageBox.Show("Peso por encima del estándar de una TARA, verifique.", "¡¡No esta pesando una TARA!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else if (_tareWeight < Settings.Default.TareMinWeight)
                             {
-                                lblWeight.Text = _tareWeight.ToString("F1");
+                                lblWeight.Text = UnRound(_tareWeight);
                                 MessageBox.Show("Peso debajo del estándar de una TARA, verifique.", "¡¡No esta pesando una TARA!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else
                             {
-                                lblWeight.Text = _tareWeight.ToString("F1");
+                                lblWeight.Text = UnRound(_tareWeight);
                                 MessageBox.Show("Peso de tara invalido, verifique.", "¡¡Precaución!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                         }
                     }
                     else
                     {
-                        lblWeight.Text = _tareWeight.ToString("F1");
-                        NotifierController.Warning($"Peso de tara invalido [{_tareWeight.ToString("F1")} kg]");
+                        lblWeight.Text = UnRound(_tareWeight);
+                        NotifierController.Warning($"Peso de tara invalido [{UnRound(_tareWeight)} kg]");
                     }
                 }
                 else
@@ -865,8 +866,8 @@ namespace WOW_Fusion
                                 _previousWeight -= float.Parse(lblCore.Text); //Quitar peso anterior de CORE al acomulado
                                 _previousWeight = _weightFromWeighing;
 
-                                lblWeight.Text = coreWeight.ToString("F1");
-                                lblCore.Text = coreWeight.ToString("F1");
+                                lblWeight.Text = UnRound(coreWeight);
+                                lblCore.Text = UnRound(coreWeight);
                                 btnGetWeight.Text = "PESAR";
                                 btnGetWeight.BackColor = Color.LimeGreen;
                             }
@@ -878,7 +879,7 @@ namespace WOW_Fusion
                     }
                     else
                     {
-                        MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"Peso invalido [{UnRound(_weightFromWeighing)} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
                 else
@@ -930,8 +931,8 @@ namespace WOW_Fusion
                                 _netPallet -= dgNet; //Descontar del neto acomulado
                                 _netPallet += rollNet; //Aumentar con nuevo neto
 
-                                lblWeight.Text = rollNet.ToString("F1");
-                                lblPalletNet.Text = _netPallet.ToString("F1");
+                                lblWeight.Text = UnRound(rollNet);
+                                lblPalletNet.Text = UnRound(_netPallet);
 
                                 //Actualizar fila de ROLLO
                                 string[] rowRoll = new string[] { dgPallet.ToString(), dgRoll.ToString(), dgCore.ToString("F1"), rollNet.ToString("F1"), rollGross.ToString("F1") };
@@ -987,7 +988,7 @@ namespace WOW_Fusion
                         }
                         else
                         {
-                            MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg], vuelva a intentar", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show($"Peso invalido [{UnRound(_weightFromWeighing)} kg], vuelva a intentar", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                     else
@@ -1387,7 +1388,7 @@ namespace WOW_Fusion
                 });
                 float grosPalletKG = float.Parse(lblPalletNet.Text)  + _tareWeight + totalCore; //Lamina + Tara + Cores
 
-                string[] rowPallet = new string[] { _palletCount.ToString(), _tareWeight.ToString("F1"), totalCore.ToString("F1"), lblPalletNet.Text, grosPalletKG.ToString("F1") };
+                string[] rowPallet = new string[] { _palletCount.ToString(), UnRound(_tareWeight), UnRound(totalCore), lblPalletNet.Text, UnRound(grosPalletKG) };
                 int indexNewPallet = dgPallets.Rows.Add(rowPallet);
                 dgPallets.FirstDisplayedScrollingRowIndex = indexNewPallet;
 
@@ -1513,15 +1514,14 @@ namespace WOW_Fusion
                 label.ROLL = string.IsNullOrEmpty(weights[1]) ? " " : "R" + weights[1].PadLeft(4, '0');
                 label.WNETKG = string.IsNullOrEmpty(weights[3]) ? " " : weights[3];
                 label.WGROSSKG = string.IsNullOrEmpty(weights[4]) ? " " : weights[4]; // tara + core + rollo 
-                label.WNETLBS = string.IsNullOrEmpty(weights[3]) ? " " : (float.Parse(weights[3]) * _lbs).ToString("F1");
-                label.WGROSSLBS = string.IsNullOrEmpty(weights[4]) ? " " : (float.Parse(weights[4]) * _lbs).ToString("F1");
+                label.WNETLBS = string.IsNullOrEmpty(weights[3]) ? " " : Pounds(float.Parse(weights[3]));
+                label.WGROSSLBS = string.IsNullOrEmpty(weights[4]) ? " " : Pounds(float.Parse(weights[4]));
                 label.WIDTHTHICKNESS = string.IsNullOrEmpty(strWithThickness) ? " " : strWithThickness;
                 //AKA Info
                 label.AKAITEM = string.IsNullOrEmpty(lblAkaItem.Text) ? "NE" : lblAkaItem.Text;
                 label.AKADESCRIPTION = string.IsNullOrEmpty(lblAkaDescription.Text) ? "NE" : lblAkaDescription.Text;
-                label.LEGALENTITY = string.IsNullOrEmpty(lblAkaCustomer.Text) ? "NE" : lblAkaCustomer.Text;
+                label.LEGALENTITY = string.IsNullOrEmpty(_tradingPartnerName) ? "NE" : _tradingPartnerName;
                 label.PURCHASEORDER = string.IsNullOrEmpty(lblAkaOrder.Text) ? " " : lblAkaOrder.Text;
-
                 
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
                 picLabelRoll.Image = System.Drawing.Image.FromStream(await LabelService.UpdateLabelLabelary(_rollCount, "ROLL"));
@@ -1544,14 +1544,14 @@ namespace WOW_Fusion
                 //AKA Info
                 label.AKAITEM = string.IsNullOrEmpty(lblAkaItem.Text) ? "NE" : lblAkaItem.Text;
                 label.AKADESCRIPTION = string.IsNullOrEmpty(lblAkaDescription.Text) ? "NE" : lblAkaDescription.Text;
-                label.LEGALENTITY = string.IsNullOrEmpty(lblAkaCustomer.Text) ? "NE" : lblAkaCustomer.Text;
+                label.LEGALENTITY = string.IsNullOrEmpty(_tradingPartnerName) ? "NE" : _tradingPartnerName;
                 label.PURCHASEORDER = string.IsNullOrEmpty(lblAkaOrder.Text) ? " " : lblAkaOrder.Text;
                 //Pallet Info
                 label.PALET = "P" + _palletCount.ToString().PadLeft(4, '0');
                 label.WNETKG = string.IsNullOrEmpty(palletWeight[3]) ? " " : palletWeight[3];
                 label.WGROSSKG = string.IsNullOrEmpty(palletWeight[4]) ? " " : palletWeight[4];
-                label.WNETLBS = string.IsNullOrEmpty(palletWeight[3]) ? " " : (float.Parse(palletWeight[3]) * _lbs).ToString("F1");
-                label.WGROSSLBS = string.IsNullOrEmpty(palletWeight[4]) ? " " : (float.Parse(palletWeight[4]) * _lbs).ToString("F1");
+                label.WNETLBS = string.IsNullOrEmpty(palletWeight[3]) ? " " : Pounds(float.Parse(palletWeight[3]));
+                label.WGROSSLBS = string.IsNullOrEmpty(palletWeight[4]) ? " " : Pounds(float.Parse(palletWeight[4]));
                 label.WEIGHTS = string.IsNullOrEmpty(rollWeights) ? " " : rollWeights;
 
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
@@ -1601,6 +1601,7 @@ namespace WOW_Fusion
             _akaCustomer = "DEFAULT";
             lblAkaOrder.Text = string.Empty;
             lblAkaCustomer.Text = string.Empty;
+            _tradingPartnerName = string.Empty;
             lblAkaItem.Text = string.Empty;
             lblAkaDescription.Text = string.Empty;
             strWithThickness = string.Empty; //Ancho y grosor
@@ -1655,6 +1656,7 @@ namespace WOW_Fusion
                 ProductionScheduling(this, EventArgs.Empty);
             }
         }
+
         private void ShowWait(bool show, string message = "")
         {
             lblStatusProcess.ForeColor = Color.Black;
@@ -1699,6 +1701,17 @@ namespace WOW_Fusion
                     }
                 }
             }
+        }
+
+        private string Pounds(float kilo)
+        {
+            float conversion = kilo * 2.20462f;
+            return (Math.Truncate(conversion * 10) / 10).ToString("0.0");
+        }
+
+        private string UnRound(float quantity)
+        {
+            return (Math.Truncate(quantity * 10) / 10).ToString("0.0");
         }
 
         private void flowLayoutMain_SizeChanged(object sender, EventArgs e)
