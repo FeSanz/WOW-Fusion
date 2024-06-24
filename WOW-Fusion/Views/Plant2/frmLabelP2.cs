@@ -29,6 +29,7 @@ using Google.Api.Gax;
 using System.Data.SqlClient;
 using static Google.Apis.Requests.BatchRequest;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace WOW_Fusion
 {
@@ -71,8 +72,14 @@ namespace WOW_Fusion
         private bool _isPalletStart = false;
         private bool _endWeight = false;
         private bool _completedHistory = false;
-
+        
         private bool _reloadTare = false;
+
+        //APEX Flags
+        private string _lastApexCreate = string.Empty;
+        private bool _apexCreated = false;
+        private string _lastApexUpdate = string.Empty;
+        private bool _apexUpdated = false;
 
         //JObjets response
         private dynamic shifts = null;
@@ -321,6 +328,14 @@ namespace WOW_Fusion
         private void SelectedIndexChangedWorkOrders(object sender, EventArgs e)
         {
             ShowWait(false);
+
+            lblLabelName.Text = string.Empty;
+            lblAkaOrder.Text = string.Empty;
+            lblAkaCustomer.Text = string.Empty;
+            _tradingPartnerName = string.Empty;
+            lblAkaItem.Text = string.Empty;
+            lblAkaDescription.Text = string.Empty;
+
             WorkOrderUIFill(cmbWorkOrders.SelectedItem.ToString());
         }
 
@@ -329,7 +344,6 @@ namespace WOW_Fusion
         {
             cmbWorkOrders.Enabled = false;
             ShowWait(true, "Cargando datos ...");
-
             try
             {
                 //♥ Consultar WORKORDER ♥
@@ -363,7 +377,8 @@ namespace WOW_Fusion
 
                 lblItemNumber.Text = wo.ItemNumber.ToString();
                 lblItemDescription.Text = wo.Description.ToString();
-                lblItemDescriptionEnglish.Text = TranslateService.Translate(lblItemDescription.Text.ToString());
+                lblItemDescriptionEnglish.Text = lblItemDescription.Text.Contains("PET CRIST") ? wo.Description.ToString().Replace("PET CRIST", "PET SHEET CRIST") : 
+                                                 TranslateService.Translate(lblItemDescription.Text.ToString());
 
                 WithThickness();//Obtener espesor y ancho productos PCR
 
@@ -501,10 +516,18 @@ namespace WOW_Fusion
                 }
 
                 //Order completada
-                if (float.Parse(lblCompletedQuantity.Text) >= float.Parse(lblPrimaryProductQuantity.Text))
+                if (dgRolls.Rows.Count > 0)
                 {
-                    NotifierController.Warning("Orden completada");
-                    btnGetWeight.Enabled = false;
+                    if(int.Parse(lblPalletTotal.Text) * int.Parse(lblRollOnPallet.Text) == dgRolls.Rows.Count)
+                    {
+                        NotifierController.Warning("Orden completada");
+                        btnGetWeight.Enabled = false;
+
+                        if (float.Parse(lblCompletedQuantity.Text) > float.Parse(lblPrimaryProductQuantity.Text))
+                        {
+                            Console.WriteLine($"Pesaje [{lblCompletedQuantity.Text} kg] excede la cantidad programada a producir [{lblPrimaryProductQuantity.Text} kg]", Color.Red);
+                        }
+                    }
                 }
 
             }
@@ -681,8 +704,8 @@ namespace WOW_Fusion
                                     {
                                         _previousWeight = _weightFromWeighing;
 
-                                        lblWeight.Text = UnRound(coreWeight);
-                                        lblCore.Text = UnRound(coreWeight);
+                                        lblWeight.Text = coreWeight.ToString("F1");
+                                        lblCore.Text = coreWeight.ToString("F1");
                                         btnGetWeight.Text = "PESAR";
                                         btnGetWeight.BackColor = Color.LimeGreen;
                                         btnReloadCore.Visible = true;
@@ -711,14 +734,14 @@ namespace WOW_Fusion
                                     _previousWeight = _weightFromWeighing; //Reserver peso
                                     _netPallet += rollNet;
 
-                                    lblWeight.Text = UnRound(rollNet);
-                                    lblPalletNet.Text = UnRound(_netPallet);
+                                    lblWeight.Text = rollNet.ToString("F1");
+                                    lblPalletNet.Text = _netPallet.ToString("F1");
                                     btnReloadTare.Visible = false;
 
                                     _rollCount++;
 
                                     //Agregar pesos a datagrid
-                                    string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), lblCore.Text, UnRound(rollNet), UnRound(rollGross) };
+                                    string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), lblCore.Text, rollNet.ToString("F1"), rollGross.ToString("F1") };
                                     int indexNewRoll = dgRolls.Rows.Add(row);
                                     dgRolls.FirstDisplayedScrollingRowIndex = indexNewRoll;
 
@@ -735,7 +758,7 @@ namespace WOW_Fusion
                         }
                         else
                         {
-                            MessageBox.Show($"Peso invalido [{UnRound(_weightFromWeighing)} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                     else
@@ -767,9 +790,8 @@ namespace WOW_Fusion
                         if (_tareWeight >= Settings.Default.TareMinWeight && _tareWeight <= Settings.Default.TareMaxWeight)
                         {
                             timerSchedule.Stop();
-
-                            lblWeight.Text = UnRound(float.Parse(requestTareWeight));
-                            lblTare.Text = UnRound(float.Parse(requestTareWeight));
+                            lblWeight.Text = float.Parse(requestTareWeight).ToString("F1");
+                            lblTare.Text = float.Parse(requestTareWeight).ToString("F1");
 
                             if (!_reloadTare) // SINO presiono volver a calcular 
                             {
@@ -793,25 +815,25 @@ namespace WOW_Fusion
                         {
                             if (_tareWeight > Settings.Default.TareMaxWeight)
                             {
-                                lblWeight.Text = UnRound(_tareWeight);
+                                lblWeight.Text = _tareWeight.ToString("F1");
                                 MessageBox.Show("Peso por encima del estándar de una TARA, verifique.", "¡¡No esta pesando una TARA!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else if (_tareWeight < Settings.Default.TareMinWeight)
                             {
-                                lblWeight.Text = UnRound(_tareWeight);
+                                lblWeight.Text = _tareWeight.ToString("F1");
                                 MessageBox.Show("Peso debajo del estándar de una TARA, verifique.", "¡¡No esta pesando una TARA!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else
                             {
-                                lblWeight.Text = UnRound(_tareWeight);
+                                lblWeight.Text = _tareWeight.ToString("F1");
                                 MessageBox.Show("Peso de tara invalido, verifique.", "¡¡Precaución!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                         }
                     }
                     else
                     {
-                        lblWeight.Text = UnRound(_tareWeight);
-                        NotifierController.Warning($"Peso de tara invalido [{UnRound(_tareWeight)} kg]");
+                        lblWeight.Text = _tareWeight.ToString("F1");
+                        NotifierController.Warning($"Peso de tara invalido [{_tareWeight.ToString("F1")} kg]");
                     }
                 }
                 else
@@ -866,8 +888,8 @@ namespace WOW_Fusion
                                 _previousWeight -= float.Parse(lblCore.Text); //Quitar peso anterior de CORE al acomulado
                                 _previousWeight = _weightFromWeighing;
 
-                                lblWeight.Text = UnRound(coreWeight);
-                                lblCore.Text = UnRound(coreWeight);
+                                lblWeight.Text = coreWeight.ToString("F1");
+                                lblCore.Text = coreWeight.ToString("F1");
                                 btnGetWeight.Text = "PESAR";
                                 btnGetWeight.BackColor = Color.LimeGreen;
                             }
@@ -879,7 +901,7 @@ namespace WOW_Fusion
                     }
                     else
                     {
-                        MessageBox.Show($"Peso invalido [{UnRound(_weightFromWeighing)} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
                 else
@@ -931,8 +953,8 @@ namespace WOW_Fusion
                                 _netPallet -= dgNet; //Descontar del neto acomulado
                                 _netPallet += rollNet; //Aumentar con nuevo neto
 
-                                lblWeight.Text = UnRound(rollNet);
-                                lblPalletNet.Text = UnRound(_netPallet);
+                                lblWeight.Text = rollNet.ToString("F1");
+                                lblPalletNet.Text = _netPallet.ToString("F1");
 
                                 //Actualizar fila de ROLLO
                                 string[] rowRoll = new string[] { dgPallet.ToString(), dgRoll.ToString(), dgCore.ToString("F1"), rollNet.ToString("F1"), rollGross.ToString("F1") };
@@ -988,7 +1010,7 @@ namespace WOW_Fusion
                         }
                         else
                         {
-                            MessageBox.Show($"Peso invalido [{UnRound(_weightFromWeighing)} kg], vuelva a intentar", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg], vuelva a intentar", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                     else
@@ -1070,6 +1092,7 @@ namespace WOW_Fusion
             {
                 _endWeight = true;
                 //AddPallet();
+                ClearAll();
             }
         }
         #endregion
@@ -1388,7 +1411,7 @@ namespace WOW_Fusion
                 });
                 float grosPalletKG = float.Parse(lblPalletNet.Text)  + _tareWeight + totalCore; //Lamina + Tara + Cores
 
-                string[] rowPallet = new string[] { _palletCount.ToString(), UnRound(_tareWeight), UnRound(totalCore), lblPalletNet.Text, UnRound(grosPalletKG) };
+                string[] rowPallet = new string[] { _palletCount.ToString(), _tareWeight.ToString("F1"), totalCore.ToString("F1"), lblPalletNet.Text, grosPalletKG.ToString("F1") };
                 int indexNewPallet = dgPallets.Rows.Add(rowPallet);
                 dgPallets.FirstDisplayedScrollingRowIndex = indexNewPallet;
 
@@ -1651,6 +1674,10 @@ namespace WOW_Fusion
 
             _tareWeight = 0;
 
+            //APEX Flags
+            _apexCreated = false;
+            _apexUpdated = false;
+
             if (lblMode.Text.Equals("Auto."))
             {
                 ProductionScheduling(this, EventArgs.Empty);
@@ -1784,7 +1811,7 @@ namespace WOW_Fusion
         #region APEX
         private async void CreateRollApex()
         {
-            if (AppController.CheckInternetConnection())
+            if (!_apexCreated)
             {
                 dynamic jsonRoll = JObject.Parse(Payloads.weightRolls);
                 jsonRoll.DateMark = DateService.EpochTime();
@@ -1799,15 +1826,35 @@ namespace WOW_Fusion
                 jsonRoll.Net = lblWeight.Text;
                 jsonRoll.Shift = lblShift.Text;
 
-                string jsonSerialized = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
+                _lastApexCreate = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
+                _apexCreated = true;
+            }
 
-                Task<string> postWeightRoll = APIService.PostApexAsync(EndPoints.WeightRolls, jsonSerialized);
+            if (AppController.CheckInternetConnection())
+            {
+                Task<string> postWeightRoll = APIService.PostApexAsync(EndPoints.WeightRolls, _lastApexCreate);
                 string response = await postWeightRoll;
 
                 if (!string.IsNullOrEmpty(response))
                 {
                     dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
-                    Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
+                    if (responsePayload.ErrorsExistFlag.ToString() == "false")
+                    {
+                        Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
+                        _apexCreated = false;
+                    }
+                    else
+                    {
+                        DialogResult result = MessageBox.Show($"{responsePayload.Message}, vuelva a reintentar", "[APEX] Registro fallido", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (result == DialogResult.OK)
+                        {
+                            CreateRollApex();
+                        }
+                        else
+                        {
+                            CreateRollApex();
+                        }
+                    }
                 }
                 else
                 {
@@ -1817,7 +1864,7 @@ namespace WOW_Fusion
             else
             {
                 NotifierController.Warning("Sin conexión a internet");
-                DialogResult result = MessageBox.Show("Verificar la conexión internet", "Sin Internet", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show("Verificar la conexión internet", "Sin Internet", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 if (result == DialogResult.OK)
                 {
@@ -1832,7 +1879,7 @@ namespace WOW_Fusion
 
         private async void UpdateRollApex(int roll, float net)
         {
-            if (AppController.CheckInternetConnection())
+            if (!_apexUpdated)
             {
                 dynamic jsonRoll = JObject.Parse(Payloads.weightRollUpdate);
 
@@ -1841,16 +1888,35 @@ namespace WOW_Fusion
                 jsonRoll.Roll = roll;
                 jsonRoll.Net = net;
 
-
-                string jsonSerialized = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
-
-                Task<string> putWeightRoll = APIService.PutApexAsync(String.Format(EndPoints.WeightRolls, cmbWorkOrders.Text, roll, Constants.Plant2Id), jsonSerialized);
+                _lastApexUpdate = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
+                _apexUpdated = true;
+            }
+                
+            if (AppController.CheckInternetConnection())
+            {
+                Task<string> putWeightRoll = APIService.PutApexAsync(String.Format(EndPoints.WeightRolls, cmbWorkOrders.Text, roll, Constants.Plant2Id), _lastApexUpdate);
                 string response = await putWeightRoll;
 
                 if (!string.IsNullOrEmpty(response))
                 {
                     dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
-                    Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
+                    if (responsePayload.ErrorsExistFlag.ToString() == "false")
+                    {
+                        Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
+                        _apexUpdated = false;
+                    }
+                    else
+                    {
+                        DialogResult result = MessageBox.Show($"{responsePayload.Message}, vuelva a reintentar", "[APEX] Actualización fallida", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (result == DialogResult.OK)
+                        {
+                            UpdateRollApex(roll, net);
+                        }
+                        else
+                        {
+                            UpdateRollApex(roll, net);
+                        }
+                    }
                 }
                 else
                 {
