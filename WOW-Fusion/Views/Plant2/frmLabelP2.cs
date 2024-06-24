@@ -336,6 +336,11 @@ namespace WOW_Fusion
             lblAkaItem.Text = string.Empty;
             lblAkaDescription.Text = string.Empty;
 
+            lblStdRoll.Text = string.Empty;
+            lblStdPallet.Text = string.Empty;
+            lblRollOnPallet.Text = string.Empty;
+            lblPalletTotal.Text = string.Empty;
+
             WorkOrderUIFill(cmbWorkOrders.SelectedItem.ToString());
         }
 
@@ -689,11 +694,11 @@ namespace WOW_Fusion
                         {
                             if (_weightFromWeighing == _previousWeight)
                             {
-                                MessageBox.Show("Pesaje no ha cambiado, verifique.", "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show("Pesaje no ha cambiado, verifique.", "¡Precaucion!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else if (_weightFromWeighing < _previousWeight)
                             {
-                                MessageBox.Show("Peso menor al obtenido anteriormente, verifique.", "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show("Peso menor al obtenido anteriormente, verifique.", "¡Precaucion!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else
                             {
@@ -712,7 +717,7 @@ namespace WOW_Fusion
                                     }
                                     else
                                     {
-                                        MessageBox.Show("Peso por encima del estándar de un CORE, verifique.", "¡¡No esta pesando un CORE!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        MessageBox.Show("Peso por encima del estándar de un CORE, verifique.", "¡No esta pesando un CORE!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     }
 
                                     //Registrar pallet en DB APEX
@@ -816,17 +821,17 @@ namespace WOW_Fusion
                             if (_tareWeight > Settings.Default.TareMaxWeight)
                             {
                                 lblWeight.Text = _tareWeight.ToString("F1");
-                                MessageBox.Show("Peso por encima del estándar de una TARA, verifique.", "¡¡No esta pesando una TARA!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show("Peso por encima del estándar de una TARA, verifique.", "¡No esta pesando una TARA!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else if (_tareWeight < Settings.Default.TareMinWeight)
                             {
                                 lblWeight.Text = _tareWeight.ToString("F1");
-                                MessageBox.Show("Peso debajo del estándar de una TARA, verifique.", "¡¡No esta pesando una TARA!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show("Peso debajo del estándar de una TARA, verifique.", "¡No esta pesando una TARA!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else
                             {
                                 lblWeight.Text = _tareWeight.ToString("F1");
-                                MessageBox.Show("Peso de tara invalido, verifique.", "¡¡Precaución!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show("Peso de tara invalido, verifique.", "¡Precaución!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                         }
                     }
@@ -936,7 +941,7 @@ namespace WOW_Fusion
                             float dgNet = float.Parse(dgRolls.Rows[lastRow].Cells["R_Net"].Value.ToString());
                             if (_weightFromWeighing < (_previousWeight - dgNet))
                             {
-                                MessageBox.Show("Se detecto menor peso al obtenido anteriormente, verifique el producto colocado", "¡¡Precaucion!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show("Se detecto menor peso al obtenido anteriormente, verifique el producto colocado", "¡Precaucion!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                             else
                             {

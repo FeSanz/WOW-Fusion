@@ -1036,7 +1036,7 @@
             // 
             this.lblWeightUOMRoll.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblWeightUOMRoll.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblWeightUOMRoll.Location = new System.Drawing.Point(72, 125);
+            this.lblWeightUOMRoll.Location = new System.Drawing.Point(75, 125);
             this.lblWeightUOMRoll.Name = "lblWeightUOMRoll";
             this.lblWeightUOMRoll.Size = new System.Drawing.Size(30, 15);
             this.lblWeightUOMRoll.TabIndex = 174;
