@@ -58,6 +58,7 @@ namespace WOW_Fusion
                                                 ""AKADESCRIPTION"": """",
                                                 ""LEGALENTITY"": """",
                                                 ""PURCHASEORDER"": """",
+                                                ""PONUM"": """",
                                                 ""ADDRESS"": """",
                                                 ""EMAIL"": """",
                                                 ""UPCA"": """"

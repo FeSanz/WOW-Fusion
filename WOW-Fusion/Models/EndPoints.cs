@@ -44,7 +44,7 @@ namespace WOW_Fusion.Models
                                                     "&q=WorkCenterId={0}";
 
         public static string SalesOrders = Settings.Default.FusionUrl + "/salesOrdersForOrderHub?" + Constants.ParamsGet +
-                                                    "&fields=BuyingPartyId,BuyingPartyName,BuyingPartyNumber" +
+                                                    "&fields=BuyingPartyId,BuyingPartyName,BuyingPartyNumber,CustomerPONumber" +
                                                     "&q=OrderNumber='{0}' and BusinessUnitId={1}";
 
         //Endpoints Manufactura Discreta
@@ -137,5 +137,9 @@ namespace WOW_Fusion.Models
                                                 "&fields=OrderNumber,POHeaderId,SoldToLegalEntity,Buyer,BuyerId,Supplier,SupplierSite,ProcurementBU,BillToLocation;" +
                                                 "lines:POLineId,LineNumber,StatusCode,LineType,ItemId,Item,Description,UOMCode,UOM,Quantity" +
                                                 "&q=OrderNumber='{0}'";
+
+        public static string ProductionResourcesP3 = Settings.Default.FusionUrl + "/productionResources?" + Constants.ParamsGet +
+                                                        "&fields=ResourceId,ResourceCode,ResourceName" +
+                                                        "&q=OrganizationId={0} and ResourceType='EQUIPMENT' and ResourceCode like 'MF-%'";
     }
 }

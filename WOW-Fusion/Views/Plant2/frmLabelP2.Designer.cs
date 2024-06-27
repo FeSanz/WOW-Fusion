@@ -102,8 +102,8 @@
             this.label31 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
-            this.lblAkaCustomer = new System.Windows.Forms.Label();
-            this.lblAkaOrder = new System.Windows.Forms.Label();
+            this.lblAkaCustomerNumber = new System.Windows.Forms.Label();
+            this.lblAkaSaleOrder = new System.Windows.Forms.Label();
             this.groupBoxWeight = new System.Windows.Forms.GroupBox();
             this.btnReloadCore = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
@@ -155,6 +155,9 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.lblStatusProcess = new System.Windows.Forms.Label();
             this.pbWaitProcess = new System.Windows.Forms.PictureBox();
+            this.lblAkaCustomerName = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lblAkaCustomerPO = new System.Windows.Forms.Label();
             this.groupBoxProd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBoxRoll.SuspendLayout();
@@ -588,9 +591,9 @@
             this.lblLabelName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblLabelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLabelName.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblLabelName.Location = new System.Drawing.Point(221, 25);
+            this.lblLabelName.Location = new System.Drawing.Point(16, 24);
             this.lblLabelName.Name = "lblLabelName";
-            this.lblLabelName.Size = new System.Drawing.Size(196, 15);
+            this.lblLabelName.Size = new System.Drawing.Size(195, 15);
             this.lblLabelName.TabIndex = 134;
             this.lblLabelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -599,7 +602,7 @@
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label19.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label19.Location = new System.Drawing.Point(296, 10);
+            this.label19.Location = new System.Drawing.Point(91, 10);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(46, 13);
             this.label19.TabIndex = 73;
@@ -731,6 +734,9 @@
             // 
             // groupBoxAka
             // 
+            this.groupBoxAka.Controls.Add(this.label6);
+            this.groupBoxAka.Controls.Add(this.lblAkaCustomerPO);
+            this.groupBoxAka.Controls.Add(this.lblAkaCustomerName);
             this.groupBoxAka.Controls.Add(this.lblLabelName);
             this.groupBoxAka.Controls.Add(this.lblAkaItem);
             this.groupBoxAka.Controls.Add(this.label19);
@@ -739,8 +745,8 @@
             this.groupBoxAka.Controls.Add(this.label31);
             this.groupBoxAka.Controls.Add(this.label32);
             this.groupBoxAka.Controls.Add(this.label33);
-            this.groupBoxAka.Controls.Add(this.lblAkaCustomer);
-            this.groupBoxAka.Controls.Add(this.lblAkaOrder);
+            this.groupBoxAka.Controls.Add(this.lblAkaCustomerNumber);
+            this.groupBoxAka.Controls.Add(this.lblAkaSaleOrder);
             this.groupBoxAka.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxAka.Location = new System.Drawing.Point(3, 284);
             this.groupBoxAka.Name = "groupBoxAka";
@@ -809,32 +815,32 @@
             this.label33.AutoSize = true;
             this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label33.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label33.Location = new System.Drawing.Point(96, 8);
+            this.label33.Location = new System.Drawing.Point(248, 9);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(36, 13);
+            this.label33.Size = new System.Drawing.Size(40, 13);
             this.label33.TabIndex = 127;
-            this.label33.Text = "Orden";
+            this.label33.Text = "Pedido";
             this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblAkaCustomer
+            // lblAkaCustomerNumber
             // 
-            this.lblAkaCustomer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblAkaCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAkaCustomer.Location = new System.Drawing.Point(16, 56);
-            this.lblAkaCustomer.Name = "lblAkaCustomer";
-            this.lblAkaCustomer.Size = new System.Drawing.Size(401, 15);
-            this.lblAkaCustomer.TabIndex = 7;
-            this.lblAkaCustomer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblAkaCustomerNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAkaCustomerNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAkaCustomerNumber.Location = new System.Drawing.Point(16, 56);
+            this.lblAkaCustomerNumber.Name = "lblAkaCustomerNumber";
+            this.lblAkaCustomerNumber.Size = new System.Drawing.Size(79, 15);
+            this.lblAkaCustomerNumber.TabIndex = 7;
+            this.lblAkaCustomerNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblAkaOrder
+            // lblAkaSaleOrder
             // 
-            this.lblAkaOrder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblAkaOrder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAkaOrder.Location = new System.Drawing.Point(16, 25);
-            this.lblAkaOrder.Name = "lblAkaOrder";
-            this.lblAkaOrder.Size = new System.Drawing.Size(196, 15);
-            this.lblAkaOrder.TabIndex = 6;
-            this.lblAkaOrder.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblAkaSaleOrder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAkaSaleOrder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAkaSaleOrder.Location = new System.Drawing.Point(221, 24);
+            this.lblAkaSaleOrder.Name = "lblAkaSaleOrder";
+            this.lblAkaSaleOrder.Size = new System.Drawing.Size(94, 15);
+            this.lblAkaSaleOrder.TabIndex = 6;
+            this.lblAkaSaleOrder.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBoxWeight
             // 
@@ -1567,6 +1573,39 @@
             this.pbWaitProcess.TabStop = false;
             this.pbWaitProcess.Visible = false;
             // 
+            // lblAkaCustomerName
+            // 
+            this.lblAkaCustomerName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAkaCustomerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAkaCustomerName.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblAkaCustomerName.Location = new System.Drawing.Point(101, 56);
+            this.lblAkaCustomerName.Name = "lblAkaCustomerName";
+            this.lblAkaCustomerName.Size = new System.Drawing.Size(317, 15);
+            this.lblAkaCustomerName.TabIndex = 135;
+            this.lblAkaCustomerName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label6.Location = new System.Drawing.Point(360, 9);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(22, 13);
+            this.label6.TabIndex = 137;
+            this.label6.Text = "OC";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblAkaCustomerPO
+            // 
+            this.lblAkaCustomerPO.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAkaCustomerPO.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAkaCustomerPO.Location = new System.Drawing.Point(324, 24);
+            this.lblAkaCustomerPO.Name = "lblAkaCustomerPO";
+            this.lblAkaCustomerPO.Size = new System.Drawing.Size(94, 15);
+            this.lblAkaCustomerPO.TabIndex = 136;
+            this.lblAkaCustomerPO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // frmLabelP2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1663,8 +1702,8 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.Label lblAkaCustomer;
-        private System.Windows.Forms.Label lblAkaOrder;
+        private System.Windows.Forms.Label lblAkaCustomerNumber;
+        private System.Windows.Forms.Label lblAkaSaleOrder;
         private System.Windows.Forms.GroupBox groupBoxWeight;
         private System.Windows.Forms.TableLayoutPanel tabLayoutPallet;
         private System.Windows.Forms.DataGridView dgPallets;
@@ -1726,5 +1765,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn P_Net;
         private System.Windows.Forms.DataGridViewTextBoxColumn P_Gross;
         private System.Windows.Forms.Button btnReloadCore;
+        private System.Windows.Forms.Label lblAkaCustomerName;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblAkaCustomerPO;
     }
 }

@@ -243,7 +243,7 @@ namespace WOW_Fusion.Views.Plant3
             frmLabelP3 frmLabelP3 = Application.OpenForms.OfType<frmLabelP3>().FirstOrDefault();
             if (frmLabelP3 != null)
             {
-                frmLabelP3.InitializeFusionData();
+                //frmLabelP3.InitializeFusionData();
             }
         }
 

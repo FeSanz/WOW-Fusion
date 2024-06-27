@@ -38,9 +38,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLabelP3));
-            this.label6 = new System.Windows.Forms.Label();
-            this.lblPalletId = new System.Windows.Forms.Label();
-            this.flowLayoutMain = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBoxProd = new System.Windows.Forms.GroupBox();
             this.lblEnvironment = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -65,97 +62,63 @@
             this.lblWOStatus = new System.Windows.Forms.Label();
             this.lblAdvance = new System.Windows.Forms.Label();
             this.groupBoxWeight = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.tabLayoutPallet = new System.Windows.Forms.TableLayoutPanel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.btnReloadTare = new System.Windows.Forms.Button();
-            this.lblPalletGrossKg = new System.Windows.Forms.Label();
-            this.lblPalletNetKg = new System.Windows.Forms.Label();
+            this.txtScannerInput = new System.Windows.Forms.TextBox();
+            this.lblWeightUOMPallet = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lblTare = new System.Windows.Forms.Label();
+            this.lblBag = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.tabLayoutPallet = new System.Windows.Forms.TableLayoutPanel();
+            this.label28 = new System.Windows.Forms.Label();
+            this.lblPalletTotal = new System.Windows.Forms.Label();
+            this.lblStdSack = new System.Windows.Forms.Label();
             this.lblSackNumber = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.dgSacks = new System.Windows.Forms.DataGridView();
-            this.S_Sack = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.S_Number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.S_Tare = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.S_Sack = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.S_Net = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.S_Gross = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.gbLabelSack = new System.Windows.Forms.GroupBox();
-            this.picLabelSack = new System.Windows.Forms.PictureBox();
-            this.lblShift = new System.Windows.Forms.Label();
-            this.lblResourceCode = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.lblLocationCode = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.txtBoxWeight = new System.Windows.Forms.TextBox();
+            this.lblWeight = new System.Windows.Forms.Label();
             this.btnGetWeight = new System.Windows.Forms.Button();
             this.TipStatusWO = new System.Windows.Forms.ToolTip(this.components);
             this.richTextConsole = new System.Windows.Forms.RichTextBox();
             this.timerSchedule = new System.Windows.Forms.Timer(this.components);
             this.timerShift = new System.Windows.Forms.Timer(this.components);
-            this.lblMode = new System.Windows.Forms.Label();
             this.MenuShipWeight = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.recalcularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblResourceName = new System.Windows.Forms.Label();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.cmbResources = new System.Windows.Forms.ComboBox();
             this.pbYellow = new System.Windows.Forms.PictureBox();
             this.pbRed = new System.Windows.Forms.PictureBox();
-            this.btnSwapMode = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
-            this.flowLayoutMain.SuspendLayout();
+            this.lblShift = new System.Windows.Forms.Label();
+            this.lblResourceCode = new System.Windows.Forms.Label();
+            this.lblWorkCenterName = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lblStatusProcess = new System.Windows.Forms.Label();
+            this.pbWaitProcess = new System.Windows.Forms.PictureBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.cmbResources = new System.Windows.Forms.ComboBox();
+            this.pbWaitResources = new System.Windows.Forms.PictureBox();
+            this.lblLocationCode = new System.Windows.Forms.Label();
             this.groupBoxProd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBoxWeight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSacks)).BeginInit();
-            this.tableLayoutPanel3.SuspendLayout();
-            this.gbLabelSack.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picLabelSack)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.MenuShipWeight.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbYellow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbRed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWaitProcess)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWaitResources)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label6
-            // 
-            this.label6.Font = new System.Drawing.Font("Century Gothic", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label6.Location = new System.Drawing.Point(20, 17);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(77, 13);
-            this.label6.TabIndex = 175;
-            this.label6.Text = "ID:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblPalletId
-            // 
-            this.lblPalletId.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPalletId.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.lblPalletId.Location = new System.Drawing.Point(6, 29);
-            this.lblPalletId.Name = "lblPalletId";
-            this.lblPalletId.Size = new System.Drawing.Size(108, 13);
-            this.lblPalletId.TabIndex = 176;
-            this.lblPalletId.Text = "*************";
-            this.lblPalletId.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // flowLayoutMain
-            // 
-            this.flowLayoutMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.flowLayoutMain.AutoScroll = true;
-            this.flowLayoutMain.Controls.Add(this.groupBoxProd);
-            this.flowLayoutMain.Controls.Add(this.groupBoxWeight);
-            this.flowLayoutMain.Location = new System.Drawing.Point(8, 74);
-            this.flowLayoutMain.Name = "flowLayoutMain";
-            this.flowLayoutMain.Size = new System.Drawing.Size(445, 636);
-            this.flowLayoutMain.TabIndex = 184;
             // 
             // groupBoxProd
             // 
@@ -182,7 +145,7 @@
             this.groupBoxProd.Controls.Add(this.lblWOStatus);
             this.groupBoxProd.Controls.Add(this.lblAdvance);
             this.groupBoxProd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxProd.Location = new System.Drawing.Point(3, 3);
+            this.groupBoxProd.Location = new System.Drawing.Point(12, 54);
             this.groupBoxProd.Name = "groupBoxProd";
             this.groupBoxProd.Size = new System.Drawing.Size(425, 245);
             this.groupBoxProd.TabIndex = 61;
@@ -193,11 +156,12 @@
             // 
             this.lblEnvironment.AutoSize = true;
             this.lblEnvironment.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEnvironment.Location = new System.Drawing.Point(13, 214);
+            this.lblEnvironment.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblEnvironment.Location = new System.Drawing.Point(13, 219);
             this.lblEnvironment.Name = "lblEnvironment";
-            this.lblEnvironment.Size = new System.Drawing.Size(28, 16);
-            this.lblEnvironment.TabIndex = 170;
-            this.lblEnvironment.Text = "ENV";
+            this.lblEnvironment.Size = new System.Drawing.Size(29, 16);
+            this.lblEnvironment.TabIndex = 176;
+            this.lblEnvironment.Text = "TEST";
             // 
             // label4
             // 
@@ -231,18 +195,17 @@
             this.btnEndProcess.TabIndex = 169;
             this.btnEndProcess.UseVisualStyleBackColor = false;
             this.btnEndProcess.Visible = false;
-            this.btnEndProcess.Click += new System.EventHandler(this.btnEndProcess_Click);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label9.Location = new System.Drawing.Point(333, 16);
+            this.label9.Location = new System.Drawing.Point(325, 16);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(35, 13);
+            this.label9.Size = new System.Drawing.Size(50, 13);
             this.label9.TabIndex = 133;
-            this.label9.Text = "REAL";
+            this.label9.Text = "AVANCE";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label18
@@ -438,50 +401,108 @@
             // 
             // groupBoxWeight
             // 
-            this.groupBoxWeight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxWeight.Controls.Add(this.label10);
-            this.groupBoxWeight.Controls.Add(this.label6);
-            this.groupBoxWeight.Controls.Add(this.lblPalletId);
-            this.groupBoxWeight.Controls.Add(this.label13);
-            this.groupBoxWeight.Controls.Add(this.tabLayoutPallet);
-            this.groupBoxWeight.Controls.Add(this.label11);
-            this.groupBoxWeight.Controls.Add(this.btnReloadTare);
-            this.groupBoxWeight.Controls.Add(this.lblPalletGrossKg);
-            this.groupBoxWeight.Controls.Add(this.lblPalletNetKg);
+            this.groupBoxWeight.Controls.Add(this.txtScannerInput);
+            this.groupBoxWeight.Controls.Add(this.lblWeightUOMPallet);
+            this.groupBoxWeight.Controls.Add(this.label29);
             this.groupBoxWeight.Controls.Add(this.label5);
             this.groupBoxWeight.Controls.Add(this.lblTare);
+            this.groupBoxWeight.Controls.Add(this.lblBag);
+            this.groupBoxWeight.Controls.Add(this.label30);
+            this.groupBoxWeight.Controls.Add(this.tabLayoutPallet);
+            this.groupBoxWeight.Controls.Add(this.label28);
+            this.groupBoxWeight.Controls.Add(this.lblPalletTotal);
+            this.groupBoxWeight.Controls.Add(this.lblStdSack);
             this.groupBoxWeight.Controls.Add(this.lblSackNumber);
             this.groupBoxWeight.Controls.Add(this.label8);
             this.groupBoxWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxWeight.Location = new System.Drawing.Point(3, 254);
+            this.groupBoxWeight.Location = new System.Drawing.Point(12, 301);
             this.groupBoxWeight.Name = "groupBoxWeight";
             this.groupBoxWeight.Size = new System.Drawing.Size(425, 283);
             this.groupBoxWeight.TabIndex = 135;
             this.groupBoxWeight.TabStop = false;
             this.groupBoxWeight.Text = "Pesaje";
             // 
-            // label10
+            // txtScannerInput
             // 
-            this.label10.Font = new System.Drawing.Font("Century Gothic", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.DarkOliveGreen;
-            this.label10.Location = new System.Drawing.Point(34, 77);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 13);
-            this.label10.TabIndex = 177;
-            this.label10.Text = "PESO KG";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtScannerInput.BackColor = System.Drawing.SystemColors.Control;
+            this.txtScannerInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtScannerInput.Cursor = System.Windows.Forms.Cursors.No;
+            this.txtScannerInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtScannerInput.Location = new System.Drawing.Point(6, 22);
+            this.txtScannerInput.Name = "txtScannerInput";
+            this.txtScannerInput.Size = new System.Drawing.Size(145, 15);
+            this.txtScannerInput.TabIndex = 207;
+            this.txtScannerInput.LostFocus += new System.EventHandler(this.txtScannerInput_LostFocus);
             // 
-            // label13
+            // lblWeightUOMPallet
             // 
-            this.label13.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label13.Location = new System.Drawing.Point(33, 195);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(51, 16);
-            this.label13.TabIndex = 107;
-            this.label13.Text = "Neto";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblWeightUOMPallet.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWeightUOMPallet.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblWeightUOMPallet.Location = new System.Drawing.Point(120, 174);
+            this.lblWeightUOMPallet.Name = "lblWeightUOMPallet";
+            this.lblWeightUOMPallet.Size = new System.Drawing.Size(35, 15);
+            this.lblWeightUOMPallet.TabIndex = 206;
+            this.lblWeightUOMPallet.Text = "kg";
+            this.lblWeightUOMPallet.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label29
+            // 
+            this.label29.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label29.Location = new System.Drawing.Point(32, 86);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(85, 17);
+            this.label29.TabIndex = 204;
+            this.label29.Text = "Saco";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            this.label5.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label5.Location = new System.Drawing.Point(32, 40);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(85, 17);
+            this.label5.TabIndex = 183;
+            this.label5.Text = "Tara";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblTare
+            // 
+            this.lblTare.BackColor = System.Drawing.Color.White;
+            this.lblTare.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblTare.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTare.ForeColor = System.Drawing.Color.ForestGreen;
+            this.lblTare.Location = new System.Drawing.Point(32, 57);
+            this.lblTare.Name = "lblTare";
+            this.lblTare.Size = new System.Drawing.Size(85, 24);
+            this.lblTare.TabIndex = 184;
+            this.lblTare.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTare.TextChanged += new System.EventHandler(this.lblTare_TextChanged);
+            // 
+            // lblBag
+            // 
+            this.lblBag.BackColor = System.Drawing.Color.White;
+            this.lblBag.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblBag.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBag.ForeColor = System.Drawing.Color.ForestGreen;
+            this.lblBag.Location = new System.Drawing.Point(32, 103);
+            this.lblBag.Name = "lblBag";
+            this.lblBag.Size = new System.Drawing.Size(85, 24);
+            this.lblBag.TabIndex = 186;
+            this.lblBag.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblBag.TextChanged += new System.EventHandler(this.lblBag_TextChanged);
+            // 
+            // label30
+            // 
+            this.label30.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label30.Location = new System.Drawing.Point(32, 196);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(85, 13);
+            this.label30.TabIndex = 198;
+            this.label30.Text = "Peso Estándar";
+            this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tabLayoutPallet
             // 
@@ -490,97 +511,60 @@
             this.tabLayoutPallet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tabLayoutPallet.ColumnCount = 1;
             this.tabLayoutPallet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.00062F));
-            this.tabLayoutPallet.Location = new System.Drawing.Point(120, 19);
+            this.tabLayoutPallet.Location = new System.Drawing.Point(175, 38);
             this.tabLayoutPallet.Name = "tabLayoutPallet";
             this.tabLayoutPallet.RowCount = 1;
             this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 245F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 245F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 245F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 245F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 245F));
-            this.tabLayoutPallet.Size = new System.Drawing.Size(275, 245);
-            this.tabLayoutPallet.TabIndex = 143;
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
+            this.tabLayoutPallet.Size = new System.Drawing.Size(220, 230);
+            this.tabLayoutPallet.TabIndex = 194;
             // 
-            // label11
+            // label28
             // 
-            this.label11.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label11.Location = new System.Drawing.Point(33, 241);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(53, 16);
-            this.label11.TabIndex = 108;
-            this.label11.Text = "Bruto";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label28.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label28.Location = new System.Drawing.Point(37, 246);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(75, 13);
+            this.label28.TabIndex = 197;
+            this.label28.Text = "Palets Meta";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnReloadTare
+            // lblPalletTotal
             // 
-            this.btnReloadTare.BackColor = System.Drawing.Color.Transparent;
-            this.btnReloadTare.BackgroundImage = global::WOW_Fusion.Properties.Resources.upload_filled;
-            this.btnReloadTare.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnReloadTare.FlatAppearance.BorderSize = 0;
-            this.btnReloadTare.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReloadTare.Location = new System.Drawing.Point(46, 45);
-            this.btnReloadTare.Name = "btnReloadTare";
-            this.btnReloadTare.Size = new System.Drawing.Size(30, 28);
-            this.btnReloadTare.TabIndex = 142;
-            this.btnReloadTare.UseVisualStyleBackColor = false;
-            this.btnReloadTare.Visible = false;
-            this.btnReloadTare.Click += new System.EventHandler(this.btnReloadTare_Click);
+            this.lblPalletTotal.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblPalletTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPalletTotal.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.lblPalletTotal.Location = new System.Drawing.Point(32, 221);
+            this.lblPalletTotal.Name = "lblPalletTotal";
+            this.lblPalletTotal.Size = new System.Drawing.Size(85, 24);
+            this.lblPalletTotal.TabIndex = 192;
+            this.lblPalletTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblPalletGrossKg
+            // lblStdSack
             // 
-            this.lblPalletGrossKg.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblPalletGrossKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPalletGrossKg.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lblPalletGrossKg.Location = new System.Drawing.Point(33, 224);
-            this.lblPalletGrossKg.Name = "lblPalletGrossKg";
-            this.lblPalletGrossKg.Size = new System.Drawing.Size(53, 18);
-            this.lblPalletGrossKg.TabIndex = 106;
-            this.lblPalletGrossKg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblPalletNetKg
-            // 
-            this.lblPalletNetKg.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblPalletNetKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPalletNetKg.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lblPalletNetKg.Location = new System.Drawing.Point(33, 178);
-            this.lblPalletNetKg.Name = "lblPalletNetKg";
-            this.lblPalletNetKg.Size = new System.Drawing.Size(53, 18);
-            this.lblPalletNetKg.TabIndex = 110;
-            this.lblPalletNetKg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label5
-            // 
-            this.label5.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label5.Location = new System.Drawing.Point(33, 114);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(51, 16);
-            this.label5.TabIndex = 111;
-            this.label5.Text = "Tara";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblTare
-            // 
-            this.lblTare.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblTare.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTare.ForeColor = System.Drawing.Color.ForestGreen;
-            this.lblTare.Location = new System.Drawing.Point(34, 95);
-            this.lblTare.Name = "lblTare";
-            this.lblTare.Size = new System.Drawing.Size(53, 18);
-            this.lblTare.TabIndex = 112;
-            this.lblTare.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblStdSack.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblStdSack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStdSack.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.lblStdSack.Location = new System.Drawing.Point(32, 171);
+            this.lblStdSack.Name = "lblStdSack";
+            this.lblStdSack.Size = new System.Drawing.Size(85, 24);
+            this.lblStdSack.TabIndex = 188;
+            this.lblStdSack.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblSackNumber
             // 
             this.lblSackNumber.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblSackNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSackNumber.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSackNumber.ForeColor = System.Drawing.Color.MediumBlue;
-            this.lblSackNumber.Location = new System.Drawing.Point(34, 134);
+            this.lblSackNumber.Location = new System.Drawing.Point(349, 13);
             this.lblSackNumber.Name = "lblSackNumber";
-            this.lblSackNumber.Size = new System.Drawing.Size(53, 18);
-            this.lblSackNumber.TabIndex = 113;
+            this.lblSackNumber.Size = new System.Drawing.Size(46, 20);
+            this.lblSackNumber.TabIndex = 185;
             this.lblSackNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label8
@@ -588,11 +572,11 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label8.Location = new System.Drawing.Point(40, 152);
+            this.label8.Location = new System.Drawing.Point(300, 15);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(35, 16);
-            this.label8.TabIndex = 114;
-            this.label8.Text = "Saco";
+            this.label8.Size = new System.Drawing.Size(49, 16);
+            this.label8.TabIndex = 187;
+            this.label8.Text = "Saco #:";
             // 
             // dgSacks
             // 
@@ -616,8 +600,9 @@
             this.dgSacks.ColumnHeadersHeight = 25;
             this.dgSacks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgSacks.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.S_Sack,
+            this.S_Number,
             this.S_Tare,
+            this.S_Sack,
             this.S_Net,
             this.S_Gross});
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -630,7 +615,7 @@
             this.dgSacks.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgSacks.EnableHeadersVisualStyles = false;
             this.dgSacks.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.dgSacks.Location = new System.Drawing.Point(3, 3);
+            this.dgSacks.Location = new System.Drawing.Point(452, 186);
             this.dgSacks.Name = "dgSacks";
             this.dgSacks.ReadOnly = true;
             this.dgSacks.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -653,21 +638,22 @@
             this.dgSacks.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgSacks.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Control;
             this.dgSacks.RowTemplate.Height = 25;
-            this.dgSacks.Size = new System.Drawing.Size(383, 325);
+            this.dgSacks.Size = new System.Drawing.Size(308, 402);
             this.dgSacks.TabIndex = 66;
-            this.dgSacks.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgWeights_CellFormatting);
-            this.dgSacks.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgRolls_RowsAdded);
+            this.dgSacks.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgSacks_CellFormatting);
+            this.dgSacks.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgSacks_CellMouseUp);
+            this.dgSacks.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgSacks_RowsAdded);
             // 
-            // S_Sack
+            // S_Number
             // 
-            this.S_Sack.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.S_Number.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.S_Sack.DefaultCellStyle = dataGridViewCellStyle3;
-            this.S_Sack.FillWeight = 101.7259F;
-            this.S_Sack.HeaderText = "Saco";
-            this.S_Sack.Name = "S_Sack";
-            this.S_Sack.ReadOnly = true;
-            this.S_Sack.Width = 40;
+            this.S_Number.DefaultCellStyle = dataGridViewCellStyle3;
+            this.S_Number.FillWeight = 101.7259F;
+            this.S_Number.HeaderText = "#";
+            this.S_Number.Name = "S_Number";
+            this.S_Number.ReadOnly = true;
+            this.S_Number.Width = 40;
             // 
             // S_Tare
             // 
@@ -675,6 +661,12 @@
             this.S_Tare.HeaderText = "Tara";
             this.S_Tare.Name = "S_Tare";
             this.S_Tare.ReadOnly = true;
+            // 
+            // S_Sack
+            // 
+            this.S_Sack.HeaderText = "Saco";
+            this.S_Sack.Name = "S_Sack";
+            this.S_Sack.ReadOnly = true;
             // 
             // S_Net
             // 
@@ -694,160 +686,34 @@
             this.S_Gross.Name = "S_Gross";
             this.S_Gross.ReadOnly = true;
             // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel3.ColumnCount = 1;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.dgSacks, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.gbLabelSack, 0, 1);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(459, 90);
-            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 62.12377F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 37.87623F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(389, 625);
-            this.tableLayoutPanel3.TabIndex = 183;
-            // 
-            // gbLabelSack
-            // 
-            this.gbLabelSack.Controls.Add(this.picLabelSack);
-            this.gbLabelSack.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbLabelSack.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbLabelSack.Location = new System.Drawing.Point(3, 391);
-            this.gbLabelSack.Name = "gbLabelSack";
-            this.gbLabelSack.Size = new System.Drawing.Size(383, 231);
-            this.gbLabelSack.TabIndex = 65;
-            this.gbLabelSack.TabStop = false;
-            this.gbLabelSack.Text = "Etiqueta";
-            // 
-            // picLabelSack
-            // 
-            this.picLabelSack.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.picLabelSack.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picLabelSack.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picLabelSack.Location = new System.Drawing.Point(3, 16);
-            this.picLabelSack.Name = "picLabelSack";
-            this.picLabelSack.Size = new System.Drawing.Size(377, 212);
-            this.picLabelSack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picLabelSack.TabIndex = 32;
-            this.picLabelSack.TabStop = false;
-            // 
-            // lblShift
-            // 
-            this.lblShift.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblShift.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblShift.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblShift.Location = new System.Drawing.Point(3, 55);
-            this.lblShift.Name = "lblShift";
-            this.lblShift.Size = new System.Drawing.Size(119, 24);
-            this.lblShift.TabIndex = 140;
-            this.lblShift.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblResourceCode
-            // 
-            this.lblResourceCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblResourceCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblResourceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResourceCode.Location = new System.Drawing.Point(3, 17);
-            this.lblResourceCode.Name = "lblResourceCode";
-            this.lblResourceCode.Size = new System.Drawing.Size(119, 21);
-            this.lblResourceCode.TabIndex = 24;
-            this.lblResourceCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label7.Location = new System.Drawing.Point(3, 38);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(119, 17);
-            this.label7.TabIndex = 141;
-            this.label7.Text = "Turno";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label20.Location = new System.Drawing.Point(128, 38);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(204, 17);
-            this.label20.TabIndex = 131;
-            this.label20.Text = "Centro de Trabajo";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label14.Location = new System.Drawing.Point(3, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(119, 17);
-            this.label14.TabIndex = 125;
-            this.label14.Text = "Código Recurso";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label2.Location = new System.Drawing.Point(128, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(204, 17);
-            this.label2.TabIndex = 126;
-            this.label2.Text = "Nombre Recurso";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblLocationCode
-            // 
-            this.lblLocationCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLocationCode.Location = new System.Drawing.Point(35, 5);
-            this.lblLocationCode.Name = "lblLocationCode";
-            this.lblLocationCode.Size = new System.Drawing.Size(166, 21);
-            this.lblLocationCode.TabIndex = 163;
-            this.lblLocationCode.Text = "...";
-            this.lblLocationCode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 78.125F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21.875F));
-            this.tableLayoutPanel1.Controls.Add(this.txtBoxWeight, 0, 0);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.99065F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.00935F));
+            this.tableLayoutPanel1.Controls.Add(this.lblWeight, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnGetWeight, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 30);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(8, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(426, 38);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(428, 45);
             this.tableLayoutPanel1.TabIndex = 181;
             // 
-            // txtBoxWeight
+            // lblWeight
             // 
-            this.txtBoxWeight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBoxWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBoxWeight.Location = new System.Drawing.Point(3, 3);
-            this.txtBoxWeight.Multiline = true;
-            this.txtBoxWeight.Name = "txtBoxWeight";
-            this.txtBoxWeight.ReadOnly = true;
-            this.txtBoxWeight.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtBoxWeight.Size = new System.Drawing.Size(326, 32);
-            this.txtBoxWeight.TabIndex = 72;
-            this.txtBoxWeight.Text = "0.0";
-            this.txtBoxWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.lblWeight.BackColor = System.Drawing.Color.White;
+            this.lblWeight.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblWeight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWeight.ForeColor = System.Drawing.Color.Black;
+            this.lblWeight.Location = new System.Drawing.Point(3, 0);
+            this.lblWeight.Name = "lblWeight";
+            this.lblWeight.Padding = new System.Windows.Forms.Padding(5);
+            this.lblWeight.Size = new System.Drawing.Size(284, 45);
+            this.lblWeight.TabIndex = 191;
+            this.lblWeight.Text = "0.0";
+            this.lblWeight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnGetWeight
             // 
@@ -855,9 +721,9 @@
             this.btnGetWeight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnGetWeight.Enabled = false;
             this.btnGetWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGetWeight.Location = new System.Drawing.Point(335, 3);
+            this.btnGetWeight.Location = new System.Drawing.Point(293, 3);
             this.btnGetWeight.Name = "btnGetWeight";
-            this.btnGetWeight.Size = new System.Drawing.Size(88, 32);
+            this.btnGetWeight.Size = new System.Drawing.Size(132, 39);
             this.btnGetWeight.TabIndex = 75;
             this.btnGetWeight.Text = "PESAR";
             this.btnGetWeight.UseVisualStyleBackColor = false;
@@ -870,10 +736,10 @@
             this.richTextConsole.BackColor = System.Drawing.SystemColors.Control;
             this.richTextConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextConsole.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextConsole.Location = new System.Drawing.Point(8, 708);
+            this.richTextConsole.Location = new System.Drawing.Point(8, 595);
             this.richTextConsole.Name = "richTextConsole";
             this.richTextConsole.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextConsole.Size = new System.Drawing.Size(840, 19);
+            this.richTextConsole.Size = new System.Drawing.Size(750, 19);
             this.richTextConsole.TabIndex = 180;
             this.richTextConsole.Text = "v 1.0";
             // 
@@ -884,18 +750,6 @@
             // timerShift
             // 
             this.timerShift.Interval = 5000;
-            // 
-            // lblMode
-            // 
-            this.lblMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMode.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.lblMode.Location = new System.Drawing.Point(800, 6);
-            this.lblMode.Name = "lblMode";
-            this.lblMode.Size = new System.Drawing.Size(42, 13);
-            this.lblMode.TabIndex = 177;
-            this.lblMode.Text = "Auto.";
-            this.lblMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MenuShipWeight
             // 
@@ -913,57 +767,12 @@
             this.recalcularToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.recalcularToolStripMenuItem.Text = "Pesar";
             // 
-            // lblResourceName
-            // 
-            this.lblResourceName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblResourceName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblResourceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResourceName.Location = new System.Drawing.Point(128, 17);
-            this.lblResourceName.Name = "lblResourceName";
-            this.lblResourceName.Size = new System.Drawing.Size(204, 21);
-            this.lblResourceName.TabIndex = 142;
-            this.lblResourceName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.5F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.5F));
-            this.tableLayoutPanel2.Controls.Add(this.cmbResources, 1, 3);
-            this.tableLayoutPanel2.Controls.Add(this.label14, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.lblShift, 0, 3);
-            this.tableLayoutPanel2.Controls.Add(this.label20, 1, 2);
-            this.tableLayoutPanel2.Controls.Add(this.lblResourceName, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.lblResourceCode, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label7, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.label2, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(459, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 4;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.72728F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.27273F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.72727F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.27273F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(335, 79);
-            this.tableLayoutPanel2.TabIndex = 185;
-            // 
-            // cmbResources
-            // 
-            this.cmbResources.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbResources.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbResources.FormattingEnabled = true;
-            this.cmbResources.Location = new System.Drawing.Point(128, 58);
-            this.cmbResources.Name = "cmbResources";
-            this.cmbResources.Size = new System.Drawing.Size(204, 21);
-            this.cmbResources.TabIndex = 186;
-            // 
             // pbYellow
             // 
             this.pbYellow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pbYellow.BackColor = System.Drawing.Color.Yellow;
             this.pbYellow.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbYellow.Location = new System.Drawing.Point(829, 67);
+            this.pbYellow.Location = new System.Drawing.Point(741, 168);
             this.pbYellow.Name = "pbYellow";
             this.pbYellow.Size = new System.Drawing.Size(15, 15);
             this.pbYellow.TabIndex = 179;
@@ -974,26 +783,11 @@
             this.pbRed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pbRed.BackColor = System.Drawing.Color.Red;
             this.pbRed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbRed.Location = new System.Drawing.Point(808, 67);
+            this.pbRed.Location = new System.Drawing.Point(720, 168);
             this.pbRed.Name = "pbRed";
             this.pbRed.Size = new System.Drawing.Size(15, 15);
             this.pbRed.TabIndex = 178;
             this.pbRed.TabStop = false;
-            // 
-            // btnSwapMode
-            // 
-            this.btnSwapMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSwapMode.BackColor = System.Drawing.Color.Transparent;
-            this.btnSwapMode.BackgroundImage = global::WOW_Fusion.Properties.Resources.swap;
-            this.btnSwapMode.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSwapMode.FlatAppearance.BorderSize = 0;
-            this.btnSwapMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSwapMode.Location = new System.Drawing.Point(807, 20);
-            this.btnSwapMode.Name = "btnSwapMode";
-            this.btnSwapMode.Size = new System.Drawing.Size(36, 37);
-            this.btnSwapMode.TabIndex = 176;
-            this.btnSwapMode.UseVisualStyleBackColor = false;
-            this.btnSwapMode.Click += new System.EventHandler(this.btnSwapMode_Click);
             // 
             // btnSettings
             // 
@@ -1002,61 +796,220 @@
             this.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSettings.FlatAppearance.BorderSize = 0;
             this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSettings.Location = new System.Drawing.Point(9, 4);
+            this.btnSettings.Location = new System.Drawing.Point(741, 8);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(20, 20);
             this.btnSettings.TabIndex = 175;
             this.btnSettings.UseVisualStyleBackColor = false;
-            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
+            // lblShift
+            // 
+            this.lblShift.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblShift.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblShift.Location = new System.Drawing.Point(220, 74);
+            this.lblShift.Name = "lblShift";
+            this.lblShift.Size = new System.Drawing.Size(69, 21);
+            this.lblShift.TabIndex = 140;
+            this.lblShift.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblResourceCode
+            // 
+            this.lblResourceCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblResourceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblResourceCode.Location = new System.Drawing.Point(220, 32);
+            this.lblResourceCode.Name = "lblResourceCode";
+            this.lblResourceCode.Size = new System.Drawing.Size(69, 21);
+            this.lblResourceCode.TabIndex = 24;
+            this.lblResourceCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblWorkCenterName
+            // 
+            this.lblWorkCenterName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblWorkCenterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWorkCenterName.Location = new System.Drawing.Point(15, 74);
+            this.lblWorkCenterName.Name = "lblWorkCenterName";
+            this.lblWorkCenterName.Size = new System.Drawing.Size(175, 21);
+            this.lblWorkCenterName.TabIndex = 129;
+            this.lblWorkCenterName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label7.Location = new System.Drawing.Point(237, 57);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 13);
+            this.label7.TabIndex = 141;
+            this.label7.Text = "Turno";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label20.Location = new System.Drawing.Point(56, 57);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(92, 13);
+            this.label20.TabIndex = 131;
+            this.label20.Text = "Centro de Trabajo";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label14.Location = new System.Drawing.Point(234, 15);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(40, 13);
+            this.label14.TabIndex = 125;
+            this.label14.Text = "Código";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label6
+            // 
+            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(859, 8);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(105, 21);
+            this.label6.TabIndex = 163;
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblStatusProcess
+            // 
+            this.lblStatusProcess.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatusProcess.ForeColor = System.Drawing.Color.Black;
+            this.lblStatusProcess.Location = new System.Drawing.Point(464, 31);
+            this.lblStatusProcess.Name = "lblStatusProcess";
+            this.lblStatusProcess.Size = new System.Drawing.Size(293, 15);
+            this.lblStatusProcess.TabIndex = 189;
+            this.lblStatusProcess.Text = "¡Bienvenido!";
+            this.lblStatusProcess.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pbWaitProcess
+            // 
+            this.pbWaitProcess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbWaitProcess.Image = global::WOW_Fusion.Properties.Resources.preloader;
+            this.pbWaitProcess.Location = new System.Drawing.Point(597, 1);
+            this.pbWaitProcess.Name = "pbWaitProcess";
+            this.pbWaitProcess.Padding = new System.Windows.Forms.Padding(10);
+            this.pbWaitProcess.Size = new System.Drawing.Size(28, 28);
+            this.pbWaitProcess.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbWaitProcess.TabIndex = 188;
+            this.pbWaitProcess.TabStop = false;
+            this.pbWaitProcess.Visible = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label14);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.lblResourceCode);
+            this.groupBox1.Controls.Add(this.lblShift);
+            this.groupBox1.Controls.Add(this.lblWorkCenterName);
+            this.groupBox1.Controls.Add(this.label20);
+            this.groupBox1.Controls.Add(this.label21);
+            this.groupBox1.Controls.Add(this.cmbResources);
+            this.groupBox1.Controls.Add(this.pbWaitResources);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(452, 54);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(308, 112);
+            this.groupBox1.TabIndex = 190;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Datos del recurso";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label21.Location = new System.Drawing.Point(79, 15);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(47, 13);
+            this.label21.TabIndex = 131;
+            this.label21.Text = "Recurso";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // cmbResources
+            // 
+            this.cmbResources.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbResources.Enabled = false;
+            this.cmbResources.FormattingEnabled = true;
+            this.cmbResources.Location = new System.Drawing.Point(15, 33);
+            this.cmbResources.Name = "cmbResources";
+            this.cmbResources.Size = new System.Drawing.Size(175, 21);
+            this.cmbResources.TabIndex = 0;
+            this.cmbResources.DropDown += new System.EventHandler(this.cmbResources_DropDown);
+            this.cmbResources.SelectedIndexChanged += new System.EventHandler(this.cmbResources_SelectedIndexChanged);
+            // 
+            // pbWaitResources
+            // 
+            this.pbWaitResources.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbWaitResources.Image = global::WOW_Fusion.Properties.Resources.preloader;
+            this.pbWaitResources.Location = new System.Drawing.Point(180, 20);
+            this.pbWaitResources.Name = "pbWaitResources";
+            this.pbWaitResources.Padding = new System.Windows.Forms.Padding(10);
+            this.pbWaitResources.Size = new System.Drawing.Size(45, 45);
+            this.pbWaitResources.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbWaitResources.TabIndex = 120;
+            this.pbWaitResources.TabStop = false;
+            this.pbWaitResources.Visible = false;
+            // 
+            // lblLocationCode
+            // 
+            this.lblLocationCode.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLocationCode.ForeColor = System.Drawing.Color.Gray;
+            this.lblLocationCode.Location = new System.Drawing.Point(631, 11);
+            this.lblLocationCode.Name = "lblLocationCode";
+            this.lblLocationCode.Size = new System.Drawing.Size(110, 18);
+            this.lblLocationCode.TabIndex = 191;
+            this.lblLocationCode.Text = "...";
+            this.lblLocationCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // frmLabelP3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(857, 730);
+            this.ClientSize = new System.Drawing.Size(767, 619);
+            this.Controls.Add(this.groupBoxWeight);
+            this.Controls.Add(this.groupBoxProd);
             this.Controls.Add(this.lblLocationCode);
-            this.Controls.Add(this.flowLayoutMain);
-            this.Controls.Add(this.tableLayoutPanel3);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.lblStatusProcess);
+            this.Controls.Add(this.pbWaitProcess);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.dgSacks);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.richTextConsole);
             this.Controls.Add(this.pbYellow);
             this.Controls.Add(this.pbRed);
-            this.Controls.Add(this.btnSwapMode);
-            this.Controls.Add(this.lblMode);
             this.Controls.Add(this.btnSettings);
-            this.Controls.Add(this.tableLayoutPanel2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmLabelP3";
             this.Text = "WOW Labels";
             this.Load += new System.EventHandler(this.frmLabelP3_Load);
-            this.flowLayoutMain.ResumeLayout(false);
             this.groupBoxProd.ResumeLayout(false);
             this.groupBoxProd.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).EndInit();
             this.groupBoxWeight.ResumeLayout(false);
             this.groupBoxWeight.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSacks)).EndInit();
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.gbLabelSack.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picLabelSack)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.MenuShipWeight.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbYellow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbRed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWaitProcess)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWaitResources)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label lblPalletId;
-        private System.Windows.Forms.TableLayoutPanel tabLayoutPallet;
-        private System.Windows.Forms.Button btnReloadTare;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutMain;
         private System.Windows.Forms.GroupBox groupBoxProd;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ProgressBar progressBarWO;
@@ -1079,48 +1032,52 @@
         private System.Windows.Forms.Label lblWOStatus;
         private System.Windows.Forms.Label lblAdvance;
         private System.Windows.Forms.GroupBox groupBoxWeight;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label lblPalletGrossKg;
-        private System.Windows.Forms.Label lblPalletNetKg;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label lblTare;
-        private System.Windows.Forms.Label lblSackNumber;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataGridView dgSacks;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Button btnEndProcess;
-        private System.Windows.Forms.GroupBox gbLabelSack;
-        private System.Windows.Forms.PictureBox picLabelSack;
-        private System.Windows.Forms.Label lblShift;
-        private System.Windows.Forms.Label lblResourceCode;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label lblLocationCode;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TextBox txtBoxWeight;
         private System.Windows.Forms.Button btnGetWeight;
         private System.Windows.Forms.ToolTip TipStatusWO;
         private System.Windows.Forms.RichTextBox richTextConsole;
         private System.Windows.Forms.PictureBox pbYellow;
         private System.Windows.Forms.PictureBox pbRed;
-        private System.Windows.Forms.Button btnSwapMode;
         private System.Windows.Forms.Timer timerSchedule;
         private System.Windows.Forms.Timer timerShift;
-        private System.Windows.Forms.Label lblMode;
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.ToolStripMenuItem recalcularToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip MenuShipWeight;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label lblResourceName;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn S_Sack;
+        private System.Windows.Forms.Label lblEnvironment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn S_Number;
         private System.Windows.Forms.DataGridViewTextBoxColumn S_Tare;
+        private System.Windows.Forms.DataGridViewTextBoxColumn S_Sack;
         private System.Windows.Forms.DataGridViewTextBoxColumn S_Net;
         private System.Windows.Forms.DataGridViewTextBoxColumn S_Gross;
-        private System.Windows.Forms.Label lblEnvironment;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblTare;
+        private System.Windows.Forms.Label lblBag;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.TableLayoutPanel tabLayoutPallet;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label lblPalletTotal;
+        private System.Windows.Forms.Label lblStdSack;
+        private System.Windows.Forms.Label lblSackNumber;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblShift;
+        private System.Windows.Forms.Label lblResourceCode;
+        private System.Windows.Forms.Label lblWorkCenterName;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblStatusProcess;
+        private System.Windows.Forms.PictureBox pbWaitProcess;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label21;
         private System.Windows.Forms.ComboBox cmbResources;
+        private System.Windows.Forms.PictureBox pbWaitResources;
+        private System.Windows.Forms.Label lblWeightUOMPallet;
+        private System.Windows.Forms.Label lblWeight;
+        private System.Windows.Forms.Label lblLocationCode;
+        internal System.Windows.Forms.TextBox txtScannerInput;
     }
 }

@@ -51,8 +51,6 @@ namespace WOW_Fusion
 
         Random rnd = new Random();
 
-        private Int64 _workOrderId = 0; 
-
         //Pesos params
         private float _tareWeight = 0.0f;
         private float _weightFromWeighing = 0.0f;
@@ -88,6 +86,11 @@ namespace WOW_Fusion
         List<WorkOrderShedule> ordersForSchedule;
         private bool _startOrder = false;
         private bool _startThreadSchedule = false;
+
+        //Hide-Reserve data
+        private Int64 _workOrderId = 0;
+        private string _workOrderNumber = string.Empty;
+        private string _CustomerPONumber = string.Empty;
 
         /*------------------------------ INITIALIZE ----------------------------------*/
         #region Start
@@ -329,18 +332,20 @@ namespace WOW_Fusion
         {
             ShowWait(false);
 
-            lblLabelName.Text = string.Empty;
-            lblAkaOrder.Text = string.Empty;
-            lblAkaCustomer.Text = string.Empty;
-            _tradingPartnerName = string.Empty;
-            lblAkaItem.Text = string.Empty;
-            lblAkaDescription.Text = string.Empty;
+            //lblLabelName.Text = string.Empty;
+            //lblAkaOrder.Text = string.Empty;
+            //lblAkaCustomerNumber.Text = string.Empty;
+            //lblAkaCustomerName.Text = string.Empty;
+            //_CustomerPONumber = string.Empty;
+            //_tradingPartnerName = string.Empty;
+            //lblAkaItem.Text = string.Empty;
+            //lblAkaDescription.Text = string.Empty;
 
-            lblStdRoll.Text = string.Empty;
-            lblStdPallet.Text = string.Empty;
-            lblRollOnPallet.Text = string.Empty;
-            lblPalletTotal.Text = string.Empty;
-
+            //lblStdRoll.Text = string.Empty;
+            //lblStdPallet.Text = string.Empty;
+            //lblRollOnPallet.Text = string.Empty;
+            //lblPalletTotal.Text = string.Empty;
+            ClearAll();
             WorkOrderUIFill(cmbWorkOrders.SelectedItem.ToString());
         }
 
@@ -372,6 +377,7 @@ namespace WOW_Fusion
                 }
                 dynamic wo = objWorkOrder["items"][0]; //Objeto WORKORDER
                 _workOrderId = Int64.Parse(wo.WorkOrderId.ToString());
+                _workOrderNumber = workOrder;
                 lblPrimaryProductQuantity.Text = string.IsNullOrEmpty(wo.PrimaryProductQuantity.ToString()) ? 0 : wo.PrimaryProductQuantity.ToString();
                 //lblCompletedQuantity.Text = wo.CompletedQuantity.ToString();
                 lblUoM.Text = wo.UOMCode.ToString();
@@ -400,7 +406,7 @@ namespace WOW_Fusion
                 {
                     if (string.IsNullOrEmpty(itemsV2.UnitWeightQuantity.ToString()) || string.IsNullOrEmpty(itemsV2.MaximumLoadWeight.ToString()))
                     {
-                        MessageBox.Show("Peso estándar no definido", "Verificar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Peso estándar no definido, pesaje restringido", "Verificar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                     else
                     {
@@ -426,22 +432,25 @@ namespace WOW_Fusion
                 string flexPV = wo.ProcessWorkOrderDFF.items[0].pedidoDeVenta.ToString();//"34"
                 if (string.IsNullOrEmpty(flexPV))
                 {
-                    lblAkaOrder.Text = "NA";
+                    lblAkaSaleOrder.Text = "NA";
                     _akaCustomer = "DEFAULT";
                 }
                 else
                 {
-                    lblAkaOrder.Text = flexPV;
+                    lblAkaSaleOrder.Text = flexPV;
 
                     //♥ Consultar OM & AKA ♥
-                    dynamic om = await CommonService.OneItem(String.Format(EndPoints.SalesOrders, lblAkaOrder.Text, Constants.BusinessUnitId));
+                    dynamic om = await CommonService.OneItem(String.Format(EndPoints.SalesOrders, lblAkaSaleOrder.Text, Constants.BusinessUnitId));
                     if (om != null)
                     {
-                        lblAkaCustomer.Text = om.BuyingPartyNumber.ToString();//BuyingPartyName
-                        _akaCustomer = lblAkaCustomer.Text;
+                        lblAkaCustomerNumber.Text = om.BuyingPartyNumber.ToString();//BuyingPartyName
+                        lblAkaCustomerName.Text = om.BuyingPartyName.ToString();
+                        lblAkaCustomerPO.Text = om.CustomerPONumber.ToString();
+                        _CustomerPONumber = lblAkaCustomerPO.Text;
+                        _akaCustomer = lblAkaCustomerNumber.Text;
 
                         //♥ Consultar TradingPartnerItemRelationships ♥
-                        dynamic aka = await CommonService.OneItem(String.Format(EndPoints.TradingPartnerItemRelationships, lblItemNumber.Text, lblAkaCustomer.Text));
+                        dynamic aka = await CommonService.OneItem(String.Format(EndPoints.TradingPartnerItemRelationships, lblItemNumber.Text, lblAkaCustomerNumber.Text));
                         if (aka != null)
                         {
                             lblAkaItem.Text = aka.TradingPartnerItemNumber.ToString();
@@ -453,7 +462,8 @@ namespace WOW_Fusion
                             lblAkaItem.Text = string.Empty;
                             lblAkaDescription.Text = string.Empty;
                             _tradingPartnerName = string.Empty;
-                            NotifierController.Warning($"Producto no relacionado con el cliente AKA");
+                            Console.WriteLine($"Producto no relacionado con el cliente AKA [{DateService.Today()}]", Color.Red);
+                            MessageBox.Show("Producto no relacionado con el cliente AKA, pesaje restringido", "AKA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                     else
@@ -466,7 +476,17 @@ namespace WOW_Fusion
                 dynamic labelApex = await LabelService.LabelInfo(Constants.Plant2Id, _akaCustomer, lblItemNumber.Text);
                 if (labelApex.LabelName.ToString().Equals("null"))
                 {
-                    MessageBox.Show("Etiqueta de cliente/producto no encontrada", "Verificar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _akaCustomer = "DEFAULT";
+                    DialogResult result = MessageBox.Show("Etiqueta de cliente/producto no encontrada, se cargará la etiqueta estándar", "¡Alerta!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (result == DialogResult.OK)
+                    {
+                        labelApex = await LabelService.LabelInfo(Constants.Plant2Id, _akaCustomer, lblItemNumber.Text);
+                    }
+                    else
+                    {
+                        labelApex = await LabelService.LabelInfo(Constants.Plant2Id, _akaCustomer, lblItemNumber.Text);
+                    }
+                    lblLabelName.Text = labelApex.LabelName.ToString();
                 }
                 else
                 {
@@ -474,7 +494,7 @@ namespace WOW_Fusion
                 }
 
                 //Verificar Historial Pesaje----------------------------
-                Task<string> tskHistory = APIService.GetApexAsync(String.Format(EndPoints.RollsOrder, Constants.Plant2Id, cmbWorkOrders.Text));
+                Task<string> tskHistory = APIService.GetApexAsync(String.Format(EndPoints.RollsOrder, Constants.Plant2Id, workOrder));
                 string responseHistory = await tskHistory;
 
                 progressBarWO.Value = 0;
@@ -512,8 +532,7 @@ namespace WOW_Fusion
                 if (!string.IsNullOrEmpty(cmbWorkOrders.Text) && !string.IsNullOrEmpty(lblResourceName.Text) && !string.IsNullOrEmpty(lblLabelName.Text) &&
                    !string.IsNullOrEmpty(lblStdRoll.Text) && !string.IsNullOrEmpty(lblStdPallet.Text))
                 {
-                    btnGetWeight.Enabled = lblAkaOrder.Text.Equals("NA") && _akaCustomer.Equals("DEFAULT") ? true : 
-                                           btnGetWeight.Enabled = string.IsNullOrEmpty(lblAkaItem.Text) ? false : true;
+                    btnGetWeight.Enabled = _akaCustomer.Equals("DEFAULT") ? true : btnGetWeight.Enabled = string.IsNullOrEmpty(lblAkaItem.Text) ? false : true;
                 }
                 else
                 {
@@ -661,6 +680,9 @@ namespace WOW_Fusion
                     btnGetWeight.ForeColor = Color.Black;
                 }
             }
+
+            btnEndProcess.Visible = _rollCount > 0 ? true : false;
+            _isPalletStart = true;
         }
         #endregion
 
@@ -668,116 +690,115 @@ namespace WOW_Fusion
         #region Buttons Actions
         private async void btnGetWeight_Click(object sender, EventArgs e)
         {
-            btnGetWeight.Enabled = false;
-            if (btnGetWeight.Text.Equals("TARAR"))
+            if (!string.IsNullOrEmpty(cmbWorkOrders.Text))
             {
-                ShowWait(true, "Pesando tara ...");
-                await GetTare();
-            }
-            else
-            {
-                //----------------- PESAR ---------------
-                string messageWait = btnGetWeight.Text.Equals("CORE") ? "Pesando core ..." : btnGetWeight.Text.Equals("PESAR") ? "Pesando rollo ..." : "Procesando ...";
-                ShowWait(true, messageWait);
-
-                string responseWeighing = await RadwagController.SocketWeighing("S");
-
-                if (responseWeighing == "EX")
+                btnGetWeight.Enabled = false;
+                cmbWorkOrders.Enabled = false;
+                if (btnGetWeight.Text.Equals("TARAR"))
                 {
-                    NotifierController.Warning("Tiempo de espera agotado, vuelva a  intentar");
+                    ShowWait(true, "Pesando tara ...");
+                    await GetTare();
                 }
                 else
                 {
-                    if (float.TryParse(responseWeighing, out float _weightFromWeighing))
+                    //----------------- PESAR ---------------
+                    string messageWait = btnGetWeight.Text.Equals("CORE") ? "Pesando core ..." : btnGetWeight.Text.Equals("PESAR") ? "Pesando rollo ..." : "Procesando ...";
+                    ShowWait(true, messageWait);
+
+                    string responseWeighing = await RadwagController.SocketWeighing("S");
+
+                    if (responseWeighing == "EX")
                     {
-                        if (_weightFromWeighing > 0)
+                        NotifierController.Warning("Tiempo de espera agotado, vuelva a  intentar");
+                    }
+                    else
+                    {
+                        if (float.TryParse(responseWeighing, out float _weightFromWeighing))
                         {
-                            if (_weightFromWeighing == _previousWeight)
+                            if (_weightFromWeighing > 0)
                             {
-                                MessageBox.Show("Pesaje no ha cambiado, verifique.", "¡Precaucion!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
-                            else if (_weightFromWeighing < _previousWeight)
-                            {
-                                MessageBox.Show("Peso menor al obtenido anteriormente, verifique.", "¡Precaucion!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                if (_weightFromWeighing == _previousWeight)
+                                {
+                                    MessageBox.Show("Pesaje no ha cambiado, verifique.", "¡Precaucion!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                                else if (_weightFromWeighing < _previousWeight)
+                                {
+                                    MessageBox.Show("Peso menor al obtenido anteriormente, verifique.", "¡Precaucion!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                                else
+                                {
+                                    if (btnGetWeight.Text.Equals("CORE"))
+                                    {
+                                        float coreWeight = _weightFromWeighing - _previousWeight;
+                                        if (coreWeight <= Settings.Default.CoreMaxWeight)
+                                        {
+                                            _previousWeight = _weightFromWeighing;
+
+                                            lblWeight.Text = coreWeight.ToString("F1");
+                                            lblCore.Text = coreWeight.ToString("F1");
+                                            btnGetWeight.Text = "PESAR";
+                                            btnGetWeight.BackColor = Color.LimeGreen;
+                                            btnReloadCore.Visible = true;
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Peso por encima del estándar de un CORE, verifique.", "¡No esta pesando un CORE!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        }
+
+                                    }
+                                    else if (btnGetWeight.Text.Equals("PESAR"))
+                                    {
+                                        btnReloadTare.Visible = false;
+                                        btnReloadCore.Visible = false;
+                                        float rollNet = _weightFromWeighing - _previousWeight; // 
+                                        float rollGross = float.Parse(lblCore.Text) + rollNet; //Core + rollo
+                                        _previousWeight = _weightFromWeighing; //Reserver peso
+                                        _netPallet += rollNet;
+
+                                        lblWeight.Text = rollNet.ToString("F1");
+                                        lblPalletNet.Text = _netPallet.ToString("F1");
+                                        btnReloadTare.Visible = false;
+
+                                        _rollCount++;
+
+                                        //Agregar pesos a datagrid
+                                        string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), lblCore.Text, rollNet.ToString("F1"), rollGross.ToString("F1") };
+                                        int indexNewRoll = dgRolls.Rows.Add(row);
+                                        dgRolls.FirstDisplayedScrollingRowIndex = indexNewRoll;
+
+                                        if (int.Parse(lblRollOnPallet.Text) > 1)
+                                        {
+                                            FillLabelRoll(row);
+
+                                            btnGetWeight.Text = "CORE";
+                                            btnGetWeight.BackColor = Color.DarkOrange;
+                                            btnGetWeight.ForeColor = Color.Black;
+                                        }
+                                    }
+                                }
                             }
                             else
                             {
-                                if (btnGetWeight.Text.Equals("CORE"))
-                                {
-                                    float coreWeight = _weightFromWeighing - _previousWeight;
-                                    if (coreWeight <= Settings.Default.CoreMaxWeight)
-                                    {
-                                        _previousWeight = _weightFromWeighing;
-
-                                        lblWeight.Text = coreWeight.ToString("F1");
-                                        lblCore.Text = coreWeight.ToString("F1");
-                                        btnGetWeight.Text = "PESAR";
-                                        btnGetWeight.BackColor = Color.LimeGreen;
-                                        btnReloadCore.Visible = true;
-                                    }
-                                    else
-                                    {
-                                        MessageBox.Show("Peso por encima del estándar de un CORE, verifique.", "¡No esta pesando un CORE!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                    }
-
-                                    //Registrar pallet en DB APEX
-                                    /*lblPalletId.Text = DateService.EpochTime();
-                                    CreatePalletApex(_palletCount, 0.0f);
-
-                                    DisableCloseButton();
-                                    btnSwapMode.Enabled = false;
-                                    timerSchedule.Stop();
-                                    cmbWorkOrders.Enabled = false;*/
-
-                                }
-                                else if (btnGetWeight.Text.Equals("PESAR"))
-                                {
-                                    btnReloadTare.Visible = false;
-                                    btnReloadCore.Visible = false;
-                                    float rollNet = _weightFromWeighing - _previousWeight; // 
-                                    float rollGross = float.Parse(lblCore.Text) + rollNet; //Core + rollo
-                                    _previousWeight = _weightFromWeighing; //Reserver peso
-                                    _netPallet += rollNet;
-
-                                    lblWeight.Text = rollNet.ToString("F1");
-                                    lblPalletNet.Text = _netPallet.ToString("F1");
-                                    btnReloadTare.Visible = false;
-
-                                    _rollCount++;
-
-                                    //Agregar pesos a datagrid
-                                    string[] row = new string[] { _palletCount.ToString(), _rollCount.ToString(), lblCore.Text, rollNet.ToString("F1"), rollGross.ToString("F1") };
-                                    int indexNewRoll = dgRolls.Rows.Add(row);
-                                    dgRolls.FirstDisplayedScrollingRowIndex = indexNewRoll;
-
-                                    if (int.Parse(lblRollOnPallet.Text) > 1)
-                                    {
-                                        FillLabelRoll(row);
-
-                                        btnGetWeight.Text = "CORE";
-                                        btnGetWeight.BackColor = Color.DarkOrange;
-                                        btnGetWeight.ForeColor = Color.Black;
-                                    }
-                                }
+                                MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                         }
                         else
                         {
-                            MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            Console.WriteLine("Valor invalido obtenido de la báscula", Color.Red);
+                            NotifierController.Warning($"{responseWeighing}");
                         }
                     }
-                    else
-                    {
-                        Console.WriteLine("Valor invalido obtenido de la báscula", Color.Red);
-                        NotifierController.Warning($"{responseWeighing}");
-                    }
                 }
-            }
 
-            btnGetWeight.Enabled = true;
-            ShowWait(false);
-            lblStatusProcess.Text = btnGetWeight.Text.Equals("CORE") ?"¡Coloque y pese CORE!" : btnGetWeight.Text.Equals("PESAR") ? "¡Coloque y pese ROLLO!" : btnGetWeight.Text.Equals("TARAR") ? "¡Coloque y pese TARA!" : string.Empty;
-            lblStatusProcess.ForeColor = string.IsNullOrEmpty(lblStatusProcess.Text) ? Color.Black : Color.Red;
+                btnGetWeight.Enabled = true;
+                ShowWait(false);
+                lblStatusProcess.Text = btnGetWeight.Text.Equals("CORE") ? "¡Coloque y pese CORE!" : btnGetWeight.Text.Equals("PESAR") ? "¡Coloque y pese ROLLO!" : btnGetWeight.Text.Equals("TARAR") ? "¡Coloque y pese TARA!" : string.Empty;
+                lblStatusProcess.ForeColor = string.IsNullOrEmpty(lblStatusProcess.Text) ? Color.Black : Color.Red;
+            }
+            else
+            {
+                MessageBox.Show($"Seleccione orden de trabajo antes de pesar", "¡Alerta!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private async Task GetTare()
@@ -867,8 +888,13 @@ namespace WOW_Fusion
 
         private async void btnReloadCore_Click(object sender, EventArgs e)
         {
-            ShowWait(true, "Recalculando core ...");
+            if(string.IsNullOrEmpty(lblCore.Text))
+            {
+                MessageBox.Show("Acción no permitida, sin pesaje de core", "¡Precaucion!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            ShowWait(true, "Recalculando core ...");
             string responseWeighing = await RadwagController.SocketWeighing("S");
 
             if (responseWeighing == "EX")
@@ -1030,7 +1056,7 @@ namespace WOW_Fusion
 
         private void btnSwapMode_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(cmbWorkOrders.Text))
+            if (!string.IsNullOrEmpty(_workOrderNumber))
             {
                 DialogResult dialogResult = MessageBox.Show($"¿Desea cambiar el modo de trabajo? Los datos de la operación actual se perderán",
                                                             "Modo",
@@ -1095,9 +1121,23 @@ namespace WOW_Fusion
 
             if (result == DialogResult.Yes)
             {
-                _endWeight = true;
-                //AddPallet();
-                ClearAll();
+                if(_rollByPallet < int.Parse(lblRollOnPallet.Text))
+                {
+                    DialogResult printLabel = MessageBox.Show("Se detecto palet incompleto ¿Desea imprimir etiqueta del palet?", 
+                                                              "¡Palet incompleto!", 
+                                                               MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if(printLabel == DialogResult.Yes)
+                    {
+                        _endWeight = true;
+                        AddPallet();
+                    }
+                }
+                else
+                {
+                    _endWeight = true;
+                    cmbWorkOrders.Items.Clear();
+                    ClearAll();
+                }
             }
         }
         #endregion
@@ -1414,9 +1454,16 @@ namespace WOW_Fusion
                     float value;
                     return float.TryParse(t.Cells["R_Core"].Value?.ToString(), out value) ? value : 0;
                 });
-                float grosPalletKG = float.Parse(lblPalletNet.Text)  + _tareWeight + totalCore; //Lamina + Tara + Cores
 
-                string[] rowPallet = new string[] { _palletCount.ToString(), _tareWeight.ToString("F1"), totalCore.ToString("F1"), lblPalletNet.Text, grosPalletKG.ToString("F1") };
+                float paletNet = dgRolls.Rows.Cast<DataGridViewRow>().Where(t => t.Cells["R_Pallet"].Value.ToString().Equals(_palletCount.ToString()))
+                .Sum(t => {
+                    float value;
+                    return float.TryParse(t.Cells["R_Net"].Value?.ToString(), out value) ? value : 0;
+                });
+
+                float grosPalletKG = paletNet + _tareWeight + totalCore; //Lamina + Tara + Cores
+
+                string[] rowPallet = new string[] { _palletCount.ToString(), _tareWeight.ToString("F1"), totalCore.ToString("F1"), paletNet.ToString("F1"), grosPalletKG.ToString("F1") };
                 int indexNewPallet = dgPallets.Rows.Add(rowPallet);
                 dgPallets.FirstDisplayedScrollingRowIndex = indexNewPallet;
 
@@ -1444,6 +1491,7 @@ namespace WOW_Fusion
                 if(_endWeight)
                 {
                     //await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP2);
+                    cmbWorkOrders.Items.Clear();
                     ClearAll();
                 }
             }
@@ -1473,7 +1521,6 @@ namespace WOW_Fusion
         {
             if(_completedHistory) { return; }
 
-            cmbWorkOrders.Enabled = false;
             EnableCloseButton();
             int palletAdded = int.Parse(dgPallets.Rows[e.RowIndex].Cells["P_Pallet"].Value.ToString());
             string rollWeights = WeightsPallet(palletAdded);
@@ -1491,6 +1538,7 @@ namespace WOW_Fusion
             if (palletAdded == int.Parse(lblPalletTotal.Text) || _endWeight)
             {
                 //await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP2);
+                cmbWorkOrders.Items.Clear();
                 ClearAll();
             }
         }
@@ -1531,7 +1579,7 @@ namespace WOW_Fusion
                 dynamic label = JObject.Parse(Constants.LabelJson);
 
                 //WO Info
-                label.WORKORDER = string.IsNullOrEmpty(cmbWorkOrders.Text) ? " " : cmbWorkOrders.Text/*.Substring(7)*/;
+                label.WORKORDER = string.IsNullOrEmpty(_workOrderNumber) ? " " : _workOrderNumber/*.Substring(7)*/;
                 label.ITEMNUMBER = string.IsNullOrEmpty(lblItemNumber.Text) ? " " : lblItemNumber.Text;
                 label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;
                 label.ENGLISHDESCRIPTION = string.IsNullOrEmpty(lblItemDescriptionEnglish.Text) || lblItemDescriptionEnglish.Text.Equals(lblItemDescription.Text) ? " " : lblItemDescriptionEnglish.Text;
@@ -1549,8 +1597,9 @@ namespace WOW_Fusion
                 label.AKAITEM = string.IsNullOrEmpty(lblAkaItem.Text) ? "NE" : lblAkaItem.Text;
                 label.AKADESCRIPTION = string.IsNullOrEmpty(lblAkaDescription.Text) ? "NE" : lblAkaDescription.Text;
                 label.LEGALENTITY = string.IsNullOrEmpty(_tradingPartnerName) ? "NE" : _tradingPartnerName;
-                label.PURCHASEORDER = string.IsNullOrEmpty(lblAkaOrder.Text) ? " " : lblAkaOrder.Text;
-                
+                label.PURCHASEORDER = string.IsNullOrEmpty(_CustomerPONumber) ? " " : _CustomerPONumber;
+                label.PONUM = string.IsNullOrEmpty(_CustomerPONumber) ? " " : _CustomerPONumber.Contains("TPRM") ? _CustomerPONumber.Replace("TPRM", "") : _CustomerPONumber;
+
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
                 picLabelRoll.Image = System.Drawing.Image.FromStream(await LabelService.UpdateLabelLabelary(_rollCount, "ROLL"));
             }
@@ -1562,7 +1611,7 @@ namespace WOW_Fusion
             {
                 dynamic label = JObject.Parse(Constants.LabelJson);
                 //WO Info
-                label.WORKORDER = string.IsNullOrEmpty(cmbWorkOrders.Text) ? " " : cmbWorkOrders.Text/*.Substring(7)*/;
+                label.WORKORDER = string.IsNullOrEmpty(_workOrderNumber) ? " " : _workOrderNumber/*.Substring(7)*/;
                 label.ITEMNUMBER = string.IsNullOrEmpty(lblItemNumber.Text) ? " " : lblItemNumber.Text;
                 label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;
                 label.ENGLISHDESCRIPTION = string.IsNullOrEmpty(lblItemDescriptionEnglish.Text) || lblItemDescriptionEnglish.Text.Equals(lblItemDescription.Text) ? " " : lblItemDescriptionEnglish.Text;
@@ -1573,7 +1622,8 @@ namespace WOW_Fusion
                 label.AKAITEM = string.IsNullOrEmpty(lblAkaItem.Text) ? "NE" : lblAkaItem.Text;
                 label.AKADESCRIPTION = string.IsNullOrEmpty(lblAkaDescription.Text) ? "NE" : lblAkaDescription.Text;
                 label.LEGALENTITY = string.IsNullOrEmpty(_tradingPartnerName) ? "NE" : _tradingPartnerName;
-                label.PURCHASEORDER = string.IsNullOrEmpty(lblAkaOrder.Text) ? " " : lblAkaOrder.Text;
+                label.PURCHASEORDER = string.IsNullOrEmpty(_CustomerPONumber) ? " " : _CustomerPONumber;
+                label.PONUM = string.IsNullOrEmpty(_CustomerPONumber) ? " " : _CustomerPONumber.Contains("TPRM") ? _CustomerPONumber.Replace("TPRM", "") : _CustomerPONumber;
                 //Pallet Info
                 label.PALET = "P" + _palletCount.ToString().PadLeft(4, '0');
                 label.WNETKG = string.IsNullOrEmpty(palletWeight[3]) ? " " : palletWeight[3];
@@ -1610,7 +1660,9 @@ namespace WOW_Fusion
             lblWOStatus.ForeColor = Color.DarkGray;
             TipStatusWO.SetToolTip(lblWOStatus, "Status orden");
 
-            cmbWorkOrders.Items.Clear();
+            //cmbWorkOrders.Items.Clear();
+            _workOrderId = 0;
+            _workOrderNumber = string.Empty;
             cmbWorkOrders.Enabled = lblMode.Text.Equals("Auto.") ? false : true;
             lblPrimaryProductQuantity.Text = string.Empty;
             lblCompletedQuantity.Text = string.Empty;
@@ -1619,16 +1671,17 @@ namespace WOW_Fusion
             lblAdvance.Text = "0%";
             lblPlannedStartDate.Text = string.Empty;
             lblPlannedCompletionDate.Text = string.Empty;
-            /*lblResourceCode.Text = string.Empty;
-            lblResourceName.Text = string.Empty;*/
             lblItemNumber.Text = string.Empty;
             lblItemDescription.Text = string.Empty;
             lblItemDescriptionEnglish.Text = string.Empty;
 
             //AKA Section
             _akaCustomer = "DEFAULT";
-            lblAkaOrder.Text = string.Empty;
-            lblAkaCustomer.Text = string.Empty;
+            lblAkaSaleOrder.Text = string.Empty;
+            lblAkaCustomerPO.Text = string.Empty;
+            lblAkaCustomerNumber.Text = string.Empty;
+            lblAkaCustomerName.Text = string.Empty;
+            _CustomerPONumber = string.Empty;
             _tradingPartnerName = string.Empty;
             lblAkaItem.Text = string.Empty;
             lblAkaDescription.Text = string.Empty;
@@ -1648,11 +1701,6 @@ namespace WOW_Fusion
             lblWeightUOMPallet.Text = "--";
             lblRollOnPallet.Text = string.Empty;
             lblPalletTotal.Text = string.Empty;
-
-            /*lblPalletNetKg.Text = string.Empty;
-            lblPalletGrossKg.Text = string.Empty;
-            lblPalletNetLbs.Text = string.Empty;
-            lblPalletGrossLbs.Text = string.Empty;*/
 
             lblTare.Text = string.Empty;
             lblPalletNumber.Text = string.Empty;
@@ -1738,7 +1786,16 @@ namespace WOW_Fusion
         private string Pounds(float kilo)
         {
             float conversion = kilo * 2.20462f;
-            return (Math.Truncate(conversion * 10) / 10).ToString("0.0");
+            string result = string.Empty;
+            if(_CustomerPONumber.Contains("TPRM"))
+            {
+                result = Math.Round(conversion).ToString();
+            }
+            else
+            {
+                result = (Math.Truncate(conversion * 10) / 10).ToString("0.0");
+            }
+            return result;
         }
 
         private string UnRound(float quantity)
@@ -1822,7 +1879,7 @@ namespace WOW_Fusion
                 jsonRoll.DateMark = DateService.EpochTime();
                 jsonRoll.OrganizationId = Int64.Parse(Constants.Plant2Id);
                 jsonRoll.WorkOrderId = _workOrderId;
-                jsonRoll.WorkOrder = cmbWorkOrders.Text;
+                jsonRoll.WorkOrder = _workOrderNumber;
                 jsonRoll.ItemNumber = lblItemNumber.Text;
                 jsonRoll.Pallet = lblPalletNumber.Text;
                 jsonRoll.Roll = _rollCount.ToString();
@@ -1889,7 +1946,7 @@ namespace WOW_Fusion
                 dynamic jsonRoll = JObject.Parse(Payloads.weightRollUpdate);
 
                 jsonRoll.OrganizationId = Int64.Parse(Constants.Plant2Id); ;
-                jsonRoll.WorkOrder = cmbWorkOrders.Text; ;
+                jsonRoll.WorkOrder = _workOrderNumber;
                 jsonRoll.Roll = roll;
                 jsonRoll.Net = net;
 
@@ -1899,7 +1956,7 @@ namespace WOW_Fusion
                 
             if (AppController.CheckInternetConnection())
             {
-                Task<string> putWeightRoll = APIService.PutApexAsync(String.Format(EndPoints.WeightRolls, cmbWorkOrders.Text, roll, Constants.Plant2Id), _lastApexUpdate);
+                Task<string> putWeightRoll = APIService.PutApexAsync(String.Format(EndPoints.WeightRolls, _workOrderNumber, roll, Constants.Plant2Id), _lastApexUpdate);
                 string response = await putWeightRoll;
 
                 if (!string.IsNullOrEmpty(response))
