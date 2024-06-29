@@ -406,7 +406,7 @@
             this.groupBox7.Size = new System.Drawing.Size(327, 70);
             this.groupBox7.TabIndex = 130;
             this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Pesos Esándar";
+            this.groupBox7.Text = "Pesos Estándar";
             // 
             // label13
             // 

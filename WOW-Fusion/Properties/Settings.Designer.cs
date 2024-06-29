@@ -169,18 +169,6 @@ namespace WOW_Fusion.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Environment {
-            get {
-                return ((int)(this["Environment"]));
-            }
-            set {
-                this["Environment"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("300000003969053")]
         public string ResourceId3 {
             get {
@@ -194,24 +182,24 @@ namespace WOW_Fusion.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int BagToPrint {
+        public int SackToPrint {
             get {
-                return ((int)(this["BagToPrint"]));
+                return ((int)(this["SackToPrint"]));
             }
             set {
-                this["BagToPrint"] = value;
+                this["SackToPrint"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
-        public int WeightStdP3 {
+        public float SackMaxWeight {
             get {
-                return ((int)(this["WeightStdP3"]));
+                return ((float)(this["SackMaxWeight"]));
             }
             set {
-                this["WeightStdP3"] = value;
+                this["SackMaxWeight"] = value;
             }
         }
         
@@ -248,6 +236,18 @@ namespace WOW_Fusion.Properties {
             }
             set {
                 this["TareMinWeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public float BagMaxWeight {
+            get {
+                return ((float)(this["BagMaxWeight"]));
+            }
+            set {
+                this["BagMaxWeight"] = value;
             }
         }
     }

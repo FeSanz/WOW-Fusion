@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using WOW_Fusion.Controllers;
 using WOW_Fusion.Models;
 using WOW_Fusion.Properties;
+using WOW_Fusion.Views.Plant3;
 
 namespace WOW_Fusion.Services
 {
@@ -156,14 +157,13 @@ namespace WOW_Fusion.Services
             {
                 try
                 {
-                    _client = new TcpClient();
+                    /*_client = new TcpClient();
                     await _client.ConnectAsync(Settings.Default.PrinterIP, Settings.Default.PrinterPort);
                     //_client.Connect(ipPrinter, portPrinter);
                     _stream = _client.GetStream();
 
                     if (_client.Connected)
                     {
-                        
                         string zpl = typee.Equals("ROLL") ? ReplaceZplRoll(number) : ReplaceZplPallet(number);
                         Thread.Sleep(500);
                         byte[] data = Encoding.ASCII.GetBytes(zpl);
@@ -178,6 +178,28 @@ namespace WOW_Fusion.Services
                     else
                     {
                         break;
+                    }*/
+                    using (TcpClient client = new TcpClient())
+                    {
+                        await client.ConnectAsync(Settings.Default.PrinterIP, Settings.Default.PrinterPort);
+                        if (client.Connected)
+                        {
+                            using (NetworkStream stream = client.GetStream())
+                            {
+                                string zpl = typee.Equals("ROLL") ? ReplaceZplRoll(number) : ReplaceZplPallet(number);
+                                await Task.Delay(500);
+                                byte[] data = Encoding.UTF8.GetBytes(zpl);
+                                await _stream.WriteAsync(data, 0, data.Length);
+                                await _stream.FlushAsync();
+
+                                string t_message = typee.Equals("ROLL") ? $"Imprimiendo etiqueta [rollo] {pag} de {end}" : $"Imprimiendo etiqueta [palet] {pag} de {end}";
+                                frmLabelP2.SetLabelStatusPrint(t_message);
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -188,6 +210,54 @@ namespace WOW_Fusion.Services
             }
         }
 
+        public static async Task<bool> PrintP3(int number, string typee)
+        {
+            bool status = false;
+            int end = typee.Equals("SACK") ? Settings.Default.SackToPrint : 1;
+
+            for (int pag = 0; pag <= end; pag++)
+            {
+                try
+                {
+                    using (TcpClient client = new TcpClient())
+                    {
+                        await client.ConnectAsync(Settings.Default.PrinterIP, Settings.Default.PrinterPort);
+
+                        if (client.Connected)
+                        {
+                            using (NetworkStream stream = client.GetStream())
+                            {
+                                string zpl = typee.Equals("SACK") ? ReplaceZplSack(number) : "";
+                                await Task.Delay(500);
+
+                                byte[] data = Encoding.UTF8.GetBytes(zpl);
+
+                                await stream.WriteAsync(data, 0, data.Length);
+                                await stream.FlushAsync();
+
+                                frmLabelP3.SetLabelStatusPrint($"Imprimiendo {pag} de {end}");
+                                Constants.LastPrint = pag;
+                            }
+
+                            status = true;
+                        }
+                        else
+                        {
+                            status = false;
+                            break;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    NotifierController.DetailError("Error al imprimir", ex.Message);
+                    status = false;
+                    break;
+                }
+            }
+
+            return status;
+        }
         private static string ReplaceZplBox(int box)
         {
             string strLabel = zplTemplate; //Template sin reemplazos

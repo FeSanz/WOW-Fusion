@@ -16,6 +16,7 @@ using WOW_Fusion.Views.Plant3;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
+using WOW_Fusion.Views.Plant2;
 
 namespace WOW_Fusion.Views.Plant3
 {
@@ -82,6 +83,8 @@ namespace WOW_Fusion.Views.Plant3
         private string _workOrderNumber = string.Empty;
         private string _CustomerPONumber = string.Empty;
 
+        private static frmLabelP3 instance;
+
         /*------------------------------ INITIALIZE ----------------------------------*/
         #region Start
         public frmLabelP3()
@@ -132,7 +135,6 @@ namespace WOW_Fusion.Views.Plant3
         #endregion
 
         #region Scheduling
-
         private void CheckStatusScheduleOrder(DateTime start, DateTime end)
         {
             DateTimeOffset now = DateTimeOffset.Now;
@@ -245,9 +247,9 @@ namespace WOW_Fusion.Views.Plant3
                 lblPlannedStartDate.Text = wo.PlannedStartDate.ToString();
                 lblPlannedCompletionDate.Text = wo.PlannedCompletionDate.ToString();
 
-                lblStdSack.Text = Settings.Default.WeightStdP3.ToString();
+                lblStdSack.Text = Settings.Default.SackMaxWeight.ToString();
 
-                int palletTotal = (int)Math.Ceiling(float.Parse(lblPrimaryProductQuantity.Text) / Settings.Default.WeightStdP3);
+                int palletTotal = (int)Math.Ceiling(float.Parse(lblPrimaryProductQuantity.Text) / Settings.Default.SackMaxWeight);
                 lblPalletTotal.Text = palletTotal.ToString();
 
                 //Verificar Status de la programacion de la orden
@@ -313,6 +315,7 @@ namespace WOW_Fusion.Views.Plant3
                     {
                         NotifierController.Warning("Orden completada");
                         btnGetWeight.Enabled = false;
+                        btnGetWeight.BackColor = Color.Gray;
 
                         if (float.Parse(lblCompletedQuantity.Text) > float.Parse(lblPrimaryProductQuantity.Text))
                         {
@@ -328,6 +331,8 @@ namespace WOW_Fusion.Views.Plant3
             ShowWait(false);
             lblStatusProcess.Text = "¡Escaneé TARA!";
             lblStatusProcess.ForeColor = Color.Red;
+            txtScannerInput.Enabled = true;
+            txtScannerInput.Focus();
         }
 
         //Llenar tabla con pesajes
@@ -473,6 +478,9 @@ namespace WOW_Fusion.Views.Plant3
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
+            frmLoginP3 frmLoginP3 = new frmLoginP3();
+            frmLoginP3.StartPosition = FormStartPosition.CenterParent;
+            frmLoginP3.ShowDialog();
         }
 
         private void btnEndProcess_Click(object sender, EventArgs e)
@@ -495,16 +503,15 @@ namespace WOW_Fusion.Views.Plant3
         {
             if (_completedHistory) { return; }
 
-            TableLayoutPalletControl(1, 1, lblSackNumber.Text);
+            //TableLayoutPalletControl(1, 1, lblSackNumber.Text);
 
             _sackCount += 1;
 
-            //Llenar campos de pallet (SUMA)
-            float palletNetSum = dgSacks.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["S_Net"].Value.ToString()));
-            lblCompletedQuantity.Text = palletNetSum.ToString();
-            CalculateAdvace(palletNetSum);
+            float totalNetSum = dgSacks.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["S_Net"].Value.ToString()));
+            lblCompletedQuantity.Text = totalNetSum.ToString();
+            CalculateAdvace(totalNetSum);
 
-            //await LabelService.PrintP2(_sackCount, "ROLL");
+            //await LabelService.PrintP3(_sackCount, "SACK");
             //CreateRollApex();
 
             lblBag.Text = string.Empty; //Limpiar core hasta registrar
@@ -627,8 +634,8 @@ namespace WOW_Fusion.Views.Plant3
                         PictureBox picRoll = new PictureBox();
                         if (count < rollNumber)
                         {
-                            IEnumerable<string> columnWeigthsNetKg = dgSacks.Rows.Cast<DataGridViewRow>().Where(fila => fila.Cells["R_Pallet"].Value.ToString().Equals(palletNumber))
-                                                                    .Select(fila => fila.Cells["R_Net"].Value.ToString());
+                            IEnumerable<string> columnWeigthsNetKg = dgSacks.Rows.Cast<DataGridViewRow>().Where(fila => fila.Cells["S_Number"].Value.ToString().Equals(palletNumber))
+                                                                    .Select(fila => fila.Cells["S_Net"].Value.ToString());
 
                             string[] weigthRoll = columnWeigthsNetKg.ToArray();
 
@@ -736,7 +743,7 @@ namespace WOW_Fusion.Views.Plant3
 
         /*-------------------------------- LABELS ------------------------------------*/
         #region Labels Fill
-        private async void FillLabelRoll(string[] weights)
+        private void FillLabelSack(string[] weights)
         {
             if (!string.IsNullOrEmpty(lblResourceCode.Text))
             {
@@ -775,9 +782,8 @@ namespace WOW_Fusion.Views.Plant3
             lblWeight.Text = string.Empty;
 
             btnGetWeight.Enabled = false;
-            btnGetWeight.Text = "TARAR";
-            btnGetWeight.BackColor = Color.Red;
-            btnGetWeight.ForeColor = Color.White;
+            btnGetWeight.BackColor = Color.Gray;
+            txtScannerInput.Enabled = false;
 
             //Shift Section
             timerShift.Stop();
@@ -949,6 +955,14 @@ namespace WOW_Fusion.Views.Plant3
         {
             IntPtr hMenu = GetSystemMenu(this.Handle, false);
             EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_ENABLED);
+        }
+
+        public static void SetLabelStatusPrint(string text)
+        {
+            if (instance != null && instance.lblStatusProcess != null)
+            {
+                instance.lblStatusProcess.Text = text;
+            }
         }
         #endregion
 
@@ -1142,10 +1156,12 @@ namespace WOW_Fusion.Views.Plant3
             if (!string.IsNullOrEmpty(lblTare.Text) && !string.IsNullOrEmpty(lblBag.Text))
             {
                 btnGetWeight.Enabled = true;
+                btnGetWeight.BackColor = Color.Red;
             }
             else
             {
                 btnGetWeight.Enabled = false;
+                btnGetWeight.BackColor = Color.Gray;
             }
         }
 
@@ -1154,10 +1170,12 @@ namespace WOW_Fusion.Views.Plant3
             if (!string.IsNullOrEmpty(lblTare.Text) && !string.IsNullOrEmpty(lblBag.Text))
             {
                 btnGetWeight.Enabled = true;
+                btnGetWeight.BackColor = Color.Red;
             }
             else
             {
                 btnGetWeight.Enabled = false;
+                btnGetWeight.BackColor = Color.Gray;
             }
         }
 
@@ -1165,17 +1183,27 @@ namespace WOW_Fusion.Views.Plant3
         {
             if (!string.IsNullOrEmpty(txtScannerInput.Text))
             {
-                if(txtScannerInput.Text.Contains("T"))
+                NotifierController.Success(txtScannerInput.Text);
+                if (float.TryParse(txtScannerInput.Text, out float scanerInput))
                 {
-                    lblTare.Text = txtScannerInput.Text.Replace("T", "");
-                    txtScannerInput.Text =string.Empty; 
-                    txtScannerInput.Focus();
-                }
-                else if(txtScannerInput.Text.Contains("S"))
-                {
-                    lblBag.Text = txtScannerInput.Text.Replace("S", "");
-                    txtScannerInput.Text = string.Empty;
-                    txtScannerInput.Focus();
+                    if (scanerInput >= Settings.Default.TareMinWeight && scanerInput <= Settings.Default.TareMaxWeight)
+                    {
+                        lblTare.Text = txtScannerInput.Text;
+                        txtScannerInput.Text = string.Empty;
+                        txtScannerInput.Focus();
+                    }
+                    else if (scanerInput > 0 && scanerInput <= Settings.Default.BagMaxWeight)
+                    {
+                        lblBag.Text = txtScannerInput.Text;
+                        txtScannerInput.Text = string.Empty;
+                        txtScannerInput.Focus();
+                    }
+                    else
+                    {
+                        NotifierController.Warning($"Peso [{txtScannerInput.Text}] no coincide con un saco o tara estándar, verifique");
+                        txtScannerInput.Text = string.Empty;
+                        txtScannerInput.Focus();
+                    }
                 }
                 else
                 {
@@ -1185,6 +1213,7 @@ namespace WOW_Fusion.Views.Plant3
                 }
             }
         }
+
     }
 }
 

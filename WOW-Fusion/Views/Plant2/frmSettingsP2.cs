@@ -319,7 +319,7 @@ namespace WOW_Fusion
 
         private void txtTareMin_TextChanged(object sender, EventArgs e)
         {
-            if (float.TryParse(txtCoreMax.Text, out _))
+            if (float.TryParse(txtTareMin.Text, out _))
             {
                 txtTareMin.BackColor = Color.White;
                 lblStatus.Text = string.Empty;

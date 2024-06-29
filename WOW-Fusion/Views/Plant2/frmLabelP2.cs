@@ -92,6 +92,7 @@ namespace WOW_Fusion
         private string _workOrderNumber = string.Empty;
         private string _CustomerPONumber = string.Empty;
 
+        private static frmLabelP2 instance;
         /*------------------------------ INITIALIZE ----------------------------------*/
         #region Start
         public frmLabelP2()
@@ -1866,6 +1867,14 @@ namespace WOW_Fusion
         {
             IntPtr hMenu = GetSystemMenu(this.Handle, false);
             EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_ENABLED);
+        }
+
+        public static void SetLabelStatusPrint(string text)
+        {
+            if (instance != null && instance.lblStatusProcess != null)
+            {
+                instance.lblStatusProcess.Text = text;
+            }
         }
         #endregion
 

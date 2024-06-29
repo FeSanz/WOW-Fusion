@@ -63,7 +63,6 @@
             this.lblAdvance = new System.Windows.Forms.Label();
             this.groupBoxWeight = new System.Windows.Forms.GroupBox();
             this.txtScannerInput = new System.Windows.Forms.TextBox();
-            this.lblWeightUOMPallet = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lblTare = new System.Windows.Forms.Label();
@@ -402,7 +401,6 @@
             // groupBoxWeight
             // 
             this.groupBoxWeight.Controls.Add(this.txtScannerInput);
-            this.groupBoxWeight.Controls.Add(this.lblWeightUOMPallet);
             this.groupBoxWeight.Controls.Add(this.label29);
             this.groupBoxWeight.Controls.Add(this.label5);
             this.groupBoxWeight.Controls.Add(this.lblTare);
@@ -427,23 +425,13 @@
             this.txtScannerInput.BackColor = System.Drawing.SystemColors.Control;
             this.txtScannerInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtScannerInput.Cursor = System.Windows.Forms.Cursors.No;
+            this.txtScannerInput.Enabled = false;
             this.txtScannerInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtScannerInput.Location = new System.Drawing.Point(6, 22);
+            this.txtScannerInput.Location = new System.Drawing.Point(32, 16);
             this.txtScannerInput.Name = "txtScannerInput";
-            this.txtScannerInput.Size = new System.Drawing.Size(145, 15);
+            this.txtScannerInput.Size = new System.Drawing.Size(262, 15);
             this.txtScannerInput.TabIndex = 207;
             this.txtScannerInput.LostFocus += new System.EventHandler(this.txtScannerInput_LostFocus);
-            // 
-            // lblWeightUOMPallet
-            // 
-            this.lblWeightUOMPallet.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWeightUOMPallet.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblWeightUOMPallet.Location = new System.Drawing.Point(120, 174);
-            this.lblWeightUOMPallet.Name = "lblWeightUOMPallet";
-            this.lblWeightUOMPallet.Size = new System.Drawing.Size(35, 15);
-            this.lblWeightUOMPallet.TabIndex = 206;
-            this.lblWeightUOMPallet.Text = "kg";
-            this.lblWeightUOMPallet.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label29
             // 
@@ -717,10 +705,11 @@
             // 
             // btnGetWeight
             // 
-            this.btnGetWeight.BackColor = System.Drawing.Color.DarkOrange;
+            this.btnGetWeight.BackColor = System.Drawing.Color.Gray;
             this.btnGetWeight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnGetWeight.Enabled = false;
             this.btnGetWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGetWeight.ForeColor = System.Drawing.Color.White;
             this.btnGetWeight.Location = new System.Drawing.Point(293, 3);
             this.btnGetWeight.Name = "btnGetWeight";
             this.btnGetWeight.Size = new System.Drawing.Size(132, 39);
@@ -801,6 +790,7 @@
             this.btnSettings.Size = new System.Drawing.Size(20, 20);
             this.btnSettings.TabIndex = 175;
             this.btnSettings.UseVisualStyleBackColor = false;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // lblShift
             // 
@@ -989,7 +979,7 @@
             this.Controls.Add(this.btnSettings);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmLabelP3";
-            this.Text = "WOW Labels";
+            this.Text = "WOW Sacks";
             this.Load += new System.EventHandler(this.frmLabelP3_Load);
             this.groupBoxProd.ResumeLayout(false);
             this.groupBoxProd.PerformLayout();
@@ -1075,7 +1065,6 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.ComboBox cmbResources;
         private System.Windows.Forms.PictureBox pbWaitResources;
-        private System.Windows.Forms.Label lblWeightUOMPallet;
         private System.Windows.Forms.Label lblWeight;
         private System.Windows.Forms.Label lblLocationCode;
         internal System.Windows.Forms.TextBox txtScannerInput;
