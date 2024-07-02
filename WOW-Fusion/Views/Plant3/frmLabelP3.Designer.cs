@@ -85,7 +85,6 @@
             this.btnGetWeight = new System.Windows.Forms.Button();
             this.TipStatusWO = new System.Windows.Forms.ToolTip(this.components);
             this.richTextConsole = new System.Windows.Forms.RichTextBox();
-            this.timerSchedule = new System.Windows.Forms.Timer(this.components);
             this.timerShift = new System.Windows.Forms.Timer(this.components);
             this.MenuShipWeight = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.recalcularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,6 +105,8 @@
             this.cmbResources = new System.Windows.Forms.ComboBox();
             this.pbWaitResources = new System.Windows.Forms.PictureBox();
             this.lblLocationCode = new System.Windows.Forms.Label();
+            this.TipTare = new System.Windows.Forms.ToolTip(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBoxProd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBoxWeight.SuspendLayout();
@@ -626,7 +627,7 @@
             this.dgSacks.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgSacks.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Control;
             this.dgSacks.RowTemplate.Height = 25;
-            this.dgSacks.Size = new System.Drawing.Size(308, 402);
+            this.dgSacks.Size = new System.Drawing.Size(342, 402);
             this.dgSacks.TabIndex = 66;
             this.dgSacks.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgSacks_CellFormatting);
             this.dgSacks.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgSacks_CellMouseUp);
@@ -728,13 +729,9 @@
             this.richTextConsole.Location = new System.Drawing.Point(8, 595);
             this.richTextConsole.Name = "richTextConsole";
             this.richTextConsole.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextConsole.Size = new System.Drawing.Size(750, 19);
+            this.richTextConsole.Size = new System.Drawing.Size(789, 19);
             this.richTextConsole.TabIndex = 180;
             this.richTextConsole.Text = "v 1.0";
-            // 
-            // timerSchedule
-            // 
-            this.timerSchedule.Interval = 300000;
             // 
             // timerShift
             // 
@@ -761,7 +758,7 @@
             this.pbYellow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pbYellow.BackColor = System.Drawing.Color.Yellow;
             this.pbYellow.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbYellow.Location = new System.Drawing.Point(741, 168);
+            this.pbYellow.Location = new System.Drawing.Point(780, 171);
             this.pbYellow.Name = "pbYellow";
             this.pbYellow.Size = new System.Drawing.Size(15, 15);
             this.pbYellow.TabIndex = 179;
@@ -772,7 +769,7 @@
             this.pbRed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pbRed.BackColor = System.Drawing.Color.Red;
             this.pbRed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbRed.Location = new System.Drawing.Point(720, 168);
+            this.pbRed.Location = new System.Drawing.Point(759, 171);
             this.pbRed.Name = "pbRed";
             this.pbRed.Size = new System.Drawing.Size(15, 15);
             this.pbRed.TabIndex = 178;
@@ -785,9 +782,9 @@
             this.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSettings.FlatAppearance.BorderSize = 0;
             this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSettings.Location = new System.Drawing.Point(741, 8);
+            this.btnSettings.Location = new System.Drawing.Point(772, 25);
             this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(20, 20);
+            this.btnSettings.Size = new System.Drawing.Size(25, 25);
             this.btnSettings.TabIndex = 175;
             this.btnSettings.UseVisualStyleBackColor = false;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
@@ -796,9 +793,9 @@
             // 
             this.lblShift.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblShift.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblShift.Location = new System.Drawing.Point(220, 74);
+            this.lblShift.Location = new System.Drawing.Point(239, 74);
             this.lblShift.Name = "lblShift";
-            this.lblShift.Size = new System.Drawing.Size(69, 21);
+            this.lblShift.Size = new System.Drawing.Size(89, 21);
             this.lblShift.TabIndex = 140;
             this.lblShift.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -806,9 +803,9 @@
             // 
             this.lblResourceCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblResourceCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResourceCode.Location = new System.Drawing.Point(220, 32);
+            this.lblResourceCode.Location = new System.Drawing.Point(239, 32);
             this.lblResourceCode.Name = "lblResourceCode";
-            this.lblResourceCode.Size = new System.Drawing.Size(69, 21);
+            this.lblResourceCode.Size = new System.Drawing.Size(89, 21);
             this.lblResourceCode.TabIndex = 24;
             this.lblResourceCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -818,7 +815,7 @@
             this.lblWorkCenterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblWorkCenterName.Location = new System.Drawing.Point(15, 74);
             this.lblWorkCenterName.Name = "lblWorkCenterName";
-            this.lblWorkCenterName.Size = new System.Drawing.Size(175, 21);
+            this.lblWorkCenterName.Size = new System.Drawing.Size(192, 21);
             this.lblWorkCenterName.TabIndex = 129;
             this.lblWorkCenterName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -827,7 +824,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label7.Location = new System.Drawing.Point(237, 57);
+            this.label7.Location = new System.Drawing.Point(266, 57);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(35, 13);
             this.label7.TabIndex = 141;
@@ -851,7 +848,7 @@
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label14.Location = new System.Drawing.Point(234, 15);
+            this.label14.Location = new System.Drawing.Point(263, 15);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(40, 13);
             this.label14.TabIndex = 125;
@@ -872,9 +869,9 @@
             // 
             this.lblStatusProcess.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatusProcess.ForeColor = System.Drawing.Color.Black;
-            this.lblStatusProcess.Location = new System.Drawing.Point(464, 31);
+            this.lblStatusProcess.Location = new System.Drawing.Point(449, 34);
             this.lblStatusProcess.Name = "lblStatusProcess";
-            this.lblStatusProcess.Size = new System.Drawing.Size(293, 15);
+            this.lblStatusProcess.Size = new System.Drawing.Size(304, 15);
             this.lblStatusProcess.TabIndex = 189;
             this.lblStatusProcess.Text = "¡Bienvenido!";
             this.lblStatusProcess.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -883,7 +880,7 @@
             // 
             this.pbWaitProcess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pbWaitProcess.Image = global::WOW_Fusion.Properties.Resources.preloader;
-            this.pbWaitProcess.Location = new System.Drawing.Point(597, 1);
+            this.pbWaitProcess.Location = new System.Drawing.Point(587, 6);
             this.pbWaitProcess.Name = "pbWaitProcess";
             this.pbWaitProcess.Padding = new System.Windows.Forms.Padding(10);
             this.pbWaitProcess.Size = new System.Drawing.Size(28, 28);
@@ -906,7 +903,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(452, 54);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(308, 112);
+            this.groupBox1.Size = new System.Drawing.Size(342, 112);
             this.groupBox1.TabIndex = 190;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos del recurso";
@@ -930,7 +927,7 @@
             this.cmbResources.FormattingEnabled = true;
             this.cmbResources.Location = new System.Drawing.Point(15, 33);
             this.cmbResources.Name = "cmbResources";
-            this.cmbResources.Size = new System.Drawing.Size(175, 21);
+            this.cmbResources.Size = new System.Drawing.Size(192, 21);
             this.cmbResources.TabIndex = 0;
             this.cmbResources.DropDown += new System.EventHandler(this.cmbResources_DropDown);
             this.cmbResources.SelectedIndexChanged += new System.EventHandler(this.cmbResources_SelectedIndexChanged);
@@ -939,7 +936,7 @@
             // 
             this.pbWaitResources.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pbWaitResources.Image = global::WOW_Fusion.Properties.Resources.preloader;
-            this.pbWaitResources.Location = new System.Drawing.Point(180, 20);
+            this.pbWaitResources.Location = new System.Drawing.Point(199, 20);
             this.pbWaitResources.Name = "pbWaitResources";
             this.pbWaitResources.Padding = new System.Windows.Forms.Padding(10);
             this.pbWaitResources.Size = new System.Drawing.Size(45, 45);
@@ -952,18 +949,32 @@
             // 
             this.lblLocationCode.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLocationCode.ForeColor = System.Drawing.Color.Gray;
-            this.lblLocationCode.Location = new System.Drawing.Point(631, 11);
+            this.lblLocationCode.Location = new System.Drawing.Point(612, 1);
             this.lblLocationCode.Name = "lblLocationCode";
-            this.lblLocationCode.Size = new System.Drawing.Size(110, 18);
+            this.lblLocationCode.Size = new System.Drawing.Size(185, 18);
             this.lblLocationCode.TabIndex = 191;
             this.lblLocationCode.Text = "...";
             this.lblLocationCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Transparent;
+            this.button1.BackgroundImage = global::WOW_Fusion.Properties.Resources.reprint;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(741, 23);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(27, 27);
+            this.button1.TabIndex = 192;
+            this.button1.UseVisualStyleBackColor = false;
             // 
             // frmLabelP3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(767, 619);
+            this.ClientSize = new System.Drawing.Size(806, 619);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBoxWeight);
             this.Controls.Add(this.groupBoxProd);
             this.Controls.Add(this.lblLocationCode);
@@ -1030,7 +1041,6 @@
         private System.Windows.Forms.RichTextBox richTextConsole;
         private System.Windows.Forms.PictureBox pbYellow;
         private System.Windows.Forms.PictureBox pbRed;
-        private System.Windows.Forms.Timer timerSchedule;
         private System.Windows.Forms.Timer timerShift;
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.ToolStripMenuItem recalcularToolStripMenuItem;
@@ -1068,5 +1078,7 @@
         private System.Windows.Forms.Label lblWeight;
         private System.Windows.Forms.Label lblLocationCode;
         internal System.Windows.Forms.TextBox txtScannerInput;
+        private System.Windows.Forms.ToolTip TipTare;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -107,7 +107,7 @@ namespace WOW_Fusion.Views.Plant3
 
             AppController.ToolTip(btnEndProcess, "Terminar de pesar orden");
 
-            TipStatusWO.SetToolTip(lblWOStatus, "Status orden");
+            TipStatusWO.SetToolTip(lblWOStatus, "");
 
             btnGetWeight.Enabled = false;
         }
@@ -328,8 +328,9 @@ namespace WOW_Fusion.Views.Plant3
             {
                 MessageBox.Show("Error. " + ex.Message, "Error al seleccionar orden", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            _sackCount++;
             ShowWait(false);
-            lblStatusProcess.Text = "¡Escaneé TARA!";
+            lblStatusProcess.Text = "¡Escaneé TARA y SACO!";
             lblStatusProcess.ForeColor = Color.Red;
             txtScannerInput.Enabled = true;
             txtScannerInput.Focus();
@@ -377,15 +378,12 @@ namespace WOW_Fusion.Views.Plant3
                     {
                         if (_weightFromWeighing > 0)
                         {
-                            float sackNet = _weightFromWeighing - float.Parse(lblBag.Text); // Saco - Bolsa
-                            float sackGross = sackNet + float.Parse(lblBag.Text); //Saco + Bolsa
+                            float sackNet = _weightFromWeighing - (float.Parse(lblTare.Text) + float.Parse(lblBag.Text)); // Saco - (Tara + Bolsa)
 
                             lblWeight.Text = sackNet.ToString("F1");
 
-                            _sackCount++;
-
                             //Agregar pesos a datagrid
-                            string[] row = new string[] { _sackCount.ToString(), lblTare.Text, lblBag.Text, sackNet.ToString("F1"), sackGross.ToString("F1") };
+                            string[] row = new string[] { _sackCount.ToString(), lblTare.Text, lblBag.Text, sackNet.ToString("F1"), _weightFromWeighing.ToString("F1") };
                             int indexNewRoll = dgSacks.Rows.Add(row);
                             dgSacks.FirstDisplayedScrollingRowIndex = indexNewRoll;
                         }
@@ -428,7 +426,7 @@ namespace WOW_Fusion.Views.Plant3
                     {
                         if (_weightFromWeighing > 0)
                         {
-                            float dgNet = float.Parse(dgSacks.Rows[lastRow].Cells["R_Net"].Value.ToString());
+                            float dgNet = float.Parse(dgSacks.Rows[lastRow].Cells["S_Net"].Value.ToString());
                             if (_weightFromWeighing < (_previousWeight - dgNet))
                             {
                                 MessageBox.Show("Se detecto menor peso al obtenido anteriormente, verifique el producto colocado", "¡Precaucion!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -503,9 +501,8 @@ namespace WOW_Fusion.Views.Plant3
         {
             if (_completedHistory) { return; }
 
-            //TableLayoutPalletControl(1, 1, lblSackNumber.Text);
-
             _sackCount += 1;
+            TableLayoutPalletControl("WEIGHT");
 
             float totalNetSum = dgSacks.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["S_Net"].Value.ToString()));
             lblCompletedQuantity.Text = totalNetSum.ToString();
@@ -527,7 +524,7 @@ namespace WOW_Fusion.Views.Plant3
             //Cambiar color
             foreach (DataGridViewRow row in dgSacks.Rows)
             {
-                float rollNetKg = float.Parse(row.Cells["R_Net"].Value.ToString());
+                float rollNetKg = float.Parse(row.Cells["S_Net"].Value.ToString());
                 if (!string.IsNullOrEmpty(lblStdSack.Text))
                 {
                     float _stdRollWeight = float.Parse(lblStdSack.Text);
@@ -554,190 +551,62 @@ namespace WOW_Fusion.Views.Plant3
             {
                 dgSacks.Rows[e.RowIndex].Selected = true;
                 _rowSelected = e.RowIndex;
-                dgSacks.CurrentCell = dgSacks.Rows[e.RowIndex].Cells["R_Net"];
+                dgSacks.CurrentCell = dgSacks.Rows[e.RowIndex].Cells["S_Net"];
                 MenuShipWeight.Show(dgSacks, e.Location);
                 MenuShipWeight.Show(Cursor.Position);
             }
         }
 
-        private void TableLayoutPalletControl(int rollOnPallet, int rollNumber, string palletNumber)
+        private void TableLayoutPalletControl(string step)
         {
-            if (rollOnPallet <= 25)
+            tabLayoutPallet.Controls.Clear();
+            tabLayoutPallet.RowStyles.Clear();
+            tabLayoutPallet.ColumnStyles.Clear();
+
+            if(step == "CLEAR")
             {
-                int count = 0;
+                TipTare.SetToolTip(tabLayoutPallet, lblTare.Text);
+                tabLayoutPallet.BackgroundImage = Resources.pallet_empty;
+                return;
+            }
 
-                tabLayoutPallet.Controls.Clear();
-                tabLayoutPallet.RowStyles.Clear();
-                tabLayoutPallet.ColumnStyles.Clear();
+            PictureBox picRoll = new PictureBox();
+            if(step == "TARE")
+            {
+                TipTare.SetToolTip(tabLayoutPallet, lblTare.Text);
+                tabLayoutPallet.BackgroundImage = Resources.pallet_filled;
+                picRoll.Image = Resources.sack_empty;
+                AppController.ToolTip(picRoll, lblBag.Text + " kg");
+            }
+            else if (step == "WEIGHT")
+            { 
+                float netSack =float.Parse(dgSacks.Rows[dgSacks.Rows.Count - 1].Cells["S_Net"].Value.ToString());
 
-                //Definir FILAS Y COLUMNAS
-                switch (rollOnPallet)
+                if (netSack == float.Parse(lblStdSack.Text))
                 {
-                    case 3:
-                        tabLayoutPallet.ColumnCount = 2;
-                        tabLayoutPallet.RowCount = 2;
-                        break;
-                    case 4:
-                        tabLayoutPallet.ColumnCount = 2;
-                        tabLayoutPallet.RowCount = 2;
-                        break;
-                    case 5:
-                    case 6:
-                        tabLayoutPallet.ColumnCount = 2;
-                        tabLayoutPallet.RowCount = 3;
-                        break;
-                    case 7:
-                    case 8:
-                    case 9:
-                        tabLayoutPallet.ColumnCount = 3;
-                        tabLayoutPallet.RowCount = 3;
-                        break;
-                    case 10:
-                    case 11:
-                    case 12:
-                        tabLayoutPallet.ColumnCount = 3;
-                        tabLayoutPallet.RowCount = 4;
-                        break;
-                    case 13:
-                    case 14:
-                    case 15:
-                    case 16:
-                        tabLayoutPallet.ColumnCount = 4;
-                        tabLayoutPallet.RowCount = 4;
-                        break;
-                    case 17:
-                    case 18:
-                    case 19:
-                    case 20:
-                        tabLayoutPallet.ColumnCount = 4;
-                        tabLayoutPallet.RowCount = 5;
-                        break;
-                    case 21:
-                    case 22:
-                    case 23:
-                    case 24:
-                    case 25:
-                        tabLayoutPallet.ColumnCount = 5;
-                        tabLayoutPallet.RowCount = 5;
-                        break;
-                    default: // 1 o 2 rollos
-                        tabLayoutPallet.ColumnCount = rollOnPallet;
-                        tabLayoutPallet.RowCount = 1;
-                        break;
+                    picRoll.Image = Resources.sack;
+                }
+                else if (netSack > float.Parse(lblStdSack.Text))
+                {
+                    picRoll.Image = Resources.sack_yellow;
+                }
+                else if (netSack < float.Parse(lblStdSack.Text))
+                {
+                    picRoll.Image = Resources.sack_red;
                 }
 
-                for (int row = 0; row < tabLayoutPallet.RowCount; row++)
-                {
-                    tabLayoutPallet.RowStyles.Add(new RowStyle(SizeType.Percent, 1));
-                    for (int col = 0; col < tabLayoutPallet.ColumnCount; col++)
-                    {
-                        PictureBox picRoll = new PictureBox();
-                        if (count < rollNumber)
-                        {
-                            IEnumerable<string> columnWeigthsNetKg = dgSacks.Rows.Cast<DataGridViewRow>().Where(fila => fila.Cells["S_Number"].Value.ToString().Equals(palletNumber))
-                                                                    .Select(fila => fila.Cells["S_Net"].Value.ToString());
-
-                            string[] weigthRoll = columnWeigthsNetKg.ToArray();
-
-                            if (float.Parse(weigthRoll[count]) == float.Parse(lblStdSack.Text))
-                            {
-                                picRoll.Image = Resources.sack_green;
-                            }
-                            else if (float.Parse(weigthRoll[count]) > float.Parse(lblStdSack.Text))
-                            {
-                                picRoll.Image = Resources.sack_yellow;
-                            }
-                            else if (float.Parse(weigthRoll[count]) < float.Parse(lblStdSack.Text))
-                            {
-                                picRoll.Image = Resources.sack_red;
-                            }
-
-                            AppController.ToolTip(picRoll, weigthRoll[count].ToString() + " kg");
-                        }
-                        else
-                        {
-                            picRoll.Image = Resources.sack;
-                        }
-
-                        picRoll.BackColor = Color.Transparent;
-                        picRoll.SizeMode = PictureBoxSizeMode.Zoom;
-                        picRoll.Dock = DockStyle.Fill;
-
-                        count++;
-
-                        if (count <= rollOnPallet)
-                        {
-                            tabLayoutPallet.Controls.Add(picRoll, col, row);
-
-                            if (rollOnPallet == 3 && count == 3)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
-                            }
-                            else if (rollOnPallet == 5 && count == 5)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
-                            }
-                            else if (rollOnPallet == 7 && count == 7)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 3);
-                            }
-                            else if (rollOnPallet == 10 && count == 10)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 3);
-                            }
-                            else if (rollOnPallet == 11 && count == 10)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
-                            }
-                            else if (rollOnPallet == 13 && count == 13)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 4);
-                            }
-                            else if (rollOnPallet == 14 && count == 13)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
-                            }
-                            else if (rollOnPallet == 14 && count == 14)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
-                            }
-                            else if (rollOnPallet == 14 && count == 14)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
-                            }
-                            else if (rollOnPallet == 17 && count == 17)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 4);
-                            }
-                            else if (rollOnPallet == 18 && count == 17)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
-                            }
-                            else if (rollOnPallet == 19 && count == 18)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
-                            }
-                            else if (rollOnPallet == 21 && count == 21)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 5);
-                            }
-                            else if (rollOnPallet == 22 && count == 21)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 3);
-                            }
-                            else if (rollOnPallet == 23 && count == 21)
-                            {
-                                tabLayoutPallet.SetColumnSpan(picRoll, 2);
-                            }
-                        }
-                        tabLayoutPallet.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1));
-                    }
-                }
+                AppController.ToolTip(picRoll, netSack + " kg");
             }
-            else
-            {
-                NotifierController.Warning($"{rollOnPallet} rollos rebasan el estándar de un palet");
-            }
+
+            picRoll.BackColor = Color.Transparent;
+            picRoll.SizeMode = PictureBoxSizeMode.Zoom;
+            picRoll.Dock = DockStyle.Fill;
+
+            tabLayoutPallet.ColumnCount = 1;
+            tabLayoutPallet.RowCount = 1;
+            tabLayoutPallet.Controls.Add(picRoll, 1, 1);
+
+            tabLayoutPallet.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1));
         }
         #endregion
 
@@ -813,8 +682,7 @@ namespace WOW_Fusion.Views.Plant3
 
             //Pallet Anim Section
             _completedHistory = false;
-            tabLayoutPallet.BackgroundImage = Resources.pallet_empty;
-            TableLayoutPalletControl(0, 0, lblSackNumber.Text);
+            TableLayoutPalletControl("CLEAR");
 
             //Weigth Section
             lblStdSack.Text = string.Empty;
@@ -1150,27 +1018,31 @@ namespace WOW_Fusion.Views.Plant3
 
         private void lblTare_TextChanged(object sender, EventArgs e)
         {
-            tabLayoutPallet.BackgroundImage = Resources.pallet_filled;
-            TableLayoutPalletControl(1, 0, 1.ToString());
-
-            if (!string.IsNullOrEmpty(lblTare.Text) && !string.IsNullOrEmpty(lblBag.Text))
+            if (!string.IsNullOrEmpty(lblTare.Text) && )
             {
-                btnGetWeight.Enabled = true;
-                btnGetWeight.BackColor = Color.Red;
-            }
-            else
-            {
-                btnGetWeight.Enabled = false;
-                btnGetWeight.BackColor = Color.Gray;
+                ScanTareBag();
             }
         }
 
         private void lblBag_TextChanged(object sender, EventArgs e)
         {
+            ScanTareBag();
+        }
+
+        private void ScanTareBag()
+        {
             if (!string.IsNullOrEmpty(lblTare.Text) && !string.IsNullOrEmpty(lblBag.Text))
             {
                 btnGetWeight.Enabled = true;
                 btnGetWeight.BackColor = Color.Red;
+                lblSackNumber.Text = _sackCount.ToString();
+
+                lblStatusProcess.Text = "¡Pese el SACO!";
+                lblStatusProcess.ForeColor = Color.Red;
+
+                lblSackNumber.Text = _sackCount.ToString();
+
+                TableLayoutPalletControl("TARE");
             }
             else
             {
