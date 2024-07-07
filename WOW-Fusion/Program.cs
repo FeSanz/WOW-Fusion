@@ -24,9 +24,9 @@ namespace WOW_Fusion
                 { 
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    //Application.Run(new frmLoginP1());
+                    Application.Run(new frmLoginP1());
                     //Application.Run(new frmLabelP2());
-                    Application.Run(new frmLabelP3());
+                    //Application.Run(new frmLabelP3());
                 }
                 else
                 {

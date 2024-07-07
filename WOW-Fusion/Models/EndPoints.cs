@@ -119,13 +119,18 @@ namespace WOW_Fusion.Models
         public static string ProductionResourcesP1 = Settings.Default.FusionUrl + "/productionResources?" + Constants.ParamsGet +
                                                         "&fields=ResourceId" +
                                                         "&q=OrganizationId={0} and ResourceType='EQUIPMENT' and ResourceClassCode='EQU'";
+
+        public static string ItemP1 = Settings.Default.FusionUrl + "/itemsV2?" + Constants.ParamsGet +
+                                    "&fields=ItemId,LongDescription" +
+                                    "&q=ItemNumber='{0}' and OrganizationId={1}";
+
         //Endpoints Planta 2
         public static string ProductionResourcesP2 = Settings.Default.FusionUrl + "/productionResources?" + Constants.ParamsGet +
                                                    "&fields=ResourceId" +
                                                    "&q=OrganizationId={0} and ResourceType='EQUIPMENT' and ResourceCode like 'MF-LAM%' or ResourceCode like 'MF-C01%'";
 
         public static string ItemP2 = Settings.Default.FusionUrl + "/itemsV2?" + Constants.ParamsGet +
-                                    "&fields=ItemId,UnitWeightQuantity,WeightUOMValue,WeightUOMValue,MaximumLoadWeight,ContainerTypeValue,LotControlValue" +
+                                    "&fields=ItemId,LongDescription,UnitWeightQuantity,WeightUOMValue,WeightUOMValue,MaximumLoadWeight,ContainerTypeValue,LotControlValue" +
                                     "&q=ItemNumber='{0}' and OrganizationId={1}";
 
         //EndPoints Planta 3

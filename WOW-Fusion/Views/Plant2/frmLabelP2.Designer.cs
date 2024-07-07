@@ -81,7 +81,6 @@
             this.label23 = new System.Windows.Forms.Label();
             this.lblRollOnPallet = new System.Windows.Forms.Label();
             this.lblStdRoll = new System.Windows.Forms.Label();
-            this.lblWeightUOMPallet = new System.Windows.Forms.Label();
             this.lblLabelName = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.groupBoxRoll = new System.Windows.Forms.GroupBox();
@@ -96,6 +95,9 @@
             this.MenuShipWeight = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.recalcularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxAka = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lblAkaCustomerPO = new System.Windows.Forms.Label();
+            this.lblAkaCustomerName = new System.Windows.Forms.Label();
             this.lblAkaItem = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.lblAkaDescription = new System.Windows.Forms.Label();
@@ -118,7 +120,6 @@
             this.lblContainerType = new System.Windows.Forms.Label();
             this.lblStdPallet = new System.Windows.Forms.Label();
             this.btnReloadTare = new System.Windows.Forms.Button();
-            this.lblWeightUOMRoll = new System.Windows.Forms.Label();
             this.dgPallets = new System.Windows.Forms.DataGridView();
             this.P_Pallet = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.P_Tare = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -155,9 +156,8 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.lblStatusProcess = new System.Windows.Forms.Label();
             this.pbWaitProcess = new System.Windows.Forms.PictureBox();
-            this.lblAkaCustomerName = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.lblAkaCustomerPO = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
             this.groupBoxProd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBoxRoll.SuspendLayout();
@@ -575,17 +575,6 @@
             this.lblStdRoll.TabIndex = 134;
             this.lblStdRoll.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblWeightUOMPallet
-            // 
-            this.lblWeightUOMPallet.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWeightUOMPallet.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblWeightUOMPallet.Location = new System.Drawing.Point(158, 125);
-            this.lblWeightUOMPallet.Name = "lblWeightUOMPallet";
-            this.lblWeightUOMPallet.Size = new System.Drawing.Size(35, 15);
-            this.lblWeightUOMPallet.TabIndex = 135;
-            this.lblWeightUOMPallet.Text = "--";
-            this.lblWeightUOMPallet.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // lblLabelName
             // 
             this.lblLabelName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -755,6 +744,39 @@
             this.groupBoxAka.TabStop = false;
             this.groupBoxAka.Text = "AKA";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label6.Location = new System.Drawing.Point(360, 9);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(22, 13);
+            this.label6.TabIndex = 137;
+            this.label6.Text = "OC";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblAkaCustomerPO
+            // 
+            this.lblAkaCustomerPO.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAkaCustomerPO.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAkaCustomerPO.Location = new System.Drawing.Point(324, 24);
+            this.lblAkaCustomerPO.Name = "lblAkaCustomerPO";
+            this.lblAkaCustomerPO.Size = new System.Drawing.Size(94, 15);
+            this.lblAkaCustomerPO.TabIndex = 136;
+            this.lblAkaCustomerPO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblAkaCustomerName
+            // 
+            this.lblAkaCustomerName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblAkaCustomerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAkaCustomerName.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblAkaCustomerName.Location = new System.Drawing.Point(101, 56);
+            this.lblAkaCustomerName.Name = "lblAkaCustomerName";
+            this.lblAkaCustomerName.Size = new System.Drawing.Size(317, 15);
+            this.lblAkaCustomerName.TabIndex = 135;
+            this.lblAkaCustomerName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // lblAkaItem
             // 
             this.lblAkaItem.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -846,6 +868,9 @@
             // 
             this.groupBoxWeight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxWeight.Controls.Add(this.lblStdPallet);
+            this.groupBoxWeight.Controls.Add(this.label21);
+            this.groupBoxWeight.Controls.Add(this.label13);
             this.groupBoxWeight.Controls.Add(this.btnReloadCore);
             this.groupBoxWeight.Controls.Add(this.label11);
             this.groupBoxWeight.Controls.Add(this.label29);
@@ -860,15 +885,12 @@
             this.groupBoxWeight.Controls.Add(this.label28);
             this.groupBoxWeight.Controls.Add(this.lblContainerType);
             this.groupBoxWeight.Controls.Add(this.lblPalletTotal);
-            this.groupBoxWeight.Controls.Add(this.lblStdPallet);
             this.groupBoxWeight.Controls.Add(this.btnReloadTare);
             this.groupBoxWeight.Controls.Add(this.label23);
-            this.groupBoxWeight.Controls.Add(this.lblWeightUOMPallet);
             this.groupBoxWeight.Controls.Add(this.lblRollOnPallet);
             this.groupBoxWeight.Controls.Add(this.lblStdRoll);
             this.groupBoxWeight.Controls.Add(this.lblPalletNumber);
             this.groupBoxWeight.Controls.Add(this.label8);
-            this.groupBoxWeight.Controls.Add(this.lblWeightUOMRoll);
             this.groupBoxWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxWeight.Location = new System.Drawing.Point(3, 436);
             this.groupBoxWeight.Name = "groupBoxWeight";
@@ -957,7 +979,7 @@
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(142, 13);
             this.label34.TabIndex = 169;
-            this.label34.Text = "PESO ESTÁNDAR";
+            this.label34.Text = "PESOS ESTÁNDAR";
             this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label30
@@ -1037,17 +1059,6 @@
             this.btnReloadTare.UseVisualStyleBackColor = false;
             this.btnReloadTare.Visible = false;
             this.btnReloadTare.Click += new System.EventHandler(this.btnReloadTare_Click);
-            // 
-            // lblWeightUOMRoll
-            // 
-            this.lblWeightUOMRoll.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWeightUOMRoll.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblWeightUOMRoll.Location = new System.Drawing.Point(75, 125);
-            this.lblWeightUOMRoll.Name = "lblWeightUOMRoll";
-            this.lblWeightUOMRoll.Size = new System.Drawing.Size(30, 15);
-            this.lblWeightUOMRoll.TabIndex = 174;
-            this.lblWeightUOMRoll.Text = "--";
-            this.lblWeightUOMRoll.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // dgPallets
             // 
@@ -1573,38 +1584,27 @@
             this.pbWaitProcess.TabStop = false;
             this.pbWaitProcess.Visible = false;
             // 
-            // lblAkaCustomerName
+            // label13
             // 
-            this.lblAkaCustomerName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblAkaCustomerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAkaCustomerName.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblAkaCustomerName.Location = new System.Drawing.Point(101, 56);
-            this.lblAkaCustomerName.Name = "lblAkaCustomerName";
-            this.lblAkaCustomerName.Size = new System.Drawing.Size(317, 15);
-            this.lblAkaCustomerName.TabIndex = 135;
-            this.lblAkaCustomerName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label13.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label13.Location = new System.Drawing.Point(159, 125);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(30, 15);
+            this.label13.TabIndex = 183;
+            this.label13.Text = "kg";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label6
+            // label21
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label6.Location = new System.Drawing.Point(360, 9);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(22, 13);
-            this.label6.TabIndex = 137;
-            this.label6.Text = "OC";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblAkaCustomerPO
-            // 
-            this.lblAkaCustomerPO.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblAkaCustomerPO.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAkaCustomerPO.Location = new System.Drawing.Point(324, 24);
-            this.lblAkaCustomerPO.Name = "lblAkaCustomerPO";
-            this.lblAkaCustomerPO.Size = new System.Drawing.Size(94, 15);
-            this.lblAkaCustomerPO.TabIndex = 136;
-            this.lblAkaCustomerPO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label21.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label21.Location = new System.Drawing.Point(75, 125);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(30, 15);
+            this.label21.TabIndex = 184;
+            this.label21.Text = "kg";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // frmLabelP2
             // 
@@ -1716,7 +1716,6 @@
         private System.Windows.Forms.Label lblLocation;
         private System.Windows.Forms.Label lblMode;
         private System.Windows.Forms.Label lblStdRoll;
-        private System.Windows.Forms.Label lblWeightUOMPallet;
         private System.Windows.Forms.Timer timerShift;
         private System.Windows.Forms.Timer timerSchedule;
         private System.Windows.Forms.Label label23;
@@ -1727,7 +1726,6 @@
         private System.Windows.Forms.Label lblStdPallet;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Button btnEndProcess;
-        private System.Windows.Forms.Label lblWeightUOMRoll;
         private System.Windows.Forms.ToolStripMenuItem recalcularToolStripMenuItem;
         private System.Windows.Forms.PictureBox pbYellow;
         private System.Windows.Forms.PictureBox pbRed;
@@ -1768,5 +1766,7 @@
         private System.Windows.Forms.Label lblAkaCustomerName;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblAkaCustomerPO;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label21;
     }
 }

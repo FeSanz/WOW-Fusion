@@ -162,7 +162,7 @@ namespace WOW_Fusion
                     // Comprobar si se ha cancelado la operación debido al tiempo de espera
                     if (cts.Token.IsCancellationRequested)
                     {
-                        Console.WriteLine($"Tiempo de espera excedido en la lécura de la báscula [{DateService.Today()}]");
+                        Console.WriteLine($"Tiempo de espera excedido en la léctura de la báscula [{DateService.Today()}]");
                         return "EX";
                     }
 

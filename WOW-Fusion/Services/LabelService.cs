@@ -189,11 +189,11 @@ namespace WOW_Fusion.Services
                                 string zpl = typee.Equals("ROLL") ? ReplaceZplRoll(number) : ReplaceZplPallet(number);
                                 await Task.Delay(500);
                                 byte[] data = Encoding.UTF8.GetBytes(zpl);
-                                await _stream.WriteAsync(data, 0, data.Length);
-                                await _stream.FlushAsync();
+                                await stream.WriteAsync(data, 0, data.Length);
+                                await stream.FlushAsync();
 
-                                string t_message = typee.Equals("ROLL") ? $"Imprimiendo etiqueta [rollo] {pag} de {end}" : $"Imprimiendo etiqueta [palet] {pag} de {end}";
-                                frmLabelP2.SetLabelStatusPrint(t_message);
+                                //string t_message = typee.Equals("ROLL") ? $"Imprimiendo etiqueta [rollo] {pag} de {end}" : $"Imprimiendo etiqueta [palet] {pag} de {end}";
+                                //frmLabelP2.SetLabelStatusPrint(t_message);
                             }
                         }
                         else

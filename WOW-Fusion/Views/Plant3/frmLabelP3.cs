@@ -1018,7 +1018,7 @@ namespace WOW_Fusion.Views.Plant3
 
         private void lblTare_TextChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(lblTare.Text) && )
+            if (!string.IsNullOrEmpty(lblTare.Text))
             {
                 ScanTareBag();
             }

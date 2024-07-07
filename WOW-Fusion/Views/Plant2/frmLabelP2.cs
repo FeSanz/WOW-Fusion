@@ -389,8 +389,8 @@ namespace WOW_Fusion
 
                 lblItemNumber.Text = wo.ItemNumber.ToString();
                 lblItemDescription.Text = wo.Description.ToString();
-                lblItemDescriptionEnglish.Text = lblItemDescription.Text.Contains("PET CRIST") ? wo.Description.ToString().Replace("PET CRIST", "PET SHEET CRIST") : 
-                                                 TranslateService.Translate(lblItemDescription.Text.ToString());
+                /*lblItemDescriptionEnglish.Text = lblItemDescription.Text.Contains("PET CRIST") ? wo.Description.ToString().Replace("PET CRIST", "PET SHEET CRIST") : 
+                                                 TranslateService.Translate(lblItemDescription.Text.ToString());*/
 
                 WithThickness();//Obtener espesor y ancho productos PCR
 
@@ -411,13 +411,17 @@ namespace WOW_Fusion
                     }
                     else
                     {
+                        lblItemDescriptionEnglish.Text = string.IsNullOrEmpty(itemsV2.LongDescription.ToString()) ?
+                                                         TranslateService.Translate(lblItemDescription.Text) : itemsV2.LongDescription.ToString();
+
                         lblStdRoll.Text = itemsV2.UnitWeightQuantity.ToString();
-                        lblWeightUOMRoll.Text = itemsV2.WeightUOMValue.ToString();
-                        lblWeightUOMPallet.Text = lblWeightUOMRoll.Text;
-                        lblStdPallet.Text = itemsV2.MaximumLoadWeight.ToString();
+                        //lblWeightUOMRoll.Text = itemsV2.WeightUOMValue.ToString();
+                        //lblWeightUOMPallet.Text = lblWeightUOMRoll.Text;
+                        int palletStd = int.Parse(itemsV2.MaximumLoadWeight.ToString()) * int.Parse(itemsV2.UnitWeightQuantity.ToString());
+                        lblStdPallet.Text = palletStd.ToString();
                         lblContainerType.Text = itemsV2.ContainerTypeValue.ToString();
 
-                        int rollsOnPallet = int.Parse(itemsV2.MaximumLoadWeight.ToString()) / int.Parse(itemsV2.UnitWeightQuantity.ToString());
+                        int rollsOnPallet = int.Parse(itemsV2.MaximumLoadWeight.ToString()) /*/ int.Parse(itemsV2.UnitWeightQuantity.ToString())*/;
                         lblRollOnPallet.Text = rollsOnPallet.ToString();
 
                         int palletTotal = (int)Math.Ceiling(float.Parse(lblPrimaryProductQuantity.Text) / (float.Parse(lblStdRoll.Text) * float.Parse(lblRollOnPallet.Text)));
@@ -543,7 +547,9 @@ namespace WOW_Fusion
                 //Order completada
                 if (dgRolls.Rows.Count > 0)
                 {
-                    if(int.Parse(lblPalletTotal.Text) * int.Parse(lblRollOnPallet.Text) == dgRolls.Rows.Count)
+                    int rollsIdeal = int.Parse(lblPalletTotal.Text) * int.Parse(lblRollOnPallet.Text);
+
+                    if (rollsIdeal == dgRolls.Rows.Count)
                     {
                         NotifierController.Warning("Orden completada");
                         btnGetWeight.Enabled = false;
@@ -552,6 +558,11 @@ namespace WOW_Fusion
                         {
                             Console.WriteLine($"Pesaje [{lblCompletedQuantity.Text} kg] excede la cantidad programada a producir [{lblPrimaryProductQuantity.Text} kg]", Color.Red);
                         }
+                    }
+                    else if(dgRolls.Rows.Count > rollsIdeal)
+                    {
+                        btnGetWeight.Enabled = false;
+                        NotifierController.Warning("Se detectaron más palets de los programados");
                     }
                 }
 
@@ -680,6 +691,10 @@ namespace WOW_Fusion
                     btnGetWeight.BackColor = Color.DarkOrange;
                     btnGetWeight.ForeColor = Color.Black;
                 }
+            }
+            else
+            {
+                _rollByPallet = 1;
             }
 
             btnEndProcess.Visible = _rollCount > 0 ? true : false;
@@ -1132,6 +1147,12 @@ namespace WOW_Fusion
                         _endWeight = true;
                         AddPallet();
                     }
+                    else
+                    {
+                        _endWeight = true;
+                        cmbWorkOrders.Items.Clear();
+                        ClearAll();
+                    }
                 }
                 else
                 {
@@ -1583,7 +1604,7 @@ namespace WOW_Fusion
                 label.WORKORDER = string.IsNullOrEmpty(_workOrderNumber) ? " " : _workOrderNumber/*.Substring(7)*/;
                 label.ITEMNUMBER = string.IsNullOrEmpty(lblItemNumber.Text) ? " " : lblItemNumber.Text;
                 label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;
-                label.ENGLISHDESCRIPTION = string.IsNullOrEmpty(lblItemDescriptionEnglish.Text) || lblItemDescriptionEnglish.Text.Equals(lblItemDescription.Text) ? " " : lblItemDescriptionEnglish.Text;
+                label.ENGLISHDESCRIPTION = string.IsNullOrEmpty(lblItemDescriptionEnglish.Text)? " " : lblItemDescriptionEnglish.Text;
                 label.EQU = string.IsNullOrEmpty(lblResourceCode.Text) ? " " : lblResourceCode.Text;
                 label.DATE = DateService.Now();
                 label.SHIFT = string.IsNullOrEmpty(lblShift.Text) ? " " : lblShift.Text;
@@ -1615,7 +1636,7 @@ namespace WOW_Fusion
                 label.WORKORDER = string.IsNullOrEmpty(_workOrderNumber) ? " " : _workOrderNumber/*.Substring(7)*/;
                 label.ITEMNUMBER = string.IsNullOrEmpty(lblItemNumber.Text) ? " " : lblItemNumber.Text;
                 label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;
-                label.ENGLISHDESCRIPTION = string.IsNullOrEmpty(lblItemDescriptionEnglish.Text) || lblItemDescriptionEnglish.Text.Equals(lblItemDescription.Text) ? " " : lblItemDescriptionEnglish.Text;
+                label.ENGLISHDESCRIPTION = string.IsNullOrEmpty(lblItemDescriptionEnglish.Text) ? " " : lblItemDescriptionEnglish.Text;
                 label.EQU = string.IsNullOrEmpty(lblResourceCode.Text) ? " " : lblResourceCode.Text;
                 label.DATE = DateService.Now();
                 label.SHIFT = string.IsNullOrEmpty(lblShift.Text) ? " " : lblShift.Text;
@@ -1697,9 +1718,9 @@ namespace WOW_Fusion
 
             //Weigth Section
             lblStdRoll.Text = string.Empty;
-            lblWeightUOMRoll.Text = "--";
+            //lblWeightUOMRoll.Text = "--";
             lblStdPallet.Text = string.Empty;
-            lblWeightUOMPallet.Text = "--";
+            //lblWeightUOMPallet.Text = "--";
             lblRollOnPallet.Text = string.Empty;
             lblPalletTotal.Text = string.Empty;
 

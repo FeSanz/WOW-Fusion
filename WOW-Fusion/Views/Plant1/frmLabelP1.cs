@@ -264,7 +264,82 @@ namespace WOW_Fusion
                 itemId = wo.PrimaryProductId.ToString();
                 lblItemNumber.Text = wo.ItemNumber.ToString();
                 lblItemDescription.Text = wo.Description.ToString();
-                lblItemDescriptionEnglish.Text = TranslateService.Translate(lblItemDescription.Text);
+
+                List<string> endPoints = new List<string>
+                {
+                    String.Format(BatchPoints.ItemP1, lblItemNumber.Text, Constants.Plant1Id),
+                    String.Format(BatchPoints.GtinP1, lblItemNumber.Text)
+                };
+
+                Task<string> batchTsk = APIService.PostBatchRequestAsync(Batchs.BatchPayload(endPoints));
+                string batchResponse = await batchTsk;
+                if (!string.IsNullOrEmpty(batchResponse))
+                {
+                    JObject obj = JObject.Parse(batchResponse);
+
+                    if ((int)obj["parts"][0]["payload"]["count"] > 0)
+                    {
+                        dynamic itemsV2 = obj["parts"][0]["payload"]["items"][0];
+                        if (itemsV2 != null)
+                        {
+                            lblItemDescriptionEnglish.Text = string.IsNullOrEmpty(itemsV2.LongDescription.ToString()) ?
+                                                             TranslateService.Translate(lblItemDescription.Text) : itemsV2.LongDescription.ToString();
+                        }
+                        else
+                        {
+                            lblItemDescriptionEnglish.Text = TranslateService.Translate(lblItemDescription.Text);
+                        }
+                    }
+                    else
+                    {
+                        lblItemDescriptionEnglish.Text = TranslateService.Translate(lblItemDescription.Text);
+                        Console.WriteLine($"Descripción larga no encontrada [{DateService.Today()}]", Color.Red);
+                    }
+
+                    if((int)obj["parts"][1]["payload"]["count"] > 0)
+                    {
+                        dynamic GtinRelationships = obj["parts"][1]["payload"]["items"][0];
+
+                        if (GtinRelationships != null)
+                        {
+                            lblGTIN.Text = string.IsNullOrEmpty(GtinRelationships.GTIN.ToString()) ? string.Empty : GtinRelationships.GTIN.ToString();
+                        }
+                        else
+                        {
+                            lblGTIN.Text = string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        lblGTIN.Text = string.Empty;
+                        NotifierController.Warning("GTNI [UPC] no encontrado");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Sin respuesta al obtener descripción larga y GTIN [{DateService.Today()}]", Color.Red);
+                }
+
+                /*if (!string.IsNullOrEmpty(lblItemDescription.Text))
+                {
+                    //♥ Consultar ITEM ♥
+                    dynamic itemsV2 = await CommonService.OneItem(String.Format(EndPoints.ItemP1, lblItemNumber.Text, Constants.Plant1Id));
+
+                    if (itemsV2 != null)
+                    {
+                        lblItemDescriptionEnglish.Text = string.IsNullOrEmpty(itemsV2.LongDescription.ToString()) ? 
+                                                         TranslateService.Translate(lblItemDescription.Text) : itemsV2.LongDescription.ToString();
+                    }
+                    else
+                    {
+                        lblItemDescriptionEnglish.Text = TranslateService.Translate(lblItemDescription.Text);
+                    }
+                }
+                else
+                {
+                    lblItemDescriptionEnglish.Text = string.Empty;
+                }*/
+
                 lblPlannedStartDate.Text = wo.PlannedStartDate.ToString();
                 lblPlannedCompletionDate.Text = wo.PlannedCompletionDate.ToString();
 
@@ -457,6 +532,7 @@ namespace WOW_Fusion
             lblUoM.Text = "--";
             lblItemDescription.Text = string.Empty;
             lblItemDescriptionEnglish.Text = string.Empty;
+            lblGTIN.Text = string.Empty;
             //Resource Section
             lblResourceCode.Text = string.Empty;
             lblResourceName.Text = string.Empty;
@@ -733,7 +809,8 @@ namespace WOW_Fusion
                 label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;
                 label.ENGLISHDESCRIPTION = string.IsNullOrEmpty(lblItemDescriptionEnglish.Text) ? " " : lblItemDescriptionEnglish.Text;
                 label.WORKORDER = string.IsNullOrEmpty(cmbWorkOrders.Text) ? " " : cmbWorkOrders.Text/*.Substring(7)*/;
-                label.UPCA = string.IsNullOrEmpty(itemId) ? $"{Constants.UPCPrefix}0000" : $"{Constants.UPCPrefix}{itemId.Substring(itemId.Length - 4)}";
+                //label.UPCA = string.IsNullOrEmpty(itemId) ? $"{Constants.UPCPrefix}0000" : $"{Constants.UPCPrefix}{itemId.Substring(itemId.Length - 4)}";
+                label.UPCA = string.IsNullOrEmpty(lblGTIN.Text) ? "00000000000000" : lblGTIN.Text;
                 label.EQU = string.IsNullOrEmpty(lblResourceName.Text) ? " ": lblResourceName.Text;
                 label.DATE = DateService.Now();
                 label.BOX = "1";
