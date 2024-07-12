@@ -107,6 +107,8 @@ namespace WOW_Fusion.Models
         public static string LabelTamplate = Settings.Default.ApexUrl + "/labels/{0}/{1}/{2}";
         public static string WeightRolls = Settings.Default.ApexUrl + "/weightRolls";
         public static string RollsOrder = Settings.Default.ApexUrl + "/rollsOrder/{0}/{1}";
+        public static string WeightSacks = Settings.Default.ApexUrl + "/weightSacks";
+        public static string SacksOrder = Settings.Default.ApexUrl + "/sacksOrder/{0}/{1}";
         public static string LabelsPrinted = Settings.Default.ApexUrl + "/labelsPrinted/{0}";
         public static string LabelsRecords = Settings.Default.ApexUrl + "/labelsRecords";
         public static string Auth = Settings.Default.ApexUrl + "/labelUsers/{0}";
@@ -145,6 +147,6 @@ namespace WOW_Fusion.Models
 
         public static string ProductionResourcesP3 = Settings.Default.FusionUrl + "/productionResources?" + Constants.ParamsGet +
                                                         "&fields=ResourceId,ResourceCode,ResourceName" +
-                                                        "&q=OrganizationId={0} and ResourceType='EQUIPMENT' and ResourceCode like 'MF-%'";
+                                                        "&q=OrganizationId={0} and (ResourceId=300000003969051 or ResourceId=300000003969052)";
     }
 }

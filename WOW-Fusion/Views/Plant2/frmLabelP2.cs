@@ -56,6 +56,7 @@ namespace WOW_Fusion
         private float _weightFromWeighing = 0.0f;
         private float _netPallet = 0.0f;
         private float _previousWeight = 0.0f;
+        private float _primaryQuantityAndTolerance = 0.0f;
         //Ancho y espesor
         private string strWithThickness = string.Empty;
         private string _akaCustomer = "DEFAULT";
@@ -129,6 +130,7 @@ namespace WOW_Fusion
         {
             timerShift.Stop();
             lblEnvironment.Text = Settings.Default.FusionUrl.Contains("-test") ? "TEST" : "PROD";
+            //lblTolerance.Text = $"META (+{Settings.Default.PL2Tolerance}%)";
 
             List<string> endPoints = new List<string>
             {
@@ -360,6 +362,8 @@ namespace WOW_Fusion
                 //♥ Consultar WORKORDER ♥
                 Task<string> tskWorkOrdersData = APIService.GetRequestAsync(String.Format(EndPoints.WOProcessData, workOrder, Constants.Plant2Id));
                 string response = await tskWorkOrdersData;
+
+                
                 
                 if (string.IsNullOrEmpty(response)) 
                 {
@@ -379,9 +383,13 @@ namespace WOW_Fusion
                 dynamic wo = objWorkOrder["items"][0]; //Objeto WORKORDER
                 _workOrderId = Int64.Parse(wo.WorkOrderId.ToString());
                 _workOrderNumber = workOrder;
-                lblPrimaryProductQuantity.Text = string.IsNullOrEmpty(wo.PrimaryProductQuantity.ToString()) ? 0 : wo.PrimaryProductQuantity.ToString();
-                //lblCompletedQuantity.Text = wo.CompletedQuantity.ToString();
+                
+                lblPrimaryQuantity.Text = string.IsNullOrEmpty(wo.PrimaryProductQuantity.ToString()) ? 0 : wo.PrimaryProductQuantity.ToString();
+                float tolerance = (Settings.Default.PL2Tolerance * int.Parse(lblPrimaryQuantity.Text)) / 100;
+                _primaryQuantityAndTolerance = float.Parse(lblPrimaryQuantity.Text) + tolerance;
+
                 lblUoM.Text = wo.UOMCode.ToString();
+
                 if (!string.IsNullOrEmpty(wo.CompletedQuantity.ToString()))
                 {
                     NotifierController.Warning($"Orden con despacho registrado [{wo.CompletedQuantity.ToString()} {lblUoM.Text}], verifique antes de pesar");
@@ -391,7 +399,7 @@ namespace WOW_Fusion
                 lblItemDescription.Text = wo.Description.ToString();
                 /*lblItemDescriptionEnglish.Text = lblItemDescription.Text.Contains("PET CRIST") ? wo.Description.ToString().Replace("PET CRIST", "PET SHEET CRIST") : 
                                                  TranslateService.Translate(lblItemDescription.Text.ToString());*/
-
+                
                 WithThickness();//Obtener espesor y ancho productos PCR
 
                 lblPlannedStartDate.Text = wo.PlannedStartDate.ToString();
@@ -424,7 +432,7 @@ namespace WOW_Fusion
                         int rollsOnPallet = int.Parse(itemsV2.MaximumLoadWeight.ToString()) /*/ int.Parse(itemsV2.UnitWeightQuantity.ToString())*/;
                         lblRollOnPallet.Text = rollsOnPallet.ToString();
 
-                        int palletTotal = (int)Math.Ceiling(float.Parse(lblPrimaryProductQuantity.Text) / (float.Parse(lblStdRoll.Text) * float.Parse(lblRollOnPallet.Text)));
+                        int palletTotal = (int)Math.Ceiling(float.Parse(lblPrimaryQuantity.Text) / (float.Parse(lblStdRoll.Text) * float.Parse(lblRollOnPallet.Text)));
                         lblPalletTotal.Text = palletTotal.ToString();
                     }
                 }
@@ -549,20 +557,21 @@ namespace WOW_Fusion
                 {
                     int rollsIdeal = int.Parse(lblPalletTotal.Text) * int.Parse(lblRollOnPallet.Text);
 
-                    if (rollsIdeal == dgRolls.Rows.Count)
+                    //if (rollsIdeal == dgRolls.Rows.Count)
+                    if(float.Parse(lblCompletedQuantity.Text) >= _primaryQuantityAndTolerance)
                     {
                         NotifierController.Warning("Orden completada");
                         btnGetWeight.Enabled = false;
 
-                        if (float.Parse(lblCompletedQuantity.Text) > float.Parse(lblPrimaryProductQuantity.Text))
+                        if (float.Parse(lblCompletedQuantity.Text) > float.Parse(lblPrimaryQuantity.Text))
                         {
-                            Console.WriteLine($"Pesaje [{lblCompletedQuantity.Text} kg] excede la cantidad programada a producir [{lblPrimaryProductQuantity.Text} kg]", Color.Red);
+                            Console.WriteLine($"Pesaje [{lblCompletedQuantity.Text} kg] excede la cantidad programada a producir [{lblPrimaryQuantity.Text} kg]", Color.Red);
                         }
                     }
-                    else if(dgRolls.Rows.Count > rollsIdeal)
+                    else if(float.Parse(lblCompletedQuantity.Text) > _primaryQuantityAndTolerance)//else if(dgRolls.Rows.Count > rollsIdeal)
                     {
                         btnGetWeight.Enabled = false;
-                        NotifierController.Warning("Se detectaron más palets de los programados");
+                        NotifierController.Warning($"Se detectó más pesaje del programado, incluida la tolerancia [{Settings.Default.PL2Tolerance}%]");
                     }
                 }
 
@@ -1557,9 +1566,10 @@ namespace WOW_Fusion
             await LabelService.PrintP2(palletAdded, "PALLET");
 
             //TERMINA PROCESO DE PESAJE PARA LA ORDEN SELECCIONADA
-            if (palletAdded == int.Parse(lblPalletTotal.Text) || _endWeight)
+            //if (palletAdded == int.Parse(lblPalletTotal.Text) || _endWeight)
+            if (float.Parse(lblCompletedQuantity.Text) >= _primaryQuantityAndTolerance || _endWeight)
             {
-                //await FileController.Write(cmbWorkOrders.SelectedItem.ToString(), Constants.OrdersPrintedP2);
+                NotifierController.Success($"Orden completada, incluida la tolerancia [{Settings.Default.PL2Tolerance}%]");
                 cmbWorkOrders.Items.Clear();
                 ClearAll();
             }
@@ -1686,7 +1696,8 @@ namespace WOW_Fusion
             _workOrderId = 0;
             _workOrderNumber = string.Empty;
             cmbWorkOrders.Enabled = lblMode.Text.Equals("Auto.") ? false : true;
-            lblPrimaryProductQuantity.Text = string.Empty;
+            lblPrimaryQuantity.Text = string.Empty;
+            _primaryQuantityAndTolerance = 0;
             lblCompletedQuantity.Text = string.Empty;
             lblUoM.Text = "--";
             progressBarWO.Value = 0;
@@ -1768,13 +1779,13 @@ namespace WOW_Fusion
 
         private void CalculateAdvace(float completed)
         {
-            if (string.IsNullOrEmpty(lblPrimaryProductQuantity.Text))
+            if (string.IsNullOrEmpty(lblPrimaryQuantity.Text))
             {
                 return;
             }
             else
             {
-                float goal = float.Parse(lblPrimaryProductQuantity.Text);
+                float goal = float.Parse(lblPrimaryQuantity.Text);
                 if (goal == 0 || completed == 0)
                 {
                     progressBarWO.Value = 0;
@@ -1782,14 +1793,14 @@ namespace WOW_Fusion
                 }
                 else
                 {
-                    if (completed >= float.Parse(lblPrimaryProductQuantity.Text))
+                    if (completed >= float.Parse(lblPrimaryQuantity.Text))
                     {
                         progressBarWO.Value = 100;
                         lblAdvance.Text = "100%";
                     }
                     else
                     {
-                        int advance = Convert.ToInt32(Math.Round((completed * 100) / float.Parse(lblPrimaryProductQuantity.Text)));
+                        int advance = Convert.ToInt32(Math.Round((completed * 100) / float.Parse(lblPrimaryQuantity.Text)));
                         if (advance > 100)
                         {
                             progressBarWO.Value = 100;

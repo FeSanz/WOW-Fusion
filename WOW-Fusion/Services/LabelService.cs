@@ -235,8 +235,8 @@ namespace WOW_Fusion.Services
                                 await stream.WriteAsync(data, 0, data.Length);
                                 await stream.FlushAsync();
 
-                                frmLabelP3.SetLabelStatusPrint($"Imprimiendo {pag} de {end}");
-                                Constants.LastPrint = pag;
+                                //frmLabelP3.SetLabelStatusPrint($"Imprimiendo {pag} de {end}");
+                                //Constants.LastPrint = pag;
                             }
 
                             status = true;

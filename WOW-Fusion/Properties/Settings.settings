@@ -59,5 +59,8 @@
     <Setting Name="BagMaxWeight" Type="System.Single" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
+    <Setting Name="PL2Tolerance" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

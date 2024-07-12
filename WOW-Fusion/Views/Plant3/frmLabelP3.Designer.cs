@@ -52,7 +52,7 @@
             this.label25 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.lblPrimaryProductQuantity = new System.Windows.Forms.Label();
+            this.lblPrimaryQuantity = new System.Windows.Forms.Label();
             this.lblCompletedQuantity = new System.Windows.Forms.Label();
             this.lblPlannedCompletionDate = new System.Windows.Forms.Label();
             this.lblPlannedStartDate = new System.Windows.Forms.Label();
@@ -135,7 +135,7 @@
             this.groupBoxProd.Controls.Add(this.label25);
             this.groupBoxProd.Controls.Add(this.label3);
             this.groupBoxProd.Controls.Add(this.label15);
-            this.groupBoxProd.Controls.Add(this.lblPrimaryProductQuantity);
+            this.groupBoxProd.Controls.Add(this.lblPrimaryQuantity);
             this.groupBoxProd.Controls.Add(this.lblCompletedQuantity);
             this.groupBoxProd.Controls.Add(this.lblPlannedCompletionDate);
             this.groupBoxProd.Controls.Add(this.lblPlannedStartDate);
@@ -195,6 +195,7 @@
             this.btnEndProcess.TabIndex = 169;
             this.btnEndProcess.UseVisualStyleBackColor = false;
             this.btnEndProcess.Visible = false;
+            this.btnEndProcess.Click += new System.EventHandler(this.btnEndProcess_Click);
             // 
             // label9
             // 
@@ -299,16 +300,16 @@
             this.label15.Text = "Fecha Inicio";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblPrimaryProductQuantity
+            // lblPrimaryQuantity
             // 
-            this.lblPrimaryProductQuantity.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblPrimaryProductQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPrimaryProductQuantity.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblPrimaryProductQuantity.Location = new System.Drawing.Point(221, 33);
-            this.lblPrimaryProductQuantity.Name = "lblPrimaryProductQuantity";
-            this.lblPrimaryProductQuantity.Size = new System.Drawing.Size(85, 20);
-            this.lblPrimaryProductQuantity.TabIndex = 22;
-            this.lblPrimaryProductQuantity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPrimaryQuantity.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblPrimaryQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPrimaryQuantity.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblPrimaryQuantity.Location = new System.Drawing.Point(221, 33);
+            this.lblPrimaryQuantity.Name = "lblPrimaryQuantity";
+            this.lblPrimaryQuantity.Size = new System.Drawing.Size(85, 20);
+            this.lblPrimaryQuantity.TabIndex = 22;
+            this.lblPrimaryQuantity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblCompletedQuantity
             // 
@@ -1023,7 +1024,7 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label lblPrimaryProductQuantity;
+        private System.Windows.Forms.Label lblPrimaryQuantity;
         private System.Windows.Forms.Label lblCompletedQuantity;
         private System.Windows.Forms.Label lblPlannedCompletionDate;
         private System.Windows.Forms.Label lblPlannedStartDate;

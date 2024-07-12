@@ -69,6 +69,10 @@
             this.txtUser = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.lblAditional = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.trackBarAdtional = new System.Windows.Forms.TrackBar();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -78,6 +82,8 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarAdtional)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -85,7 +91,7 @@
             this.btnCancel.BackColor = System.Drawing.Color.IndianRed;
             this.btnCancel.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnCancel.Location = new System.Drawing.Point(140, 633);
+            this.btnCancel.Location = new System.Drawing.Point(140, 680);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(97, 32);
             this.btnCancel.TabIndex = 124;
@@ -98,7 +104,7 @@
             this.btnSave.BackColor = System.Drawing.Color.LimeGreen;
             this.btnSave.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnSave.Location = new System.Drawing.Point(243, 633);
+            this.btnSave.Location = new System.Drawing.Point(243, 680);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(97, 32);
             this.btnSave.TabIndex = 123;
@@ -160,7 +166,7 @@
             // 
             this.lblStatus.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblStatus.Location = new System.Drawing.Point(10, 613);
+            this.lblStatus.Location = new System.Drawing.Point(10, 660);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(330, 17);
             this.lblStatus.TabIndex = 126;
@@ -342,9 +348,9 @@
             this.groupBox5.Controls.Add(this.rdbTest);
             this.groupBox5.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox5.ForeColor = System.Drawing.SystemColors.Control;
-            this.groupBox5.Location = new System.Drawing.Point(13, 446);
+            this.groupBox5.Location = new System.Drawing.Point(13, 506);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(327, 56);
+            this.groupBox5.Size = new System.Drawing.Size(327, 43);
             this.groupBox5.TabIndex = 128;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ambientes";
@@ -352,7 +358,7 @@
             // rdbProd
             // 
             this.rdbProd.AutoSize = true;
-            this.rdbProd.Location = new System.Drawing.Point(230, 23);
+            this.rdbProd.Location = new System.Drawing.Point(230, 18);
             this.rdbProd.Name = "rdbProd";
             this.rdbProd.Size = new System.Drawing.Size(57, 20);
             this.rdbProd.TabIndex = 126;
@@ -364,7 +370,7 @@
             // rdbTest
             // 
             this.rdbTest.AutoSize = true;
-            this.rdbTest.Location = new System.Drawing.Point(61, 23);
+            this.rdbTest.Location = new System.Drawing.Point(61, 18);
             this.rdbTest.Name = "rdbTest";
             this.rdbTest.Size = new System.Drawing.Size(47, 20);
             this.rdbTest.TabIndex = 125;
@@ -380,6 +386,7 @@
             this.flowLayoutPanel1.Controls.Add(this.groupBox1);
             this.flowLayoutPanel1.Controls.Add(this.groupBox4);
             this.flowLayoutPanel1.Controls.Add(this.groupBox7);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox8);
             this.flowLayoutPanel1.Controls.Add(this.groupBox5);
             this.flowLayoutPanel1.Controls.Add(this.groupBox6);
             this.flowLayoutPanel1.Controls.Add(this.lblStatus);
@@ -388,7 +395,7 @@
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 5);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(343, 676);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(343, 722);
             this.flowLayoutPanel1.TabIndex = 129;
             // 
             // groupBox7
@@ -470,7 +477,7 @@
             this.groupBox6.Controls.Add(this.label10);
             this.groupBox6.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox6.ForeColor = System.Drawing.SystemColors.Control;
-            this.groupBox6.Location = new System.Drawing.Point(13, 508);
+            this.groupBox6.Location = new System.Drawing.Point(13, 555);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(327, 102);
             this.groupBox6.TabIndex = 129;
@@ -512,12 +519,56 @@
             this.label10.Text = "Usuario:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.lblAditional);
+            this.groupBox8.Controls.Add(this.label14);
+            this.groupBox8.Controls.Add(this.trackBarAdtional);
+            this.groupBox8.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox8.ForeColor = System.Drawing.SystemColors.Control;
+            this.groupBox8.Location = new System.Drawing.Point(13, 446);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(327, 54);
+            this.groupBox8.TabIndex = 131;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Pesaje";
+            // 
+            // lblAditional
+            // 
+            this.lblAditional.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAditional.Location = new System.Drawing.Point(286, 17);
+            this.lblAditional.Name = "lblAditional";
+            this.lblAditional.Size = new System.Drawing.Size(36, 21);
+            this.lblAditional.TabIndex = 124;
+            this.lblAditional.Text = "0 %";
+            this.lblAditional.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label14
+            // 
+            this.label14.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(2, 16);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(62, 21);
+            this.label14.TabIndex = 123;
+            this.label14.Text = "Adicional:";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // trackBarAdtional
+            // 
+            this.trackBarAdtional.AutoSize = false;
+            this.trackBarAdtional.Location = new System.Drawing.Point(59, 17);
+            this.trackBarAdtional.Maximum = 20;
+            this.trackBarAdtional.Name = "trackBarAdtional";
+            this.trackBarAdtional.Size = new System.Drawing.Size(237, 31);
+            this.trackBarAdtional.TabIndex = 123;
+            this.trackBarAdtional.Scroll += new System.EventHandler(this.trackBarAdtional_Scroll);
+            // 
             // frmSettingsP2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(66)))), ((int)(((byte)(82)))));
-            this.ClientSize = new System.Drawing.Size(370, 690);
+            this.ClientSize = new System.Drawing.Size(370, 744);
             this.Controls.Add(this.flowLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -541,6 +592,8 @@
             this.groupBox7.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarAdtional)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -587,5 +640,9 @@
         private System.Windows.Forms.TextBox txtCoreMax;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Label lblAditional;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TrackBar trackBarAdtional;
     }
 }

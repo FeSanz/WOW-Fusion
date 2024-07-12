@@ -59,8 +59,6 @@ namespace WOW_Fusion
                                                 ""LEGALENTITY"": """",
                                                 ""PURCHASEORDER"": """",
                                                 ""PONUM"": """",
-                                                ""ADDRESS"": """",
-                                                ""EMAIL"": """",
                                                 ""UPCA"": """"
                                           }";
     }

@@ -49,15 +49,12 @@ namespace WOW_Fusion.Views.Plant3
         private float _weightFromWeighing = 0.0f;
         private float _netPallet = 0.0f;
         private float _previousWeight = 0.0f;
-        //Ancho y espesor
-        private string strWithThickness = string.Empty;
-        private string _akaCustomer = "DEFAULT";
-        private string _tradingPartnerName = " ";
 
         private int _rowSelected = 0;
 
         //Rollos pallet control
         private int _sackCount = 0;
+        private bool _newSack = false;
         private bool _endWeight = false;
         private bool _completedHistory = false;
 
@@ -172,6 +169,56 @@ namespace WOW_Fusion.Views.Plant3
         }
         #endregion
 
+        /*------------------------------ EQ RECURSOS ----------------------------------*/
+        private void cmbResources_DropDown(object sender, EventArgs e)
+        {
+            cmbResources.Items.Clear();
+            pbWaitResources.Visible = true;
+
+            dynamic items = machines["items"];
+            pbWaitResources.Visible = false;
+            foreach (var item in items)
+            {
+                cmbResources.Items.Add(item.ResourceName.ToString());
+            }
+        }
+
+        private async void cmbResources_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            timerShift.Stop();
+
+            lblResourceCode.Text = string.Empty;
+            lblWorkCenterName.Text = string.Empty;
+            lblShift.Text = string.Empty;
+
+            int index = cmbResources.SelectedIndex;
+
+            dynamic resource = machines["items"][index];
+
+            resourceId = resource.ResourceId.ToString();
+            lblResourceCode.Text = resource.ResourceCode.ToString();
+
+            dynamic wc = await CommonService.OneItem(String.Format(EndPoints.WorkCenterByResourceId, resourceId));
+
+            if (wc != null)
+            {
+                workCenterId = wc.WorkCenterId.ToString();
+                lblWorkCenterName.Text = wc.WorkCenterName.ToString();
+
+                shifts = await CommonService.OneItem(String.Format(EndPoints.ShiftByWorkCenter, workCenterId));
+
+                lblShift.Text = (shifts == null) ? string.Empty : DateService.CurrentShift(shifts, resourceId);
+                cmbWorkOrders.Enabled = true;
+
+                timerShift.Tick += new EventHandler(CheckShift);
+                timerShift.Start();
+            }
+            else
+            {
+                NotifierController.Warning("No se encontro la centro de trabajo");
+            }
+        }
+
         /*------------------------------ WORKORDERS ----------------------------------*/
         #region WorkOrders
         private async void DropDownWorkOrders(object sender, EventArgs e)
@@ -210,7 +257,6 @@ namespace WOW_Fusion.Views.Plant3
         //Obtener datos de la orden seleccionada
         private async void WorkOrderUIFill(string workOrder)
         {
-            cmbWorkOrders.Enabled = false;
             ShowWait(true, "Cargando datos ...");
             try
             {
@@ -234,7 +280,7 @@ namespace WOW_Fusion.Views.Plant3
                 dynamic wo = objWorkOrder["items"][0]; //Objeto WORKORDER
                 _workOrderId = Int64.Parse(wo.WorkOrderId.ToString());
                 _workOrderNumber = workOrder;
-                lblPrimaryProductQuantity.Text = string.IsNullOrEmpty(wo.PrimaryProductQuantity.ToString()) ? 0 : wo.PrimaryProductQuantity.ToString();
+                lblPrimaryQuantity.Text = string.IsNullOrEmpty(wo.PrimaryProductQuantity.ToString()) ? 0 : wo.PrimaryProductQuantity.ToString();
                 lblUoM.Text = wo.UOMCode.ToString();
                 if (!string.IsNullOrEmpty(wo.CompletedQuantity.ToString()))
                 {
@@ -249,14 +295,14 @@ namespace WOW_Fusion.Views.Plant3
 
                 lblStdSack.Text = Settings.Default.SackMaxWeight.ToString();
 
-                int palletTotal = (int)Math.Ceiling(float.Parse(lblPrimaryProductQuantity.Text) / Settings.Default.SackMaxWeight);
+                int palletTotal = (int)Math.Ceiling(float.Parse(lblPrimaryQuantity.Text) / Settings.Default.SackMaxWeight);
                 lblPalletTotal.Text = palletTotal.ToString();
 
                 //Verificar Status de la programacion de la orden
                 CheckStatusScheduleOrder(DateTime.Parse(wo.PlannedStartDate.ToString()), DateTime.Parse(wo.PlannedCompletionDate.ToString()));
 
                 //♥ Consultar template etiqueta en APEX  ♥
-                dynamic labelApex = await LabelService.LabelInfo(Constants.Plant3Id, _akaCustomer, lblItemNumber.Text);
+                /*dynamic labelApex = await LabelService.LabelInfo(Constants.Plant3Id, _akaCustomer, lblItemNumber.Text);
                 if (labelApex.LabelName.ToString().Equals("null"))
                 {
                     _akaCustomer = "DEFAULT";
@@ -274,16 +320,14 @@ namespace WOW_Fusion.Views.Plant3
                 else
                 {
                     _labelName = labelApex.LabelName.ToString();
-                }
+                }*/
 
-                //Verificar Historial Pesaje----------------------------
-                /*Task<string> tskHistory = APIService.GetApexAsync(String.Format(EndPoints.RollsOrder, Constants.Plant3Id, workOrder));
+                // + Verificar Historial Pesaje +
+                Task<string> tskHistory = APIService.GetApexAsync(String.Format(EndPoints.SacksOrder, Constants.Plant3Id, workOrder));
                 string responseHistory = await tskHistory;
 
                 progressBarWO.Value = 0;
                 lblAdvance.Text = "0%";
-
-                _palletCount = 0;
                 _sackCount = 0;
 
                 dgSacks.Rows.Clear();
@@ -293,63 +337,64 @@ namespace WOW_Fusion.Views.Plant3
 
                 if (!string.IsNullOrEmpty(responseHistory))
                 {
-                    dynamic rollsOnOrder = JsonConvert.DeserializeObject<dynamic>(responseHistory);
-                    lblCompletedQuantity.Text = rollsOnOrder.Completed.ToString();
-                    if (rollsOnOrder.Completed > 0)
+                    dynamic sacksOnOrder = JsonConvert.DeserializeObject<dynamic>(responseHistory);
+                    lblCompletedQuantity.Text = sacksOnOrder.Completed.ToString();
+                    if (sacksOnOrder.Completed > 0)
                     {
                         _completedHistory = true;
-                        lblCompletedQuantity.Text = rollsOnOrder.Completed.ToString();
+                        lblCompletedQuantity.Text = sacksOnOrder.Completed.ToString();
                         CalculateAdvace(float.Parse(lblCompletedQuantity.Text));
-                        FillDatagridsFromRecords(rollsOnOrder.Rolls);
+                        FillDatagridsFromRecords(sacksOnOrder.Sacks);
                     }
                 }
                 else
                 {
                     Console.WriteLine($"Sin respuesta del historial de pesaje [{DateService.Today()}]", Color.Red);
-                }*/
+                }
 
                 //Order completada
                 if (dgSacks.Rows.Count > 0)
                 {
-                    if (int.Parse(lblPalletTotal.Text)  == dgSacks.Rows.Count)
+                    /*if (float.Parse(lblCompletedQuantity.Text) >= _primaryQuantityAndTolerance)
                     {
                         NotifierController.Warning("Orden completada");
                         btnGetWeight.Enabled = false;
-                        btnGetWeight.BackColor = Color.Gray;
 
-                        if (float.Parse(lblCompletedQuantity.Text) > float.Parse(lblPrimaryProductQuantity.Text))
+                        if (float.Parse(lblCompletedQuantity.Text) > float.Parse(lblPrimaryQuantity.Text))
                         {
-                            Console.WriteLine($"Pesaje [{lblCompletedQuantity.Text} kg] excede la cantidad programada a producir [{lblPrimaryProductQuantity.Text} kg]", Color.Red);
+                            Console.WriteLine($"Pesaje [{lblCompletedQuantity.Text} kg] excede la cantidad programada a producir [{lblPrimaryQuantity.Text} kg]", Color.Red);
                         }
                     }
+                    else if (float.Parse(lblCompletedQuantity.Text) > _primaryQuantityAndTolerance)
+                    {
+                        btnGetWeight.Enabled = false;
+                        NotifierController.Warning($"Se detectó más pesaje del programado, incluida la tolerancia [{Settings.Default.PL2Tolerance}%]");
+                    }*/
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error. " + ex.Message, "Error al seleccionar orden", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            _sackCount++;
             ShowWait(false);
-            lblStatusProcess.Text = "¡Escaneé TARA y SACO!";
+            lblStatusProcess.Text = "¡Escaneé TARA o SACO!";
             lblStatusProcess.ForeColor = Color.Red;
             txtScannerInput.Enabled = true;
             txtScannerInput.Focus();
         }
 
         //Llenar tabla con pesajes
-        private void FillDatagridsFromRecords(dynamic rollsOnOrder)
+        private void FillDatagridsFromRecords(dynamic sacksOnOrder)
         {
-            foreach (dynamic R in rollsOnOrder)
+            foreach (dynamic S in sacksOnOrder)
             {
-                float grossRoll = R.Core + R.Net;
-                string[] palletData = new string[] { R.Pallet.ToString(), R.Roll.ToString(), R.Core.ToString("F1"), R.Net.ToString("F1"), grossRoll.ToString("F1") };
-                int indexNewRoll = dgSacks.Rows.Add(palletData);
-                dgSacks.FirstDisplayedScrollingRowIndex = indexNewRoll;
+                float grossSack = S.Tare + S.Bag + S.Net;
+                string[] sackData = new string[] { S.Sack.ToString(), S.Tare.ToString("F1"), S.Bag.ToString("F1"), S.Net.ToString("F1"), grossSack.ToString("F1") };
+                int indexNewSack = dgSacks.Rows.Add(sackData);
+                dgSacks.FirstDisplayedScrollingRowIndex = indexNewSack;
             }
 
             _completedHistory = false;
-
-            
             _sackCount = dgSacks.Rows.Count;
         }
         #endregion
@@ -362,20 +407,24 @@ namespace WOW_Fusion.Views.Plant3
             {
                 btnGetWeight.Enabled = false;
                 cmbWorkOrders.Enabled = false;
+                txtScannerInput.Enabled = false;
 
                 //----------------- PESAR ---------------
-                ShowWait(true, "Pesando rollo ...");
+                ShowWait(true, "Pesando hojuela ...");
 
                 string responseWeighing = await RadwagController.SocketWeighing("S");
 
                 if (responseWeighing == "EX")
                 {
+                    ShowWait(false);
                     NotifierController.Warning("Tiempo de espera agotado, vuelva a  intentar");
+                    btnGetWeight.Enabled = true;
                 }
                 else
                 {
                     if (float.TryParse(responseWeighing, out float _weightFromWeighing))
                     {
+                        ShowWait(false);
                         if (_weightFromWeighing > 0)
                         {
                             float sackNet = _weightFromWeighing - (float.Parse(lblTare.Text) + float.Parse(lblBag.Text)); // Saco - (Tara + Bolsa)
@@ -390,17 +439,17 @@ namespace WOW_Fusion.Views.Plant3
                         else
                         {
                             MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            btnGetWeight.Enabled = true;
                         }
                     }
                     else
                     {
+                        ShowWait(false);
                         Console.WriteLine("Valor invalido obtenido de la báscula", Color.Red);
                         NotifierController.Warning($"{responseWeighing}");
+                        btnGetWeight.Enabled = true;
                     }
                 }
-
-                btnGetWeight.Enabled = true;
-                ShowWait(false);
             }
             else
             {
@@ -456,7 +505,7 @@ namespace WOW_Fusion.Views.Plant3
                                 lblCompletedQuantity.Text = palletNetSum.ToString();
                                 CalculateAdvace(palletNetSum);
 
-                                UpdateRollApex(dgRoll, rollNet);
+                                UpdateSackApex(dgRoll, rollNet);
                             }
                         }
                         else
@@ -500,18 +549,24 @@ namespace WOW_Fusion.Views.Plant3
         private async void dgSacks_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             if (_completedHistory) { return; }
+            _newSack = false;
 
-            _sackCount += 1;
             TableLayoutPalletControl("WEIGHT");
 
             float totalNetSum = dgSacks.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["S_Net"].Value.ToString()));
             lblCompletedQuantity.Text = totalNetSum.ToString();
             CalculateAdvace(totalNetSum);
 
-            //await LabelService.PrintP3(_sackCount, "SACK");
-            //CreateRollApex();
+            await LabelService.PrintP3(_sackCount, "SACK");
+            CreateSackApex();
 
-            lblBag.Text = string.Empty; //Limpiar core hasta registrar
+            //Reiniciar pesar nuevo saco
+            lblStatusProcess.Text = "¡Escaneé TARA o SACO!";
+            lblStatusProcess.ForeColor = Color.Red;
+            btnGetWeight.Enabled = false;
+            txtScannerInput.Enabled = true;
+            txtScannerInput.Focus();
+            lblBag.Text = string.Empty;
             lblTare.Text = string.Empty;
 
             //Activar boton para terminar orden
@@ -574,7 +629,7 @@ namespace WOW_Fusion.Views.Plant3
             if(step == "TARE")
             {
                 TipTare.SetToolTip(tabLayoutPallet, lblTare.Text);
-                tabLayoutPallet.BackgroundImage = Resources.pallet_filled;
+                tabLayoutPallet.BackgroundImage = (!string.IsNullOrEmpty(lblBag.Text) && string.IsNullOrEmpty(lblTare.Text)) ? Resources.pallet_empty : Resources.pallet_filled;
                 picRoll.Image = Resources.sack_empty;
                 AppController.ToolTip(picRoll, lblBag.Text + " kg");
             }
@@ -624,17 +679,10 @@ namespace WOW_Fusion.Views.Plant3
                 label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;label.EQU = string.IsNullOrEmpty(lblResourceCode.Text) ? " " : lblResourceCode.Text;
                 label.DATE = DateService.Now();
                 label.SHIFT = string.IsNullOrEmpty(lblShift.Text) ? " " : lblShift.Text;
-                //Roll Info
-                label.ROLL = string.IsNullOrEmpty(weights[1]) ? " " : "R" + weights[1].PadLeft(4, '0');
+                //Sack Info
+                label.SACK = string.IsNullOrEmpty(weights[1]) ? " " : "S" + weights[1].PadLeft(4, '0');
                 label.WNETKG = string.IsNullOrEmpty(weights[3]) ? " " : weights[3];
                 label.WGROSSKG = string.IsNullOrEmpty(weights[4]) ? " " : weights[4]; // tara + core + rollo 
-                label.WNETLBS = string.IsNullOrEmpty(weights[3]) ? " " : Pounds(float.Parse(weights[3]));
-                label.WGROSSLBS = string.IsNullOrEmpty(weights[4]) ? " " : Pounds(float.Parse(weights[4]));
-                label.WIDTHTHICKNESS = string.IsNullOrEmpty(strWithThickness) ? " " : strWithThickness;
-                //AKA Info
-                label.LEGALENTITY = string.IsNullOrEmpty(_tradingPartnerName) ? "NE" : _tradingPartnerName;
-                label.PURCHASEORDER = string.IsNullOrEmpty(_CustomerPONumber) ? " " : _CustomerPONumber;
-                label.PONUM = string.IsNullOrEmpty(_CustomerPONumber) ? " " : _CustomerPONumber.Contains("TPRM") ? _CustomerPONumber.Replace("TPRM", "") : _CustomerPONumber;
 
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
             }
@@ -645,6 +693,8 @@ namespace WOW_Fusion.Views.Plant3
         #region Controls
         private void ClearAll()
         {
+            cmbResources.Enabled = true;
+            cmbWorkOrders.Enabled = true;
             //Weight Section
             lblTare.Text = string.Empty;
             lblBag.Text = string.Empty;
@@ -664,7 +714,7 @@ namespace WOW_Fusion.Views.Plant3
             //cmbWorkOrders.Items.Clear();
             _workOrderId = 0;
             _workOrderNumber = string.Empty;
-            lblPrimaryProductQuantity.Text = string.Empty;
+            lblPrimaryQuantity.Text = string.Empty;
             lblCompletedQuantity.Text = string.Empty;
             lblUoM.Text = "--";
             progressBarWO.Value = 0;
@@ -675,10 +725,10 @@ namespace WOW_Fusion.Views.Plant3
             lblItemDescription.Text = string.Empty;
 
             //AKA Section
-            _akaCustomer = "DEFAULT";
-            _CustomerPONumber = string.Empty;
-            _tradingPartnerName = string.Empty;
-            strWithThickness = string.Empty; //Ancho y grosor
+            //_akaCustomer = "DEFAULT";
+            //_CustomerPONumber = string.Empty;
+            //_tradingPartnerName = string.Empty;
+            //strWithThickness = string.Empty; //Ancho y grosor
 
             //Pallet Anim Section
             _completedHistory = false;
@@ -719,13 +769,13 @@ namespace WOW_Fusion.Views.Plant3
 
         private void CalculateAdvace(float completed)
         {
-            if (string.IsNullOrEmpty(lblPrimaryProductQuantity.Text))
+            if (string.IsNullOrEmpty(lblPrimaryQuantity.Text))
             {
                 return;
             }
             else
             {
-                float goal = float.Parse(lblPrimaryProductQuantity.Text);
+                float goal = float.Parse(lblPrimaryQuantity.Text);
                 if (goal == 0 || completed == 0)
                 {
                     progressBarWO.Value = 0;
@@ -733,14 +783,14 @@ namespace WOW_Fusion.Views.Plant3
                 }
                 else
                 {
-                    if (completed >= float.Parse(lblPrimaryProductQuantity.Text))
+                    if (completed >= float.Parse(lblPrimaryQuantity.Text))
                     {
                         progressBarWO.Value = 100;
                         lblAdvance.Text = "100%";
                     }
                     else
                     {
-                        int advance = Convert.ToInt32(Math.Round((completed * 100) / float.Parse(lblPrimaryProductQuantity.Text)));
+                        int advance = Convert.ToInt32(Math.Round((completed * 100) / float.Parse(lblPrimaryQuantity.Text)));
                         if (advance > 100)
                         {
                             progressBarWO.Value = 100;
@@ -834,238 +884,24 @@ namespace WOW_Fusion.Views.Plant3
         }
         #endregion
 
-        /*--------------------------------- APEX -------------------------------------*/
-        #region APEX
-        private async void CreateRollApex()
-        {
-            if (!_apexCreated)
-            {
-                dynamic jsonRoll = JObject.Parse(Payloads.weightRolls);
-                jsonRoll.DateMark = DateService.EpochTime();
-                jsonRoll.OrganizationId = Int64.Parse(Constants.Plant3Id);
-                jsonRoll.WorkOrderId = _workOrderId;
-                jsonRoll.WorkOrder = _workOrderNumber;
-                jsonRoll.ItemNumber = lblItemNumber.Text;
-                jsonRoll.Pallet = lblSackNumber.Text;
-                jsonRoll.Roll = _sackCount.ToString();
-                jsonRoll.Tare = lblTare.Text;
-                jsonRoll.Core = lblBag.Text;
-                jsonRoll.Net = lblWeight.Text;
-                jsonRoll.Shift = lblShift.Text;
-
-                _lastApexCreate = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
-                _apexCreated = true;
-            }
-
-            if (AppController.CheckInternetConnection())
-            {
-                Task<string> postWeightRoll = APIService.PostApexAsync(EndPoints.WeightRolls, _lastApexCreate);
-                string response = await postWeightRoll;
-
-                if (!string.IsNullOrEmpty(response))
-                {
-                    dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
-                    if (responsePayload.ErrorsExistFlag.ToString() == "false")
-                    {
-                        Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
-                        _apexCreated = false;
-                    }
-                    else
-                    {
-                        DialogResult result = MessageBox.Show($"{responsePayload.Message}, vuelva a reintentar", "[APEX] Registro fallido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        if (result == DialogResult.OK)
-                        {
-                            CreateRollApex();
-                        }
-                        else
-                        {
-                            CreateRollApex();
-                        }
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"Sin respuesta al registrar rollo [{DateService.Today()}]", Color.Red);
-                }
-            }
-            else
-            {
-                NotifierController.Warning("Sin conexión a internet");
-                DialogResult result = MessageBox.Show("Verificar la conexión internet", "Sin Internet", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                if (result == DialogResult.OK)
-                {
-                    CreateRollApex();
-                }
-                else
-                {
-                    CreateRollApex();
-                }
-            }
-        }
-
-        private async void UpdateRollApex(int roll, float net)
-        {
-            if (!_apexUpdated)
-            {
-                dynamic jsonRoll = JObject.Parse(Payloads.weightRollUpdate);
-
-                jsonRoll.OrganizationId = Int64.Parse(Constants.Plant3Id); ;
-                jsonRoll.WorkOrder = _workOrderNumber;
-                jsonRoll.Roll = roll;
-                jsonRoll.Net = net;
-
-                _lastApexUpdate = JsonConvert.SerializeObject(jsonRoll, Formatting.Indented);
-                _apexUpdated = true;
-            }
-
-            if (AppController.CheckInternetConnection())
-            {
-                Task<string> putWeightRoll = APIService.PutApexAsync(String.Format(EndPoints.WeightRolls, _workOrderNumber, roll, Constants.Plant3Id), _lastApexUpdate);
-                string response = await putWeightRoll;
-
-                if (!string.IsNullOrEmpty(response))
-                {
-                    dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
-                    if (responsePayload.ErrorsExistFlag.ToString() == "false")
-                    {
-                        Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
-                        _apexUpdated = false;
-                    }
-                    else
-                    {
-                        DialogResult result = MessageBox.Show($"{responsePayload.Message}, vuelva a reintentar", "[APEX] Actualización fallida", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        if (result == DialogResult.OK)
-                        {
-                            UpdateRollApex(roll, net);
-                        }
-                        else
-                        {
-                            UpdateRollApex(roll, net);
-                        }
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"Sin respuesta al actualizar rollo [{DateService.Today()}]", Color.Red);
-                }
-            }
-            else
-            {
-                NotifierController.Warning("Sin conexión a internet");
-                DialogResult result = MessageBox.Show("Verificar la conexión internet", "Sin Internet", MessageBoxButtons.OK, MessageBoxIcon.Question);
-
-                if (result == DialogResult.OK)
-                {
-                    UpdateRollApex(roll, net);
-                }
-                else
-                {
-                    UpdateRollApex(roll, net);
-                }
-            }
-        }
-        #endregion
-
-        private void cmbResources_DropDown(object sender, EventArgs e)
-        {
-            cmbResources.Items.Clear();
-            pbWaitResources.Visible = true;
-
-            dynamic items = machines["items"];
-            pbWaitResources.Visible = false;
-            foreach (var item in items)
-            {
-                cmbResources.Items.Add(item.ResourceName.ToString());
-            }
-        }
-
-        private async void cmbResources_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            timerShift.Stop();
-
-            lblResourceCode.Text = string.Empty;
-            lblWorkCenterName.Text = string.Empty;
-            lblShift.Text = string.Empty;
-
-            int index = cmbResources.SelectedIndex;
-
-            dynamic resource = machines["items"][index];
-
-            resourceId = resource.ResourceId.ToString();
-            lblResourceCode.Text = resource.ResourceCode.ToString();
-
-            dynamic wc = await CommonService.OneItem(String.Format(EndPoints.WorkCenterByResourceId, resourceId));
-
-            if (wc != null)
-            {
-                workCenterId = wc.WorkCenterId.ToString();
-                lblWorkCenterName.Text = wc.WorkCenterName.ToString();
-
-                shifts = await CommonService.OneItem(String.Format(EndPoints.ShiftByWorkCenter, workCenterId));
-
-                lblShift.Text = (shifts == null) ? string.Empty : DateService.CurrentShift(shifts, resourceId);
-                cmbWorkOrders.Enabled = true;
-
-                timerShift.Tick += new EventHandler(CheckShift);
-                timerShift.Start();
-            }
-            else
-            {
-                NotifierController.Warning("No se encontro la centro de trabajo");
-            }
-        }
-
-        private void lblTare_TextChanged(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(lblTare.Text))
-            {
-                ScanTareBag();
-            }
-        }
-
-        private void lblBag_TextChanged(object sender, EventArgs e)
-        {
-            ScanTareBag();
-        }
-
-        private void ScanTareBag()
-        {
-            if (!string.IsNullOrEmpty(lblTare.Text) && !string.IsNullOrEmpty(lblBag.Text))
-            {
-                btnGetWeight.Enabled = true;
-                btnGetWeight.BackColor = Color.Red;
-                lblSackNumber.Text = _sackCount.ToString();
-
-                lblStatusProcess.Text = "¡Pese el SACO!";
-                lblStatusProcess.ForeColor = Color.Red;
-
-                lblSackNumber.Text = _sackCount.ToString();
-
-                TableLayoutPalletControl("TARE");
-            }
-            else
-            {
-                btnGetWeight.Enabled = false;
-                btnGetWeight.BackColor = Color.Gray;
-            }
-        }
-
+        /*------------------------------ SCANER TEXT ---------------------------------*/
+        #region SCANER TEXT
         private void txtScannerInput_LostFocus(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(txtScannerInput.Text))
             {
-                NotifierController.Success(txtScannerInput.Text);
                 if (float.TryParse(txtScannerInput.Text, out float scanerInput))
                 {
                     if (scanerInput >= Settings.Default.TareMinWeight && scanerInput <= Settings.Default.TareMaxWeight)
                     {
+                        NotifierController.Success($"Tara {txtScannerInput.Text} kg");
                         lblTare.Text = txtScannerInput.Text;
                         txtScannerInput.Text = string.Empty;
                         txtScannerInput.Focus();
                     }
                     else if (scanerInput > 0 && scanerInput <= Settings.Default.BagMaxWeight)
                     {
+                        NotifierController.Success($"Saco {txtScannerInput.Text} kg");
                         lblBag.Text = txtScannerInput.Text;
                         txtScannerInput.Text = string.Empty;
                         txtScannerInput.Focus();
@@ -1086,6 +922,204 @@ namespace WOW_Fusion.Views.Plant3
             }
         }
 
+        private void lblTare_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(lblTare.Text) && string.IsNullOrEmpty(lblBag.Text))
+            {
+                lblStatusProcess.Text = "¡Escaneé SACO!";
+                lblStatusProcess.ForeColor = Color.Red;
+                TableLayoutPalletControl("CLEAR");
+                tabLayoutPallet.BackgroundImage = Resources.pallet_filled;
+            }
+            else
+            {
+                btnGetWeight.Enabled = false;
+                btnGetWeight.BackColor = Color.Gray;
+            }
+
+            TareBagFilled();
+        }
+
+        private void lblBag_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(lblBag.Text) && string.IsNullOrEmpty(lblTare.Text))
+            {
+                lblStatusProcess.Text = "¡Escaneé TARA!";
+                lblStatusProcess.ForeColor = Color.Red;
+                TableLayoutPalletControl("TARE");
+            }
+            else
+            {
+                btnGetWeight.Enabled = false;
+                btnGetWeight.BackColor = Color.Gray;
+            }
+
+            TareBagFilled();
+        }
+
+        private void TareBagFilled()
+        {
+            if (!string.IsNullOrEmpty(lblTare.Text) && !string.IsNullOrEmpty(lblBag.Text))
+            {
+                btnGetWeight.Enabled = true;
+                btnGetWeight.BackColor = Color.Red;
+                lblSackNumber.Text = _sackCount.ToString();
+
+                lblStatusProcess.Text = "¡Pese HOJUELA!";
+                lblStatusProcess.ForeColor = Color.Red;
+
+                if (!_newSack)
+                {
+                    _newSack = true;
+                    _sackCount += 1;
+
+                    cmbResources.Enabled = false;
+                    cmbWorkOrders.Enabled = false;
+                }
+
+                lblSackNumber.Text = _sackCount.ToString();
+
+                TableLayoutPalletControl("TARE");
+            }
+            else
+            {
+                btnGetWeight.Enabled = false;
+                btnGetWeight.BackColor = Color.Gray;
+            }
+        }
+        #endregion
+
+        /*--------------------------------- APEX -------------------------------------*/
+        #region APEX
+        private async void CreateSackApex()
+        {
+            if (!_apexCreated)
+            {
+                dynamic jsonSack = JObject.Parse(Payloads.weightSack);
+                jsonSack.DateMark = DateService.EpochTime();
+                jsonSack.OrganizationId = Int64.Parse(Constants.Plant3Id);
+                jsonSack.WorkOrderId = _workOrderId;
+                jsonSack.WorkOrder = _workOrderNumber;
+                jsonSack.ItemNumber = lblItemNumber.Text;
+                jsonSack.Sack = _sackCount.ToString();
+                jsonSack.Tare = lblTare.Text;
+                jsonSack.Bag = lblBag.Text;
+                jsonSack.Net = lblWeight.Text;
+                jsonSack.Shift = lblShift.Text;
+
+                _lastApexCreate = JsonConvert.SerializeObject(jsonSack, Formatting.Indented);
+                _apexCreated = true;
+            }
+
+            if (AppController.CheckInternetConnection())
+            {
+                Task<string> postWeight = APIService.PostApexAsync(EndPoints.WeightSacks, _lastApexCreate);
+                string response = await postWeight;
+
+                if (!string.IsNullOrEmpty(response))
+                {
+                    dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
+                    if (responsePayload.ErrorsExistFlag.ToString() == "false")
+                    {
+                        Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
+                        _apexCreated = false;
+                    }
+                    else
+                    {
+                        DialogResult result = MessageBox.Show($"{responsePayload.Message}, vuelva a reintentar", "[APEX] Registro fallido", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (result == DialogResult.OK)
+                        {
+                            CreateSackApex();
+                        }
+                        else
+                        {
+                            CreateSackApex();
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Sin respuesta al registrar saco [{DateService.Today()}]", Color.Red);
+                }
+            }
+            else
+            {
+                NotifierController.Warning("Sin conexión a internet");
+                DialogResult result = MessageBox.Show("Verificar la conexión internet", "Sin Internet", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                if (result == DialogResult.OK)
+                {
+                    CreateSackApex();
+                }
+                else
+                {
+                    CreateSackApex();
+                }
+            }
+        }
+
+        private async void UpdateSackApex(int sack, float net)
+        {
+            if (!_apexUpdated)
+            {
+                dynamic jsonSack = JObject.Parse(Payloads.weightSackUpdate);
+
+                jsonSack.OrganizationId = Int64.Parse(Constants.Plant3Id); ;
+                jsonSack.WorkOrder = _workOrderNumber;
+                jsonSack.Bag = sack;
+                jsonSack.Net = net;
+
+                _lastApexUpdate = JsonConvert.SerializeObject(jsonSack, Formatting.Indented);
+                _apexUpdated = true;
+            }
+
+            if (AppController.CheckInternetConnection())
+            {
+                Task<string> putWeight = APIService.PutApexAsync(String.Format(EndPoints.WeightSacks, _workOrderNumber, sack, Constants.Plant3Id), _lastApexUpdate);
+                string response = await putWeight;
+
+                if (!string.IsNullOrEmpty(response))
+                {
+                    dynamic responsePayload = JsonConvert.DeserializeObject<dynamic>(response);
+                    if (responsePayload.ErrorsExistFlag.ToString() == "false")
+                    {
+                        Console.WriteLine($"{responsePayload.Message} [{DateService.Today()}]", Color.Green);
+                        _apexUpdated = false;
+                    }
+                    else
+                    {
+                        DialogResult result = MessageBox.Show($"{responsePayload.Message}, vuelva a reintentar", "[APEX] Actualización fallida", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        if (result == DialogResult.OK)
+                        {
+                            UpdateSackApex(sack, net);
+                        }
+                        else
+                        {
+                            UpdateSackApex(sack, net);
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Sin respuesta al actualizar rollo [{DateService.Today()}]", Color.Red);
+                }
+            }
+            else
+            {
+                NotifierController.Warning("Sin conexión a internet");
+                DialogResult result = MessageBox.Show("Verificar la conexión internet", "Sin Internet", MessageBoxButtons.OK, MessageBoxIcon.Question);
+
+                if (result == DialogResult.OK)
+                {
+                    UpdateSackApex(sack, net);
+                }
+                else
+                {
+                    UpdateSackApex(sack, net);
+                }
+            }
+        }
+        #endregion
     }
 }
 

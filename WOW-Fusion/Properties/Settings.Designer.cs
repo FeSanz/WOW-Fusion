@@ -250,5 +250,17 @@ namespace WOW_Fusion.Properties {
                 this["BagMaxWeight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int PL2Tolerance {
+            get {
+                return ((int)(this["PL2Tolerance"]));
+            }
+            set {
+                this["PL2Tolerance"] = value;
+            }
+        }
     }
 }

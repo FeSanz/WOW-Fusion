@@ -8,48 +8,7 @@ namespace WOW_Fusion.Models
 {
     internal class Payloads
     {
-
-        //*********************************** Payloads para APEX ***********************************
-        public static string weightPallet = @"{
-                                                ""DateMark"":""0000000000"",
-                                                ""OrganizationId"": 0,
-                                                ""WorkOrderNumber"": ""0000"",
-                                                ""ItemNumber"": ""XXXX"",
-                                                ""PalletNumber"": 0,
-                                                ""ContentRolls"": 0,
-                                                ""Tare"": 0.0,
-                                                ""Weight"": 0.0,
-                                                ""Shift"": ""XX""
-                                            }";
-
-        public static string weightPalletUpdate = @"{
-                                                        ""Tare"": 0.0,
-                                                        ""Weight"": 0.0
-                                                    }";
-
-
-        public static string weightRolls = @"{
-                                                ""DateMark"":""0000000000"",
-                                                ""OrganizationId"": 0,
-                                                ""WorkOrderId"": 0,
-                                                ""WorkOrder"": ""000"",
-                                                ""ItemNumber"": ""X"",
-                                                ""Pallet"": 0,
-                                                ""Roll"": 0,
-                                                ""Tare"": 0.0,
-                                                ""Core"": 0.0,
-                                                ""Net"": 0.0,
-                                                ""Shift"": ""XX""
-                                            }";
-
-
-        public static string weightRollUpdate = @"{
-                                                    ""OrganizationId"": 0,
-                                                    ""WorkOrder"": ""000"",
-                                                    ""Roll"": 0,
-                                                    ""Net"": 0.0
-                                                }";
-
+        //*********************************** Impresion de etiquetas ***********************************
         public static string labelsPrinted = @"{
                                                     ""DateMark"":""0000000000"",
                                                     ""WorkOrder"": ""0"",
@@ -72,30 +31,49 @@ namespace WOW_Fusion.Models
                                                     ""Operation"": """"
                                                  }";
 
-        //************************************* Payloads Planta 3 ************************************
-        public static string receivingReceiptRequests = @"{
-                                                        ""ReceiptSourceCode"": ""VENDOR"",
-                                                        ""OrganizationCode"": ""CUECONOMA"",
-                                                        ""VendorName"": ""El Maharaja de La Riviera SA de CV"",
-                                                        ""VendorSiteCode"": ""PRINCIPAL"",
-                                                        ""BusinessUnit"": ""SCAN"",
-                                                        ""EmployeeId"": ""300000002504391"",
-                                                        ""lines"": []
-                                                    }";
+        //************************************** Pesaje rollos *****************************************
+        public static string weightRolls = @"{
+                                                ""DateMark"":""0000000000"",
+                                                ""OrganizationId"": 0,
+                                                ""WorkOrderId"": 0,
+                                                ""WorkOrder"": ""000"",
+                                                ""ItemNumber"": ""X"",
+                                                ""Pallet"": 0,
+                                                ""Roll"": 0,
+                                                ""Tare"": 0.0,
+                                                ""Core"": 0.0,
+                                                ""Net"": 0.0,
+                                                ""Shift"": ""XX""
+                                            }";
 
-        public static string receiptLines = @"{
-                                        ""ReceiptSourceCode"": ""VENDOR"",
-                                        ""SourceDocumentCode"": ""PO"",
-                                        ""TransactionType"": ""RECEIVE"",
-                                        ""AutoTransactCode"": ""RECEIVE"",
-                                        ""OrganizationCode"": ""CUECONOMA"",
-                                        ""DocumentNumber"": ""PCTTH23990000101"",
-                                        ""DocumentLineNumber"": 1,
-                                        ""ItemNumber"": ""01-014-000407"",
-                                        ""ItemId"": ""100000004137173"",
-                                        ""Quantity"": 1,
-                                        ""UnitOfMeasure"": ""KILOGRAMO"",
-                                        ""SoldtoLegalEntity"": ""Travel Ten SA de CV""
-                                    }";
+
+        public static string weightRollUpdate = @"{
+                                                    ""OrganizationId"": 0,
+                                                    ""WorkOrder"": ""000"",
+                                                    ""Roll"": 0,
+                                                    ""Net"": 0.0
+                                                }";
+
+        //************************************** Pesaje sacos *****************************************
+        public static string weightSack = @"{
+                                                ""DateMark"":""0000000000"",
+                                                ""OrganizationId"": 0,
+                                                ""WorkOrderId"": 0,
+                                                ""WorkOrder"": ""000"",
+                                                ""ItemNumber"": ""X"",
+                                                ""Sack"": 0,
+                                                ""Tare"": 0.0,
+                                                ""Bag"": 0.0,
+                                                ""Net"": 0.0,
+                                                ""Shift"": ""XX""
+                                            }";
+
+
+        public static string weightSackUpdate = @"{
+                                                    ""OrganizationId"": 0,
+                                                    ""WorkOrder"": ""000"",
+                                                    ""Bag"": 0,
+                                                    ""Net"": 0.0
+                                                }";
     }
 }
