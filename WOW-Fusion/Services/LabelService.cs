@@ -215,7 +215,7 @@ namespace WOW_Fusion.Services
             bool status = false;
             int end = typee.Equals("SACK") ? Settings.Default.SackToPrint : 1;
 
-            for (int pag = 0; pag <= end; pag++)
+            for (int pag = 0; pag < end; pag++)
             {
                 try
                 {
@@ -227,7 +227,7 @@ namespace WOW_Fusion.Services
                         {
                             using (NetworkStream stream = client.GetStream())
                             {
-                                string zpl = typee.Equals("SACK") ? ReplaceZplSack(number) : "";
+                                string zpl = typee.Equals("SACK") ? ReplaceZplSack(number) : ReplaceZplWeighingP3();
                                 await Task.Delay(500);
 
                                 byte[] data = Encoding.UTF8.GetBytes(zpl);
@@ -310,7 +310,22 @@ namespace WOW_Fusion.Services
             {
                 if (!string.IsNullOrEmpty(item.Value.ToString()))
                 {
-                    strLabel = item.Key.Equals("SACK") ? strLabel.Replace(item.Key, sack.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
+                    strLabel = item.Key.Equals("SACK") ? strLabel.Replace(item.Key, "S" + sack.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
+                }
+            }
+            return strLabel;
+        }
+
+        private static string ReplaceZplWeighingP3()
+        {
+            string strLabel = zplTemplate; //Template sin reemplazos
+
+            JObject label = new JObject(JObject.Parse(Constants.LabelJson));
+            foreach (var item in label)
+            {
+                if (!string.IsNullOrEmpty(item.Value.ToString()))
+                {
+                    strLabel = strLabel.Replace(item.Key, item.Value.ToString());
                 }
             }
             return strLabel;

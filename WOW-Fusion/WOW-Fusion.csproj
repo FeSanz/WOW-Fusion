@@ -215,11 +215,11 @@
     <Compile Include="Views\Plant3\frmSettingsP3.Designer.cs">
       <DependentUpon>frmSettingsP3.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Plant3\frmTare.cs">
+    <Compile Include="Views\Plant3\frmWeighingP3.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\Plant3\frmTare.Designer.cs">
-      <DependentUpon>frmTare.cs</DependentUpon>
+    <Compile Include="Views\Plant3\frmWeighingP3.Designer.cs">
+      <DependentUpon>frmWeighingP3.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Views\Plant1\frmLabelP1.resx">
       <DependentUpon>frmLabelP1.cs</DependentUpon>
@@ -266,8 +266,8 @@
     <EmbeddedResource Include="Views\Plant3\frmSettingsP3.resx">
       <DependentUpon>frmSettingsP3.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Plant3\frmTare.resx">
-      <DependentUpon>frmTare.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Plant3\frmWeighingP3.resx">
+      <DependentUpon>frmWeighingP3.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

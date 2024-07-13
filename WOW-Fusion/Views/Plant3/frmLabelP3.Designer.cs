@@ -106,7 +106,7 @@
             this.pbWaitResources = new System.Windows.Forms.PictureBox();
             this.lblLocationCode = new System.Windows.Forms.Label();
             this.TipTare = new System.Windows.Forms.ToolTip(this.components);
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnWeighing = new System.Windows.Forms.Button();
             this.groupBoxProd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBoxWeight.SuspendLayout();
@@ -957,25 +957,26 @@
             this.lblLocationCode.Text = "...";
             this.lblLocationCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // button1
+            // btnWeighing
             // 
-            this.button1.BackColor = System.Drawing.Color.Transparent;
-            this.button1.BackgroundImage = global::WOW_Fusion.Properties.Resources.reprint;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(741, 23);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(27, 27);
-            this.button1.TabIndex = 192;
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnWeighing.BackColor = System.Drawing.Color.Transparent;
+            this.btnWeighing.BackgroundImage = global::WOW_Fusion.Properties.Resources.reprint;
+            this.btnWeighing.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnWeighing.FlatAppearance.BorderSize = 0;
+            this.btnWeighing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWeighing.Location = new System.Drawing.Point(741, 23);
+            this.btnWeighing.Name = "btnWeighing";
+            this.btnWeighing.Size = new System.Drawing.Size(27, 27);
+            this.btnWeighing.TabIndex = 192;
+            this.btnWeighing.UseVisualStyleBackColor = false;
+            this.btnWeighing.Click += new System.EventHandler(this.btnWeighing_Click);
             // 
             // frmLabelP3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(806, 619);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnWeighing);
             this.Controls.Add(this.groupBoxWeight);
             this.Controls.Add(this.groupBoxProd);
             this.Controls.Add(this.lblLocationCode);
@@ -991,6 +992,7 @@
             this.Controls.Add(this.btnSettings);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmLabelP3";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WOW Sacks";
             this.Load += new System.EventHandler(this.frmLabelP3_Load);
             this.groupBoxProd.ResumeLayout(false);
@@ -1080,6 +1082,6 @@
         private System.Windows.Forms.Label lblLocationCode;
         internal System.Windows.Forms.TextBox txtScannerInput;
         private System.Windows.Forms.ToolTip TipTare;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnWeighing;
     }
 }

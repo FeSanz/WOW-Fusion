@@ -49,6 +49,7 @@ namespace WOW_Fusion.Views.Plant3
         private float _weightFromWeighing = 0.0f;
         private float _netPallet = 0.0f;
         private float _previousWeight = 0.0f;
+        private float _primaryQuantityAndTolerance = 0.0f;
 
         private int _rowSelected = 0;
 
@@ -65,7 +66,6 @@ namespace WOW_Fusion.Views.Plant3
         private bool _apexCreated = false;
         private string _lastApexUpdate = string.Empty;
         private bool _apexUpdated = false;
-        private string _labelName = string.Empty;
 
         //JObjets response
         private dynamic shifts = null;
@@ -280,8 +280,13 @@ namespace WOW_Fusion.Views.Plant3
                 dynamic wo = objWorkOrder["items"][0]; //Objeto WORKORDER
                 _workOrderId = Int64.Parse(wo.WorkOrderId.ToString());
                 _workOrderNumber = workOrder;
+
                 lblPrimaryQuantity.Text = string.IsNullOrEmpty(wo.PrimaryProductQuantity.ToString()) ? 0 : wo.PrimaryProductQuantity.ToString();
+                float tolerance = (Settings.Default.PL3Tolerance * float.Parse(lblPrimaryQuantity.Text)) / 100;
+                _primaryQuantityAndTolerance = float.Parse(lblPrimaryQuantity.Text) + tolerance;
+
                 lblUoM.Text = wo.UOMCode.ToString();
+
                 if (!string.IsNullOrEmpty(wo.CompletedQuantity.ToString()))
                 {
                     NotifierController.Warning($"Orden con despacho registrado [{wo.CompletedQuantity.ToString()} {lblUoM.Text}], verifique antes de pesar");
@@ -302,25 +307,15 @@ namespace WOW_Fusion.Views.Plant3
                 CheckStatusScheduleOrder(DateTime.Parse(wo.PlannedStartDate.ToString()), DateTime.Parse(wo.PlannedCompletionDate.ToString()));
 
                 //♥ Consultar template etiqueta en APEX  ♥
-                /*dynamic labelApex = await LabelService.LabelInfo(Constants.Plant3Id, _akaCustomer, lblItemNumber.Text);
+                dynamic labelApex = await LabelService.LabelInfo(Constants.Plant3Id, "SUPERSACO", lblItemNumber.Text);
                 if (labelApex.LabelName.ToString().Equals("null"))
                 {
-                    _akaCustomer = "DEFAULT";
-                    DialogResult result = MessageBox.Show("Etiqueta de cliente/producto no encontrada, se cargará la etiqueta estándar", "¡Alerta!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    if (result == DialogResult.OK)
-                    {
-                        labelApex = await LabelService.LabelInfo(Constants.Plant3Id, _akaCustomer, lblItemNumber.Text);
-                    }
-                    else
-                    {
-                        labelApex = await LabelService.LabelInfo(Constants.Plant3Id, _akaCustomer, lblItemNumber.Text);
-                    }
-                    _labelName = labelApex.LabelName.ToString();
+                    MessageBox.Show("Etiqueta de cliente/producto no encontrada", "¡Alerta!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    _labelName = labelApex.LabelName.ToString();
-                }*/
+                    Console.WriteLine($"Etiqueta {labelApex.LabelName.ToString()} cargada [{DateService.Today()}]", Color.Black);
+                }
 
                 // + Verificar Historial Pesaje +
                 Task<string> tskHistory = APIService.GetApexAsync(String.Format(EndPoints.SacksOrder, Constants.Plant3Id, workOrder));
@@ -355,7 +350,7 @@ namespace WOW_Fusion.Views.Plant3
                 //Order completada
                 if (dgSacks.Rows.Count > 0)
                 {
-                    /*if (float.Parse(lblCompletedQuantity.Text) >= _primaryQuantityAndTolerance)
+                    if (float.Parse(lblCompletedQuantity.Text) >= _primaryQuantityAndTolerance)
                     {
                         NotifierController.Warning("Orden completada");
                         btnGetWeight.Enabled = false;
@@ -369,7 +364,7 @@ namespace WOW_Fusion.Views.Plant3
                     {
                         btnGetWeight.Enabled = false;
                         NotifierController.Warning($"Se detectó más pesaje del programado, incluida la tolerancia [{Settings.Default.PL2Tolerance}%]");
-                    }*/
+                    }
                 }
             }
             catch (Exception ex)
@@ -435,6 +430,8 @@ namespace WOW_Fusion.Views.Plant3
                             string[] row = new string[] { _sackCount.ToString(), lblTare.Text, lblBag.Text, sackNet.ToString("F1"), _weightFromWeighing.ToString("F1") };
                             int indexNewRoll = dgSacks.Rows.Add(row);
                             dgSacks.FirstDisplayedScrollingRowIndex = indexNewRoll;
+
+                            FillLabelSack(row);
                         }
                         else
                         {
@@ -521,6 +518,13 @@ namespace WOW_Fusion.Views.Plant3
                 }
             }
             ShowWait(false);
+        }
+
+        private void btnWeighing_Click(object sender, EventArgs e)
+        {
+            frmWeighingP3 frmWeighingP3 = new frmWeighingP3();
+            frmWeighingP3.StartPosition = FormStartPosition.CenterParent;
+            frmWeighingP3.ShowDialog();
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
@@ -676,11 +680,12 @@ namespace WOW_Fusion.Views.Plant3
                 //WO Info
                 label.WORKORDER = string.IsNullOrEmpty(_workOrderNumber) ? " " : _workOrderNumber/*.Substring(7)*/;
                 label.ITEMNUMBER = string.IsNullOrEmpty(lblItemNumber.Text) ? " " : lblItemNumber.Text;
-                label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;label.EQU = string.IsNullOrEmpty(lblResourceCode.Text) ? " " : lblResourceCode.Text;
-                label.DATE = DateService.Now();
+                label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;
+                label.EQU = string.IsNullOrEmpty(lblResourceCode.Text) ? " " : lblResourceCode.Text;
                 label.SHIFT = string.IsNullOrEmpty(lblShift.Text) ? " " : lblShift.Text;
+                label.DATE = DateService.Now();
                 //Sack Info
-                label.SACK = string.IsNullOrEmpty(weights[1]) ? " " : "S" + weights[1].PadLeft(4, '0');
+                label.SACK = string.IsNullOrEmpty(weights[0]) ? " " : "S" + weights[0].PadLeft(4, '0');
                 label.WNETKG = string.IsNullOrEmpty(weights[3]) ? " " : weights[3];
                 label.WGROSSKG = string.IsNullOrEmpty(weights[4]) ? " " : weights[4]; // tara + core + rollo 
 
@@ -715,6 +720,7 @@ namespace WOW_Fusion.Views.Plant3
             _workOrderId = 0;
             _workOrderNumber = string.Empty;
             lblPrimaryQuantity.Text = string.Empty;
+            _primaryQuantityAndTolerance = 0;
             lblCompletedQuantity.Text = string.Empty;
             lblUoM.Text = "--";
             progressBarWO.Value = 0;
@@ -745,7 +751,6 @@ namespace WOW_Fusion.Views.Plant3
             _sackCount = 0;
             dgSacks.Rows.Clear();
             dgSacks.Refresh();
-            _labelName = string.Empty;
 
             _endWeight = false;
             btnEndProcess.Visible = false;
@@ -1120,6 +1125,7 @@ namespace WOW_Fusion.Views.Plant3
             }
         }
         #endregion
+
     }
 }
 

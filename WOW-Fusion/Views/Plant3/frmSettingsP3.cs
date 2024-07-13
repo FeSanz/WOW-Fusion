@@ -48,6 +48,9 @@ namespace WOW_Fusion.Views.Plant3
             txtTareMin.Text = Settings.Default.TareMinWeight.ToString();
             txtTareMax.Text = Settings.Default.TareMaxWeight.ToString();
 
+            trackBarAdtional.Value = Settings.Default.PL3Tolerance;
+            lblAditional.Text = Settings.Default.PL3Tolerance.ToString() + "%";
+
             string decodedCredentials = Encoding.GetEncoding("ISO-8859-1").GetString(Convert.FromBase64String(Settings.Default.Credentials.ToString()));
             txtUser.Text = decodedCredentials.Split(':')[0];
             txtPassword.Text = decodedCredentials.Split(':')[1];
@@ -94,6 +97,8 @@ namespace WOW_Fusion.Views.Plant3
                     Settings.Default.BagMaxWeight = float.Parse(txtBagMax.Text);
                     Settings.Default.TareMinWeight = float.Parse(txtTareMin.Text);
                     Settings.Default.TareMaxWeight = float.Parse(txtTareMax.Text);
+
+                    Settings.Default.PL3Tolerance = trackBarAdtional.Value;
 
                     Settings.Default.FusionUrl = rdbProd.Checked ? "https://iapxqy.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05" :
                                   "https://iapxqy-test.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05";
@@ -252,6 +257,11 @@ namespace WOW_Fusion.Views.Plant3
                 txtTareMax.BackColor = Color.LightSalmon;
                 lblStatus.Text = "Ingrese únicamente números";
             }
+        }
+
+        private void trackBarAdtional_Scroll(object sender, EventArgs e)
+        {
+            lblAditional.Text = trackBarAdtional.Value.ToString() + "%";
         }
     }
 }
