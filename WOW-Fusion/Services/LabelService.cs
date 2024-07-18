@@ -187,7 +187,7 @@ namespace WOW_Fusion.Services
                             using (NetworkStream stream = client.GetStream())
                             {
                                 string zpl = typee.Equals("ROLL") ? ReplaceZplRoll(number) : ReplaceZplPallet(number);
-                                await Task.Delay(500);
+                                await Task.Delay(1000);
                                 byte[] data = Encoding.UTF8.GetBytes(zpl);
                                 await stream.WriteAsync(data, 0, data.Length);
                                 await stream.FlushAsync();

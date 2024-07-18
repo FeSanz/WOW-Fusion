@@ -75,11 +75,6 @@
             this.lblSackNumber = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.dgSacks = new System.Windows.Forms.DataGridView();
-            this.S_Number = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.S_Tare = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.S_Sack = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.S_Net = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.S_Gross = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblWeight = new System.Windows.Forms.Label();
             this.btnGetWeight = new System.Windows.Forms.Button();
@@ -107,6 +102,11 @@
             this.lblLocationCode = new System.Windows.Forms.Label();
             this.TipTare = new System.Windows.Forms.ToolTip(this.components);
             this.btnWeighing = new System.Windows.Forms.Button();
+            this.S_Number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.S_Tare = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.S_Sack = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.S_Gross = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.S_Net = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBoxProd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBoxWeight.SuspendLayout();
@@ -454,7 +454,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(85, 17);
             this.label5.TabIndex = 183;
-            this.label5.Text = "Tara";
+            this.label5.Text = "Tarima";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblTare
@@ -593,8 +593,8 @@
             this.S_Number,
             this.S_Tare,
             this.S_Sack,
-            this.S_Net,
-            this.S_Gross});
+            this.S_Gross,
+            this.S_Net});
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -633,48 +633,6 @@
             this.dgSacks.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgSacks_CellFormatting);
             this.dgSacks.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgSacks_CellMouseUp);
             this.dgSacks.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgSacks_RowsAdded);
-            // 
-            // S_Number
-            // 
-            this.S_Number.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.S_Number.DefaultCellStyle = dataGridViewCellStyle3;
-            this.S_Number.FillWeight = 101.7259F;
-            this.S_Number.HeaderText = "#";
-            this.S_Number.Name = "S_Number";
-            this.S_Number.ReadOnly = true;
-            this.S_Number.Width = 40;
-            // 
-            // S_Tare
-            // 
-            this.S_Tare.FillWeight = 101.7259F;
-            this.S_Tare.HeaderText = "Tara";
-            this.S_Tare.Name = "S_Tare";
-            this.S_Tare.ReadOnly = true;
-            // 
-            // S_Sack
-            // 
-            this.S_Sack.HeaderText = "Saco";
-            this.S_Sack.Name = "S_Sack";
-            this.S_Sack.ReadOnly = true;
-            // 
-            // S_Net
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.S_Net.DefaultCellStyle = dataGridViewCellStyle4;
-            this.S_Net.FillWeight = 101.7259F;
-            this.S_Net.HeaderText = "Neto";
-            this.S_Net.Name = "S_Net";
-            this.S_Net.ReadOnly = true;
-            // 
-            // S_Gross
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.S_Gross.DefaultCellStyle = dataGridViewCellStyle5;
-            this.S_Gross.FillWeight = 101.7259F;
-            this.S_Gross.HeaderText = "Bruto";
-            this.S_Gross.Name = "S_Gross";
-            this.S_Gross.ReadOnly = true;
             // 
             // tableLayoutPanel1
             // 
@@ -744,15 +702,16 @@
             this.MenuShipWeight.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.recalcularToolStripMenuItem});
             this.MenuShipWeight.Name = "MenuShipDeleteWeight";
-            this.MenuShipWeight.Size = new System.Drawing.Size(109, 26);
+            this.MenuShipWeight.Size = new System.Drawing.Size(164, 26);
             this.MenuShipWeight.Text = "Eliminar";
             // 
             // recalcularToolStripMenuItem
             // 
             this.recalcularToolStripMenuItem.Image = global::WOW_Fusion.Properties.Resources.upload_filled;
             this.recalcularToolStripMenuItem.Name = "recalcularToolStripMenuItem";
-            this.recalcularToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
-            this.recalcularToolStripMenuItem.Text = "Pesar";
+            this.recalcularToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.recalcularToolStripMenuItem.Text = "Volver a pesar";
+            this.recalcularToolStripMenuItem.Click += new System.EventHandler(this.ReWeightMenuItem_Click);
             // 
             // pbYellow
             // 
@@ -971,6 +930,48 @@
             this.btnWeighing.UseVisualStyleBackColor = false;
             this.btnWeighing.Click += new System.EventHandler(this.btnWeighing_Click);
             // 
+            // S_Number
+            // 
+            this.S_Number.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.S_Number.DefaultCellStyle = dataGridViewCellStyle3;
+            this.S_Number.FillWeight = 101.7259F;
+            this.S_Number.HeaderText = "#";
+            this.S_Number.Name = "S_Number";
+            this.S_Number.ReadOnly = true;
+            this.S_Number.Width = 40;
+            // 
+            // S_Tare
+            // 
+            this.S_Tare.FillWeight = 101.7259F;
+            this.S_Tare.HeaderText = "Tarima";
+            this.S_Tare.Name = "S_Tare";
+            this.S_Tare.ReadOnly = true;
+            // 
+            // S_Sack
+            // 
+            this.S_Sack.HeaderText = "Saco";
+            this.S_Sack.Name = "S_Sack";
+            this.S_Sack.ReadOnly = true;
+            // 
+            // S_Gross
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.S_Gross.DefaultCellStyle = dataGridViewCellStyle4;
+            this.S_Gross.FillWeight = 101.7259F;
+            this.S_Gross.HeaderText = "Bruto";
+            this.S_Gross.Name = "S_Gross";
+            this.S_Gross.ReadOnly = true;
+            // 
+            // S_Net
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.S_Net.DefaultCellStyle = dataGridViewCellStyle5;
+            this.S_Net.FillWeight = 101.7259F;
+            this.S_Net.HeaderText = "Neto";
+            this.S_Net.Name = "S_Net";
+            this.S_Net.ReadOnly = true;
+            // 
             // frmLabelP3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1049,11 +1050,6 @@
         private System.Windows.Forms.ToolStripMenuItem recalcularToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip MenuShipWeight;
         private System.Windows.Forms.Label lblEnvironment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn S_Number;
-        private System.Windows.Forms.DataGridViewTextBoxColumn S_Tare;
-        private System.Windows.Forms.DataGridViewTextBoxColumn S_Sack;
-        private System.Windows.Forms.DataGridViewTextBoxColumn S_Net;
-        private System.Windows.Forms.DataGridViewTextBoxColumn S_Gross;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblTare;
@@ -1083,5 +1079,10 @@
         internal System.Windows.Forms.TextBox txtScannerInput;
         private System.Windows.Forms.ToolTip TipTare;
         private System.Windows.Forms.Button btnWeighing;
+        private System.Windows.Forms.DataGridViewTextBoxColumn S_Number;
+        private System.Windows.Forms.DataGridViewTextBoxColumn S_Tare;
+        private System.Windows.Forms.DataGridViewTextBoxColumn S_Sack;
+        private System.Windows.Forms.DataGridViewTextBoxColumn S_Gross;
+        private System.Windows.Forms.DataGridViewTextBoxColumn S_Net;
     }
 }

@@ -47,8 +47,6 @@ namespace WOW_Fusion.Views.Plant3
         //Pesos params
         private float _tareWeight = 0.0f;
         private float _weightFromWeighing = 0.0f;
-        private float _netPallet = 0.0f;
-        private float _previousWeight = 0.0f;
         private float _primaryQuantityAndTolerance = 0.0f;
 
         private int _rowSelected = 0;
@@ -58,8 +56,6 @@ namespace WOW_Fusion.Views.Plant3
         private bool _newSack = false;
         private bool _endWeight = false;
         private bool _completedHistory = false;
-
-        private bool _reloadTare = false;
 
         //APEX Flags
         private string _lastApexCreate = string.Empty;
@@ -427,7 +423,7 @@ namespace WOW_Fusion.Views.Plant3
                             lblWeight.Text = sackNet.ToString("F1");
 
                             //Agregar pesos a datagrid
-                            string[] row = new string[] { _sackCount.ToString(), lblTare.Text, lblBag.Text, sackNet.ToString("F1"), _weightFromWeighing.ToString("F1") };
+                            string[] row = new string[] { _sackCount.ToString(), lblTare.Text, lblBag.Text, _weightFromWeighing.ToString("F1"), sackNet.ToString("F1") };
                             int indexNewRoll = dgSacks.Rows.Add(row);
                             dgSacks.FirstDisplayedScrollingRowIndex = indexNewRoll;
 
@@ -456,7 +452,7 @@ namespace WOW_Fusion.Views.Plant3
 
         private async void ReWeightMenuItem_Click(object sender, EventArgs e)
         {
-            ShowWait(true, "Pesando rollo nuevamente ...");
+            ShowWait(true, "Pesando saco nuevamente ...");
             int lastRow = dgSacks.Rows.Count - 1;
             if (!dgSacks.Rows[lastRow].IsNewRow)
             {
@@ -472,38 +468,27 @@ namespace WOW_Fusion.Views.Plant3
                     {
                         if (_weightFromWeighing > 0)
                         {
-                            float dgNet = float.Parse(dgSacks.Rows[lastRow].Cells["S_Net"].Value.ToString());
-                            if (_weightFromWeighing < (_previousWeight - dgNet))
-                            {
-                                MessageBox.Show("Se detecto menor peso al obtenido anteriormente, verifique el producto colocado", "¡Precaucion!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
-                            else
-                            {
-                                _previousWeight -= dgNet;
-                                int dgPallet = int.Parse(dgSacks.Rows[lastRow].Cells["R_Pallet"].Value.ToString());
-                                int dgRoll = int.Parse(dgSacks.Rows[lastRow].Cells["R_Roll"].Value.ToString());
-                                float dgCore = float.Parse(dgSacks.Rows[lastRow].Cells["R_Core"].Value.ToString());
+                            int S_Number = int.Parse(dgSacks.Rows[lastRow].Cells["S_Number"].Value.ToString());
+                            float S_Tare = float.Parse(dgSacks.Rows[lastRow].Cells["S_Tare"].Value.ToString());
+                            float S_Sack = float.Parse(dgSacks.Rows[lastRow].Cells["S_Sack"].Value.ToString());
 
 
-                                float rollNet = _weightFromWeighing - _previousWeight;//Calcular peso rollo
-                                float rollGross = dgCore + rollNet;
+                            float S_Net = _weightFromWeighing - (S_Tare + S_Sack);//Calcular peso NETO saco
 
-                                _previousWeight = _weightFromWeighing; //Reserver peso
-                                _netPallet -= dgNet; //Descontar del neto acomulado
-                                _netPallet += rollNet; //Aumentar con nuevo neto
+                            lblWeight.Text = S_Net.ToString("F1");
 
-                                lblWeight.Text = rollNet.ToString("F1");
+                            //Actualizar fila de SACO
+                            string[] rowSack = new string[] { S_Number.ToString(), S_Tare.ToString("F1"), S_Sack.ToString("F1"), _weightFromWeighing.ToString("F1"), S_Net.ToString("F1") };
+                            dgSacks.Rows[lastRow].SetValues(rowSack);
 
-                                //Actualizar fila de ROLLO
-                                string[] rowRoll = new string[] { dgPallet.ToString(), dgRoll.ToString(), dgCore.ToString("F1"), rollNet.ToString("F1"), rollGross.ToString("F1") };
-                                dgSacks.Rows[lastRow].SetValues(rowRoll);
+                            FillLabelSack(rowSack);
 
-                                float palletNetSum = dgSacks.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["R_Net"].Value.ToString()));
-                                lblCompletedQuantity.Text = palletNetSum.ToString();
-                                CalculateAdvace(palletNetSum);
+                            float totalNetSum = dgSacks.Rows.Cast<DataGridViewRow>().Sum(t => float.Parse(t.Cells["S_Net"].Value.ToString()));
+                            lblCompletedQuantity.Text = totalNetSum.ToString();
 
-                                UpdateSackApex(dgRoll, rollNet);
-                            }
+                            CalculateAdvace(totalNetSum);
+                            await LabelService.PrintP3(S_Number, "SACK");
+                            UpdateSackApex(S_Number, S_Net);
                         }
                         else
                         {
@@ -678,7 +663,7 @@ namespace WOW_Fusion.Views.Plant3
                 dynamic label = JObject.Parse(Constants.LabelJson);
 
                 //WO Info
-                label.WORKORDER = string.IsNullOrEmpty(_workOrderNumber) ? " " : _workOrderNumber/*.Substring(7)*/;
+                label.WORKORDER = string.IsNullOrEmpty(_workOrderNumber) ? " " : _workOrderNumber;
                 label.ITEMNUMBER = string.IsNullOrEmpty(lblItemNumber.Text) ? " " : lblItemNumber.Text;
                 label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;
                 label.EQU = string.IsNullOrEmpty(lblResourceCode.Text) ? " " : lblResourceCode.Text;
@@ -686,8 +671,8 @@ namespace WOW_Fusion.Views.Plant3
                 label.DATE = DateService.Now();
                 //Sack Info
                 label.SACK = string.IsNullOrEmpty(weights[0]) ? " " : "S" + weights[0].PadLeft(4, '0');
-                label.WNETKG = string.IsNullOrEmpty(weights[3]) ? " " : weights[3];
-                label.WGROSSKG = string.IsNullOrEmpty(weights[4]) ? " " : weights[4]; // tara + core + rollo 
+                label.WNETKG = string.IsNullOrEmpty(weights[4]) ? " " : weights[4];
+                label.WGROSSKG = string.IsNullOrEmpty(weights[3]) ? " " : weights[3]; // tara + saco + hojuela 
 
                 Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
             }
@@ -1071,7 +1056,7 @@ namespace WOW_Fusion.Views.Plant3
 
                 jsonSack.OrganizationId = Int64.Parse(Constants.Plant3Id); ;
                 jsonSack.WorkOrder = _workOrderNumber;
-                jsonSack.Bag = sack;
+                jsonSack.Sack = sack;
                 jsonSack.Net = net;
 
                 _lastApexUpdate = JsonConvert.SerializeObject(jsonSack, Formatting.Indented);
@@ -1106,7 +1091,7 @@ namespace WOW_Fusion.Views.Plant3
                 }
                 else
                 {
-                    Console.WriteLine($"Sin respuesta al actualizar rollo [{DateService.Today()}]", Color.Red);
+                    Console.WriteLine($"Sin respuesta al actualizar saco [{DateService.Today()}]", Color.Red);
                 }
             }
             else
@@ -1125,7 +1110,6 @@ namespace WOW_Fusion.Views.Plant3
             }
         }
         #endregion
-
     }
 }
 

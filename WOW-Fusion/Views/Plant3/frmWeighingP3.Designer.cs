@@ -35,9 +35,9 @@
             this.btnGetWeight = new System.Windows.Forms.Button();
             this.txtItemDescription = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.lblStatus = new System.Windows.Forms.Label();
             this.pbWaitProcess = new System.Windows.Forms.PictureBox();
             this.btnCloseWeighing = new System.Windows.Forms.Button();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbWaitProcess)).BeginInit();
             this.SuspendLayout();
@@ -114,17 +114,6 @@
             this.label3.Text = "Descripción del producto";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblStatus
-            // 
-            this.lblStatus.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatus.ForeColor = System.Drawing.Color.Yellow;
-            this.lblStatus.Location = new System.Drawing.Point(8, 119);
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(358, 34);
-            this.lblStatus.TabIndex = 196;
-            this.lblStatus.Text = "...";
-            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // pbWaitProcess
             // 
             this.pbWaitProcess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
@@ -151,6 +140,17 @@
             this.btnCloseWeighing.TabIndex = 197;
             this.btnCloseWeighing.UseVisualStyleBackColor = false;
             this.btnCloseWeighing.Click += new System.EventHandler(this.btnCloseWeighing_Click);
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.ForeColor = System.Drawing.Color.Yellow;
+            this.lblStatus.Location = new System.Drawing.Point(8, 119);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(358, 34);
+            this.lblStatus.TabIndex = 196;
+            this.lblStatus.Text = "...";
+            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // frmWeighingP3
             // 
@@ -187,7 +187,7 @@
         private System.Windows.Forms.Button btnGetWeight;
         private System.Windows.Forms.TextBox txtItemDescription;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Button btnCloseWeighing;
+        private System.Windows.Forms.Label lblStatus;
     }
 }
