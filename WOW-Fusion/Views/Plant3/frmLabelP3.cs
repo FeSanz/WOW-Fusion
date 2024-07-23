@@ -368,7 +368,7 @@ namespace WOW_Fusion.Views.Plant3
                 MessageBox.Show("Error. " + ex.Message, "Error al seleccionar orden", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             ShowWait(false);
-            lblStatusProcess.Text = "¡Escaneé TARA o SACO!";
+            lblStatusProcess.Text = "¡Escaneé TARAMA o SACO!";
             lblStatusProcess.ForeColor = Color.Red;
             txtScannerInput.Enabled = true;
             txtScannerInput.Focus();
@@ -380,7 +380,7 @@ namespace WOW_Fusion.Views.Plant3
             foreach (dynamic S in sacksOnOrder)
             {
                 float grossSack = S.Tare + S.Bag + S.Net;
-                string[] sackData = new string[] { S.Sack.ToString(), S.Tare.ToString("F1"), S.Bag.ToString("F1"), S.Net.ToString("F1"), grossSack.ToString("F1") };
+                string[] sackData = new string[] { S.Sack.ToString(), S.Tare.ToString("F1"), S.Bag.ToString("F1"), grossSack.ToString("F1"), S.Net.ToString("F1")};
                 int indexNewSack = dgSacks.Rows.Add(sackData);
                 dgSacks.FirstDisplayedScrollingRowIndex = indexNewSack;
             }
@@ -550,7 +550,7 @@ namespace WOW_Fusion.Views.Plant3
             CreateSackApex();
 
             //Reiniciar pesar nuevo saco
-            lblStatusProcess.Text = "¡Escaneé TARA o SACO!";
+            lblStatusProcess.Text = "¡Escaneé TARIMA o SACO!";
             lblStatusProcess.ForeColor = Color.Red;
             btnGetWeight.Enabled = false;
             txtScannerInput.Enabled = true;
@@ -884,7 +884,7 @@ namespace WOW_Fusion.Views.Plant3
                 {
                     if (scanerInput >= Settings.Default.TareMinWeight && scanerInput <= Settings.Default.TareMaxWeight)
                     {
-                        NotifierController.Success($"Tara {txtScannerInput.Text} kg");
+                        NotifierController.Success($"Tarima {txtScannerInput.Text} kg");
                         lblTare.Text = txtScannerInput.Text;
                         txtScannerInput.Text = string.Empty;
                         txtScannerInput.Focus();
@@ -898,7 +898,7 @@ namespace WOW_Fusion.Views.Plant3
                     }
                     else
                     {
-                        NotifierController.Warning($"Peso [{txtScannerInput.Text}] no coincide con un saco o tara estándar, verifique");
+                        NotifierController.Warning($"Peso [{txtScannerInput.Text}] no coincide con un saco o tarima estándar, verifique");
                         txtScannerInput.Text = string.Empty;
                         txtScannerInput.Focus();
                     }
@@ -934,7 +934,7 @@ namespace WOW_Fusion.Views.Plant3
         {
             if (!string.IsNullOrEmpty(lblBag.Text) && string.IsNullOrEmpty(lblTare.Text))
             {
-                lblStatusProcess.Text = "¡Escaneé TARA!";
+                lblStatusProcess.Text = "¡Escaneé TARIMA!";
                 lblStatusProcess.ForeColor = Color.Red;
                 TableLayoutPalletControl("TARE");
             }
