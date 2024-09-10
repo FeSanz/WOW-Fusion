@@ -31,7 +31,7 @@ namespace WOW_Fusion.Models
                             "&q=ItemNumber='{0}' and OrganizationId={1}";
 
         public static string GtinP1 = "/GTINRelationships?" + Constants.ParamsGet +
-                            "&fields=GTIN" +
+                            "&fields=GTIN,RegistryId" +
                             "&q=Item='{0}' and UOM='cj'";
     }
 }

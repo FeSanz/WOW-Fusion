@@ -298,15 +298,29 @@ namespace WOW_Fusion
 
                     if((int)obj["parts"][1]["payload"]["count"] > 0)
                     {
-                        dynamic GtinRelationships = obj["parts"][1]["payload"]["items"][0];
-
-                        if (GtinRelationships != null)
+                        if ((int)obj["parts"][1]["payload"]["count"] == 1)
                         {
-                            lblGTIN.Text = string.IsNullOrEmpty(GtinRelationships.GTIN.ToString()) ? string.Empty : GtinRelationships.GTIN.ToString();
+                            dynamic GtinRelationships = obj["parts"][1]["payload"]["items"][0];
+
+                            if (GtinRelationships != null)
+                            {
+                                lblGTIN.Text = string.IsNullOrEmpty(GtinRelationships.GTIN.ToString()) ? string.Empty : GtinRelationships.GTIN.ToString();
+                            }
+                            else
+                            {
+                                lblGTIN.Text = string.Empty;
+                            }
                         }
                         else
                         {
-                            lblGTIN.Text = string.Empty;
+                            for(int i = 0; i < (int)obj["parts"][1]["payload"]["count"]; i++)
+                            {
+                                dynamic GtinRelationships = obj["parts"][1]["payload"]["items"][i];
+                                if (GtinRelationships.RegistryId.ToString() == "GCA00DL")
+                                {
+                                    lblGTIN.Text = string.IsNullOrEmpty(GtinRelationships.GTIN.ToString()) ? string.Empty : GtinRelationships.GTIN.ToString() + " ";
+                                }
+                            }
                         }
                     }
                     else
