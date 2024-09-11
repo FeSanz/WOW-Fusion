@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLabelP1));
             this.lblItemDescription = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblGTIN = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.lblItemDescriptionEnglish = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -101,8 +103,6 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblGTIN = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
@@ -162,6 +162,28 @@
             this.groupBox1.TabIndex = 113;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos de producción";
+            // 
+            // lblGTIN
+            // 
+            this.lblGTIN.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblGTIN.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGTIN.Location = new System.Drawing.Point(7, 270);
+            this.lblGTIN.Name = "lblGTIN";
+            this.lblGTIN.Size = new System.Drawing.Size(401, 15);
+            this.lblGTIN.TabIndex = 129;
+            this.lblGTIN.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label11.Location = new System.Drawing.Point(175, 257);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(64, 13);
+            this.label11.TabIndex = 128;
+            this.label11.Text = "GTIN [UPC]";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblItemDescriptionEnglish
             // 
@@ -991,28 +1013,6 @@
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(983, 522);
             this.flowLayoutPanel3.TabIndex = 164;
-            // 
-            // lblGTIN
-            // 
-            this.lblGTIN.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblGTIN.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGTIN.Location = new System.Drawing.Point(7, 270);
-            this.lblGTIN.Name = "lblGTIN";
-            this.lblGTIN.Size = new System.Drawing.Size(401, 15);
-            this.lblGTIN.TabIndex = 129;
-            this.lblGTIN.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label11.Location = new System.Drawing.Point(175, 257);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(64, 13);
-            this.label11.TabIndex = 128;
-            this.label11.Text = "GTIN [UPC]";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // frmLabelP1
             // 

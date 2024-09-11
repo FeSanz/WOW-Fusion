@@ -96,7 +96,7 @@ namespace WOW_Fusion.Models
 
         //Enpoints AKA
         public static string TradingPartnerItemRelationships = Settings.Default.FusionUrl + "/tradingPartnerItemRelationships?" + Constants.ParamsGet +
-                                                            "&fields=TradingPartnerType,TradingPartnerName,TradingPartnerItemNumber,RelationshipDescription" +
+                                                            "&fields=TradingPartnerType,TradingPartnerName,TradingPartnerItemNumber,TradingPartnerItemDescription,RelationshipDescription" +
                                                             "&q=Item='{0}' and RegistryId='{1}'";
 
         public static string TradingPartnerItems = Settings.Default.FusionUrl + "/tradingPartnerItemRelationships?" + Constants.ParamsGet +

@@ -54,6 +54,9 @@ namespace WOW_Fusion
         private string _akaCustomer = "DEFAULT";
         private int lastPagePrinted = -1;
 
+        private string _tradingPartnerName = string.Empty;
+        private string _CustomerPONumber = string.Empty;
+
         private static frmLabelP1 instance;
         private bool _isPrint = false;
 
@@ -92,7 +95,7 @@ namespace WOW_Fusion
             }
             else
             {
-                Constants.BusinessUnitId = org.ManagementBusinessUnitId.ToString();
+                Constants.BusinessUnitId = /*org.ManagementBusinessUnitId.ToString()*/"300000003202139";
                 lblOrganizationCode.Text = org.OrganizationCode.ToString();
                 lblOrganizationName.Text = org.OrganizationName.ToString();
                 lblLocationCode.Text = org.LocationCode.ToString();
@@ -442,6 +445,7 @@ namespace WOW_Fusion
                     if (om != null)
                     {
                         lblAkaCustomer.Text = om.BuyingPartyNumber.ToString();//BuyingPartyNumber BuyingPartyName
+                        _CustomerPONumber = om.CustomerPONumber.ToString();
                         _akaCustomer = lblAkaCustomer.Text;
 
                         //♥ Consultar TradingPartnerItemRelationships ♥
@@ -449,10 +453,14 @@ namespace WOW_Fusion
                         if (aka != null)
                         {
                             lblAkaItem.Text = aka.TradingPartnerItemNumber.ToString();
-                            lblAkaDescription.Text = aka.RelationshipDescription.ToString();
+                            lblAkaDescription.Text = aka.TradingPartnerItemDescription.ToString();
+                            _tradingPartnerName = aka.TradingPartnerName.ToString();
                         }
                         else
                         {
+                            lblAkaItem.Text = string.Empty;
+                            lblAkaDescription.Text = string.Empty;
+                            _tradingPartnerName = string.Empty;
                             Console.WriteLine($"Orden sin datos AKA [{DateService.Today()}]", Color.Black);
                         }
                     }
@@ -554,10 +562,13 @@ namespace WOW_Fusion
             lblPlannedStartDate.Text = string.Empty;
             lblPlannedCompletionDate.Text = string.Empty;
             //AKA Section
+            _akaCustomer = "DEFAULT";
             lblAkaOrder.Text = string.Empty;
             lblAkaItem.Text = string.Empty;
             lblAkaCustomer.Text = string.Empty;
             lblAkaDescription.Text = string.Empty;
+            _CustomerPONumber = string.Empty;
+            _tradingPartnerName = string.Empty;
             //Reprint Section
             //-------------------groupBoxReprint.Visible = false;
             txtBoxStart.Text = string.Empty;
@@ -823,6 +834,13 @@ namespace WOW_Fusion
                 label.ITEMDESCRIPTION = string.IsNullOrEmpty(lblItemDescription.Text) ? " " : lblItemDescription.Text;
                 label.ENGLISHDESCRIPTION = string.IsNullOrEmpty(lblItemDescriptionEnglish.Text) ? " " : lblItemDescriptionEnglish.Text;
                 label.WORKORDER = string.IsNullOrEmpty(cmbWorkOrders.Text) ? " " : cmbWorkOrders.Text/*.Substring(7)*/;
+
+                label.AKAITEM = string.IsNullOrEmpty(lblAkaItem.Text) ? "NE" : lblAkaItem.Text;
+                label.AKADESCRIPTION = string.IsNullOrEmpty(lblAkaDescription.Text) ? "NE" : lblAkaDescription.Text;
+                label.LEGALENTITY = string.IsNullOrEmpty(_tradingPartnerName) ? "NE" : _tradingPartnerName;
+                label.PURCHASEORDER = string.IsNullOrEmpty(_CustomerPONumber) ? " " : _CustomerPONumber;
+                label.PONUM = string.IsNullOrEmpty(_CustomerPONumber) ? " "  : _CustomerPONumber;
+
                 //label.UPCA = string.IsNullOrEmpty(itemId) ? $"{Constants.UPCPrefix}0000" : $"{Constants.UPCPrefix}{itemId.Substring(itemId.Length - 4)}";
                 label.UPCA = string.IsNullOrEmpty(lblGTIN.Text) ? "00000000000000" : lblGTIN.Text;
                 label.EQU = string.IsNullOrEmpty(lblResourceName.Text) ? " ": lblResourceName.Text;
