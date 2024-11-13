@@ -76,6 +76,10 @@ namespace WOW_Fusion.Views.Plant3
         private string _workOrderNumber = string.Empty;
         private string _CustomerPONumber = string.Empty;
 
+        //Identificar teclado o escaner
+        private DateTime lastKeyPressTime = DateTime.MinValue;
+        private const int scannerKeyDelayThreshold = 100;
+
         private static frmLabelP3 instance;
 
         /*------------------------------ INITIALIZE ----------------------------------*/
@@ -1110,6 +1114,34 @@ namespace WOW_Fusion.Views.Plant3
             }
         }
         #endregion
+
+        private void frmLabelP3_Activated(object sender, EventArgs e)
+        {
+            if(!string.IsNullOrEmpty(cmbWorkOrders.Text))
+            {
+                this.BeginInvoke(new Action(() =>
+                {
+                    txtScannerInput.Focus();
+                }));
+            }
+        }
+
+        private void txtScannerInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            DateTime currentKeyPressTime = DateTime.Now;
+
+            // Si la tecla es presionada demasiado rápido, probablemente sea un escáner, no bloquear
+            if ((currentKeyPressTime - lastKeyPressTime).TotalMilliseconds < scannerKeyDelayThreshold)
+                return;
+
+            e.SuppressKeyPress = true; //Suprimir caracter insertado
+            txtScannerInput.Clear();
+            txtScannerInput.Focus();
+
+            NotifierController.Warning("Teclado no permitido en este campo");
+
+            lastKeyPressTime = currentKeyPressTime; // Actualizar la última vez que se presionó una tecla
+        }
     }
 }
 
