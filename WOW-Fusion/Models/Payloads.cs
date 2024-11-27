@@ -72,6 +72,7 @@ namespace WOW_Fusion.Models
         public static string weightSackUpdate = @"{
                                                     ""OrganizationId"": 0,
                                                     ""WorkOrder"": ""000"",
+                                                    ""ItemNumber"": ""X"",
                                                     ""Sack"": 0,
                                                     ""Net"": 0.0
                                                 }";

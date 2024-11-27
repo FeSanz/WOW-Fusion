@@ -23,7 +23,7 @@ namespace WOW_Fusion
         public static int LastPrint = 0;
 
         //Endpoints fusion
-        public static readonly string ParamsGet = "limit=500&totalResults=true&onlyData=true";
+        public static readonly string ParamsGet = "limit=500&totalResults=true&onlyData=true&links=canonical";
 
         //Endpoint Etiquetas
         public static string LaberalyUrl = "http://api.labelary.com/v1/printers/8dpmm/labels/4x2/0/ --data-urlencode \"{0}\"";

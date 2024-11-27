@@ -72,6 +72,10 @@ namespace WOW_Fusion.Models
                                                     "&fields=WorkOrderNumber,PlannedStartDate,PlannedCompletionDate" +
                                                     "&q=WorkOrderStatusCode='ORA_RELEASED' and OrganizationId={0} and ProcessWorkOrderResource.ResourceId={1}";
 
+        public static string WOListByOrg = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
+                                                    "&fields=WorkOrderNumber" +
+                                                    "&q=WorkOrderStatusCode='ORA_RELEASED' and OrganizationId={0}";
+
         public static string WOByMachine = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
                                                     "&fields=WorkOrderNumber,PlannedStartDate,PlannedCompletionDate" +
                                                     "&q=OrganizationId={0} and WorkOrderStatusCode='ORA_RELEASED' and ProcessWorkOrderResource.ResourceId={1}";
@@ -79,19 +83,6 @@ namespace WOW_Fusion.Models
         public static string WOProcessData = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
                                                     "&fields=WorkOrderId,ItemNumber,Description,UOMCode,PrimaryProductQuantity,CompletedQuantity,PlannedStartDate,PlannedCompletionDate;" +
                                                     "ProcessWorkOrderDFF:pedidoDeVenta" +
-                                                    "&q=WorkOrderNumber='{0}' and OrganizationId={1}";
-
-        public static string WOProcessDataP3 = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
-                                                    "&fields=WorkOrderId,ItemNumber,Description,UOMCode,PrimaryProductQuantity,CompletedQuantity,PlannedStartDate,PlannedCompletionDate" +
-                                                    "&q=WorkOrderNumber='{0}' and OrganizationId={1}";
-
-        public static string WOProcessDetailP1 = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
-                                                    "&fields=WorkOrderId,PrimaryProductId,ItemNumber,Description,PrimaryProductQuantity,CompletedQuantity,PrimaryProductUOMCode,PlannedStartDate,PlannedCompletionDate;" +
-                                                    "ProcessWorkOrderResource:ResourceId,ResourceCode,ResourceName;" +
-                                                    "ProcessWorkOrderResource.ResourceInstance:" +
-                                                    "EquipmentInstanceCode,EquipmentInstanceName;" +
-                                                    "ProcessWorkOrderDFF:pedidoDeVenta;" +
-                                                    "ProcessWorkOrderOutput:OperationSequenceNumber,OperationName" +
                                                     "&q=WorkOrderNumber='{0}' and OrganizationId={1}";
 
         //Enpoints AKA
@@ -108,7 +99,7 @@ namespace WOW_Fusion.Models
         public static string WeightRolls = Settings.Default.ApexUrl + "/weightRolls";
         public static string RollsOrder = Settings.Default.ApexUrl + "/rollsOrder/{0}/{1}";
         public static string WeightSacks = Settings.Default.ApexUrl + "/weightSacks";
-        public static string SacksOrder = Settings.Default.ApexUrl + "/sacksOrder/{0}/{1}";
+        public static string SacksOrder = Settings.Default.ApexUrl + "/sacksOrder/{0}/{1}/{2}";
         public static string LabelsPrinted = Settings.Default.ApexUrl + "/labelsPrinted/{0}";
         public static string LabelsRecords = Settings.Default.ApexUrl + "/labelsRecords";
         public static string Auth = Settings.Default.ApexUrl + "/labelUsers/{0}";
@@ -125,6 +116,15 @@ namespace WOW_Fusion.Models
         public static string ItemP1 = Settings.Default.FusionUrl + "/itemsV2?" + Constants.ParamsGet +
                                     "&fields=ItemId,LongDescription" +
                                     "&q=ItemNumber='{0}' and OrganizationId={1}";
+
+        public static string WOProcessDetailP1 = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
+                                                 "&fields=WorkOrderId,PrimaryProductId,ItemNumber,Description,PrimaryProductQuantity,CompletedQuantity,PrimaryProductUOMCode,PlannedStartDate,PlannedCompletionDate;" +
+                                                 "ProcessWorkOrderResource:ResourceId,ResourceCode,ResourceName;" +
+                                                 "ProcessWorkOrderResource.ResourceInstance:" +
+                                                 "EquipmentInstanceCode,EquipmentInstanceName;" +
+                                                 "ProcessWorkOrderDFF:pedidoDeVenta;" +
+                                                 "ProcessWorkOrderOutput:OperationSequenceNumber,OperationName" +
+                                                 "&q=WorkOrderNumber='{0}' and OrganizationId={1}";
 
         //Endpoints Planta 2
         public static string ProductionResourcesP2 = Settings.Default.FusionUrl + "/productionResources?" + Constants.ParamsGet +
@@ -147,6 +147,14 @@ namespace WOW_Fusion.Models
 
         public static string ProductionResourcesP3 = Settings.Default.FusionUrl + "/productionResources?" + Constants.ParamsGet +
                                                         "&fields=ResourceId,ResourceCode,ResourceName" +
-                                                        "&q=OrganizationId={0} and (ResourceId=300000003969051 or ResourceId=300000003969052)";
+                                                        "&q=OrganizationId={0} and ResourceType='EQUIPMENT' and ResourceClassCode='EQU' and ResourceCode like 'MF-%'";
+
+        public static string WOProcessDetailP3 = Settings.Default.FusionUrl + "/processWorkOrders?" + Constants.ParamsGet +
+                                                "&fields=WorkOrderId,PlannedStartDate,PlannedCompletionDate;" +
+                                                "Operation:OperationSequenceNumber,WorkCenterId,WorkCenterName;" +
+                                                "ProcessWorkOrderResource:ResourceId,OperationSequenceNumber;" +
+                                                "ProcessWorkOrderOutput:OperationSequenceNumber,OutputSequenceNumber,ItemNumber,ItemDescription,UOMCode,PrimaryFlag,OutputQuantity,CompletedQuantity" +
+                                                "&q=WorkOrderNumber='{0}' and OrganizationId={1}";
+
     }
 }
