@@ -47,7 +47,7 @@ namespace WOW_Fusion.Services
                 try
                 {
                     string zpl = labelType.Equals("ROLL") ? ReplaceZplRoll(item) : labelType.Equals("BOX") ? ReplaceZplBox(item) : 
-                                 labelType.Equals("SACK") ? ReplaceZplSack(item) : ReplaceZplPallet(item);
+                                 labelType.Equals("SACK") ? ReplaceZplSack(item, string.Empty) : ReplaceZplPallet(item);
                     if (!string.IsNullOrEmpty(zpl))
                     {
                         WebRequest request = WebRequest.Create(String.Format(Constants.LaberalyUrl, zpl));
@@ -210,7 +210,7 @@ namespace WOW_Fusion.Services
             }
         }
 
-        public static async Task<bool> PrintP3(int number, string typee)
+        public static async Task<bool> PrintP3(int number, string typee, string output)
         {
             bool status = false;
             int end = typee.Equals("SACK") ? Settings.Default.SackToPrint : 1;
@@ -227,7 +227,7 @@ namespace WOW_Fusion.Services
                         {
                             using (NetworkStream stream = client.GetStream())
                             {
-                                string zpl = typee.Equals("SACK") ? ReplaceZplSack(number) : ReplaceZplWeighingP3();
+                                string zpl = typee.Equals("SACK") ? ReplaceZplSack(number, output) : ReplaceZplWeighingP3();
                                 await Task.Delay(500);
 
                                 byte[] data = Encoding.UTF8.GetBytes(zpl);
@@ -301,7 +301,7 @@ namespace WOW_Fusion.Services
             return strLabel;
         }
 
-        private static string ReplaceZplSack(int sack)
+        private static string ReplaceZplSack(int sack, string output)
         {
             string strLabel = zplTemplate; //Template sin reemplazos
 
@@ -310,7 +310,21 @@ namespace WOW_Fusion.Services
             {
                 if (!string.IsNullOrEmpty(item.Value.ToString()))
                 {
-                    strLabel = item.Key.Equals("SACK") ? strLabel.Replace(item.Key, "S" + sack.ToString().PadLeft(4, '0')) : strLabel.Replace(item.Key, item.Value.ToString());
+                    if(item.Key.Equals("SACK"))
+                    {
+                        if(output.Equals("PRINCIPAL"))
+                        {
+                            strLabel = strLabel.Replace(item.Key, "S" + sack.ToString().PadLeft(4, '0'));
+                        }
+                        else
+                        {
+                            strLabel.Replace(item.Key, sack.ToString().PadLeft(4, '0'));
+                        }
+                    }
+                    else
+                    {
+                        strLabel.Replace(item.Key, item.Value.ToString());
+                    }
                 }
             }
             return strLabel;

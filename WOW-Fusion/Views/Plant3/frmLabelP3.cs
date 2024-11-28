@@ -563,7 +563,7 @@ namespace WOW_Fusion.Views.Plant3
                             lblCompletedQuantity.Text = totalNetSum.ToString();
 
                             CalculateAdvace(totalNetSum);
-                            await LabelService.PrintP3(S_Number, "SACK");
+                            await LabelService.PrintP3(S_Number, "SACK", lblOutputType.Text);
                             UpdateSackApex(S_Number, S_Net);
                         }
                         else
@@ -763,7 +763,7 @@ namespace WOW_Fusion.Views.Plant3
             lblCompletedQuantity.Text = totalNetSum.ToString();
             CalculateAdvace(totalNetSum);
 
-            await LabelService.PrintP3(_sackCount, "SACK");
+            await LabelService.PrintP3(_sackCount, "SACK", lblOutputType.Text);
             CreateSackApex();
 
             if (lblOutputType.Text.Equals(_outputMain))

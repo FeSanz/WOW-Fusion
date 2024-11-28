@@ -64,7 +64,7 @@ namespace WOW_Fusion.Views.Plant3
                     {
                         lblWeight.Text = _weightFromWeighing.ToString("F1");
                         FillLabelWeight();
-                        await LabelService.PrintP3(0, "WEIGHING");
+                        await LabelService.PrintP3(0, "WEIGHING", string.Empty);
                         txtItemDescription.Clear();
                     }
                     else
