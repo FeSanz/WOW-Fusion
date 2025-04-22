@@ -60,7 +60,10 @@ namespace WOW_Fusion
                                                 ""PURCHASEORDER"": """",
                                                 ""PONUM"": """",
                                                 ""UPCA"": """",
-                                                ""WGROSSKG"": """"
+                                                ""WGROSSKG"": """",
+                                                ""WTAREKG"": """",
+                                                ""WSACKKG"": """",  
+                                                ""WTARESACKKG"": """"
                                           }";
     }
 }

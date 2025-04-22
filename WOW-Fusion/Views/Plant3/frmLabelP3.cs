@@ -138,7 +138,7 @@ namespace WOW_Fusion.Views.Plant3
                 machines = await CommonService.ProductionResourcesMachines(String.Format(EndPoints.ProductionResourcesP3, Constants.Plant3Id)); //Obtener Objeto RECURSOS MAQUINAS
 
                 //♥ Consultar template etiqueta en APEX  ♥
-                dynamic labelApex = await LabelService.LabelInfo(Constants.Plant3Id, "SUPERSACO", "NULL");
+                dynamic labelApex = await LabelService.LabelInfo(Constants.Plant3Id, "HOJUELAPL3", "NULL");
                 if (labelApex.LabelName.ToString().Equals("null"))
                 {
                     MessageBox.Show("Etiqueta de cliente/producto no encontrada", "¡Alerta!", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -579,6 +579,13 @@ namespace WOW_Fusion.Views.Plant3
                 }
             }
             ShowWait(false);
+        }
+
+        private void btnTareBag_Click(object sender, EventArgs e)
+        {
+            frmTare frmTare = new frmTare();
+            frmTare.StartPosition = FormStartPosition.CenterParent;
+            frmTare.ShowDialog();
         }
 
         private void btnWeighing_Click(object sender, EventArgs e)

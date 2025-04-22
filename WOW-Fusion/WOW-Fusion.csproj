@@ -64,7 +64,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Google.Api.Gax, Version=4.3.1.0, Culture=neutral, PublicKeyToken=3ec5ea7f18953e47, processorArchitecture=MSIL">
@@ -215,6 +215,12 @@
     <Compile Include="Views\Plant3\frmSettingsP3.Designer.cs">
       <DependentUpon>frmSettingsP3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Plant3\frmTare.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Plant3\frmTare.Designer.cs">
+      <DependentUpon>frmTare.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Plant3\frmWeighingP3.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -265,6 +271,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Plant3\frmSettingsP3.resx">
       <DependentUpon>frmSettingsP3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Plant3\frmTare.resx">
+      <DependentUpon>frmTare.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Plant3\frmWeighingP3.resx">
       <DependentUpon>frmWeighingP3.cs</DependentUpon>
@@ -394,6 +403,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="logo_ico_wow.ico" />
+    <None Include="Resources\weight.png" />
+    <None Include="Resources\sack_bag.png" />
     <None Include="Resources\item.png" />
     <None Include="Resources\wowgroup.png" />
     <None Include="Resources\zero.png" />

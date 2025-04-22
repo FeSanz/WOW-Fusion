@@ -26,7 +26,7 @@ namespace WOW_Fusion.Views.Plant3
             ShowWait(false);
 
             //♥ Consultar template etiqueta en APEX  ♥
-            dynamic labelApex = await LabelService.LabelInfo(Constants.Plant3Id, "STDPL3", "NULL");
+            dynamic labelApex = await LabelService.LabelInfo(Constants.Plant3Id, "ANYPL3", "NULL");
             if (labelApex.LabelName.ToString().Equals("null"))
             {
                 btnGetWeight.Enabled = false;
