@@ -195,6 +195,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmTare";
             this.Text = "frmTare";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmTare_FormClosed);
             this.Load += new System.EventHandler(this.frmTare_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbWaitProcess)).EndInit();
             this.ResumeLayout(false);

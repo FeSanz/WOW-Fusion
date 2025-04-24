@@ -104,5 +104,17 @@ namespace WOW_Fusion.Views.Plant3
             Constants.LabelJson = JsonConvert.SerializeObject(label, Formatting.Indented);
         }
         #endregion
+
+        public event EventHandler FormClosedEvent;
+        private void frmWeighingP3_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            FormClosedEvent?.Invoke(this, EventArgs.Empty);
+
+            frmLabelP3 frmLabelP3 = Application.OpenForms.OfType<frmLabelP3>().FirstOrDefault();
+            if (frmLabelP3 != null)
+            {
+                frmLabelP3.TemplateLabel();
+            }
+        }
     }
 }

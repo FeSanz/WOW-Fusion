@@ -59,6 +59,7 @@
             this.lblEnvironment = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.progressBarWO = new System.Windows.Forms.ProgressBar();
+            this.btnEndProcess = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.lblItemNumber = new System.Windows.Forms.Label();
@@ -72,6 +73,7 @@
             this.lblPlannedCompletionDate = new System.Windows.Forms.Label();
             this.lblPlannedStartDate = new System.Windows.Forms.Label();
             this.cmbWorkOrders = new System.Windows.Forms.ComboBox();
+            this.picBoxWaitWO = new System.Windows.Forms.PictureBox();
             this.lblUoM = new System.Windows.Forms.Label();
             this.lblWOStatus = new System.Windows.Forms.Label();
             this.lblAdvance = new System.Windows.Forms.Label();
@@ -82,6 +84,7 @@
             this.lblTare = new System.Windows.Forms.Label();
             this.lblBag = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
+            this.tabLayoutPallet = new System.Windows.Forms.TableLayoutPanel();
             this.label28 = new System.Windows.Forms.Label();
             this.lblPalletTotal = new System.Windows.Forms.Label();
             this.lblStdSack = new System.Windows.Forms.Label();
@@ -100,12 +103,15 @@
             this.richTextConsole = new System.Windows.Forms.RichTextBox();
             this.timerShift = new System.Windows.Forms.Timer(this.components);
             this.MenuShipWeight = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.recalcularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblStatusProcess = new System.Windows.Forms.Label();
             this.lblLocationCode = new System.Windows.Forms.Label();
             this.TipTare = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label12 = new System.Windows.Forms.Label();
+            this.pbYellow = new System.Windows.Forms.PictureBox();
+            this.pbRed = new System.Windows.Forms.PictureBox();
             this.label11 = new System.Windows.Forms.Label();
             this.dgOutputs = new System.Windows.Forms.DataGridView();
             this.O_OutputNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -113,26 +119,20 @@
             this.O_Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.O_Status = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.btnTareBag = new System.Windows.Forms.Button();
-            this.pbYellow = new System.Windows.Forms.PictureBox();
-            this.pbRed = new System.Windows.Forms.PictureBox();
             this.btnWeighing = new System.Windows.Forms.Button();
-            this.tabLayoutPallet = new System.Windows.Forms.TableLayoutPanel();
-            this.btnEndProcess = new System.Windows.Forms.Button();
-            this.picBoxWaitWO = new System.Windows.Forms.PictureBox();
             this.pbWaitProcess = new System.Windows.Forms.PictureBox();
             this.btnSettings = new System.Windows.Forms.Button();
-            this.recalcularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxProd.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
             this.groupBoxWeight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSacks)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.MenuShipWeight.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgOutputs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbYellow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbRed)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgOutputs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWaitProcess)).BeginInit();
             this.SuspendLayout();
             // 
@@ -331,6 +331,22 @@
             this.progressBarWO.Size = new System.Drawing.Size(505, 21);
             this.progressBarWO.TabIndex = 136;
             // 
+            // btnEndProcess
+            // 
+            this.btnEndProcess.BackColor = System.Drawing.Color.Transparent;
+            this.btnEndProcess.BackgroundImage = global::WOW_Fusion.Properties.Resources.logout;
+            this.btnEndProcess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnEndProcess.FlatAppearance.BorderSize = 0;
+            this.btnEndProcess.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEndProcess.Location = new System.Drawing.Point(487, 332);
+            this.btnEndProcess.Margin = new System.Windows.Forms.Padding(4);
+            this.btnEndProcess.Name = "btnEndProcess";
+            this.btnEndProcess.Size = new System.Drawing.Size(40, 34);
+            this.btnEndProcess.TabIndex = 169;
+            this.btnEndProcess.UseVisualStyleBackColor = false;
+            this.btnEndProcess.Visible = false;
+            this.btnEndProcess.Click += new System.EventHandler(this.btnEndProcess_Click);
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -488,6 +504,20 @@
             this.cmbWorkOrders.DropDown += new System.EventHandler(this.DropDownWorkOrders);
             this.cmbWorkOrders.SelectedIndexChanged += new System.EventHandler(this.SelectedIndexChangedWorkOrders);
             // 
+            // picBoxWaitWO
+            // 
+            this.picBoxWaitWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picBoxWaitWO.Image = global::WOW_Fusion.Properties.Resources.preloader;
+            this.picBoxWaitWO.Location = new System.Drawing.Point(240, 25);
+            this.picBoxWaitWO.Margin = new System.Windows.Forms.Padding(4);
+            this.picBoxWaitWO.Name = "picBoxWaitWO";
+            this.picBoxWaitWO.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
+            this.picBoxWaitWO.Size = new System.Drawing.Size(60, 55);
+            this.picBoxWaitWO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBoxWaitWO.TabIndex = 120;
+            this.picBoxWaitWO.TabStop = false;
+            this.picBoxWaitWO.Visible = false;
+            // 
             // lblUoM
             // 
             this.lblUoM.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -560,9 +590,6 @@
             this.txtScannerInput.Name = "txtScannerInput";
             this.txtScannerInput.Size = new System.Drawing.Size(377, 19);
             this.txtScannerInput.TabIndex = 207;
-            this.txtScannerInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtScannerInput_KeyDown);
-            this.txtScannerInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtScannerInput_KeyPress);
-            this.txtScannerInput.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtScannerInput_KeyUp);
             this.txtScannerInput.LostFocus += new System.EventHandler(this.txtScannerInput_LostFocus);
             // 
             // label29
@@ -628,6 +655,26 @@
             this.label30.TabIndex = 198;
             this.label30.Text = "Peso Estándar";
             this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tabLayoutPallet
+            // 
+            this.tabLayoutPallet.BackColor = System.Drawing.Color.Transparent;
+            this.tabLayoutPallet.BackgroundImage = global::WOW_Fusion.Properties.Resources.pallet_empty;
+            this.tabLayoutPallet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tabLayoutPallet.ColumnCount = 1;
+            this.tabLayoutPallet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.00062F));
+            this.tabLayoutPallet.Location = new System.Drawing.Point(314, 46);
+            this.tabLayoutPallet.Margin = new System.Windows.Forms.Padding(4);
+            this.tabLayoutPallet.Name = "tabLayoutPallet";
+            this.tabLayoutPallet.RowCount = 1;
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 211F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 211F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 211F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 211F));
+            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 211F));
+            this.tabLayoutPallet.Size = new System.Drawing.Size(213, 211);
+            this.tabLayoutPallet.TabIndex = 194;
             // 
             // label28
             // 
@@ -880,6 +927,14 @@
             this.MenuShipWeight.Size = new System.Drawing.Size(195, 34);
             this.MenuShipWeight.Text = "Eliminar";
             // 
+            // recalcularToolStripMenuItem
+            // 
+            this.recalcularToolStripMenuItem.Image = global::WOW_Fusion.Properties.Resources.upload_filled;
+            this.recalcularToolStripMenuItem.Name = "recalcularToolStripMenuItem";
+            this.recalcularToolStripMenuItem.Size = new System.Drawing.Size(194, 30);
+            this.recalcularToolStripMenuItem.Text = "Volver a pesar";
+            this.recalcularToolStripMenuItem.Click += new System.EventHandler(this.ReWeightMenuItem_Click);
+            // 
             // lblStatusProcess
             // 
             this.lblStatusProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -932,7 +987,7 @@
             this.tableLayoutPanel3.ColumnCount = 3;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 94.31193F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.688073F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.tableLayoutPanel3.Controls.Add(this.label12, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.pbYellow, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.pbRed, 1, 0);
@@ -953,10 +1008,33 @@
             this.label12.Location = new System.Drawing.Point(4, 0);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(466, 24);
+            this.label12.Size = new System.Drawing.Size(463, 24);
             this.label12.TabIndex = 178;
             this.label12.Text = "PESAJES";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pbYellow
+            // 
+            this.pbYellow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbYellow.BackColor = System.Drawing.Color.Yellow;
+            this.pbYellow.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbYellow.Location = new System.Drawing.Point(519, 4);
+            this.pbYellow.Margin = new System.Windows.Forms.Padding(4);
+            this.pbYellow.Name = "pbYellow";
+            this.pbYellow.Size = new System.Drawing.Size(16, 16);
+            this.pbYellow.TabIndex = 179;
+            this.pbYellow.TabStop = false;
+            // 
+            // pbRed
+            // 
+            this.pbRed.BackColor = System.Drawing.Color.Red;
+            this.pbRed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbRed.Location = new System.Drawing.Point(475, 4);
+            this.pbRed.Margin = new System.Windows.Forms.Padding(4);
+            this.pbRed.Name = "pbRed";
+            this.pbRed.Size = new System.Drawing.Size(16, 16);
+            this.pbRed.TabIndex = 178;
+            this.pbRed.TabStop = false;
             // 
             // label11
             // 
@@ -1088,30 +1166,6 @@
             this.btnTareBag.UseVisualStyleBackColor = false;
             this.btnTareBag.Click += new System.EventHandler(this.btnTareBag_Click);
             // 
-            // pbYellow
-            // 
-            this.pbYellow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbYellow.BackColor = System.Drawing.Color.Yellow;
-            this.pbYellow.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbYellow.Location = new System.Drawing.Point(517, 4);
-            this.pbYellow.Margin = new System.Windows.Forms.Padding(4);
-            this.pbYellow.Name = "pbYellow";
-            this.pbYellow.Size = new System.Drawing.Size(18, 16);
-            this.pbYellow.TabIndex = 179;
-            this.pbYellow.TabStop = false;
-            // 
-            // pbRed
-            // 
-            this.pbRed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbRed.BackColor = System.Drawing.Color.Red;
-            this.pbRed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbRed.Location = new System.Drawing.Point(484, 4);
-            this.pbRed.Margin = new System.Windows.Forms.Padding(4);
-            this.pbRed.Name = "pbRed";
-            this.pbRed.Size = new System.Drawing.Size(14, 16);
-            this.pbRed.TabIndex = 178;
-            this.pbRed.TabStop = false;
-            // 
             // btnWeighing
             // 
             this.btnWeighing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1127,56 +1181,6 @@
             this.btnWeighing.TabIndex = 192;
             this.btnWeighing.UseVisualStyleBackColor = false;
             this.btnWeighing.Click += new System.EventHandler(this.btnWeighing_Click);
-            // 
-            // tabLayoutPallet
-            // 
-            this.tabLayoutPallet.BackColor = System.Drawing.Color.Transparent;
-            this.tabLayoutPallet.BackgroundImage = global::WOW_Fusion.Properties.Resources.pallet_empty;
-            this.tabLayoutPallet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.tabLayoutPallet.ColumnCount = 1;
-            this.tabLayoutPallet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.00062F));
-            this.tabLayoutPallet.Location = new System.Drawing.Point(314, 46);
-            this.tabLayoutPallet.Margin = new System.Windows.Forms.Padding(4);
-            this.tabLayoutPallet.Name = "tabLayoutPallet";
-            this.tabLayoutPallet.RowCount = 1;
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 211F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 211F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 211F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 211F));
-            this.tabLayoutPallet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 211F));
-            this.tabLayoutPallet.Size = new System.Drawing.Size(213, 211);
-            this.tabLayoutPallet.TabIndex = 194;
-            // 
-            // btnEndProcess
-            // 
-            this.btnEndProcess.BackColor = System.Drawing.Color.Transparent;
-            this.btnEndProcess.BackgroundImage = global::WOW_Fusion.Properties.Resources.logout;
-            this.btnEndProcess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnEndProcess.FlatAppearance.BorderSize = 0;
-            this.btnEndProcess.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEndProcess.Location = new System.Drawing.Point(487, 332);
-            this.btnEndProcess.Margin = new System.Windows.Forms.Padding(4);
-            this.btnEndProcess.Name = "btnEndProcess";
-            this.btnEndProcess.Size = new System.Drawing.Size(40, 34);
-            this.btnEndProcess.TabIndex = 169;
-            this.btnEndProcess.UseVisualStyleBackColor = false;
-            this.btnEndProcess.Visible = false;
-            this.btnEndProcess.Click += new System.EventHandler(this.btnEndProcess_Click);
-            // 
-            // picBoxWaitWO
-            // 
-            this.picBoxWaitWO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picBoxWaitWO.Image = global::WOW_Fusion.Properties.Resources.preloader;
-            this.picBoxWaitWO.Location = new System.Drawing.Point(240, 25);
-            this.picBoxWaitWO.Margin = new System.Windows.Forms.Padding(4);
-            this.picBoxWaitWO.Name = "picBoxWaitWO";
-            this.picBoxWaitWO.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
-            this.picBoxWaitWO.Size = new System.Drawing.Size(60, 55);
-            this.picBoxWaitWO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBoxWaitWO.TabIndex = 120;
-            this.picBoxWaitWO.TabStop = false;
-            this.picBoxWaitWO.Visible = false;
             // 
             // pbWaitProcess
             // 
@@ -1209,14 +1213,6 @@
             this.btnSettings.UseVisualStyleBackColor = false;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
-            // recalcularToolStripMenuItem
-            // 
-            this.recalcularToolStripMenuItem.Image = global::WOW_Fusion.Properties.Resources.upload_filled;
-            this.recalcularToolStripMenuItem.Name = "recalcularToolStripMenuItem";
-            this.recalcularToolStripMenuItem.Size = new System.Drawing.Size(194, 30);
-            this.recalcularToolStripMenuItem.Text = "Volver a pesar";
-            this.recalcularToolStripMenuItem.Click += new System.EventHandler(this.ReWeightMenuItem_Click);
-            // 
             // frmLabelP3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1242,6 +1238,7 @@
             this.Load += new System.EventHandler(this.frmLabelP3_Load);
             this.groupBoxProd.ResumeLayout(false);
             this.groupBoxProd.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).EndInit();
             this.groupBoxWeight.ResumeLayout(false);
             this.groupBoxWeight.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSacks)).EndInit();
@@ -1249,10 +1246,9 @@
             this.MenuShipWeight.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgOutputs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbYellow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbRed)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxWaitWO)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgOutputs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbWaitProcess)).EndInit();
             this.ResumeLayout(false);
 

@@ -303,30 +303,27 @@ namespace WOW_Fusion.Services
 
         private static string ReplaceZplSack(int sack, string output)
         {
-            string strLabel = zplTemplate; //Template sin reemplazos
-
+            string strLabel = zplTemplate; // Template sin reemplazos
             JObject label = new JObject(JObject.Parse(Constants.LabelJson));
+
             foreach (var item in label)
             {
-                if (!string.IsNullOrEmpty(item.Value.ToString()))
+                if (string.IsNullOrEmpty(item.Value.ToString()))
+                    continue;
+
+                string replacementValue;
+                if (item.Key.Equals("SACK"))
                 {
-                    if(item.Key.Equals("SACK"))
-                    {
-                        if(output.Equals("PRINCIPAL"))
-                        {
-                            strLabel = strLabel.Replace(item.Key, "S" + sack.ToString().PadLeft(4, '0'));
-                        }
-                        else
-                        {
-                            strLabel.Replace(item.Key, sack.ToString().PadLeft(4, '0'));
-                        }
-                    }
-                    else
-                    {
-                        strLabel.Replace(item.Key, item.Value.ToString());
-                    }
+                    replacementValue = output.Equals("PRINCIPAL") ? "S" + sack.ToString().PadLeft(4, '0') : sack.ToString().PadLeft(4, '0');
                 }
+                else
+                {
+                    replacementValue = item.Value.ToString();
+                }
+
+                strLabel = strLabel.Replace(item.Key, replacementValue);
             }
+
             return strLabel;
         }
 

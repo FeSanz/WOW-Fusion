@@ -46,9 +46,10 @@
             // 
             this.lblStatusProcess.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatusProcess.ForeColor = System.Drawing.Color.White;
-            this.lblStatusProcess.Location = new System.Drawing.Point(37, 5);
+            this.lblStatusProcess.Location = new System.Drawing.Point(49, 6);
+            this.lblStatusProcess.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblStatusProcess.Name = "lblStatusProcess";
-            this.lblStatusProcess.Size = new System.Drawing.Size(310, 15);
+            this.lblStatusProcess.Size = new System.Drawing.Size(413, 18);
             this.lblStatusProcess.TabIndex = 192;
             this.lblStatusProcess.Text = "¡Bienvenido!";
             this.lblStatusProcess.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -60,11 +61,12 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.00935F));
             this.tableLayoutPanel1.Controls.Add(this.lblWeight, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnGetWeight, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(8, 29);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 36);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(361, 45);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(481, 55);
             this.tableLayoutPanel1.TabIndex = 190;
             // 
             // lblWeight
@@ -74,10 +76,11 @@
             this.lblWeight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblWeight.ForeColor = System.Drawing.Color.Black;
-            this.lblWeight.Location = new System.Drawing.Point(3, 0);
+            this.lblWeight.Location = new System.Drawing.Point(4, 0);
+            this.lblWeight.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblWeight.Name = "lblWeight";
-            this.lblWeight.Padding = new System.Windows.Forms.Padding(5);
-            this.lblWeight.Size = new System.Drawing.Size(239, 45);
+            this.lblWeight.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.lblWeight.Size = new System.Drawing.Size(319, 55);
             this.lblWeight.TabIndex = 191;
             this.lblWeight.Text = "0.0";
             this.lblWeight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -88,9 +91,10 @@
             this.btnGetWeight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnGetWeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGetWeight.ForeColor = System.Drawing.Color.White;
-            this.btnGetWeight.Location = new System.Drawing.Point(248, 3);
+            this.btnGetWeight.Location = new System.Drawing.Point(331, 4);
+            this.btnGetWeight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnGetWeight.Name = "btnGetWeight";
-            this.btnGetWeight.Size = new System.Drawing.Size(110, 39);
+            this.btnGetWeight.Size = new System.Drawing.Size(146, 47);
             this.btnGetWeight.TabIndex = 75;
             this.btnGetWeight.Text = "PESAR";
             this.btnGetWeight.UseVisualStyleBackColor = false;
@@ -98,18 +102,20 @@
             // 
             // txtItemDescription
             // 
-            this.txtItemDescription.Location = new System.Drawing.Point(9, 98);
+            this.txtItemDescription.Location = new System.Drawing.Point(12, 121);
+            this.txtItemDescription.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtItemDescription.Name = "txtItemDescription";
-            this.txtItemDescription.Size = new System.Drawing.Size(357, 20);
+            this.txtItemDescription.Size = new System.Drawing.Size(475, 22);
             this.txtItemDescription.TabIndex = 193;
             // 
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(12, 79);
+            this.label3.Location = new System.Drawing.Point(16, 97);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(357, 21);
+            this.label3.Size = new System.Drawing.Size(476, 26);
             this.label3.TabIndex = 194;
             this.label3.Text = "Descripción del producto";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -118,10 +124,11 @@
             // 
             this.pbWaitProcess.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pbWaitProcess.Image = global::WOW_Fusion.Properties.Resources.preloader;
-            this.pbWaitProcess.Location = new System.Drawing.Point(8, -2);
+            this.pbWaitProcess.Location = new System.Drawing.Point(11, -2);
+            this.pbWaitProcess.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pbWaitProcess.Name = "pbWaitProcess";
-            this.pbWaitProcess.Padding = new System.Windows.Forms.Padding(10);
-            this.pbWaitProcess.Size = new System.Drawing.Size(28, 28);
+            this.pbWaitProcess.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
+            this.pbWaitProcess.Size = new System.Drawing.Size(37, 34);
             this.pbWaitProcess.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbWaitProcess.TabIndex = 191;
             this.pbWaitProcess.TabStop = false;
@@ -134,9 +141,10 @@
             this.btnCloseWeighing.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnCloseWeighing.FlatAppearance.BorderSize = 0;
             this.btnCloseWeighing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCloseWeighing.Location = new System.Drawing.Point(353, 2);
+            this.btnCloseWeighing.Location = new System.Drawing.Point(471, 2);
+            this.btnCloseWeighing.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCloseWeighing.Name = "btnCloseWeighing";
-            this.btnCloseWeighing.Size = new System.Drawing.Size(20, 20);
+            this.btnCloseWeighing.Size = new System.Drawing.Size(27, 25);
             this.btnCloseWeighing.TabIndex = 197;
             this.btnCloseWeighing.UseVisualStyleBackColor = false;
             this.btnCloseWeighing.Click += new System.EventHandler(this.btnCloseWeighing_Click);
@@ -145,19 +153,20 @@
             // 
             this.lblStatus.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.Color.Yellow;
-            this.lblStatus.Location = new System.Drawing.Point(8, 119);
+            this.lblStatus.Location = new System.Drawing.Point(11, 146);
+            this.lblStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(358, 34);
+            this.lblStatus.Size = new System.Drawing.Size(477, 42);
             this.lblStatus.TabIndex = 196;
             this.lblStatus.Text = "...";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // frmWeighingP3
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(66)))), ((int)(((byte)(82)))));
-            this.ClientSize = new System.Drawing.Size(378, 156);
+            this.ClientSize = new System.Drawing.Size(504, 192);
             this.Controls.Add(this.btnCloseWeighing);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.txtItemDescription);
@@ -167,9 +176,11 @@
             this.Controls.Add(this.label3);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmWeighingP3";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pesaje";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmWeighingP3_FormClosed);
             this.Load += new System.EventHandler(this.frmWeighingP3_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbWaitProcess)).EndInit();

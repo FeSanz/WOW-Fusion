@@ -36,6 +36,7 @@ namespace WOW_Fusion.Views.Plant3
             if (labelApex.LabelName.ToString().Equals("null"))
             {
                 btnGetWeight.Enabled = false;
+                btnGetWeight.BackColor = Color.Gray;
                 MessageBox.Show("Etiqueta de cliente/producto no encontrada", "¡Alerta!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -51,6 +52,7 @@ namespace WOW_Fusion.Views.Plant3
             lblStatus.Text = string.Empty;
 
             btnGetWeight.Enabled = false;
+            btnGetWeight.BackColor = Color.Gray;
             ShowWait(true, "Obteniendo peso ...");
 
             string responseWeighing = await RadwagController.SocketWeighing("S");
@@ -119,12 +121,24 @@ namespace WOW_Fusion.Views.Plant3
                     NotifierController.Warning($"Peso invalido. {responseWeighing}");
                 }
             }
-            btnGetWeight.Enabled = true;
+            if (lblTare.Text != string.Empty && lblBag.Text != string.Empty)
+            {
+                btnGetWeight.Enabled = false;
+                btnGetWeight.BackColor = Color.Gray;
+            }
+            else
+            {
+                btnGetWeight.Enabled = true;
+                btnGetWeight.BackColor = Color.LimeGreen;
+            }
         }
 
         private void FillLabelWeight()
         {
             dynamic label = JObject.Parse(Constants.LabelJson);
+
+            JObject jObj = (JObject)label;
+            foreach (JProperty property in jObj.Properties()) { property.Value = null; }
 
             label.DATE = DateService.Now();
             label.WTAREKG = string.IsNullOrEmpty(lblTare.Text) ? " " : lblTare.Text;
@@ -138,7 +152,21 @@ namespace WOW_Fusion.Views.Plant3
         {
             lblBag.Text = string.Empty;
             lblTare.Text = string.Empty;
+            btnGetWeight.Enabled = true;
+            btnGetWeight.BackColor = Color.LimeGreen;
             lblStatusProcess.Text = "¡Coloque y pese TARIMA!";
+        }
+
+        public event EventHandler FormClosedEvent;
+        private void frmTare_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            FormClosedEvent?.Invoke(this, EventArgs.Empty);
+
+            frmLabelP3 frmLabelP3 = Application.OpenForms.OfType<frmLabelP3>().FirstOrDefault();
+            if (frmLabelP3 != null)
+            {
+                frmLabelP3.TemplateLabel();
+            }
         }
     }    
 }

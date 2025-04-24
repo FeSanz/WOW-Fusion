@@ -20,6 +20,7 @@ using WOW_Fusion.Views.Plant2;
 using System.Reflection;
 using System.Net.Sockets;
 using System.Data.SqlClient;
+using Timer = System.Windows.Forms.Timer;
 
 namespace WOW_Fusion.Views.Plant3
 {
@@ -85,8 +86,6 @@ namespace WOW_Fusion.Views.Plant3
         private string _outputSecondary = "SECUNDARIO";
 
         //Identificar teclado o escaner
-        private DateTime lastKeyPressTime = DateTime.MinValue;
-        private const int scannerKeyDelayThreshold = 50;
 
         private static frmLabelP3 instance;
 
@@ -115,6 +114,7 @@ namespace WOW_Fusion.Views.Plant3
             TipStatusWO.SetToolTip(lblWOStatus, "");
 
             btnGetWeight.Enabled = false;
+            btnGetWeight.BackColor = Color.Gray;
         }
 
         public async void InitializeFusionData()
@@ -137,17 +137,21 @@ namespace WOW_Fusion.Views.Plant3
                 lblLocationCode.Text = org.LocationCode.ToString();
                 machines = await CommonService.ProductionResourcesMachines(String.Format(EndPoints.ProductionResourcesP3, Constants.Plant3Id)); //Obtener Objeto RECURSOS MAQUINAS
 
-                //♥ Consultar template etiqueta en APEX  ♥
-                dynamic labelApex = await LabelService.LabelInfo(Constants.Plant3Id, "HOJUELAPL3", "NULL");
-                if (labelApex.LabelName.ToString().Equals("null"))
-                {
-                    MessageBox.Show("Etiqueta de cliente/producto no encontrada", "¡Alerta!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    Console.WriteLine($"Etiqueta {labelApex.LabelName.ToString()} cargada [{DateService.Today()}]", Color.Black);
-                }
+                TemplateLabel();
+            }
+        }
 
+        public async void TemplateLabel()
+        {
+            //♥ Consultar template etiqueta en APEX  ♥
+            dynamic labelApex = await LabelService.LabelInfo(Constants.Plant3Id, "HOJUELAPL3", "NULL");
+            if (labelApex.LabelName.ToString().Equals("null"))
+            {
+                MessageBox.Show("Etiqueta de cliente/producto no encontrada", "¡Alerta!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                Console.WriteLine($"Etiqueta {labelApex.LabelName.ToString()} cargada [{DateService.Today()}]", Color.Black);
             }
         }
         #endregion
@@ -319,7 +323,7 @@ namespace WOW_Fusion.Views.Plant3
 
                 if ((int)wo.Operation.count > 1)
                 {
-                    Console.WriteLine($"{(int)wo.Operation.count} operaciones detectadas en orden {cmbWorkOrders.Text}, se tomarán los datos de la primera operación [{DateService.Today()}]", Color.Red);
+                    Console.WriteLine($"{(int)wo.Operation.count} operaciones detectadas en orden {cmbWorkOrders.Text} [{DateService.Today()}]", Color.Red);
                 }
 
                 //Obtener maquina, centro de trabajo y turno
@@ -467,6 +471,7 @@ namespace WOW_Fusion.Views.Plant3
             if (!string.IsNullOrEmpty(cmbWorkOrders.Text))
             {
                 btnGetWeight.Enabled = false;
+                btnGetWeight.BackColor = Color.Gray;
                 cmbWorkOrders.Enabled = false;
                 txtScannerInput.Enabled = false;
 
@@ -480,6 +485,7 @@ namespace WOW_Fusion.Views.Plant3
                     ShowWait(false);
                     NotifierController.Warning("Tiempo de espera agotado, vuelva a  intentar");
                     btnGetWeight.Enabled = true;
+                    btnGetWeight.BackColor = Color.Red;
                 }
                 else
                 {
@@ -509,6 +515,7 @@ namespace WOW_Fusion.Views.Plant3
                         {
                             MessageBox.Show($"Peso invalido [{_weightFromWeighing.ToString("F1")} kg]", "Báscula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             btnGetWeight.Enabled = true;
+                            btnGetWeight.BackColor = Color.Red;
                         }
                     }
                     else
@@ -517,6 +524,7 @@ namespace WOW_Fusion.Views.Plant3
                         Console.WriteLine("Valor invalido obtenido de la báscula", Color.Red);
                         NotifierController.Warning($"{responseWeighing}");
                         btnGetWeight.Enabled = true;
+                        btnGetWeight.BackColor = Color.Red;
                     }
                 }
             }
@@ -661,15 +669,31 @@ namespace WOW_Fusion.Views.Plant3
                                 {
                                     lblOutputType.Text = _outputMain;
 
+                                    dgSacks.Columns["S_Tare"].Visible = true;
+                                    dgSacks.Columns["S_Sack"].Visible = true;
+
                                     ShowWait(false);
                                     lblStatusProcess.Text = "¡Escaneé TARAMA o SACO!";
                                     lblStatusProcess.ForeColor = Color.Red;
                                     txtScannerInput.Enabled = true;
                                     txtScannerInput.Focus();
+
+                                    if (string.IsNullOrEmpty(lblTare.Text))
+                                    {
+                                        btnGetWeight.Enabled = false;
+                                        btnGetWeight.BackColor = Color.Gray;
+                                    }
+                                    else
+                                    {
+                                        btnGetWeight.Enabled = true;
+                                        btnGetWeight.BackColor = Color.Red;
+                                    }
                                 }
                                 else
                                 {
                                     lblOutputType.Text = _outputSecondary;
+                                    dgSacks.Columns["S_Tare"].Visible = false;
+                                    dgSacks.Columns["S_Sack"].Visible = false;
 
                                     ShowWait(false);
                                     lblStatusProcess.Text = $"¡Coloque y pese el producto {lblItemNumber.Text}!";
@@ -721,6 +745,7 @@ namespace WOW_Fusion.Views.Plant3
                                     {
                                         NotifierController.Warning("Orden completada");
                                         btnGetWeight.Enabled = false;
+                                        btnGetWeight.BackColor = Color.Gray;
 
                                         if (float.Parse(lblCompletedQuantity.Text) > float.Parse(lblPrimaryQuantity.Text))
                                         {
@@ -730,6 +755,7 @@ namespace WOW_Fusion.Views.Plant3
                                     else if (float.Parse(lblCompletedQuantity.Text) > _primaryQuantityAndTolerance)
                                     {
                                         btnGetWeight.Enabled = false;
+                                        btnGetWeight.BackColor = Color.Gray;
                                         NotifierController.Warning($"Se detectó más pesaje del programado, incluida la tolerancia [{Settings.Default.PL2Tolerance}%]");
                                     }
                                 }
@@ -779,6 +805,7 @@ namespace WOW_Fusion.Views.Plant3
                 lblStatusProcess.Text = "¡Escaneé TARIMA o SACO!";
                 lblStatusProcess.ForeColor = Color.Red;
                 btnGetWeight.Enabled = false;
+                btnGetWeight.BackColor = Color.Gray;
                 txtScannerInput.Enabled = true;
                 txtScannerInput.Focus();
                 lblBag.Text = string.Empty;
@@ -794,6 +821,14 @@ namespace WOW_Fusion.Views.Plant3
 
             //Activar boton para terminar orden
             btnEndProcess.Visible = _sackCount > 0 ? true : false;
+
+            //TERMINA PROCESO DE PESAJE PARA LA ORDEN SELECCIONADA
+            if (float.Parse(lblCompletedQuantity.Text) >= _primaryQuantityAndTolerance || _endWeight)
+            {
+                NotifierController.Success($"Orden completada, incluida la tolerancia [{Settings.Default.PL3Tolerance}%]");
+                cmbWorkOrders.Items.Clear();
+                ClearAll();
+            }
         }
 
         //Cambio de color de filas (Max-Min)
@@ -905,6 +940,9 @@ namespace WOW_Fusion.Views.Plant3
             if (!string.IsNullOrEmpty(lblResourceCode.Text))
             {
                 dynamic label = JObject.Parse(Constants.LabelJson);
+
+                JObject jObj = (JObject)label;
+                foreach (JProperty property in jObj.Properties()) { property.Value = null; }
 
                 //WO Info
                 label.WORKORDER = string.IsNullOrEmpty(_workOrderNumber) ? " " : _workOrderNumber;
@@ -1132,28 +1170,95 @@ namespace WOW_Fusion.Views.Plant3
         {
             if (!string.IsNullOrEmpty(txtScannerInput.Text))
             {
-                if (float.TryParse(txtScannerInput.Text, out float scanerInput))
+                TableLayoutPalletControl("CLEAR");
+                lblTare.Text = string.Empty;
+                lblBag.Text = string.Empty;
+                lblSackNumber.Text = string.Empty;
+
+                btnGetWeight.Enabled = false;
+                btnGetWeight.BackColor = Color.Gray;
+
+                if (txtScannerInput.Text.Contains(","))
                 {
-                    if (scanerInput >= Settings.Default.TareMinWeight && scanerInput <= Settings.Default.TareMaxWeight)
+                    if (float.TryParse(txtScannerInput.Text.Split(',')[0], out float QRtare) && float.TryParse(txtScannerInput.Text.Split(',')[1], out float QRBag))
                     {
-                        NotifierController.Success($"Tarima {txtScannerInput.Text} kg");
-                        lblTare.Text = txtScannerInput.Text;
-                        txtScannerInput.Text = string.Empty;
-                        txtScannerInput.Focus();
-                    }
-                    else if (scanerInput > 0 && scanerInput <= Settings.Default.BagMaxWeight)
-                    {
-                        NotifierController.Success($"Saco {txtScannerInput.Text} kg");
-                        lblBag.Text = txtScannerInput.Text;
-                        txtScannerInput.Text = string.Empty;
-                        txtScannerInput.Focus();
+                        if (QRtare >= Settings.Default.TareMinWeight && QRtare <= Settings.Default.TareMaxWeight)
+                        {
+                            if (QRBag <= Settings.Default.BagMaxWeight)
+                            {
+                                lblTare.Text = QRtare.ToString();
+                                lblBag.Text = QRBag.ToString();
+                                txtScannerInput.Text = string.Empty;
+                                txtScannerInput.Focus();
+
+                                btnGetWeight.Enabled = true;
+                                btnGetWeight.BackColor = Color.Red;
+
+                                lblStatusProcess.Text = $"¡Pese el producto {lblItemNumber.Text}!";
+                                lblStatusProcess.ForeColor = Color.Red;
+
+                                if (!_newSack)
+                                {
+                                    _newSack = true;
+                                    _sackCount += 1;
+
+                                    cmbWorkOrders.Enabled = false;
+                                }
+
+                                lblSackNumber.Text = _sackCount.ToString();
+
+                                TableLayoutPalletControl("TARE");
+                            }
+                            else
+                            {
+                                MessageBox.Show($"Peso [{QRBag.ToString("F1")} kg] por encima del estándar de un SACO, verifique.", "¡No esta pesando un SACO!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                txtScannerInput.Text = string.Empty;
+                                txtScannerInput.Focus();
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Peso [{QRtare.ToString("F1")} kg] no esta dentro del estándar de una TARA, verifique.", "¡No esta ingresando una TARA!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtScannerInput.Text = string.Empty;
+                            txtScannerInput.Focus();
+                        }
                     }
                     else
                     {
-                        NotifierController.Warning($"Peso [{txtScannerInput.Text}] no coincide con un saco o tarima estándar, verifique");
+                        NotifierController.Warning($"Contenido invalido [{txtScannerInput.Text}]");
                         txtScannerInput.Text = string.Empty;
                         txtScannerInput.Focus();
                     }
+
+                    /*if (float.TryParse(txtScannerInput.Text, out float scanerInput))
+                    {
+                        if (scanerInput >= Settings.Default.TareMinWeight && scanerInput <= Settings.Default.TareMaxWeight)
+                        {
+                            NotifierController.Success($"Tarima {txtScannerInput.Text} kg");
+                            lblTare.Text = txtScannerInput.Text;
+                            txtScannerInput.Text = string.Empty;
+                            txtScannerInput.Focus();
+                        }
+                        else if (scanerInput > 0 && scanerInput <= Settings.Default.BagMaxWeight)
+                        {
+                            NotifierController.Success($"Saco {txtScannerInput.Text} kg");
+                            lblBag.Text = txtScannerInput.Text;
+                            txtScannerInput.Text = string.Empty;
+                            txtScannerInput.Focus();
+                        }
+                        else
+                        {
+                            NotifierController.Warning($"Peso [{txtScannerInput.Text}] no coincide con un saco o tarima estándar, verifique");
+                            txtScannerInput.Text = string.Empty;
+                            txtScannerInput.Focus();
+                        }
+                    }
+                    else
+                    {
+                        NotifierController.Warning($"Código {txtScannerInput.Text} invalido");
+                        txtScannerInput.Text = string.Empty;
+                        txtScannerInput.Focus();
+                    }*/
                 }
                 else
                 {
@@ -1166,7 +1271,7 @@ namespace WOW_Fusion.Views.Plant3
 
         private void lblTare_TextChanged(object sender, EventArgs e)
         {
-            if(lblOutputType.Text.Equals(_outputMain))
+            /*if(lblOutputType.Text.Equals(_outputMain))
             {
                 if (!string.IsNullOrEmpty(lblTare.Text) && string.IsNullOrEmpty(lblBag.Text))
                 {
@@ -1182,12 +1287,12 @@ namespace WOW_Fusion.Views.Plant3
                 }
 
                 TareBagFilled();
-            } 
+            } */
         }
 
         private void lblBag_TextChanged(object sender, EventArgs e)
         {
-            if (lblOutputType.Text.Equals(_outputMain))
+            /*if (lblOutputType.Text.Equals(_outputMain))
             {
                 if (!string.IsNullOrEmpty(lblBag.Text) && string.IsNullOrEmpty(lblTare.Text))
                 {
@@ -1202,12 +1307,12 @@ namespace WOW_Fusion.Views.Plant3
                 }
 
                 TareBagFilled();
-            }
+            }*/
         }
 
         private void TareBagFilled()
         {
-            if (!string.IsNullOrEmpty(lblTare.Text) && !string.IsNullOrEmpty(lblBag.Text))
+            /*if (!string.IsNullOrEmpty(lblTare.Text) && !string.IsNullOrEmpty(lblBag.Text))
             {
                 btnGetWeight.Enabled = true;
                 btnGetWeight.BackColor = Color.Red;
@@ -1232,6 +1337,17 @@ namespace WOW_Fusion.Views.Plant3
             {
                 btnGetWeight.Enabled = false;
                 btnGetWeight.BackColor = Color.Gray;
+            }*/
+        }
+
+        private void frmLabelP3_Activated(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(cmbWorkOrders.Text))
+            {
+                this.BeginInvoke(new Action(() =>
+                {
+                    txtScannerInput.Focus();
+                }));
             }
         }
         #endregion
@@ -1368,56 +1484,6 @@ namespace WOW_Fusion.Views.Plant3
             }
         }
         #endregion
-
-        private void frmLabelP3_Activated(object sender, EventArgs e)
-        {
-            if(!string.IsNullOrEmpty(cmbWorkOrders.Text))
-            {
-                this.BeginInvoke(new Action(() =>
-                {
-                    txtScannerInput.Focus();
-                }));
-            }
-        }
-
-        private void txtScannerInput_KeyDown(object sender, KeyEventArgs e)
-        {
-            //txtScannerInput.Clear();
-            //txtScannerInput.Focus();
-            NotifierController.Warning("Teclado no permitido en este campo");
-            /*DateTime currentKeyPressTime = DateTime.Now;
-
-            // Si la tecla es presionada demasiado rápido, probablemente sea un escáner, no bloquear
-            if ((currentKeyPressTime - lastKeyPressTime).TotalMilliseconds < scannerKeyDelayThreshold)
-            {
-                e.SuppressKeyPress = false;
-                txtScannerInput.Clear();
-                txtScannerInput.Focus();
-                lastKeyPressTime = currentKeyPressTime;
-            }
-            else
-            {
-                e.SuppressKeyPress = true; //Suprimir caracter insertado
-                txtScannerInput.Clear();
-                txtScannerInput.Focus();
-                lastKeyPressTime = currentKeyPressTime; // Actualizar la última vez que se presionó una tecla
-                NotifierController.Warning("Teclado no permitido en este campo");
-            }*/
-        }
-
-        private void txtScannerInput_KeyUp(object sender, KeyEventArgs e)
-        {
-            //txtScannerInput.Clear();
-            //txtScannerInput.Focus();
-            //NotifierController.Warning("Teclado no permitido en este campo");
-            /*txtScannerInput.Clear();
-            txtScannerInput.Focus();*/
-        }
-
-        private void txtScannerInput_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            //e.Handled = true;
-        }
     }
 }
 
